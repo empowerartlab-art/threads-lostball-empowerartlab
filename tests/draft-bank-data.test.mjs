@@ -89,10 +89,23 @@ test("draft-bank-candidates.json は現時点で空である(週2以降の提案
   assert.deepEqual(candidatesFile.items, []);
 });
 
-test("threads-posts.json は現時点で空である(Phase 1以降まで投稿記録なし)", async () => {
+test("threads-posts.json の構造が正しい(Phase 3の実投稿開始後は0件以上になり得る)", async () => {
   const postsFile = await readJson("../data/threads-posts.json");
-  assert.deepEqual(postsFile.posts, []);
-  assert.equal(postsFile.count, 0);
+  assert.ok(Array.isArray(postsFile.posts));
+  assert.equal(postsFile.count, postsFile.posts.length);
+  if (postsFile.posts.length > 0) {
+    assert.equal(typeof postsFile.updatedAt, "string");
+    assert.ok(!Number.isNaN(Date.parse(postsFile.updatedAt)), "updatedAtが有効な日時文字列でない");
+  }
+  for (const post of postsFile.posts) {
+    assert.ok(post.sourceItemId, "sourceItemIdが無い投稿記録がある");
+    assert.ok(post.threadsPostId, `${post.sourceItemId}: threadsPostIdが無い`);
+    assert.ok(post.bodyEn && post.bodyJa, `${post.sourceItemId}: bodyEn/bodyJaが無い`);
+    assert.ok(
+      bankFile.items.some((i) => i.id === post.sourceItemId),
+      `${post.sourceItemId}: draft-bank.jsonに存在しないsourceItemIdが記録されている`
+    );
+  }
 });
 
 test("初期7投稿はすべて有効なmediaTypeを持ち、構造チェックにパスする", () => {

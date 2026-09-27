@@ -2,7 +2,7 @@
 
 `@lost_ball_empowerartlab`（Japan Lost Golf Balls）のThreads運用基盤。
 
-**現在はPhase 3着手中（Phase 2完了。Threads実投稿のコード・専用GitHub Actions workflow・投稿記録の永続化まで実装済み。ただしGitHub Secrets未登録のため、実際にThreadsへ投稿できる状態にはまだなっていない。Threadsへの実投稿・Discordへの実送信はまだ一切行っていない）。**
+**現在はPhase 4着手中（Phase 3完了：GitHub Secrets登録・初回LIVE投稿を人間が確認済み。@lost_ball_empowerartlab のThreadsアカウントへ実際に投稿された実績あり。Phase 4として毎日の自動投稿workflowを実装済みだが、投稿時刻の最終確認待ちのため、まだ本番のスケジュール実行はしていない。Discordへの実送信は引き続き未実装）。**
 
 ## 中心思想
 
@@ -24,7 +24,7 @@ data/
   media-policy.json           # メディア運用方針の構造化データ(詳細はMEDIA_POLICY.md)
   draft-bank.json             # 承認済み投稿キュー(初期7投稿+メディア情報を登録済み)
   draft-bank-candidates.json  # 未承認候補の置き場(現時点では空)
-  threads-posts.json          # 投稿記録(Phase 1以降の実投稿開始後にのみ追記。現時点では空)
+  threads-posts.json          # 投稿記録(Threads投稿成功+state保存成功の場合にのみ1件ずつ追記される。Phase 3の初回LIVE投稿で1件目を記録済み)
 
 lib/                          # テーマ非依存の汎用ロジック。Threads API・秘密情報は一切扱わない
   target-date.mjs             # targetDate方式の選出順ロジック
@@ -55,8 +55,9 @@ scripts/                      # ローカル実行専用。Threads/Meta APIへ�
 tests/                        # node標準テストランナーのみ使用(外部依存なし・ネットワーク不要。fetchは全テストでスタブ。post-to-threads-cli.test.mjsのみnode自身を子プロセスとして起動する)
 
 .github/workflows/
-  daily-post.yml               # 候補選出→ガードチェック→投稿dry-run→結果ログ確認 を自動実行(schedule付き。LIVE_POSTは常に"false"固定・--liveも渡さないため実投稿・実送信は発生しない)
-  live-post-manual.yml         # Phase 3 Stage 4: 実際にThreadsへ投稿できる可能性がある唯一のworkflow。workflow_dispatch専用(schedule無し)、確認文字列必須、二重ゲート、投稿成功時のみdata/threads-posts.jsonをcommit/push
+  daily-post.yml               # 候補選出→ガードチェック→投稿dry-run→結果ログ確認 を自動実行(毎日09:00 JSTのschedule付き。LIVE_POSTは常に"false"固定・--liveも渡さないため実投稿・実送信は発生しない)
+  live-post-manual.yml         # 緊急時・単発テスト用の手動LIVE投稿。workflow_dispatch専用(schedule無し)、確認文字列("POST LIVE")必須、二重ゲート、投稿成功時のみdata/threads-posts.jsonをcommit/push
+  daily-live-post.yml          # Phase 4: 毎日自動でThreadsへ投稿するworkflow。schedule実行時は常にlive投稿を試み、workflow_dispatchは検証モード(dry-run)がデフォルト。live-post-manual.ymlとconcurrency groupを共有し同時実行(≒二重投稿)を防止
 ```
 
 ## メディア(画像)運用方針
@@ -83,8 +84,8 @@ npm run lostball:post-dry-run   # 投稿処理のdry-run(実投稿はしない�
 1. **Phase 0（完了）**：ディレクトリ構成、brand-profile/verified-facts/category-profile/draft-bank、ローカル選出・検証ロジック、初期テスト、メディア運用方針・メディアガード
 2. **Phase 1（完了）**：Meta認証・Threads API接続確認。長期アクセストークン取得・`GET /me`接続確認まで完了済み
 3. **Phase 2（完了）**：GitHub Actions dry-run運用(`.github/workflows/daily-post.yml`)、投稿処理dry-run(`scripts/post-to-threads.mjs`)、Discordもdry-run構造のみ
-4. **Phase 3（コード実装まで完了・実行は未着手）**：人間の明示確認のもとで初回のみ手動live投稿テストを行うためのコード・workflowを実装済み。詳細は下記「Phase 3」節。**GitHub SecretsとGitHub画面での実行はまだ行っていない**
-5. **Phase 4**：Phase 3の初回手動live投稿テストが人間の確認により成功したのち、`daily-post.yml`側にもlive投稿を組み込みスケジュール本番投稿を開始するかどうかを検討する(現時点では未着手・未設計)
+4. **Phase 3（完了）**：人間の明示確認のもとで初回のみ手動live投稿テストを実施。GitHub Secrets登録・`live-post-manual.yml`の実行により、@lost_ball_empowerartlab のThreadsアカウントへ実際に投稿され、`data/threads-posts.json`への記録・commit/pushまで成功したことを人間が確認済み
+5. **Phase 4（実装完了・スケジュール開始は投稿時刻の最終確認待ち）**：毎日自動でThreadsへ投稿する`.github/workflows/daily-live-post.yml`を実装済み。詳細は下記「Phase 4」節
 
 ## Phase 2: GitHub Actions dry-run運用
 
@@ -104,11 +105,12 @@ npm run lostball:post-dry-run   # 投稿処理のdry-run(実投稿はしない�
   dry-runレポート上で「画像あり/画像なし/画像未承認」を判定できるようにしている。画像生成・画像投稿・
   外部画像取得はPhase 2の範囲外(実装していない)。
 
-## Phase 3: live投稿の準備(コード実装済み・実行はまだ未着手)
+## Phase 3: live投稿の準備(完了。初回LIVE投稿を人間が確認済み)
 
-Threadsへ実際に投稿するコード自体は実装済みだが、**GitHub Secretsを登録していないため、
-現時点でThreadsへ実投稿することはできない**。実際に投稿できる状態にするには、人間が
-GitHub画面でSecretsを登録したうえで、専用workflowを手動実行する必要がある(下記参照)。
+GitHub SecretsへTHREADS_ACCESS_TOKEN/THREADS_USER_ID/LIVE_POSTを登録し、`live-post-manual.yml`を
+手動実行した結果、@lost_ball_empowerartlab のThreadsアカウントへ実際に投稿された(sourceItemId:
+`lostball-day1-brand-intro`)ことを人間が目視確認済み。`data/threads-posts.json`への記録・
+commit/pushも成功している(1件目のcommitは`lostball-live-post-bot`名義)。
 
 ### 実装内容
 
@@ -169,6 +171,58 @@ GitHub画面でSecretsを登録したうえで、専用workflowを手動実行�
      `git log` / GitHub上のファイル履歴で確認する
    - `POSTED_STATE_SAVE_FAILED` になった場合は、**このworkflowを再実行しない**こと。
      Threadsアカウントを直接確認したうえで、人間が手動で`data/threads-posts.json`へ記録を追記する
+
+## Phase 4: 毎日の自動投稿(実装完了・スケジュール開始は投稿時刻の最終確認待ち)
+
+`.github/workflows/daily-live-post.yml` が、Phase 2/3で実証済みの候補選出・各種ガード・
+二重ゲート・Threads API呼び出し・state保存・commit/pushの仕組みを、人間の確認文字列入力なしで
+日次スケジュール実行する。**Phase 2/3のコード・workflowは一切変更していない。**
+
+### 構成
+
+- **トリガー**：`schedule`(下記cron)＋`workflow_dispatch`(手動実行。`mode`入力で`dry-run`/`live`を選択可能。デフォルトは`dry-run`)
+- schedule実行時は常に`--live`を付けて`scripts/post-to-threads.mjs`を呼ぶが、実際にThreads APIへ
+  接続されるかどうかは、既存の二重ゲート(`LIVE_POST` Secret＝`"true"` かつ `--live`)に完全に依存する
+- workflow_dispatchの`mode=dry-run`(デフォルト)では`--live`を付けないため、`LIVE_POST` Secretの値に
+  関わらず常に検証のみで終わる(「投稿しない検証モード」)
+- **concurrency**：`live-post-manual.yml` と同じグループ名(`lostball-live-post`)を共有し、
+  緊急手動投稿と日次自動投稿が同時に走って二重投稿することをGitHub Actions側で構造的に防止する
+- **二重投稿防止**：publish呼び出しに自動リトライは無い。`POSTED_STATE_SAVE_FAILED`(投稿成功・
+  state保存失敗)の場合はjobを失敗させ「再実行禁止・人間の実アカウント確認が必要」と明示する
+- **commit/push**：`outcome=POSTED_STATE_SAVED`(投稿成功+state保存成功)の場合のみ、
+  `data/threads-posts.json`をcommit/push(commit名義: `lostball-daily-live-post-bot`)
+- **App Secretは使わない**(`THREADS_CLIENT_SECRET`はworkflow内で一切参照しない)
+- Discordへの実通知は行わない(ログ出力のみ)
+
+### 投稿時刻(cron)について — 要確認
+
+現在の設定は **`cron: "0 11 * * *"` (UTC 11:00 = 日本時間 20:00)** をデフォルトとして実装している
+（Harleyの既存運用が JST 09:17 に実行している点も参考にしたが、Lost Ballは既存の`daily-post.yml`が
+既にJST 09:00にdry-runプレビューを実行しているため、朝のdry-runで内容を確認したうえで、
+夜にlive投稿する運用を想定した提案)。
+
+**この時刻は仮の提案であり、人間の確認・変更を前提としている。** 変更する場合は
+`.github/workflows/daily-live-post.yml` 内の以下の行のcron式を書き換えるだけでよい:
+
+```yaml
+  schedule:
+    - cron: "0 11 * * *"   # UTC 11:00 = JST 20:00
+```
+
+主な候補(JST → UTCのcron式):
+
+| 投稿時刻(JST) | cron式(UTC) |
+|---|---|
+| 09:00（`daily-post.yml`のdry-runと同時刻） | `"0 0 * * *"` |
+| 12:30（昼休み） | `"30 3 * * *"` |
+| **20:00（推奨・デフォルト実装済み）** | `"0 11 * * *"` |
+
+### GitHub Actions上での状態
+
+`daily-live-post.yml`は`push`済みでGitHub側のActionsタブに表示される想定だが、
+**投稿時刻(cron)の最終確認が済むまでは、スケジュール実行を無効化する(GitHub上でworkflowを
+Disableする)ことも検討可能**。何もしなければ、上記デフォルト時刻(JST 20:00)で
+GitHub Secrets登録済みの内容に従い自動的にlive投稿が開始される。
 
 ## Phase 1: Meta側で人間が行う手動セットアップ
 

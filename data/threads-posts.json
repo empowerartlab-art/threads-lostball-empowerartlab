@@ -1,7 +1,7 @@
 {
   "updatedAt": "2026-09-27T23:29:22.678Z",
   "count": 1,
-  "_note": "投稿記録。Threads API接続・実投稿を開始した後にのみ追記される(Phase 1以降)。現時点では投稿を一切行っていないため空。",
+  "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
       "sourceItemId": "lostball-day1-brand-intro",

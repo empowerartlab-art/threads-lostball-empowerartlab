@@ -1,0 +1,168 @@
+name: Lost Ball Threads - Daily LIVE Post (Phase 4)
+
+# 毎日自動でThreadsへ投稿するworkflow。Phase 3で実証済みの二重ゲート・各種ガード・
+# state保存・commit/pushの仕組みを、人間の手動確認(confirm入力)無しで日次スケジュール実行する。
+#
+# 安全設計(Phase 2/3から一切変更していない部分):
+#   - 候補選出(scripts/select-daily-candidate.mjs)・各種ガード(bilingual/verified-fact/
+#     duplicate/media/claim)・二重ゲート(lib/threads-publish.mjsのisLivePostAllowed)・
+#     Threads API呼び出し(lib/threads-client.mjs)・state保存(lib/threads-posts-store.mjs)は
+#     すべて既存実装をそのまま呼び出すだけで、このworkflow専用のロジックは一切追加していない。
+#   - 投稿済み候補は selectDailyCandidate 内の duplicate-guard により自動的に再選出されない。
+#   - Threads APIへのpublish呼び出しに自動リトライは無い(1回失敗したらそのまま失敗として終了)。
+#   - data/threads-posts.jsonへのcommit/pushは「投稿成功+state保存成功」の場合にのみ行う。
+#   - 「投稿成功+state保存失敗」(POSTED_STATE_SAVE_FAILED)の場合はjobを失敗させ、
+#     再実行しないよう明示する(自動リトライの仕組みはこのworkflowにも一切無い)。
+#
+# このworkflow固有の安全設計:
+#   - schedule実行時は常に --live を渡して実際の投稿を試みる。ただし実際にThreads APIへ
+#     接続されるかどうかは、GitHub Secretsに LIVE_POST="true" が登録されているか
+#     (=もう一段のゲート)にかかっている。未登録/"true"以外なら常にdry-runのまま。
+#   - workflow_dispatch(手動実行)の場合はデフォルトで"検証モード"(dry-run)とし、
+#     人間が明示的に mode=live を選択した場合のみ実際に投稿を試みる
+#     (schedule実行と違い、こちらは常にliveを試みるわけではない)。
+#   - concurrency groupは .github/workflows/live-post-manual.yml と同じ名前
+#     (lostball-live-post)を使う。これにより、緊急手動実行(live-post-manual.yml)と
+#     日次自動実行(このworkflow)が同時に走って二重投稿することを、
+#     GitHub Actions側で構造的に防止する。
+#   - .github/workflows/daily-post.yml(Phase 2のdry-run専用・毎日09:00 JST)は
+#     一切変更していない。このworkflowとは完全に別物として共存する。
+#   - .github/workflows/live-post-manual.yml(確認文字列必須の緊急手動投稿)も
+#     一切変更していない。引き続き緊急時・単発テスト用として残す。
+#
+# EAL側・Harley側・lostball-threads-callbackのファイル・Secrets・リポジトリは一切参照しない。
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run(検証のみ・投稿しない) / live(実際に投稿を試みる。LIVE_POST Secretが必要)"
+        required: true
+        type: choice
+        options:
+          - dry-run
+          - live
+        default: dry-run
+  schedule:
+    # 20:00 JST = UTC 11:00 (JST = UTC+9)。
+    # 例: 09:00 JSTにしたい場合は "0 0 * * *"、12:30 JSTなら "30 3 * * *" にする。
+    # このworkflowはGitHub Secretsに LIVE_POST="true" が登録されていない限り
+    # scheduleで動いてもdry-run相当のままなので、時刻変更自体に投稿リスクは無い。
+    - cron: "0 11 * * *"
+
+concurrency:
+  group: lostball-live-post
+  cancel-in-progress: false
+
+jobs:
+  daily-live-post:
+    runs-on: ubuntu-latest
+    # data/threads-posts.jsonのcommit/push用にcontents: writeが必要
+    # (daily-post.ymlはcontents: readのまま変更していない)。
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 依存関係のインストール
+        run: npm install
+
+      - name: 構文チェック
+        run: npm run check
+
+      - name: テスト
+        run: npm test
+
+      - name: データ検証
+        run: npm run lostball:validate-data
+
+      - name: 実行モードの判定(schedule実行は常にlive試行。手動実行はmode=liveの時のみ)
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.mode }}" = "live" ]; then
+            echo "live_flag=--live" >> "$GITHUB_OUTPUT"
+            echo "このrunはlive投稿を試みます(実際に投稿されるかは LIVE_POST Secret 次第)。"
+          else
+            echo "live_flag=" >> "$GITHUB_OUTPUT"
+            echo "このrunは検証モード(dry-run)です。Threads APIへは接続しません。"
+          fi
+
+      - name: Write ephemeral .env.local from GitHub Secrets(コミットしない。job終了時に必ず削除)
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        run: |
+          {
+            echo "THREADS_ACCESS_TOKEN=${THREADS_ACCESS_TOKEN}"
+            echo "THREADS_USER_ID=${THREADS_USER_ID}"
+          } > .env.local
+
+      - name: "投稿実行(二重ゲート: secrets.LIVE_POST=\"true\" + --live。揃わなければ常にdry-run)"
+        id: publish
+        env:
+          LIVE_POST: ${{ secrets.LIVE_POST }}
+        run: node scripts/post-to-threads.mjs ${{ steps.mode.outputs.live_flag }} | tee daily-live-post-result.log
+
+      - name: Remove ephemeral .env.local(Secretsをディスク上に残さない)
+        if: always()
+        run: rm -f .env.local
+
+      - name: daily-live-post-result.logをartifactとして保存
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lostball-daily-live-post-log
+          path: daily-live-post-result.log
+          retention-days: 30
+
+      # ここから下は、outcomeがPOSTED_STATE_SAVED / POSTED_STATE_SAVE_FAILED /
+      # PRE_POST_FAILUREのいずれかにならない限り実質的に何も行われない
+      # (dry-run/検証モード/候補なしの場合は常にDRY_RUN/NO_CANDIDATEにしかならない)。
+
+      - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ)
+        id: commit-state
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED'
+        continue-on-error: true
+        run: |
+          git config user.name "lostball-daily-live-post-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/threads-posts.json
+          git commit -m "chore(lostball): record daily live Threads post"
+          git push
+
+      - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力のみ・Discord等の実通知はしない)
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
+        run: |
+          echo "::error::Threadsへの投稿自体は成功しましたが、data/threads-posts.jsonへの記録に失敗しました。"
+          echo "::error::【再実行禁止】このworkflowの次回スケジュール実行より前に、人間の確認が必要です。"
+          echo "::error::人間がThreadsの実アカウント(@lost_ball_empowerartlab)を直接確認し、投稿の存在を確認したうえで、"
+          echo "::error::data/threads-posts.json へ手動で記録を追記し、通常のgit操作でcommit/pushしてください。"
+          exit 1
+
+      - name: 警告(投稿・state保存は成功したがcommit/pushに失敗。再実行禁止。ログ出力のみ)
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure'
+        run: |
+          echo "::error::Threadsへの投稿・ローカルstate保存までは成功しましたが、commit/pushに失敗しました。"
+          echo "::error::【再実行禁止】人間が data/threads-posts.json の内容を確認し、手動でcommit/pushしてください。"
+          exit 1
+
+      - name: 投稿前または投稿処理自体の失敗(Threadsへの投稿は行われていない)
+        if: steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
+        run: |
+          echo "::error::Threadsへの投稿前、または投稿処理自体が失敗しました(Threadsへの投稿は行われていません)。"
+          echo "詳細は上の「投稿実行」stepのログ、またはartifact(lostball-daily-live-post-log)を確認してください。"
+          exit 1
+
+      - name: 完了サマリ
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success'
+        run: |
+          echo "Threadsへの投稿、state保存、commit/pushすべて成功しました。"
