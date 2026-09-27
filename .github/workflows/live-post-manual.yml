@@ -1,0 +1,148 @@
+name: Lost Ball Threads - LIVE Post (Manual, Phase 3 Stage 4)
+
+# 実際にThreadsへ投稿できる可能性がある、唯一のworkflow。
+#
+# 安全設計(すべて揃わない限り実投稿は発生しない):
+#   1. トリガーは workflow_dispatch のみ。schedule は絶対に設定しない
+#      (自動発火する経路が存在しない。人間が毎回GitHub UIで明示的に実行する必要がある)。
+#   2. 実行時に確認用入力 `confirm` へ、正確に "POST LIVE" と入力しない限り、
+#      最初のstepで即座に失敗して終了する(それ以降のstep、特にSecretsの読み込みには進まない)。
+#   3. 二重ゲート(scripts/post-to-threads.mjs / lib/threads-publish.mjs):
+#      env.LIVE_POST(このworkflowでは secrets.LIVE_POST から注入)が文字列"true"と厳密一致し、
+#      かつ `--live` が明示的に渡された場合にのみThreads APIへ実際に接続する。
+#      repository/organizationにSecret「LIVE_POST」が作成・"true"に設定されていない限り、
+#      このworkflowを実行してもThreads APIへは接続されず、常にdry-run結果になる。
+#   4. concurrency groupにより、同時に複数実行された場合でも重複実行(≒二重投稿)を防ぐ。
+#   5. data/threads-posts.jsonへのcommit/pushは、
+#      「Threads投稿成功 + ローカルstate保存成功」(outcome=POSTED_STATE_SAVED)の場合にのみ行う。
+#      投稿前の失敗(PRE_POST_FAILURE)や、投稿は成功したがstate保存に失敗した場合
+#      (POSTED_STATE_SAVE_FAILED)では、絶対にcommit/pushしない。
+#      さらにPOSTED_STATE_SAVE_FAILEDの場合はjobを失敗させ、再実行しないよう明示する
+#      (このworkflow自体に自動リトライの仕組みは一切無い。再実行は常に人間の判断のみ)。
+#   6. Discordへの実通知はこのworkflowでも一切行わない(ログ出力のみ)。
+#
+# EAL側・Harley側・lostball-threads-callbackのファイル・Secrets・リポジトリは一切参照しない。
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: '本当にThreadsへ実投稿する場合のみ、大文字で正確に "POST LIVE" と入力してください(それ以外は中断されます)'
+        required: true
+        type: string
+
+concurrency:
+  group: lostball-live-post
+  cancel-in-progress: false
+
+jobs:
+  live-post:
+    runs-on: ubuntu-latest
+    # このjobだけ、data/threads-posts.jsonのcommit/push用にcontents: writeが必要
+    # (GitHub Actionsのpermissionsはstep単位では設定できないため、job単位で最小限にする)。
+    # 他のworkflow(daily-post.yml)はcontents: readのまま変更していない。
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: 確認文字列チェック(一致しない限りここで中断。Secretsの読み込みにも進まない)
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "POST LIVE" ]; then
+            echo "::error::確認文字列が一致しません(入力値: 秘匿。'POST LIVE' の完全一致が必要です)。実投稿を中断します。"
+            exit 1
+          fi
+          echo "確認OK: 実投稿の意思を確認しました。以降のstepへ進みます。"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 依存関係のインストール
+        run: npm install
+
+      - name: 構文チェック
+        run: npm run check
+
+      - name: テスト
+        run: npm test
+
+      - name: データ検証
+        run: npm run lostball:validate-data
+
+      - name: Write ephemeral .env.local from GitHub Secrets(コミットしない。job終了時に必ず削除)
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        run: |
+          {
+            echo "THREADS_ACCESS_TOKEN=${THREADS_ACCESS_TOKEN}"
+            echo "THREADS_USER_ID=${THREADS_USER_ID}"
+          } > .env.local
+
+      - name: "投稿実行(二重ゲート: secrets.LIVE_POST=\"true\" + --live。揃わなければ常にdry-run)"
+        id: publish
+        env:
+          LIVE_POST: ${{ secrets.LIVE_POST }}
+        run: node scripts/post-to-threads.mjs --live | tee live-post-result.log
+
+      - name: Remove ephemeral .env.local(Secretsをディスク上に残さない)
+        if: always()
+        run: rm -f .env.local
+
+      - name: live-post-result.logをartifactとして保存
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lostball-live-post-log
+          path: live-post-result.log
+          retention-days: 30
+
+      # ここから下は、outcomeがPOSTED_STATE_SAVED / POSTED_STATE_SAVE_FAILED /
+      # PRE_POST_FAILUREのいずれかにならない限り実質的に何も行われない
+      # (secrets.LIVE_POSTが未作成/"true"以外の間は、常にDRY_RUN/NO_CANDIDATEにしかならない)。
+
+      - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ)
+        id: commit-state
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED'
+        continue-on-error: true
+        run: |
+          git config user.name "lostball-live-post-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/threads-posts.json
+          git commit -m "chore(lostball): record live Threads post"
+          git push
+
+      - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力のみ・Discord等の実通知はしない)
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
+        run: |
+          echo "::error::Threadsへの投稿自体は成功しましたが、data/threads-posts.jsonへの記録に失敗しました。"
+          echo "::error::【再実行禁止】このworkflowを再実行しないでください。二重投稿になる可能性があります。"
+          echo "::error::人間がThreadsの実アカウント(@lost_ball_empowerartlab)を直接確認し、投稿の存在を確認したうえで、"
+          echo "::error::data/threads-posts.json へ手動で記録を追記し、通常のgit操作でcommit/pushしてください。"
+          exit 1
+
+      - name: 警告(投稿・state保存は成功したがcommit/pushに失敗。再実行禁止。ログ出力のみ)
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure'
+        run: |
+          echo "::error::Threadsへの投稿・ローカルstate保存までは成功しましたが、commit/pushに失敗しました。"
+          echo "::error::【再実行禁止】このworkflowを再実行しないでください。二重投稿になる可能性があります。"
+          echo "::error::人間が data/threads-posts.json の内容を確認し、手動でcommit/pushしてください。"
+          exit 1
+
+      - name: 投稿前または投稿処理自体の失敗(Threadsへの投稿は行われていない)
+        if: steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
+        run: |
+          echo "::error::Threadsへの投稿前、または投稿処理自体が失敗しました(Threadsへの投稿は行われていません)。"
+          echo "詳細は上の「投稿実行」stepのログ、またはartifact(lostball-live-post-log)を確認してください。"
+          exit 1
+
+      - name: 完了サマリ
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success'
+        run: |
+          echo "Threadsへの投稿、state保存、commit/pushすべて成功しました。"

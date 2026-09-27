@@ -4,9 +4,15 @@ name: Lost Ball Threads - Daily Post (Dry Run / Phase 2)
 # 結果ログ確認」までで、Threads/DiscordへのAPI書き込みは一切行わない。
 # 本番投稿にはSecrets(THREADS_ACCESS_TOKEN等)が必要だが、このワークフローは
 # dry-runに不要なSecretsを一切要求せず、Secretsが未登録の状態でも実行できる。
-# LIVE_POST/LIVE_DISCORDはリポジトリ側でSecrets登録しない限り常に未設定(=false扱い)であり、
-# 仮に誤って"true"を登録しても、Phase 2のコードには実投稿・実送信の処理自体が存在しない
-# (scripts/post-to-threads.mjs, lib/discord-notifier.mjs 参照)。
+#
+# (Phase 3 Stage 1-3で、Threadsへ実際に投稿するコード自体はlib/threads-publish.mjs等に
+#  実装済みになったが、このワークフローはそれを一切呼び出さない構成のまま変更していない:
+#  下のenvで LIVE_POST を常に "false" に固定し、`--live` も渡さない
+#  (`npm run lostball:post-dry-run` = `node scripts/post-to-threads.mjs` のみ)。
+#  この2条件のどちらも満たさない限りThreads APIへは接続されないため、
+#  仮にこのリポジトリのSecretsに「LIVE_POST=true」を登録しても、このワークフロー自体の
+#  挙動には一切影響しない(secrets.LIVE_POSTをこのワークフローは参照していない)。
+#  実際にThreadsへ投稿できる可能性があるのは .github/workflows/live-post-manual.yml のみ)。
 
 on:
   workflow_dispatch: {}
