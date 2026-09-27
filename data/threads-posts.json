@@ -1,6 +1,18 @@
 {
+  "updatedAt": "2026-09-27T23:29:22.678Z",
+  "count": 1,
   "_note": "投稿記録。Threads API接続・実投稿を開始した後にのみ追記される(Phase 1以降)。現時点では投稿を一切行っていないため空。",
-  "updatedAt": null,
-  "count": 0,
-  "posts": []
+  "posts": [
+    {
+      "sourceItemId": "lostball-day1-brand-intro",
+      "threadsPostId": "18105382757264754",
+      "bodyEn": "New account, quick intro 👋\nWe give lost golf balls from Japan a second life — cleaned, checked, and hand-polished.\nJapan, the environment, welfare work, and giving back, all tied together. More on each, soon.",
+      "bodyJa": "はじめまして👋\n日本のロストボールを、洗浄・チェック・手磨きを経てもう一度使えるようにしています。\n日本らしさ、環境、福祉の仕事、社会貢献。それぞれを少しずつ紹介していきます。",
+      "pillar": null,
+      "category": "BRAND_INTRO",
+      "postedAt": "2026-09-27T23:29:22.677Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36358836994"
+    }
+  ]
 }
