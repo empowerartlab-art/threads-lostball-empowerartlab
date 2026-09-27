@@ -1,0 +1,28 @@
+# Secrets / local env files (never commit)
+.env
+.env.*
+.env.local
+.env.local.*
+!.env.example
+!.env.*.example
+
+# Private keys / certificates
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Tokens / credentials / auth codes / one-off secret dumps
+*token*.json
+*token*.txt
+*secret*.json
+*secret*.txt
+*credentials*.json
+*.secrets
+
+# OS / editor cruft
+.DS_Store
+*.log
+
+# Dependencies (not currently used, reserved)
+node_modules/

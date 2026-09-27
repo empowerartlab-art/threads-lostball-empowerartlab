@@ -1,0 +1,23 @@
+{
+  "_note": "5軸のピラーと、初期7投稿のカテゴリー割当、週2以降の候補カテゴリーのストック。",
+  "pillars": ["JAPAN", "ENVIRONMENT", "WELFARE", "SOCIAL_CONTRIBUTION", "GOLF"],
+  "initialSevenDayPlan": [
+    { "day": 1, "category": "BRAND_INTRO", "pillar": null, "note": "5軸すべてに触れる導入投稿" },
+    { "day": 2, "category": "JAPAN_ORIGIN", "pillar": "JAPAN" },
+    { "day": 3, "category": "HAND_POLISHING_PROCESS", "pillar": "GOLF" },
+    { "day": 4, "category": "REUSE", "pillar": "ENVIRONMENT" },
+    { "day": 5, "category": "WELFARE_JOBS", "pillar": "WELFARE" },
+    { "day": 6, "category": "HITORI_JANAI_YO_PROJECT", "pillar": "SOCIAL_CONTRIBUTION" },
+    { "day": 7, "category": "PRODUCT_SHOP", "pillar": "GOLF" }
+  ],
+  "week2PlusCandidateCategories": [
+    { "id": "hitori-janai-yo-deep-dive", "labelJa": "「ひとりじゃないよプロジェクト」深掘り(絵本・活動)", "pillar": "SOCIAL_CONTRIBUTION" },
+    { "id": "sticker-meaning", "labelJa": "ステッカーの意味", "pillar": "SOCIAL_CONTRIBUTION" },
+    { "id": "hand-polishing-detail", "labelJa": "1球ずつ磨く作業(詳細)", "pillar": "GOLF" },
+    { "id": "before-after", "labelJa": "ロストボール Before / After", "pillar": "GOLF" },
+    { "id": "japan-golf", "labelJa": "日本のゴルフ", "pillar": "JAPAN" },
+    { "id": "product-showcase", "labelJa": "ゴルフボール・商品", "pillar": "GOLF" },
+    { "id": "environment-deep-dive", "labelJa": "環境保護", "pillar": "ENVIRONMENT" },
+    { "id": "welfare-jobs-deep-dive", "labelJa": "福祉・仕事づくり", "pillar": "WELFARE" }
+  ]
+}

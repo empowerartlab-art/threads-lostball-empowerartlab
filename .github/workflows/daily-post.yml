@@ -1,0 +1,71 @@
+name: Lost Ball Threads - Daily Post (Dry Run / Phase 2)
+
+# Phase 2用ワークフロー。実行内容は「候補選出 → 各種ガードチェック → 投稿処理のdry-run →
+# 結果ログ確認」までで、Threads/DiscordへのAPI書き込みは一切行わない。
+# 本番投稿にはSecrets(THREADS_ACCESS_TOKEN等)が必要だが、このワークフローは
+# dry-runに不要なSecretsを一切要求せず、Secretsが未登録の状態でも実行できる。
+# LIVE_POST/LIVE_DISCORDはリポジトリ側でSecrets登録しない限り常に未設定(=false扱い)であり、
+# 仮に誤って"true"を登録しても、Phase 2のコードには実投稿・実送信の処理自体が存在しない
+# (scripts/post-to-threads.mjs, lib/discord-notifier.mjs 参照)。
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    # 毎日 09:00 JST (UTC 00:00) — dry-runのみなので実投稿リスクは無い。
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: read
+
+env:
+  LIVE_POST: "false"
+  LIVE_DISCORD: "false"
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 依存関係のインストール
+        run: npm install
+
+      - name: 構文チェック
+        run: npm run check
+
+      - name: テスト
+        run: npm test
+
+      - name: データ検証
+        run: npm run lostball:validate-data
+
+      - name: 当日の投稿候補選出
+        run: npm run lostball:select-daily
+
+      - name: 投稿処理のdry-run
+        run: npm run lostball:post-dry-run | tee dry-run-result.log
+
+      - name: 結果ログ確認
+        run: |
+          test -s dry-run-result.log
+          grep "最終結果: DRY_RUN" dry-run-result.log
+          echo "----"
+          echo "LIVE_POST=${LIVE_POST} / LIVE_DISCORD=${LIVE_DISCORD} (Phase 2はdry-run固定・実投稿コード未実装)"
+          echo "確認: 最終結果がDRY_RUNであることを確認しました。Threads/Discordへの実際の書き込みは行っていません。"
+
+      - name: dry-runログをartifactとして保存
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lostball-dry-run-log
+          path: dry-run-result.log
+          retention-days: 14

@@ -1,0 +1,67 @@
+{
+  "_note": "メディア(画像)運用方針の構造化データ。人間可読の詳細方針は MEDIA_POLICY.md を参照。lib/media-guard.mjsが参照するのはmediaTypesのみで、その他はドキュメント・将来の生成プロンプト設計用の参照情報。",
+  "mediaTypes": ["TEXT_ONLY", "REAL_PHOTO", "PRODUCT_PHOTO", "REAL_WORK", "AI_ASSISTED_VISUAL", "BRAND_GRAPHIC"],
+  "principle": "「画像が無いから、とりあえずAI画像を作る」運用は禁止。AI画像は実在の出来事・人物・商品の証拠として使用しない。",
+  "goal": "AI作品を見せることではなく、投稿内容を自然に視覚補助すること。",
+  "realMediaPriority": {
+    "LOST_BALL": [
+      "実際に販売するロストボール(磨く前/磨いた後)",
+      "磨いている作業",
+      "商品梱包",
+      "一人じゃないよプロジェクトのピンクの木のステッカー",
+      "実際の商品写真"
+    ],
+    "EMPOWER_ART_LAB": [
+      "実際の利用者作品",
+      "制作中の手元",
+      "DTM/CAD/動画編集の様子",
+      "PCやペンタブ",
+      "事業所内"
+    ],
+    "HARLEY": [
+      "山本本人のHarley",
+      "本人が実際に撮影したツーリング写真",
+      "実際に訪れた場所の写真"
+    ],
+    "fallbackWhenNoRealMedia": "TEXT_ONLYでも構わない",
+    "privacyNote": "本人が特定できる写真については別途プライバシー・掲載許可を前提とする"
+  },
+  "aiAssistedVisualEligibleSubjects": [
+    "日本の風景",
+    "道路",
+    "海岸",
+    "山",
+    "温泉街",
+    "ゴルフを想起させる背景",
+    "環境保護を説明するイメージ",
+    "旅への憧れを表現するイメージ"
+  ],
+  "aiAssistedVisualForbiddenAsEvidenceOf": [
+    "実際には訪れていない場所を「今日ここへ行った」という実体験写真として使う",
+    "架空の利用者を実在するEAL利用者のように見せる",
+    "AI生成したロストボールを実際の商品写真として使う",
+    "AI生成したHarleyを山本本人の実車として扱う"
+  ],
+  "aiAssistedVisualStyleGuardrails": [
+    "自然な写真に近い質感",
+    "現実的な光",
+    "自然な構図",
+    "現実的な物体の形状",
+    "過度なHDRを避ける",
+    "不自然に完璧な夕焼けを避ける",
+    "過剰な映画的ライティングを避ける",
+    "不自然なボケを避ける",
+    "ツルツルしたAI特有の質感を避ける",
+    "文字化け・変形した物体・不自然な手や人物を避ける",
+    "過剰に「映える」AI広告画像にしない"
+  ],
+  "referenceUsagePolicy": "ネット上の特定の写真をそのままコピー・再現しない。複数の参考情報から場所・季節・雰囲気・構図を理解するためのリファレンスとして扱う。",
+  "brandGraphicPolicy": "ロゴ・アイコン・説明図・ブランド用ビジュアルはAIを制作補助として使用してよい。ただし実際の商品写真とは明確に区別する。",
+  "futureAccounts": [
+    "Lost Ball Threads",
+    "Empower Art Lab Threads",
+    "Harley Threads",
+    "Empower Art Lab note"
+  ],
+  "futureAccountsGoal": "『AIがコンテンツを作っているアカウント』ではなく、『実際の商品・活動・作品・旅を中心に、AIが編集・デザイン・運用を補助しているアカウント』に見える状態を目指す。"
+}

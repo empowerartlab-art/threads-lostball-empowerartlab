@@ -1,0 +1,69 @@
+{
+  "_note": "上位思想レイヤー。テーマ固有の値はここと verified-facts.json / category-profile.json に集約する。",
+  "account": {
+    "platform": "Threads",
+    "handle": "lost_ball_empowerartlab",
+    "displayName": "Japan Lost Golf Balls 🇯🇵⛳",
+    "bio": "🇯🇵 Lost golf balls from Japan\n♻️ Reuse for the planet\n🤝 Creating work through welfare\n❤️ Part of sales supports social projects\n⛳ Golf for good",
+    "shopUrl": "https://empower.base.shop/"
+  },
+  "positioning": "単なる中古ゴルフボールの安売りアカウントにはしない。日本 × 環境保護 × 福祉 × 社会貢献 × ゴルフを体現するブランドとして認知を獲得し、プロフィールのショップ導線からBASEでの購入につなげる。",
+  "targetAudience": {
+    "primary": "Overseas (mainly English-speaking) golfers",
+    "secondary": "Japanese-speaking followers"
+  },
+  "pillars": [
+    {
+      "id": "JAPAN",
+      "label": "JAPAN",
+      "description": "日本発、日本のゴルフ、日本らしさ。日本のゴルフ場全体を一般化する表現は避け、事実の範囲（どこから届くか等）で語る。"
+    },
+    {
+      "id": "ENVIRONMENT",
+      "label": "ENVIRONMENT",
+      "description": "ロストボールの再利用による環境配慮。素材の分解性や削減量など根拠のない数値・因果は主張しない。「再利用する」「捨てずにもう一度使う」「活躍の場を与える」という事実の範囲に留める。"
+    },
+    {
+      "id": "WELFARE",
+      "label": "WELFARE",
+      "description": "福祉・就労支援を通じた仕事づくり。同情訴求・過度な美談化はしない。『仕事として丁寧に取り組んでいる』という事実ベースの提示に留める。"
+    },
+    {
+      "id": "SOCIAL_CONTRIBUTION",
+      "label": "SOCIAL CONTRIBUTION",
+      "description": "売上の一部を「一人じゃないよプロジェクト」へ寄付する社会貢献。寄付は事実の範囲でのみ語り、割合・金額など裏付けのない数字は使わない。"
+    },
+    {
+      "id": "GOLF",
+      "label": "GOLF",
+      "description": "ゴルフそのものの楽しさ、ボール、商品、プレー。手作業の磨き工程や商品紹介はここに含む。"
+    }
+  ],
+  "brandStory": "ロストボールを買う → ボールがもう一度使われる → 福祉の仕事につながる → 売上の一部が『一人じゃないよプロジェクト』へ寄付される、という循環をブランドストーリーとして扱う。誇張や因果の断定は行わない。",
+  "postingRules": {
+    "languageOrder": "英語 → 日本語の順で併記する。EN/JP等のラベルは付けない。",
+    "englishStyle": "短く、分かりやすく、不自然な直訳英語にしない。英語圏のゴルファーが普通に理解できる表現を優先する。",
+    "japaneseStyle": "英語の機械的な直訳ではなく、日本語として自然な文章にする。",
+    "maxCombinedLength": 500,
+    "noRawUrlInBody": true,
+    "shopLinkPolicy": "商品販売投稿ではプロフィールのショップ導線を使うのみ。本文に生URLを含めない。毎回BASEへ誘導しない。",
+    "hashtagPolicy": "ハッシュタグを大量につけない。使う場合も0〜2個程度に留める。",
+    "salesFrequencyPolicy": "最初から販売投稿ばかりにしない。JAPAN/ENVIRONMENT/WELFARE/SOCIAL_CONTRIBUTION/GOLFを分散する。",
+    "noFabrication": "事実のない成果や活動を捏造しない。生成する投稿は data/verified-facts.json にある事実の範囲に限定する。",
+    "noWelfarePityAppeal": "福祉を過度に美談化しない。『障害者だから買ってください』という訴求にしない。",
+    "noUnfoundedEnvironmentalClaims": "環境保護について根拠のない数値や効果を断定しない。",
+    "noUnverifiedAbsoluteClaims": "「すべて」「必ず」「全て」「絶対に」およびall/every/always等の未確認の断定的表現を避ける。ただしverified-facts.jsonで裏付けられた事実に基づく場合はこの限りではない（例:『すべての商品にステッカーが付く』は検証済み事実のため使用可）。",
+    "aiAutoApprovalForbidden": "AIによる自動承認は禁止。draft-bank.jsonへの昇格は人間の明示的承認（approvedBy/approvedAt）が無い限り行わない。"
+  },
+  "doNotDo": [
+    "単なる中古ゴルフボールの安売り訴求",
+    "感動ストーリーの創作",
+    "事実のない成果・活動の記載",
+    "福祉の同情訴求・過度な美談化",
+    "根拠のない環境効果・削減量の数値化",
+    "寄付の割合・金額など裏付けのない数字の記載",
+    "毎回のBASE誘導・生URLの本文掲載",
+    "ハッシュタグの大量付与",
+    "AIによる自動承認・自動昇格"
+  ]
+}

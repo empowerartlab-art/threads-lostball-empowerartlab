@@ -1,0 +1,70 @@
+{
+  "_note": "捏造防止の唯一の関所。ここに verified:true で存在しない事実は投稿本文で使用できない(lib/verified-fact-guard.mjs)。事実の追加・変更は人間が確認したうえでのみ行う。",
+  "facts": [
+    {
+      "id": "reuse-lost-balls-from-japan",
+      "statementJa": "日本のロストボールを再利用して販売する",
+      "statementEn": "We reuse lost golf balls collected in Japan and sell them.",
+      "pillar": "GOLF",
+      "verified": true,
+      "confirmedAt": "2026-09-27"
+    },
+    {
+      "id": "hand-polish-one-by-one",
+      "statementJa": "ロストボールを1球ずつ手作業で状態確認・磨き上げる",
+      "statementEn": "Each lost ball is checked and polished by hand, one at a time.",
+      "pillar": "GOLF",
+      "verified": true,
+      "confirmedAt": "2026-09-27"
+    },
+    {
+      "id": "welfare-facility-users-do-the-work",
+      "statementJa": "就労継続支援施設の利用者がその作業(手磨き)を行う",
+      "statementEn": "That hand-polishing work is done by users of a welfare employment support facility in Japan.",
+      "pillar": "WELFARE",
+      "verified": true,
+      "confirmedAt": "2026-09-27"
+    },
+    {
+      "id": "purchase-supports-work-and-participation",
+      "statementJa": "商品の購入が利用者の就労支援と社会参加につながる",
+      "statementEn": "Buying a ball supports that work, and the workers' place in it.",
+      "pillar": "WELFARE",
+      "verified": true,
+      "confirmedAt": "2026-09-27"
+    },
+    {
+      "id": "donate-portion-to-hitori-janai-yo-project",
+      "statementJa": "売上の一部を「一人じゃないよプロジェクト」へ寄付する",
+      "statementEn": "A portion of sales is donated to the \"一人じゃないよプロジェクト\" (\"Hitori Janai yo\") project.",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "verified": true,
+      "confirmedAt": "2026-09-27",
+      "note": "英語の正式名称は未確定。ローマ字表記(Hitori Janai yo)＋説明として扱い、正式名称を勝手に確定しない。"
+    },
+    {
+      "id": "product-includes-pink-tree-sticker",
+      "statementJa": "販売するロストボールには「一人じゃないよプロジェクト」のピンクの木のステッカーが付く",
+      "statementEn": "Every lost ball we sell comes with a \"一人じゃないよプロジェクト\" sticker: a pink tree made of hearts, with people and animals drawn beneath it.",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "verified": true,
+      "confirmedAt": "2026-09-27"
+    },
+    {
+      "id": "project-mission-reduce-lonely-children",
+      "statementJa": "同プロジェクトは「ひとりで寂しい思いをする子を減らしたい」という想いから活動している",
+      "statementEn": "The project is driven by a wish to see fewer children feel alone.",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "verified": true,
+      "confirmedAt": "2026-09-27"
+    },
+    {
+      "id": "project-made-picture-book",
+      "statementJa": "その想いを伝える絵本を制作している",
+      "statementEn": "The project has created a picture book to share that message.",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "verified": true,
+      "confirmedAt": "2026-09-27"
+    }
+  ]
+}

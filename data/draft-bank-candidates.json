@@ -1,0 +1,4 @@
+{
+  "_note": "週2以降の未承認提案の置き場。scripts/promote-candidates.mjs で人間が明示承認した場合のみ draft-bank.json へ昇格する。Phase 0時点ではまだ提案を生成していないため空。",
+  "items": []
+}
