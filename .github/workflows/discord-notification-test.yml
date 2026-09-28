@@ -1,0 +1,68 @@
+name: Lost Ball Threads - Discord Notification Test (Manual)
+
+# Discord通知だけを1回テスト送信する専用workflow。Threads APIには一切接続せず、
+# data/threads-posts.jsonにも一切触れない。既存の scripts/send-discord-notification.mjs /
+# lib/discord-notifier.mjs をそのまま呼び出すだけで、このworkflow専用のロジックは追加しない。
+#
+# 安全設計:
+#   - トリガーは workflow_dispatch のみ。schedule は一切設定しない
+#     (人間がGitHub UIで明示的に「Run workflow」を押さない限り実行されない)。
+#   - 使用するSecretsは DISCORD_WEBHOOK_URL と LIVE_DISCORD の2つのみ。
+#     THREADS_ACCESS_TOKEN / THREADS_USER_ID / LIVE_POST は一切参照しない
+#     (.env.localの生成も行わない)。
+#   - Threads API呼び出し(lib/threads-client.mjs等)を一切呼ばない
+#     (scripts/send-discord-notification.mjsはThreads関連コードを何もimportしていない)。
+#   - git commit/pushを行うstepは無い(data/threads-posts.jsonを含め、リポジトリへの
+#     書き込みは一切発生しない)。
+#   - 「Run workflow」を押すと、このjobは常に --live を付けて送信を試みる。実際に
+#     Discordへ届くかどうかは、GitHub Secretsに LIVE_DISCORD="true" が登録されているか
+#     (=lib/discord-notifier.mjsの二重ゲート)にかかっている。
+#
+# EAL側・Harley側・lostball-threads-callbackのファイル・Secrets・リポジトリは一切参照しない。
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  discord-notification-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 依存関係のインストール
+        run: npm install
+
+      - name: 構文チェック
+        run: npm run check
+
+      - name: テスト
+        run: npm test
+
+      - name: "Discordテスト通知送信(二重ゲート: secrets.LIVE_DISCORD=\"true\" + --live。揃わなければdry-run)"
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+        run: |
+          SENT_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          CONTENT="🧪 Lost Ball Threads Discord通知テスト
+
+          Discord通知連携は正常です。
+          Threadsへの投稿は行っていません。
+
+          実行日時: ${SENT_AT}
+          GitHub Actions: ${RUN_URL}"
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"

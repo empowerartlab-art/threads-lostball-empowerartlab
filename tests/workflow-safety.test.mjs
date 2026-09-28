@@ -16,6 +16,15 @@ function concurrencyGroup(content) {
   return match ? match[1] : null;
 }
 
+// コメント行(# で始まる行。説明文中に語彙として出てくるのは許容する)を除いた
+// 実際のYAML本体だけを対象にしたい検査で使う。
+function stripComments(content) {
+  return content
+    .split("\n")
+    .filter((line) => !line.trim().startsWith("#"))
+    .join("\n");
+}
+
 function topLevelOnBlock(content) {
   // "on:" ブロックから、次に列頭(インデント無し)で始まる行の直前までを取り出す。
   const match = content.match(/^on:\n([\s\S]*?)(?=^\S)/m);
@@ -122,4 +131,45 @@ test("scripts/send-discord-notification.mjs はHarleyの scripts/send-discord-no
   const content = readFileSync(fileURLToPath(new URL("../scripts/send-discord-notification.mjs", import.meta.url)), "utf8");
   assert.match(content, /--live/);
   assert.doesNotMatch(content, /CLIENT_SECRET/i);
+});
+
+test("discord-notification-test.ymlにはscheduleトリガーが存在しない(手動実行専用)", () => {
+  const onBlock = topLevelOnBlock(readWorkflow("discord-notification-test.yml"));
+  assert.doesNotMatch(onBlock, /\bschedule:/);
+  assert.match(onBlock, /workflow_dispatch:/);
+});
+
+test("discord-notification-test.ymlはTHREADS_ACCESS_TOKEN/THREADS_USER_ID/LIVE_POSTを実際には参照しない(Threads APIを呼ばない)", () => {
+  // コメント本文中で「これらは参照しない」と説明している語彙自体は許容し、
+  // 実際のYAMLキー・値・shellコマンドとしての参照が無いことだけを厳密にチェックする。
+  const content = stripComments(readWorkflow("discord-notification-test.yml"));
+  assert.doesNotMatch(content, /THREADS_ACCESS_TOKEN/);
+  assert.doesNotMatch(content, /THREADS_USER_ID/);
+  assert.doesNotMatch(content, /secrets\.LIVE_POST\b/);
+  assert.doesNotMatch(content, /CLIENT_SECRET/i);
+});
+
+test("discord-notification-test.ymlはgit commit/pushやdata/threads-posts.jsonへの操作を実際には含まない", () => {
+  const content = stripComments(readWorkflow("discord-notification-test.yml"));
+  assert.doesNotMatch(content, /git (commit|push|add)/);
+  assert.doesNotMatch(content, /threads-posts\.json/);
+});
+
+test("discord-notification-test.ymlは DISCORD_WEBHOOK_URL/LIVE_DISCORD を secrets. 経由でのみ参照し、直書きしていない", () => {
+  const content = readWorkflow("discord-notification-test.yml");
+  assert.match(content, /DISCORD_WEBHOOK_URL:\s*\$\{\{\s*secrets\.DISCORD_WEBHOOK_URL\s*\}\}/);
+  assert.match(content, /LIVE_DISCORD:\s*\$\{\{\s*secrets\.LIVE_DISCORD\s*\}\}/);
+  assert.doesNotMatch(content, /https:\/\/discord(?:app)?\.com\/api\/webhooks\/\d+/);
+});
+
+test("discord-notification-test.ymlはpermissions: contents: readのみで、書き込み権限を持たない", () => {
+  const content = readWorkflow("discord-notification-test.yml");
+  assert.match(content, /permissions:\s*\n\s*contents:\s*read/);
+  assert.doesNotMatch(content, /contents:\s*write/);
+});
+
+test("discord-notification-test.ymlはshellがbashに明示され、既存のscripts/send-discord-notification.mjsをそのまま呼び出す", () => {
+  const content = readWorkflow("discord-notification-test.yml");
+  assert.match(content, /shell:\s*bash/);
+  assert.match(content, /node scripts\/send-discord-notification\.mjs --live --content=/);
 });
