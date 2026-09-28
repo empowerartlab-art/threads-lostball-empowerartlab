@@ -1,0 +1,74 @@
+name: Lost Ball Threads - Diagnostic (No Publish)
+
+# 初回LIVE投稿失敗(HTTP 400 OAuthException "The requested resource does not exist")の
+# 原因切り分け専用workflow。scripts/diagnose-threads-connection.mjsを実行するだけで、
+# 候補選出・各種ガード・重複投稿防止(duplicate-guard)・data/threads-posts.jsonへの
+# 書き込み・git commit/push・Discord通知は一切行わない。
+#
+# threads_publish(投稿の2段階目)は診断スクリプト内で一切呼ばれないため、
+# このworkflowの実行でThreadsに実際の投稿が作られることはない
+# (GET /me による接続確認、および「公開しない」コンテナ作成のみを試行する)。
+#
+# 手動実行(workflow_dispatch)専用。scheduleは無し。
+
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  # 実際のLIVE投稿workflow(daily-live-post.yml / live-post-manual.yml)と
+  # 同じconcurrency groupを使うことで、診断実行とLIVE投稿実行が同時に走ることを防ぐ
+  # (診断スクリプト自体は投稿しないが、念のため重複投稿防止の設計を尊重する)。
+  group: lostball-live-post
+  cancel-in-progress: false
+
+jobs:
+  threads-diagnostic:
+    runs-on: ubuntu-latest
+    # data等への書き込みは一切行わないため contents: read のみで十分。
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 依存関係のインストール
+        run: npm install
+
+      - name: 構文チェック
+        run: npm run check
+
+      - name: テスト
+        run: npm test
+
+      - name: Write ephemeral .env.local from GitHub Secrets(コミットしない。job終了時に必ず削除)
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        run: |
+          {
+            echo "THREADS_ACCESS_TOKEN=${THREADS_ACCESS_TOKEN}"
+            echo "THREADS_USER_ID=${THREADS_USER_ID}"
+          } > .env.local
+
+      - name: 診断実行(GET /me ＋ コンテナ作成のみ。threads_publishは呼ばないため投稿は発生しません)
+        run: node scripts/diagnose-threads-connection.mjs | tee threads-diagnostic-result.log
+
+      - name: Remove ephemeral .env.local(Secretsをディスク上に残さない)
+        if: always()
+        run: rm -f .env.local
+
+      - name: threads-diagnostic-result.logをartifactとして保存
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lostball-threads-diagnostic-log
+          path: threads-diagnostic-result.log
+          retention-days: 30

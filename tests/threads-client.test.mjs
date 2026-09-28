@@ -96,6 +96,38 @@ test("publishContainer: 失敗時はエラーを投げ、access_tokenはエラ�
   }
 });
 
+test("createTextContainer: 失敗時にHTTP status/type/code/error_subcode/fbtrace_idを err に格納する(診断用)", async () => {
+  const restore = stubFetch(async () =>
+    jsonResponse(400, {
+      error: {
+        message: "The requested resource does not exist",
+        type: "OAuthException",
+        code: 100,
+        error_subcode: 33,
+        fbtrace_id: "AbCdEfGhIjK"
+      }
+    })
+  );
+  try {
+    await assert.rejects(
+      () => createTextContainer({ userId: "999", accessToken: "t", text: "hello" }),
+      (err) => {
+        assert.equal(err.status, 400);
+        assert.equal(err.type, "OAuthException");
+        assert.equal(err.code, 100);
+        assert.equal(err.errorSubcode, 33);
+        assert.equal(err.fbtraceId, "AbCdEfGhIjK");
+        assert.match(err.message, /code=100/);
+        assert.match(err.message, /error_subcode=33/);
+        assert.match(err.message, /fbtrace_id=AbCdEfGhIjK/);
+        return true;
+      }
+    );
+  } finally {
+    restore();
+  }
+});
+
 test("createTextContainer: レスポンスにidが無ければ(res.okがtrueでも)エラーを投げる", async () => {
   const restore = stubFetch(async () => jsonResponse(200, {}));
   try {
