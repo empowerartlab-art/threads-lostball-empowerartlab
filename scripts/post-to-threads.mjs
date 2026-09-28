@@ -22,9 +22,11 @@
 // (dry-runはローカルdataのみで完結する)。二重ゲートを満たしてlive投稿を試みる場合のみ
 // env.THREADS_ACCESS_TOKEN / env.THREADS_USER_ID を使用する。
 //
-// GITHUB_OUTPUT(存在する場合のみ)へ outcome を書き出す。.github/workflows/live-post-manual.yml が
-// これを見て、POSTED_STATE_SAVEDの時だけ data/threads-posts.json をcommit/pushする
-// (このファイル自身はgit操作を一切行わない)。
+// GITHUB_OUTPUT(存在する場合のみ)へ outcome 等を書き出す。.github/workflows/live-post-manual.yml /
+// daily-live-post.yml がこれを見て、POSTED_STATE_SAVEDの時だけ data/threads-posts.json を
+// commit/pushし、Discord通知の本文組み立てにも使う(このファイル自身はgit操作・Discord送信を
+// 一切行わない。値はThreads投稿本文や既にredact済みのエラーメッセージのみで、
+// アクセストークン等のSecretsは一切含まない)。
 
 import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -70,12 +72,18 @@ export function buildHeaderLine(attemptingLive) {
 }
 
 // GitHub Actions以外(ローカル実行)ではGITHUB_OUTPUTが無いので何もしない。
-// live-post-manual workflow側が、この出力(outcome)を見て
-// commit/pushを行うかどうか(POSTED_STATE_SAVEDの時だけ)を判断する。
+// 改行を含む値(投稿本文等)はGitHub Actionsのheredoc区切り構文で書き出す
+// (単純な "name=value" 形式は値に改行が入ると壊れるため)。
 async function writeGithubOutput(name, value) {
   const file = process.env.GITHUB_OUTPUT;
   if (!file) return;
-  await fs.appendFile(file, `${name}=${value}\n`);
+  const text = String(value ?? "");
+  if (text.includes("\n")) {
+    const delimiter = `ghadelim_${Math.random().toString(36).slice(2)}`;
+    await fs.appendFile(file, `${name}<<${delimiter}\n${text}\n${delimiter}\n`);
+  } else {
+    await fs.appendFile(file, `${name}=${text}\n`);
+  }
 }
 
 function printReport(report) {
@@ -154,7 +162,20 @@ async function main() {
     saveState: (record) => appendPostRecord(POSTS_PATH_STR, record)
   });
 
+  // Discord通知の本文組み立て用に、workflow側から参照できる形でいくつか追加出力する。
+  // ここに書き出すのは投稿本文・候補ID・投稿ID・(既にredact済みの)エラーメッセージのみで、
+  // アクセストークン等のSecretsは一切含まない。
+  const sourceItemId = result.selected?.id ?? "";
+  const failureReason = result.reason ?? "";
+  const errorMessage = result.error ? redact(result.error.message ?? "") : "";
+  const postBody = result.report?.body ?? result.publishResult?.body ?? "";
+
   await writeGithubOutput("outcome", result.outcome);
+  await writeGithubOutput("sourceItemId", sourceItemId);
+  await writeGithubOutput("threadsPostId", result.threadsPostId ?? "");
+  await writeGithubOutput("failureReason", failureReason);
+  await writeGithubOutput("errorMessage", errorMessage);
+  await writeGithubOutput("body", postBody);
 
   for (const { item, reason } of result.skipped || []) {
     console.warn(`SKIP: day=${item.day ?? "?"} category=${item.category || "?"} reason=${reason}`);

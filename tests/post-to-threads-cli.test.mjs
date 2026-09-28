@@ -82,3 +82,20 @@ test("GITHUB_OUTPUTが未設定なら何も書き出さず、エラーにもな�
   const result = run([], { LIVE_POST: "", LIVE_DISCORD: "", GITHUB_OUTPUT: "" });
   assert.equal(result.status, 0);
 });
+
+test("GITHUB_OUTPUT: sourceItemId/bodyが書き出され、改行を含むbodyはheredoc区切り構文で壊れずに書かれる", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "lostball-github-output-body-"));
+  const outputFile = join(dir, "github_output");
+  try {
+    const result = run([], { LIVE_POST: "", LIVE_DISCORD: "", GITHUB_OUTPUT: outputFile });
+    assert.equal(result.status, 0);
+    const content = await readFile(outputFile, "utf8");
+    // sourceItemIdは候補が選出されるdry-runでは常に非空(実データにDAY1〜7が存在するため)。
+    assert.match(content, /^sourceItemId=\S+/m);
+    // bodyは改行を含むため "name=value" 形式ではなく "name<<DELIM ... DELIM" 形式で書かれる。
+    assert.match(content, /^body<<ghadelim_[a-z0-9]+$/m);
+    assert.doesNotMatch(content, /^body=/m);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});

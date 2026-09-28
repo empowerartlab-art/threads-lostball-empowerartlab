@@ -106,6 +106,12 @@ jobs:
       # ここから下は、outcomeがPOSTED_STATE_SAVED / POSTED_STATE_SAVE_FAILED /
       # PRE_POST_FAILUREのいずれかにならない限り実質的に何も行われない
       # (secrets.LIVE_POSTが未作成/"true"以外の間は、常にDRY_RUN/NO_CANDIDATEにしかならない)。
+      #
+      # 注意(GitHub Actionsの仕様): 「投稿実行」stepはPOSTED_STATE_SAVE_FAILED/PRE_POST_FAILUREの
+      # 場合に非ゼロ終了する。ifに success()/failure()/always() 等の状態確認関数を含めない条件は
+      # 暗黙に success() が前提となり、前のstepが失敗しているとスキップされてしまうため、
+      # これらのケースに対応するstepには明示的に failure() を付けている
+      # (POSTED_STATE_SAVEDの場合は「投稿実行」step自体が成功しているため不要)。
 
       - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ)
         id: commit-state
@@ -119,7 +125,7 @@ jobs:
           git push
 
       - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力のみ・Discord等の実通知はしない)
-        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
+        if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
         run: |
           echo "::error::Threadsへの投稿自体は成功しましたが、data/threads-posts.jsonへの記録に失敗しました。"
           echo "::error::【再実行禁止】このworkflowを再実行しないでください。二重投稿になる可能性があります。"
@@ -136,7 +142,7 @@ jobs:
           exit 1
 
       - name: 投稿前または投稿処理自体の失敗(Threadsへの投稿は行われていない)
-        if: steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
+        if: failure() && steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
         run: |
           echo "::error::Threadsへの投稿前、または投稿処理自体が失敗しました(Threadsへの投稿は行われていません)。"
           echo "詳細は上の「投稿実行」stepのログ、またはartifact(lostball-live-post-log)を確認してください。"

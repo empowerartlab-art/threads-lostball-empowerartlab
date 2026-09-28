@@ -14,6 +14,20 @@ name: Lost Ball Threads - Daily LIVE Post (Phase 4)
 #   - 「投稿成功+state保存失敗」(POSTED_STATE_SAVE_FAILED)の場合はjobを失敗させ、
 #     再実行しないよう明示する(自動リトライの仕組みはこのworkflowにも一切無い)。
 #
+# Discord通知(投稿結果の確認用。~/threads-harley-solo/.github/workflows/daily-post.yml と
+# 同じ設計を読み取り専用で参照し、Harley側のファイルは変更していない):
+#   - lib/discord-notifier.mjsの二重ゲート(--live かつ 環境変数 LIVE_DISCORD="true")は
+#     Threads投稿側の二重ゲートとは独立している。GitHub Secretsに LIVE_DISCORD="true" を
+#     登録しない限り、Discord通知はdry-run(実送信しない)のままになる。
+#   - NO_CANDIDATE / DRY_RUN の場合は通知しない(Harleyと同じ方針。何も起きていないため)。
+#   - POSTED_STATE_SAVED(投稿成功+state保存成功+commit/push成功)の場合のみ「成功」通知。
+#   - POSTED_STATE_SAVE_FAILED、および「投稿成功+state保存成功+commit/push失敗」の場合は、
+#     「Threadsへの投稿は成功している可能性があるため再実行禁止」と明記した通知を送る。
+#   - PRE_POST_FAILURE(投稿前・投稿処理自体の失敗。Threadsへの投稿は発生していない)の場合は
+#     「投稿は行われていない」ことが分かる通知を送る。
+#   - Discord通知が失敗しても(例外を投げても)、このworkflow・Threads投稿・state保存・commit/push
+#     の成否には一切影響しない(Discord通知はcontinue-on-errorを付けた副次処理として実行する)。
+#
 # このworkflow固有の安全設計:
 #   - schedule実行時は常に --live を渡して実際の投稿を試みる。ただし実際にThreads APIへ
 #     接続されるかどうかは、GitHub Secretsに LIVE_POST="true" が登録されているか
@@ -61,6 +75,8 @@ jobs:
     # (daily-post.ymlはcontents: readのまま変更していない)。
     permissions:
       contents: write
+    env:
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     defaults:
       run:
         shell: bash
@@ -127,6 +143,12 @@ jobs:
       # ここから下は、outcomeがPOSTED_STATE_SAVED / POSTED_STATE_SAVE_FAILED /
       # PRE_POST_FAILUREのいずれかにならない限り実質的に何も行われない
       # (dry-run/検証モード/候補なしの場合は常にDRY_RUN/NO_CANDIDATEにしかならない)。
+      #
+      # 注意(GitHub Actionsの仕様): 「投稿実行」stepはPOSTED_STATE_SAVE_FAILED/PRE_POST_FAILUREの
+      # 場合に非ゼロ終了する。ifに success()/failure()/always() 等の状態確認関数を含めない条件は
+      # 暗黙に success() が前提となり、前のstepが失敗しているとスキップされてしまうため、
+      # これらのケースに対応するstepには明示的に failure() を付けている
+      # (POSTED_STATE_SAVEDの場合は「投稿実行」step自体が成功しているため不要)。
 
       - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ)
         id: commit-state
@@ -139,14 +161,80 @@ jobs:
           git commit -m "chore(lostball): record daily live Threads post"
           git push
 
-      - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力のみ・Discord等の実通知はしない)
-        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
+      - name: "Discord通知: 投稿成功(state保存・commit/push成功)"
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success'
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
+          THREADS_POST_ID: ${{ steps.publish.outputs.threadsPostId }}
+          POST_BODY: ${{ steps.publish.outputs.body }}
+        run: |
+          POSTED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          CONTENT="【Lost Ball Threads｜自動投稿成功】
+          投稿日時: ${POSTED_AT}
+          投稿候補ID: ${SOURCE_ITEM_ID}
+          Threads投稿ID: ${THREADS_POST_ID}
+          Run: ${RUN_URL}
+          state保存・commit/pushまで正常終了しました。
+
+          --- 投稿本文 ---
+          ${POST_BODY}"
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
+
+      - name: "Discord通知: 投稿は成功したがstate保存に失敗(再実行禁止)"
+        if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
+          THREADS_POST_ID: ${{ steps.publish.outputs.threadsPostId }}
+          ERROR_MESSAGE: ${{ steps.publish.outputs.errorMessage }}
+        run: |
+          FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          CONTENT="【Lost Ball Threads｜自動投稿 要確認】
+          失敗日時: ${FAILED_AT}
+          投稿候補ID: ${SOURCE_ITEM_ID}
+          Threads投稿ID: ${THREADS_POST_ID}
+          失敗段階: state保存(data/threads-posts.jsonへの記録)
+          エラー概要: ${ERROR_MESSAGE}
+          Run: ${RUN_URL}
+
+          Threadsへの投稿は成功している可能性があるため再実行禁止。
+          人間がThreadsの実アカウントを直接確認したうえで、手動でdata/threads-posts.jsonへ記録を追記してください。"
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
+
+      - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力もこのstepで行う)
+        if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
         run: |
           echo "::error::Threadsへの投稿自体は成功しましたが、data/threads-posts.jsonへの記録に失敗しました。"
           echo "::error::【再実行禁止】このworkflowの次回スケジュール実行より前に、人間の確認が必要です。"
           echo "::error::人間がThreadsの実アカウント(@lost_ball_empowerartlab)を直接確認し、投稿の存在を確認したうえで、"
           echo "::error::data/threads-posts.json へ手動で記録を追記し、通常のgit操作でcommit/pushしてください。"
           exit 1
+
+      - name: "Discord通知: 投稿・state保存は成功したがcommit/pushに失敗(再実行禁止)"
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure'
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
+          THREADS_POST_ID: ${{ steps.publish.outputs.threadsPostId }}
+        run: |
+          FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          CONTENT="【Lost Ball Threads｜自動投稿 要確認】
+          失敗日時: ${FAILED_AT}
+          投稿候補ID: ${SOURCE_ITEM_ID}
+          Threads投稿ID: ${THREADS_POST_ID}
+          失敗段階: data/threads-posts.jsonのcommit/push
+          Run: ${RUN_URL}
+
+          Threadsへの投稿・ローカルstate保存までは成功しているため再実行禁止。
+          人間がdata/threads-posts.jsonの内容を確認し、手動でcommit/pushしてください。"
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
 
       - name: 警告(投稿・state保存は成功したがcommit/pushに失敗。再実行禁止。ログ出力のみ)
         if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure'
@@ -155,8 +243,29 @@ jobs:
           echo "::error::【再実行禁止】人間が data/threads-posts.json の内容を確認し、手動でcommit/pushしてください。"
           exit 1
 
+      - name: "Discord通知: 投稿前または投稿処理自体の失敗(Threadsへの投稿は行われていない)"
+        if: failure() && steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
+          FAILURE_REASON: ${{ steps.publish.outputs.failureReason }}
+          ERROR_MESSAGE: ${{ steps.publish.outputs.errorMessage }}
+        run: |
+          FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          CONTENT="【Lost Ball Threads｜自動投稿失敗】
+          失敗日時: ${FAILED_AT}
+          投稿候補ID: ${SOURCE_ITEM_ID:-(未選出)}
+          失敗段階: ${FAILURE_REASON:-投稿処理呼び出し}
+          エラー概要: ${ERROR_MESSAGE}
+          Run: ${RUN_URL}
+
+          Threadsへの投稿は行われていません。再実行しても二重投稿にはなりません。"
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
+
       - name: 投稿前または投稿処理自体の失敗(Threadsへの投稿は行われていない)
-        if: steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
+        if: failure() && steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
         run: |
           echo "::error::Threadsへの投稿前、または投稿処理自体が失敗しました(Threadsへの投稿は行われていません)。"
           echo "詳細は上の「投稿実行」stepのログ、またはartifact(lostball-daily-live-post-log)を確認してください。"

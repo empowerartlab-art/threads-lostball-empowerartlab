@@ -72,3 +72,54 @@ test("3つのworkflowすべてでshellがbashに明示されている(pipefail�
     assert.match(content, /shell:\s*bash/, `${name}: shell: bash の明示が見つからない`);
   }
 });
+
+test("daily-live-post.yml / live-post-manual.yml は、POSTED_STATE_SAVE_FAILED/PRE_POST_FAILUREの" +
+  "stepにfailure()を明示している(前のstepの失敗でスキップされるGitHub Actionsの既知の挙動への対策)", () => {
+  for (const name of ["daily-live-post.yml", "live-post-manual.yml"]) {
+    const content = readWorkflow(name);
+    assert.match(
+      content,
+      /if:\s*failure\(\)\s*&&\s*steps\.publish\.outputs\.outcome == 'POSTED_STATE_SAVE_FAILED'/,
+      `${name}: POSTED_STATE_SAVE_FAILED分岐にfailure()が無い(前stepの失敗でスキップされる可能性がある)`
+    );
+    assert.match(
+      content,
+      /if:\s*failure\(\)\s*&&\s*steps\.publish\.outputs\.outcome == 'PRE_POST_FAILURE'/,
+      `${name}: PRE_POST_FAILURE分岐にfailure()が無い(前stepの失敗でスキップされる可能性がある)`
+    );
+  }
+});
+
+test("daily-live-post.ymlのDiscord通知stepはすべてcontinue-on-error: trueで、Discord送信失敗がjob全体を失敗させない", () => {
+  const content = readWorkflow("daily-live-post.yml");
+  const discordStepBlocks = content
+    .split(/^\s{6}- name:/m)
+    .filter((block) => /Discord通知/.test(block.split("\n")[0]));
+  assert.ok(discordStepBlocks.length >= 4, "Discord通知stepが想定数(4)未満しか見つからない");
+  for (const block of discordStepBlocks) {
+    assert.match(block, /continue-on-error:\s*true/, "Discord通知stepにcontinue-on-error: trueが無い");
+  }
+});
+
+test("daily-live-post.ymlのDiscord通知stepは DISCORD_WEBHOOK_URL/LIVE_DISCORD を secrets. 経由でのみ参照し、直書きしていない", () => {
+  const content = readWorkflow("daily-live-post.yml");
+  assert.match(content, /DISCORD_WEBHOOK_URL:\s*\$\{\{\s*secrets\.DISCORD_WEBHOOK_URL\s*\}\}/);
+  assert.match(content, /LIVE_DISCORD:\s*\$\{\{\s*secrets\.LIVE_DISCORD\s*\}\}/);
+  // discord.com/api/webhooks/ のような実際のWebhook URLらしき文字列がハードコードされていないこと。
+  assert.doesNotMatch(content, /https:\/\/discord(?:app)?\.com\/api\/webhooks\/\d+/);
+});
+
+test("daily-live-post.ymlのDiscord通知stepは、NO_CANDIDATE/DRY_RUNの分岐を持たない(通知しない方針)", () => {
+  const content = readWorkflow("daily-live-post.yml");
+  const discordIfLines = [...content.matchAll(/Discord通知[^\n]*\n\s*if:\s*([^\n]+)/g)].map((m) => m[1]);
+  assert.ok(discordIfLines.length >= 4);
+  for (const line of discordIfLines) {
+    assert.doesNotMatch(line, /NO_CANDIDATE|DRY_RUN/, `NO_CANDIDATE/DRY_RUNでもDiscord通知される条件が見つかった: ${line}`);
+  }
+});
+
+test("scripts/send-discord-notification.mjs はHarleyの scripts/send-discord-notification.mjs と同じ二重ゲート設計(--live + LIVE_DISCORD)を持つ", () => {
+  const content = readFileSync(fileURLToPath(new URL("../scripts/send-discord-notification.mjs", import.meta.url)), "utf8");
+  assert.match(content, /--live/);
+  assert.doesNotMatch(content, /CLIENT_SECRET/i);
+});

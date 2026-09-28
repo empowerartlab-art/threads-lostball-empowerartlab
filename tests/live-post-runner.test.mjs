@@ -241,6 +241,7 @@ test("コンテナ作成失敗 → PRE_POST_FAILURE。fetchは1回だけ呼ば�
     });
     assert.equal(result.outcome, OUTCOME.PRE_POST_FAILURE);
     assert.ok(result.error);
+    assert.equal(result.reason, "publish-error");
     assert.equal(getCallCount(), 1);
   } finally {
     restore();
@@ -265,6 +266,7 @@ test("publish失敗 → PRE_POST_FAILURE", async () => {
     });
     assert.equal(result.outcome, OUTCOME.PRE_POST_FAILURE);
     assert.ok(result.error);
+    assert.equal(result.reason, "publish-error");
     assert.equal(getCallCount(), 2);
   } finally {
     restore();
