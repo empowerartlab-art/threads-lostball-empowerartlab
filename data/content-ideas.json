@@ -1,0 +1,57 @@
+{
+  "_note": "投稿ネタ・企画ストック(アイデア置き場)。これは『投稿確定原稿』ではない。draft-bank.json / draft-bank-candidates.jsonとは別ファイルであり、select-daily-candidate.mjs・promote-candidates.mjs・validate-data.mjsを含む自動投稿パイプラインはこのファイルを一切参照しない(=ここに何を書いても自動投稿・重複投稿防止機構には影響しない)。各themeのsourceNotesは人間から提供された元ネタをできるだけそのまま記録したものであり、verified-facts.jsonの確認済み事実(verified:true)とは明確に別物として扱う。ここにある情報・統計数値を投稿本文で使うには、(1)信頼できる出典を人間が確認し、(2)verified-facts.jsonへverified:trueとして正式登録し、(3)日本語原稿をまず確定してから英語化する、という手順を経ること。postIdeasは投稿の切り口(角度)の一覧であり、本文はまだ一切書いていない(status:\"idea\"のまま)。",
+  "themes": [
+    {
+      "id": "environmental-conservation",
+      "title": "地球環境の保全",
+      "concept": "ロストボールにもう一度活躍する機会を与えたい",
+      "sourceNotes": {
+        "ja": "一説ではゴルフボールが自然に還るまで約1,000年の時間を有すると言われており、これはプラスチックゴミと同様に自然界へ放置されてしまったゴルフボールも半永久的に残留してしまう事を意味します。2025年時点で日本全国にあるゴルフ場付近に推定5億〜10億球のロストボールがいまだに回収されず森林に放置されており、さらには毎年約2,100万球のボールが新たに放置されている、という情報があります。この商品を購入いただくことが、廃棄物の削減や環境負荷の低減など、ゴルフ業界全体のサステナビリティ向上につながる、というテーマで発信したい。"
+      },
+      "unverifiedClaims": [
+        {
+          "claim": "ゴルフボールが自然に還るまで約1,000年かかる",
+          "status": "要出典確認・要ファクトチェック",
+          "note": "信頼できる出典が確認され、verified-facts.jsonへverified:trueとして正式登録されるまで、投稿本文(自動投稿原稿含む)には使用しない。"
+        },
+        {
+          "claim": "日本全国のゴルフ場付近に推定5億〜10億球のロストボールが未回収のまま森林に放置されている(2025年時点)",
+          "status": "要出典確認・要ファクトチェック",
+          "note": "同上。出典未確認のため使用不可。"
+        },
+        {
+          "claim": "毎年約2,100万球のボールが新たに放置されている",
+          "status": "要出典確認・要ファクトチェック",
+          "note": "同上。出典未確認のため使用不可。"
+        }
+      ],
+      "postIdeas": [
+        { "id": "environmental-conservation-01", "workingTitle": "ロストボールにもう一度活躍する機会を", "status": "idea" },
+        { "id": "environmental-conservation-02", "workingTitle": "ゴルフボールと環境問題", "status": "idea" },
+        { "id": "environmental-conservation-03", "workingTitle": "自然界に残るロストボール", "status": "idea" },
+        { "id": "environmental-conservation-04", "workingTitle": "捨てずにもう一度使うという選択", "status": "idea" },
+        { "id": "environmental-conservation-05", "workingTitle": "ゴルフ×サステナビリティ", "status": "idea" },
+        { "id": "environmental-conservation-06", "workingTitle": "1球からできる環境への取り組み", "status": "idea" }
+      ]
+    },
+    {
+      "id": "hitori-janai-yo-project-deep-dive",
+      "title": "ひとりじゃないよプロジェクト",
+      "concept": "『ひとりじゃないよ』というメッセージを胸に、ゴルフを楽しみながら社会に優しさを届ける一球",
+      "sourceNotes": {
+        "ja": "『ひとりで寂しい思いをする子供を減らしたい。』そのためにも、親の辛い・しんどいを支え、虐待防止につなげていく。どんな環境に生まれようとも、子どもたちが心豊かに育つよう、地域の大人との愛の関わりから可能性をのばしていく。子どもと大人、子ども同士、企業同士、人間と自然など、すべての『手と手』をつなげていく活動を多岐にわたり展開している。この商品の売上の一部は、未来を担う子どもたちへ命の大切さやお金の大切さを伝える活動支援のために、株式会社saeへ寄付する。",
+        "note": "既存のverified-facts.json(donate-portion-to-hitori-janai-yo-project / project-mission-reduce-lonely-children / project-made-picture-book等)と重なる要素もあるが、この元ネタ全体・特に『株式会社sae』という寄付先名や虐待防止・地域の大人との関わり等の詳述部分は、現時点でverified-facts.jsonに個別登録されていない。投稿化の際は、既存の確認済み事実と新規に確認が必要な部分を人間が改めて仕分けたうえで、必要な事実のみverified-facts.jsonへ追加すること。"
+      },
+      "postIdeas": [
+        { "id": "hitori-janai-yo-01", "workingTitle": "『ひとりじゃないよ』に込められた想い", "status": "idea" },
+        { "id": "hitori-janai-yo-02", "workingTitle": "子どもを支える", "status": "idea" },
+        { "id": "hitori-janai-yo-03", "workingTitle": "親のつらさを支えること", "status": "idea" },
+        { "id": "hitori-janai-yo-04", "workingTitle": "地域の大人とのつながり", "status": "idea" },
+        { "id": "hitori-janai-yo-05", "workingTitle": "『手と手』をつなぐ活動", "status": "idea" },
+        { "id": "hitori-janai-yo-06", "workingTitle": "ロストボールの売上の一部を寄付", "status": "idea" },
+        { "id": "hitori-janai-yo-07", "workingTitle": "ゴルフを楽しみながら社会貢献", "status": "idea" },
+        { "id": "hitori-janai-yo-08", "workingTitle": "一球からつながる支援", "status": "idea" }
+      ]
+    }
+  ]
+}
