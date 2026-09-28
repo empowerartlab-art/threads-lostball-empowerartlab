@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-28T11:58:48.107Z",
-  "count": 2,
+  "updatedAt": "2026-09-28T12:55:46.518Z",
+  "count": 1,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -13,17 +13,6 @@
       "postedAt": "2026-09-27T23:29:22.677Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36358836994"
-    },
-    {
-      "sourceItemId": "lostball-day2-japan-origin",
-      "threadsPostId": "18347418469282355",
-      "bodyEn": "Our lost balls come from golf courses in Japan.\nCollected, then given a second life, one by one, by hand.",
-      "bodyJa": "このロストボールは、日本国内のゴルフ場から届けられたものです。\n回収されたボールに、1球ずつ手作業でもう一度活躍の場をつくっています。",
-      "pillar": "JAPAN",
-      "category": "JAPAN_ORIGIN",
-      "postedAt": "2026-09-28T11:58:48.106Z",
-      "mode": "live",
-      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36418864752"
     }
   ]
 }
