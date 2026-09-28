@@ -2,7 +2,7 @@
 
 `@lost_ball_empowerartlab`（Japan Lost Golf Balls）のThreads運用基盤。
 
-**現在はPhase 4着手中（Phase 3完了：GitHub Secrets登録・初回LIVE投稿を人間が確認済み。@lost_ball_empowerartlab のThreadsアカウントへ実際に投稿された実績あり。Phase 4として毎日の自動投稿workflowを実装済みだが、投稿時刻の最終確認待ちのため、まだ本番のスケジュール実行はしていない。Discordへの実送信は引き続き未実装）。**
+**現在はPhase 4稼働中（Phase 3完了：GitHub Secrets登録・初回LIVE投稿を人間が確認済み。@lost_ball_empowerartlab のThreadsアカウントへ実際に投稿された実績あり。Phase 4の毎日自動投稿は投稿時刻(JST 20:00)を人間が確定し、本番稼働中。Discordへの実送信は引き続き未実装）。**
 
 ## 中心思想
 
@@ -85,7 +85,7 @@ npm run lostball:post-dry-run   # 投稿処理のdry-run(実投稿はしない�
 2. **Phase 1（完了）**：Meta認証・Threads API接続確認。長期アクセストークン取得・`GET /me`接続確認まで完了済み
 3. **Phase 2（完了）**：GitHub Actions dry-run運用(`.github/workflows/daily-post.yml`)、投稿処理dry-run(`scripts/post-to-threads.mjs`)、Discordもdry-run構造のみ
 4. **Phase 3（完了）**：人間の明示確認のもとで初回のみ手動live投稿テストを実施。GitHub Secrets登録・`live-post-manual.yml`の実行により、@lost_ball_empowerartlab のThreadsアカウントへ実際に投稿され、`data/threads-posts.json`への記録・commit/pushまで成功したことを人間が確認済み
-5. **Phase 4（実装完了・スケジュール開始は投稿時刻の最終確認待ち）**：毎日自動でThreadsへ投稿する`.github/workflows/daily-live-post.yml`を実装済み。詳細は下記「Phase 4」節
+5. **Phase 4（本番稼働中）**：毎日自動でThreadsへ投稿する`.github/workflows/daily-live-post.yml`が稼働中(投稿時刻: JST 20:00、人間が確定済み)。詳細は下記「Phase 4」節
 
 ## Phase 2: GitHub Actions dry-run運用
 
@@ -172,7 +172,7 @@ commit/pushも成功している(1件目のcommitは`lostball-live-post-bot`名�
    - `POSTED_STATE_SAVE_FAILED` になった場合は、**このworkflowを再実行しない**こと。
      Threadsアカウントを直接確認したうえで、人間が手動で`data/threads-posts.json`へ記録を追記する
 
-## Phase 4: 毎日の自動投稿(実装完了・スケジュール開始は投稿時刻の最終確認待ち)
+## Phase 4: 毎日の自動投稿(本番稼働中)
 
 `.github/workflows/daily-live-post.yml` が、Phase 2/3で実証済みの候補選出・各種ガード・
 二重ゲート・Threads API呼び出し・state保存・commit/pushの仕組みを、人間の確認文字列入力なしで
@@ -194,35 +194,33 @@ commit/pushも成功している(1件目のcommitは`lostball-live-post-bot`名�
 - **App Secretは使わない**(`THREADS_CLIENT_SECRET`はworkflow内で一切参照しない)
 - Discordへの実通知は行わない(ログ出力のみ)
 
-### 投稿時刻(cron)について — 要確認
+### 投稿時刻(cron) — 確定済み(JST 20:00)
 
-現在の設定は **`cron: "0 11 * * *"` (UTC 11:00 = 日本時間 20:00)** をデフォルトとして実装している
-（Harleyの既存運用が JST 09:17 に実行している点も参考にしたが、Lost Ballは既存の`daily-post.yml`が
-既にJST 09:00にdry-runプレビューを実行しているため、朝のdry-runで内容を確認したうえで、
-夜にlive投稿する運用を想定した提案)。
+**`cron: "0 11 * * *"` (UTC 11:00 = 日本時間 20:00)** で人間が確定済み(2026-09-28)。
+既存の`daily-post.yml`が朝09:00 JSTにdry-runプレビューを実行し、その内容を確認したうえで
+夜20:00 JSTにlive投稿する運用。
 
-**この時刻は仮の提案であり、人間の確認・変更を前提としている。** 変更する場合は
-`.github/workflows/daily-live-post.yml` 内の以下の行のcron式を書き換えるだけでよい:
+投稿時刻の最適化は今後の分析結果を見ながら見直す方針。変更する場合は
+`.github/workflows/daily-live-post.yml` 内の以下の行のcron式を書き換えるだけでよい(技術的にはいつでも変更可能):
 
 ```yaml
   schedule:
     - cron: "0 11 * * *"   # UTC 11:00 = JST 20:00
 ```
 
-主な候補(JST → UTCのcron式):
+参考(JST → UTCのcron式の対応):
 
 | 投稿時刻(JST) | cron式(UTC) |
 |---|---|
 | 09:00（`daily-post.yml`のdry-runと同時刻） | `"0 0 * * *"` |
 | 12:30（昼休み） | `"30 3 * * *"` |
-| **20:00（推奨・デフォルト実装済み）** | `"0 11 * * *"` |
+| **20:00（確定・稼働中）** | `"0 11 * * *"` |
 
 ### GitHub Actions上での状態
 
-`daily-live-post.yml`は`push`済みでGitHub側のActionsタブに表示される想定だが、
-**投稿時刻(cron)の最終確認が済むまでは、スケジュール実行を無効化する(GitHub上でworkflowを
-Disableする)ことも検討可能**。何もしなければ、上記デフォルト時刻(JST 20:00)で
-GitHub Secrets登録済みの内容に従い自動的にlive投稿が開始される。
+`daily-live-post.yml`は`push`済みでGitHub Actionsタブから実行状況を確認できる。
+GitHub Secrets登録済みの内容に従い、毎日JST 20:00に自動的にlive投稿が実行される
+(候補が無い日・ガードNGの日は投稿されず、DRY_RUN/PRE_POST_FAILURE等として終了する)。
 
 ## Phase 1: Meta側で人間が行う手動セットアップ
 
