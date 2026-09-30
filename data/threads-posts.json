@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-28T12:57:11.620Z",
-  "count": 2,
+  "updatedAt": "2026-09-30T11:04:46.960Z",
+  "count": 3,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -24,6 +24,17 @@
       "postedAt": "2026-09-28T12:57:11.620Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36425142812"
+    },
+    {
+      "sourceItemId": "lostball-day3-hand-polishing-process",
+      "threadsPostId": "18116692862052350",
+      "bodyEn": "Each ball is checked and polished by hand, one at a time.\nIt's not just about removing the dirt — it's about finishing each ball to a condition you'll want to play again. That's what a Lost Ball is.",
+      "bodyJa": "1球ずつ、手作業で状態を確認しながら磨き上げています。\nただ汚れを落とすだけでなく、また使いたくなる状態に仕上げること。それが『ロストボール』という商品です。",
+      "pillar": "GOLF",
+      "category": "HAND_POLISHING_PROCESS",
+      "postedAt": "2026-09-30T11:04:46.959Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36706277205"
     }
   ]
 }
