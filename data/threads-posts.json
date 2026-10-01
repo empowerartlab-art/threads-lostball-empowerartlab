@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-30T11:04:46.960Z",
-  "count": 3,
+  "updatedAt": "2026-10-01T11:05:27.643Z",
+  "count": 4,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -35,6 +35,17 @@
       "postedAt": "2026-09-30T11:04:46.959Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36706277205"
+    },
+    {
+      "sourceItemId": "lostball-day4-reuse",
+      "threadsPostId": "17970479376138597",
+      "bodyEn": "A lost ball that's still in good shape doesn't need to end up in the trash.\nWe give it another chance — to be a golf ball again, out on the course.",
+      "bodyJa": "まだ使えるロストボールを、そのまま捨てるのではなく、もう一度ゴルフボールとして使う。\n私たちは、そんな小さな取り組みを通じて、ボールにもう一度活躍の場を与えています。",
+      "pillar": "ENVIRONMENT",
+      "category": "REUSE",
+      "postedAt": "2026-10-01T11:05:27.642Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36853140173"
     }
   ]
 }
