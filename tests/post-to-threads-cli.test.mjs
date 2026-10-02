@@ -78,6 +78,21 @@ test("GITHUB_OUTPUTが設定されている場合、dry-run実行後にoutcome=D
   }
 });
 
+test("GITHUB_OUTPUT: dry-runではコンテナ作成リトライが発生しないため、containerRetryAttempted=false/containerRetryCount=0が書き出される", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "lostball-github-output-retry-"));
+  const outputFile = join(dir, "github_output");
+  try {
+    const result = run([], { LIVE_POST: "", LIVE_DISCORD: "", GITHUB_OUTPUT: outputFile });
+    assert.equal(result.status, 0);
+    const content = await readFile(outputFile, "utf8");
+    assert.match(content, /^containerRetryAttempted=false$/m);
+    assert.match(content, /^containerRetryCount=0$/m);
+    assert.match(content, /^containerFirstAttemptErrorMessage=$/m);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
 test("GITHUB_OUTPUTが未設定なら何も書き出さず、エラーにもならない(ローカル実行の互換性)", () => {
   const result = run([], { LIVE_POST: "", LIVE_DISCORD: "", GITHUB_OUTPUT: "" });
   assert.equal(result.status, 0);

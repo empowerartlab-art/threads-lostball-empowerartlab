@@ -223,7 +223,7 @@ test("全件重複(候補すべてが投稿済み)＋LIVE_POST=true+live=true �
   }
 });
 
-test("コンテナ作成失敗 → PRE_POST_FAILURE。fetchは1回だけ呼ばれ、publishは呼ばれない", async () => {
+test("コンテナ作成が2回とも失敗 → PRE_POST_FAILURE(container-creation-failed-after-retry)。fetchは2回だけ呼ばれ、publishは呼ばれない", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
     if (u.pathname.endsWith("/threads")) return jsonResponse(400, { error: { message: "bad request", type: "Err" } });
@@ -237,18 +237,56 @@ test("コンテナ作成失敗 → PRE_POST_FAILURE。fetchは1回だけ呼ば�
       live: true,
       env: { LIVE_POST: "true" },
       userId: "999",
-      accessToken: "secret-token"
+      accessToken: "secret-token",
+      delay: async () => {} // 実時間を待たないためテストでは即時resolve
     });
     assert.equal(result.outcome, OUTCOME.PRE_POST_FAILURE);
     assert.ok(result.error);
-    assert.equal(result.reason, "publish-error");
-    assert.equal(getCallCount(), 1);
+    // コンテナ作成(リトライ込み)で尽きた場合は、publishContainer由来の失敗と区別できる
+    // reasonになる(Discord通知等で「一時的エラーで自動リトライも失敗した」と分かるようにするため)。
+    assert.equal(result.reason, "container-creation-failed-after-retry");
+    assert.equal(result.error.retryExhausted, true);
+    assert.equal(getCallCount(), 2);
   } finally {
     restore();
   }
 });
 
-test("publish失敗 → PRE_POST_FAILURE", async () => {
+test("コンテナ作成が1回目失敗・2回目成功 → POSTED_STATE_SAVED。containerRetry情報を保持する", async () => {
+  let attempts = 0;
+  const { restore, getCallCount } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) {
+      attempts += 1;
+      if (attempts === 1) return jsonResponse(400, { error: { message: "temporary OAuthException", type: "OAuthException" } });
+      return jsonResponse(200, { id: "container-1" });
+    }
+    if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: "post-retry-ok" });
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    const result = await runLivePost({
+      bankItems: [makeItem()],
+      postedPosts: [],
+      facts,
+      live: true,
+      env: { LIVE_POST: "true" },
+      userId: "999",
+      accessToken: "secret-token",
+      delay: async () => {}
+    });
+    assert.equal(result.outcome, OUTCOME.POSTED_STATE_SAVED);
+    assert.equal(result.threadsPostId, "post-retry-ok");
+    assert.equal(result.containerRetry.attempted, true);
+    assert.equal(result.containerRetry.count, 1);
+    assert.match(result.containerRetry.firstAttemptError.message, /temporary OAuthException/);
+    assert.equal(getCallCount(), 3);
+  } finally {
+    restore();
+  }
+});
+
+test("publish失敗(publishContainer由来) → PRE_POST_FAILURE。reasonはcontainer-creation-failed-after-retryにならず、リトライもしない", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
     if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-1" });
@@ -290,7 +328,8 @@ test("アクセストークンがrunnerのログ出力に露出しない", async
       userId: "999",
       accessToken,
       redact,
-      log: (...args) => loggedLines.push(args.join(" "))
+      log: (...args) => loggedLines.push(args.join(" ")),
+      delay: async () => {}
     });
     assert.equal(result.outcome, OUTCOME.PRE_POST_FAILURE);
     const allLogs = loggedLines.join("\n");

@@ -170,12 +170,31 @@ async function main() {
   const errorMessage = result.error ? redact(result.error.message ?? "") : "";
   const postBody = result.report?.body ?? result.publishResult?.body ?? "";
 
+  // コンテナ作成(POST /{userId}/threads)のリトライ情報。成功時はresult.containerRetryに、
+  // リトライも尽きて失敗した場合はresult.error(lib/threads-publish.mjsのcreateContainerWithRetryが
+  // err.stage/err.firstAttemptErrorを付与済み)に入っている。どちらにも無ければリトライ自体
+  // 発生していない(dry-run・guard-check-failed・publishContainer失敗など)。
+  // firstAttemptErrorのmessageは取得元ですでにredact済みだが、念のためここでも通す。
+  const containerRetry =
+    result.containerRetry ??
+    (result.error?.stage === "createTextContainer"
+      ? { attempted: true, count: 1, firstAttemptError: result.error.firstAttemptError ?? null }
+      : null);
+  const containerRetryAttempted = containerRetry?.attempted ? "true" : "false";
+  const containerRetryCount = String(containerRetry?.count ?? 0);
+  const containerFirstAttemptErrorMessage = containerRetry?.firstAttemptError?.message
+    ? redact(containerRetry.firstAttemptError.message)
+    : "";
+
   await writeGithubOutput("outcome", result.outcome);
   await writeGithubOutput("sourceItemId", sourceItemId);
   await writeGithubOutput("threadsPostId", result.threadsPostId ?? "");
   await writeGithubOutput("failureReason", failureReason);
   await writeGithubOutput("errorMessage", errorMessage);
   await writeGithubOutput("body", postBody);
+  await writeGithubOutput("containerRetryAttempted", containerRetryAttempted);
+  await writeGithubOutput("containerRetryCount", containerRetryCount);
+  await writeGithubOutput("containerFirstAttemptErrorMessage", containerFirstAttemptErrorMessage);
 
   for (const { item, reason } of result.skipped || []) {
     console.warn(`SKIP: day=${item.day ?? "?"} category=${item.category || "?"} reason=${reason}`);

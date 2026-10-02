@@ -9,7 +9,12 @@ name: Lost Ball Threads - Daily LIVE Post (Phase 4)
 #     Threads API呼び出し(lib/threads-client.mjs)・state保存(lib/threads-posts-store.mjs)は
 #     すべて既存実装をそのまま呼び出すだけで、このworkflow専用のロジックは一切追加していない。
 #   - 投稿済み候補は selectDailyCandidate 内の duplicate-guard により自動的に再選出されない。
-#   - Threads APIへのpublish呼び出しに自動リトライは無い(1回失敗したらそのまま失敗として終了)。
+#   - Threads APIへのpublish呼び出しの自動リトライは、コンテナ作成(POST /{userId}/threads)
+#     の失敗に限り最大1回・約4秒待機して行う(lib/threads-publish.mjsのcreateContainerWithRetry。
+#     PRE_POST_FAILURE再発防止策。Threads上に投稿が存在しないと安全に判断できる範囲のみが対象)。
+#     実際の公開操作(POST /{userId}/threads_publish)には絶対にリトライを行わない(成功したか
+#     不明なケースを二重に試みると二重投稿の実リスクがあるため)。1回リトライしても失敗した場合は
+#     従来通りそのまま失敗として終了する(2回目以降の自動リトライは無い)。
 #   - data/threads-posts.jsonへのcommit/pushは「投稿成功+state保存成功」の場合にのみ行う。
 #   - 「投稿成功+state保存失敗」(POSTED_STATE_SAVE_FAILED)の場合はjobを失敗させ、
 #     再実行しないよう明示する(自動リトライの仕組みはこのworkflowにも一切無い)。
@@ -170,14 +175,23 @@ jobs:
           SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
           THREADS_POST_ID: ${{ steps.publish.outputs.threadsPostId }}
           POST_BODY: ${{ steps.publish.outputs.body }}
+          CONTAINER_RETRY_ATTEMPTED: ${{ steps.publish.outputs.containerRetryAttempted }}
+          CONTAINER_RETRY_COUNT: ${{ steps.publish.outputs.containerRetryCount }}
+          CONTAINER_FIRST_ATTEMPT_ERROR_MESSAGE: ${{ steps.publish.outputs.containerFirstAttemptErrorMessage }}
         run: |
           POSTED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          RETRY_NOTE=""
+          if [ "${CONTAINER_RETRY_ATTEMPTED}" = "true" ]; then
+            RETRY_NOTE="
+          コンテナ作成: 1回目失敗 → 自動リトライで成功(${CONTAINER_RETRY_COUNT}回リトライ)
+          1回目のエラー: ${CONTAINER_FIRST_ATTEMPT_ERROR_MESSAGE}"
+          fi
           CONTENT="【Lost Ball Threads｜自動投稿成功】
           投稿日時: ${POSTED_AT}
           投稿候補ID: ${SOURCE_ITEM_ID}
           Threads投稿ID: ${THREADS_POST_ID}
           Run: ${RUN_URL}
-          state保存・commit/pushまで正常終了しました。
+          state保存・commit/pushまで正常終了しました。${RETRY_NOTE}
 
           --- 投稿本文 ---
           ${POST_BODY}"
@@ -252,13 +266,22 @@ jobs:
           SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
           FAILURE_REASON: ${{ steps.publish.outputs.failureReason }}
           ERROR_MESSAGE: ${{ steps.publish.outputs.errorMessage }}
+          CONTAINER_RETRY_ATTEMPTED: ${{ steps.publish.outputs.containerRetryAttempted }}
+          CONTAINER_RETRY_COUNT: ${{ steps.publish.outputs.containerRetryCount }}
+          CONTAINER_FIRST_ATTEMPT_ERROR_MESSAGE: ${{ steps.publish.outputs.containerFirstAttemptErrorMessage }}
         run: |
           FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          RETRY_NOTE=""
+          if [ "${CONTAINER_RETRY_ATTEMPTED}" = "true" ]; then
+            RETRY_NOTE="
+          コンテナ作成: 1回目失敗 → ${CONTAINER_RETRY_COUNT}回リトライも失敗
+          1回目のエラー: ${CONTAINER_FIRST_ATTEMPT_ERROR_MESSAGE}"
+          fi
           CONTENT="【Lost Ball Threads｜自動投稿失敗】
           失敗日時: ${FAILED_AT}
           投稿候補ID: ${SOURCE_ITEM_ID:-(未選出)}
           失敗段階: ${FAILURE_REASON:-投稿処理呼び出し}
-          エラー概要: ${ERROR_MESSAGE}
+          エラー概要: ${ERROR_MESSAGE}${RETRY_NOTE}
           Run: ${RUN_URL}
 
           Threadsへの投稿は行われていません。再実行しても二重投稿にはなりません。"
