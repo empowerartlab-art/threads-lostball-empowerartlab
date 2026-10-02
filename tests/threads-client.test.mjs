@@ -1,7 +1,7 @@
 // fetchは必ずスタブし、実際のThreads/Meta APIへは一切接続しない。
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createTextContainer, publishContainer } from "../lib/threads-client.mjs";
+import { createTextContainer, createImageContainer, publishContainer } from "../lib/threads-client.mjs";
 import { createSecretRedactor } from "../lib/redact.mjs";
 
 function stubFetch(handler) {
@@ -132,6 +132,75 @@ test("createTextContainer: レスポンスにidが無ければ(res.okがtrueで�
   const restore = stubFetch(async () => jsonResponse(200, {}));
   try {
     await assert.rejects(() => createTextContainer({ userId: "999", accessToken: "t", text: "x" }));
+  } finally {
+    restore();
+  }
+});
+
+test("createImageContainer: 成功時にcontainerIdを返し、media_type=IMAGE/image_url/textを正しくPOSTする", async () => {
+  let capturedUrl;
+  let capturedInit;
+  const restore = stubFetch(async (url, init) => {
+    capturedUrl = url;
+    capturedInit = init;
+    return jsonResponse(200, { id: "container-img-1" });
+  });
+  try {
+    const result = await createImageContainer({
+      userId: "999",
+      accessToken: "secret-token",
+      text: "hello world",
+      imageUrl: "https://raw.githubusercontent.com/empowerartlab-art/threads-lostball-empowerartlab/main/assets/lost-ball-product/day7-product-photo.png"
+    });
+    assert.equal(result.containerId, "container-img-1");
+    assert.equal(capturedInit.method, "POST");
+    const url = new URL(String(capturedUrl));
+    assert.equal(url.origin + url.pathname, "https://graph.threads.net/v1.0/999/threads");
+    assert.equal(url.searchParams.get("media_type"), "IMAGE");
+    assert.equal(
+      url.searchParams.get("image_url"),
+      "https://raw.githubusercontent.com/empowerartlab-art/threads-lostball-empowerartlab/main/assets/lost-ball-product/day7-product-photo.png"
+    );
+    assert.equal(url.searchParams.get("text"), "hello world");
+    assert.equal(url.searchParams.get("access_token"), "secret-token");
+  } finally {
+    restore();
+  }
+});
+
+test("createImageContainer: textが未指定/空でもtextパラメータを付けずにPOSTできる(画像のみの投稿にも対応)", async () => {
+  let capturedUrl;
+  const restore = stubFetch(async (url) => {
+    capturedUrl = url;
+    return jsonResponse(200, { id: "container-img-2" });
+  });
+  try {
+    await createImageContainer({ userId: "999", accessToken: "t", imageUrl: "https://example.invalid/not-used-in-this-repo.png" });
+    const url = new URL(String(capturedUrl));
+    assert.equal(url.searchParams.has("text"), false);
+  } finally {
+    restore();
+  }
+});
+
+test("createImageContainer: 失敗時はエラーを投げ、access_tokenはエラーメッセージに露出しない", async () => {
+  const restore = stubFetch(async () =>
+    jsonResponse(400, { error: { message: "invalid image_url abc-secret-token", type: "OAuthException" } })
+  );
+  try {
+    const redact = createSecretRedactor(["abc-secret-token"]);
+    await assert.rejects(
+      () =>
+        createImageContainer(
+          { userId: "999", accessToken: "abc-secret-token", text: "hello", imageUrl: "https://raw.githubusercontent.com/x/y/main/z.png" },
+          { redact }
+        ),
+      (err) => {
+        assert.match(err.message, /Threads APIエラー/);
+        assert.doesNotMatch(err.message, /abc-secret-token/);
+        return true;
+      }
+    );
   } finally {
     restore();
   }

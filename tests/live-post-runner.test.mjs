@@ -151,6 +151,136 @@ test("LIVE_POST=true + live=true → mockされたpublish処理(fetch)へ進み�
   }
 });
 
+test("承認済みmedia(path+approvedBy+approvedAt)を持つ候補 → lib/media-url.mjsで解決したimageUrlがpublishPostまで渡り、IMAGE投稿になる", async () => {
+  let capturedContainerUrl;
+  const { restore, getCallCount } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) {
+      capturedContainerUrl = u;
+      return jsonResponse(200, { id: "container-img" });
+    }
+    if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: "post-img-999" });
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    const itemWithMedia = makeItem({
+      id: "day7-item",
+      day: 7,
+      media: {
+        type: "PRODUCT_PHOTO",
+        required: true,
+        aiVisualAllowed: false,
+        path: "assets/lost-ball-product/day7-product-photo.png",
+        altText: "商品写真",
+        approvedBy: "empower.artlab@gmail.com",
+        approvedAt: "2026-10-02T00:00:00.000Z"
+      }
+    });
+    const result = await runLivePost({
+      bankItems: [itemWithMedia],
+      postedPosts: [],
+      facts,
+      live: true,
+      env: { LIVE_POST: "true", GITHUB_REPOSITORY: "owner/repo", GITHUB_REF_NAME: "main" },
+      userId: "999",
+      accessToken: "secret-token"
+    });
+    assert.equal(result.outcome, OUTCOME.POSTED_STATE_SAVED);
+    assert.equal(result.threadsPostId, "post-img-999");
+    assert.equal(capturedContainerUrl.searchParams.get("media_type"), "IMAGE");
+    assert.equal(
+      capturedContainerUrl.searchParams.get("image_url"),
+      "https://raw.githubusercontent.com/owner/repo/main/assets/lost-ball-product/day7-product-photo.png"
+    );
+    assert.equal(getCallCount(), 2);
+  } finally {
+    restore();
+  }
+});
+
+test("media.pathはあるが未承認の候補 → imageUrlは解決されず、従来どおりTEXT投稿になる", async () => {
+  let capturedContainerUrl;
+  const { restore } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) {
+      capturedContainerUrl = u;
+      return jsonResponse(200, { id: "container-txt" });
+    }
+    if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: "post-txt-1" });
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    const itemWithUnapprovedMedia = makeItem({
+      media: {
+        type: "PRODUCT_PHOTO",
+        required: true,
+        aiVisualAllowed: false,
+        path: "assets/lost-ball-product/day7-product-photo.png",
+        altText: null,
+        approvedBy: null,
+        approvedAt: null
+      }
+    });
+    const result = await runLivePost({
+      bankItems: [itemWithUnapprovedMedia],
+      postedPosts: [],
+      facts,
+      live: true,
+      env: { LIVE_POST: "true" },
+      userId: "999",
+      accessToken: "secret-token"
+    });
+    // media.required=trueかつ未承認のため、実際には既存のmedia-guard(selectDailyCandidate)で
+    // 選出自体がブロックされ、NO_CANDIDATEになる(これはTEXT投稿フォールバックではなく、
+    // 既存のcanSelectForProductionの構造的ゲートがそのまま効いていることの確認)。
+    assert.equal(result.outcome, OUTCOME.NO_CANDIDATE);
+    assert.equal(capturedContainerUrl, undefined);
+  } finally {
+    restore();
+  }
+});
+
+test("media.required=falseでpathはあるが未承認の候補 → 選出はブロックされず、画像無しのTEXT投稿になる(imageUrlはnullに解決される)", async () => {
+  let capturedContainerUrl;
+  const { restore, getCallCount } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) {
+      capturedContainerUrl = u;
+      return jsonResponse(200, { id: "container-txt-2" });
+    }
+    if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: "post-txt-2" });
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    const item = makeItem({
+      media: {
+        type: "REAL_PHOTO",
+        required: false,
+        aiVisualAllowed: true,
+        path: "assets/some-not-yet-approved-photo.png",
+        altText: null,
+        approvedBy: null,
+        approvedAt: null
+      }
+    });
+    const result = await runLivePost({
+      bankItems: [item],
+      postedPosts: [],
+      facts,
+      live: true,
+      env: { LIVE_POST: "true" },
+      userId: "999",
+      accessToken: "secret-token"
+    });
+    assert.equal(result.outcome, OUTCOME.POSTED_STATE_SAVED);
+    assert.equal(capturedContainerUrl.searchParams.get("media_type"), "TEXT");
+    assert.equal(capturedContainerUrl.searchParams.has("image_url"), false);
+    assert.equal(getCallCount(), 2);
+  } finally {
+    restore();
+  }
+});
+
 test("ガード失敗(500文字超過)＋LIVE_POST=true+live=true → PRE_POST_FAILURE。fetchは一切呼ばれない", async () => {
   const tooLong = "A".repeat(600);
   const { restore, getCallCount } = stubFetch(async () => {

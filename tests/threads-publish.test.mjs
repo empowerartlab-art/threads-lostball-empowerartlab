@@ -127,6 +127,147 @@ test("publishPost: LIVE_POST=false かつ live=false → 投稿しない(fetch�
 // (本番の既定値・4秒待機自体はこのファイル内の専用テストで別途検証する)。
 const noopDelay = async () => {};
 
+test("publishPost: imageUrl未指定なら従来どおりTEXT投稿(usedImage=false)", async () => {
+  const { restore } = stubFetch(containerThenPublishHandler());
+  try {
+    const result = await publishPost({
+      bodyEn: "Hello.",
+      bodyJa: "こんにちは。",
+      userId: "999",
+      accessToken: "secret-token",
+      live: true,
+      env: { LIVE_POST: "true" }
+    });
+    assert.equal(result.usedImage, false);
+  } finally {
+    restore();
+  }
+});
+
+test("publishPost: imageUrl指定時はIMAGE投稿(media_type=IMAGE/image_url付き)でコンテナ作成し、usedImage=trueを返す", async () => {
+  let capturedContainerUrl;
+  const { restore, getCallCount } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) {
+      capturedContainerUrl = u;
+      return jsonResponse(200, { id: "container-img" });
+    }
+    if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: "post-img-1" });
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    const imageUrl = "https://raw.githubusercontent.com/empowerartlab-art/threads-lostball-empowerartlab/main/assets/lost-ball-product/day7-product-photo.png";
+    const result = await publishPost({
+      bodyEn: "Our lost balls are in the shop.",
+      bodyJa: "ロストボールがショップに並びました。",
+      userId: "999",
+      accessToken: "secret-token",
+      live: true,
+      env: { LIVE_POST: "true" },
+      imageUrl
+    });
+    assert.equal(result.mode, "live");
+    assert.equal(result.threadsPostId, "post-img-1");
+    assert.equal(result.usedImage, true);
+    assert.equal(capturedContainerUrl.searchParams.get("media_type"), "IMAGE");
+    assert.equal(capturedContainerUrl.searchParams.get("image_url"), imageUrl);
+    assert.equal(getCallCount(), 2);
+  } finally {
+    restore();
+  }
+});
+
+test("publishPost: 画像コンテナ作成が1回目失敗・2回目成功なら1回だけリトライし、threads_publishはIMAGE用のcontainerIdで1回だけ呼ばれる", async () => {
+  let attempts = 0;
+  const { restore, getCallCount } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) {
+      attempts += 1;
+      if (attempts === 1) return jsonResponse(400, { error: { message: "temporary error", type: "Err" } });
+      return jsonResponse(200, { id: "container-img-retry" });
+    }
+    if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: "post-img-retry" });
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    const result = await publishPost({
+      bodyEn: "Hello.",
+      bodyJa: "こんにちは。",
+      userId: "999",
+      accessToken: "secret-token",
+      live: true,
+      env: { LIVE_POST: "true" },
+      imageUrl: "https://raw.githubusercontent.com/empowerartlab-art/threads-lostball-empowerartlab/main/assets/lost-ball-product/day7-product-photo.png",
+      delay: noopDelay
+    });
+    assert.equal(result.threadsPostId, "post-img-retry");
+    assert.equal(result.containerRetry.attempted, true);
+    assert.equal(result.containerRetry.count, 1);
+    assert.equal(getCallCount(), 3);
+  } finally {
+    restore();
+  }
+});
+
+test("publishPost: 画像コンテナ作成が2回とも失敗したらエラーを投げ(stage=createImageContainer)、threads_publishは一切呼ばれない", async () => {
+  const { restore, getCallCount } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) return jsonResponse(400, { error: { message: "bad image_url", type: "Err" } });
+    throw new Error("コンテナ作成失敗後にthreads_publishが呼ばれてはいけない");
+  });
+  try {
+    await assert.rejects(
+      () =>
+        publishPost({
+          bodyEn: "Hello.",
+          bodyJa: "こんにちは。",
+          userId: "999",
+          accessToken: "secret-token",
+          live: true,
+          env: { LIVE_POST: "true" },
+          imageUrl: "https://raw.githubusercontent.com/empowerartlab-art/threads-lostball-empowerartlab/main/assets/lost-ball-product/day7-product-photo.png",
+          delay: noopDelay
+        }),
+      (err) => {
+        assert.equal(err.stage, "createImageContainer");
+        assert.equal(err.containerCreationFailure, true);
+        assert.equal(err.retryExhausted, true);
+        return true;
+      }
+    );
+    assert.equal(getCallCount(), 2);
+  } finally {
+    restore();
+  }
+});
+
+test("publishPost: 画像投稿でpublishContainer(threads_publish)が失敗した場合もリトライせず、テキスト投稿へのフォールバックも行わない", async () => {
+  const { restore, getCallCount } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-img-ok" });
+    return jsonResponse(500, { error: { message: "server error", type: "Err" } });
+  });
+  try {
+    await assert.rejects(() =>
+      publishPost({
+        bodyEn: "Hello.",
+        bodyJa: "こんにちは。",
+        userId: "999",
+        accessToken: "secret-token",
+        live: true,
+        env: { LIVE_POST: "true" },
+        imageUrl: "https://raw.githubusercontent.com/empowerartlab-art/threads-lostball-empowerartlab/main/assets/lost-ball-product/day7-product-photo.png",
+        delay: noopDelay
+      })
+    );
+    // コンテナ作成成功1回(IMAGE) + threads_publish失敗1回 = 合計2回。
+    // 失敗後にTEXTでの再試行(=合計3回目の/threads呼び出し)が発生していないことを確認する。
+    assert.equal(getCallCount(), 2);
+  } finally {
+    restore();
+  }
+});
+
 test("publishPost: コンテナ作成が2回とも失敗したらエラーを投げ、threads_publishは一切呼ばれない(リトライは最大1回)", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
