@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-01T11:05:27.643Z",
-  "count": 4,
+  "updatedAt": "2026-10-02T11:03:57.545Z",
+  "count": 5,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -46,6 +46,17 @@
       "postedAt": "2026-10-01T11:05:27.642Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36853140173"
+    },
+    {
+      "sourceItemId": "lostball-day5-welfare-jobs",
+      "threadsPostId": "17878126035554931",
+      "bodyEn": "The hand-polishing from our last post is done by users of a welfare employment support facility here in Japan.\nBuying a ball supports that work and the job opportunities it provides.",
+      "bodyJa": "前回紹介した手磨きの作業は、日本の就労継続支援施設を利用する方々が行っています。\nボールを一つ購入することが、その仕事と働く機会につながります。",
+      "pillar": "WELFARE",
+      "category": "WELFARE_JOBS",
+      "postedAt": "2026-10-02T11:03:57.544Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/36998909726"
     }
   ]
 }
