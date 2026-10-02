@@ -193,6 +193,128 @@
         "approvedBy": null,
         "approvedAt": null
       }
+    },
+    {
+      "id": "lostball-day8-environment-impact",
+      "day": 8,
+      "pillar": "ENVIRONMENT",
+      "category": "ENVIRONMENT_DEEP_DIVE",
+      "bodyEn": "Golf balls that disappear into ponds and forests on the course still have plenty of life left in them.\nWe collect them, check their condition, and put them back into play as golf balls.\nGolf balls that don't return to the earth and harm the environment — we give them another chance to be useful. That's the work we keep doing.",
+      "bodyJa": "ゴルフ場で池や林に消えていくロストボールも、まだまだ使えます。\n回収し、状態を確認して、もう一度ゴルフボールとして使う。\n土に還らない環境を破壊するゴルフボールを、もう一度活躍する機会をつくる。私たちはそんな取り組みを続けています。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "lost-balls-end-up-in-ponds-and-forests",
+        "golf-balls-dont-return-to-soil",
+        "abandoned-golf-balls-harm-environment",
+        "reuse-lost-balls-from-japan",
+        "hand-polish-one-by-one"
+      ],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "note": "「池や林に消えていく」「土に還らない」「環境を破壊する」はアカウント運営者が確認済みの事実として承認(verified-facts.json参照)。推定球数・分解年数等の具体的な数値は出典未確認のため使用しない(data/content-ideas.jsonのenvironmental-conservationテーマに未確認のまま保持)。",
+      "media": {
+        "type": "AI_ASSISTED_VISUAL",
+        "required": false,
+        "aiVisualAllowed": true,
+        "description": "ゴルフ場の池・林に残されたロストボールを想起させる風景。特定の実在写真の模写ではなく補助ビジュアル。現時点では画像未登録でよい。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
+    },
+    {
+      "id": "lostball-day9-collection-to-product",
+      "day": 9,
+      "pillar": "GOLF",
+      "category": "COLLECTION_TO_PRODUCT_PROCESS",
+      "bodyEn": "The lost balls we collect from golf courses aren't sold just as they are.\nWe check each one, clean it, and polish it by hand, one at a time, to get it ready to use again.\nOur job isn't done at collection — it's not done until the ball is back out on the course, in play again.",
+      "bodyJa": "ゴルフ場で回収したロストボールは、そのまま販売しているわけではありません。\n1球ずつ状態を確認し、洗浄・手磨きを行い、また使えるボールとして整えています。\n回収して終わりではなく、もう一度コースで使ってもらうところまでが私たちの仕事です。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": ["reuse-lost-balls-from-japan", "hand-polish-one-by-one"],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "media": {
+        "type": "REAL_WORK",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "洗浄・手磨きの作業風景の実写を優先。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
+    },
+    {
+      "id": "lostball-day10-welfare-jobs-deep-dive",
+      "day": 10,
+      "pillar": "WELFARE",
+      "category": "WELFARE_JOBS_DEEP_DIVE",
+      "bodyEn": "Checking and polishing each lost ball, one by one.\nThis process is also work for people with disabilities who use a welfare employment support facility.\nGiving lost balls a second life, and creating work opportunities —\n\nwe're taking on both of these together.",
+      "bodyJa": "ロストボールを1球ずつ確認し、磨いていく作業。\nこの工程が、就労継続支援施設を利用する障がいのある方々の仕事にもなっています。\nロストボールの再利用と、働く機会をつくること。\n\nその2つを一緒に取り組んでいます。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "hand-polish-one-by-one",
+        "welfare-facility-users-do-the-work",
+        "welfare-facility-users-have-disabilities",
+        "reuse-lost-balls-from-japan"
+      ],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "note": "「障がいのある方々」はアカウント運営者の指示により明示(verified-facts.jsonのwelfare-facility-users-have-disabilities参照)。英語でもpeople with disabilitiesと明示し、日本の制度を知らない読者にも伝わるようにする。",
+      "media": {
+        "type": "REAL_WORK",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "作業風景・手元の写真を優先。人物の顔を無理に写す必要はない。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
+    },
+    {
+      "id": "lostball-day12-one-ball-connects-to-support",
+      "day": 12,
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "ONE_BALL_CONNECTS_TO_SUPPORT",
+      "bodyEn": "One ball for enjoying golf can connect to someone's work, and to support for children.\nA portion of our lost ball sales is donated to the 一人じゃないよプロジェクト (\"Hitori Janai yo\") project.\nBy giving lost balls a second life, we hope to build a gentle cycle, little by little.",
+      "bodyJa": "ゴルフを楽しむための一球が、誰かの仕事や子どもたちへの支援につながる。\nロストボールの売上の一部は、『一人じゃないよプロジェクト』への寄付にあてています。\nロストボールをもう一度使うことから、少しずつ優しい循環をつくっていきたいと考えています。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "purchase-supports-work-and-participation",
+        "donate-portion-to-hitori-janai-yo-project",
+        "project-mission-reduce-lonely-children",
+        "reuse-lost-balls-from-japan"
+      ],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "media": {
+        "type": "PRODUCT_PHOTO",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "一人じゃないよプロジェクトのステッカーが分かる商品写真、またはロストボール単体の商品写真を優先。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
     }
   ]
 }

@@ -16,10 +16,39 @@ const factsFile = await readJson("../data/verified-facts.json");
 const brandFile = await readJson("../data/brand-profile.json");
 const categoryFile = await readJson("../data/category-profile.json");
 
-test("draft-bank.json には初期7投稿(DAY1〜7)がちょうど7件登録されている", () => {
-  assert.equal(bankFile.items.length, 7);
+test("draft-bank.json には初期7投稿(DAY1〜7)に加え、DAY8〜DAY12のうちDAY11を除く4件が登録されている(DAY11はverified-facts確認待ちのため保留)", () => {
+  assert.equal(bankFile.items.length, 11);
   const days = bankFile.items.map((i) => i.day).sort((a, b) => a - b);
-  assert.deepEqual(days, [1, 2, 3, 4, 5, 6, 7]);
+  assert.deepEqual(days, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]);
+});
+
+test("初期7投稿(DAY1〜7)の本文(bodyEn/bodyJa)は今回の追加(DAY8以降)で一切変更されていない", () => {
+  const originalBodies = {
+    "lostball-day1-brand-intro": {
+      bodyEn:
+        "New account, quick intro 👋\nWe give lost golf balls from Japan a second life — cleaned, checked, and hand-polished.\nJapan, the environment, welfare work, and giving back, all tied together. More on each, soon.",
+      bodyJa:
+        "はじめまして👋\n日本のロストボールを、洗浄・チェック・手磨きを経てもう一度使えるようにしています。\n日本らしさ、環境、福祉の仕事、社会貢献。それぞれを少しずつ紹介していきます。"
+    },
+    "lostball-day2-japan-origin": {
+      bodyEn:
+        "Our lost balls are collected from golf courses in Japan.\nEach ball is then checked and given a second life, one by one, by hand.",
+      bodyJa:
+        "このロストボールは、日本国内のゴルフ場で回収したものです。\n回収したボールを1球ずつ手作業で確認し、もう一度活躍できる状態へと整えています。"
+    },
+    "lostball-day6-hitori-janai-yo-project": {
+      bodyEn:
+        "A portion of our sales supports 一人じゃないよプロジェクト ('Hitori Janai yo') — born from a wish to see fewer children feel alone. They've even made a picture book about it.\nThe balls we sell come with a peel-and-stick sticker.",
+      bodyJa:
+        "ロストボールの売上の一部は、『一人じゃないよプロジェクト』への寄付にあてています。『ひとりで寂しい思いをする子を減らしたい』という想いから生まれ、その想いを伝える絵本もつくられました。\n販売するボールには、剥がして貼れるステッカーが付いています。"
+    }
+  };
+  for (const [id, body] of Object.entries(originalBodies)) {
+    const item = bankFile.items.find((i) => i.id === id);
+    assert.ok(item, `${id}がdraft-bank.jsonに見つからない`);
+    assert.equal(item.bodyEn, body.bodyEn, `${id}: bodyEnが変更されている`);
+    assert.equal(item.bodyJa, body.bodyJa, `${id}: bodyJaが変更されている`);
+  }
 });
 
 test("初期7投稿はすべて人間による明示承認(approvedBy/approvedAt)を持つ", () => {
@@ -77,8 +106,8 @@ test("category-profile.json の initialSevenDayPlan がdraft-bank.jsonのカテ�
   }
 });
 
-test("verified-facts.json の8件の事実がすべてverified:trueで登録されている", () => {
-  assert.equal(factsFile.facts.length, 8);
+test("verified-facts.json の12件の事実がすべてverified:trueで登録されている", () => {
+  assert.equal(factsFile.facts.length, 12);
   for (const fact of factsFile.facts) {
     assert.equal(fact.verified, true, `${fact.id} が未検証`);
   }

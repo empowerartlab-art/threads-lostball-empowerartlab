@@ -65,6 +65,42 @@
       "pillar": "SOCIAL_CONTRIBUTION",
       "verified": true,
       "confirmedAt": "2026-09-27"
+    },
+    {
+      "id": "lost-balls-end-up-in-ponds-and-forests",
+      "statementJa": "ロストボールはゴルフ場の池や林に消えていく(回収されないまま残ってしまう)ことがある",
+      "statementEn": "Lost golf balls can end up disappearing into the ponds and forests on a golf course.",
+      "pillar": "ENVIRONMENT",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "アカウント運営者(ユーザー)が確認済みの事実として承認(2026-10-02)。具体的な推定球数(5億〜10億球等)は出典未確認のため含めない。data/content-ideas.jsonのenvironmental-conservationテーマ参照。"
+    },
+    {
+      "id": "golf-balls-dont-return-to-soil",
+      "statementJa": "ゴルフボールは土に還らない(自然分解されない)素材でできている",
+      "statementEn": "Golf balls are made of material that doesn't return to the earth — it doesn't naturally break down.",
+      "pillar": "ENVIRONMENT",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "アカウント運営者(ユーザー)が確認済みの事実として承認(2026-10-02)。具体的な分解年数(約1,000年等)は出典未確認のため含めない。data/content-ideas.jsonのenvironmental-conservationテーマ参照。"
+    },
+    {
+      "id": "abandoned-golf-balls-harm-environment",
+      "statementJa": "回収されず放置されたゴルフボールは環境を破壊する",
+      "statementEn": "Golf balls left abandoned in nature harm the environment.",
+      "pillar": "ENVIRONMENT",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "アカウント運営者(ユーザー)が確認済みの事実として承認(2026-10-02)。被害の規模・削減量等の数値的根拠は含めない(brand-profile.jsonのnoUnfoundedEnvironmentalClaims方針を維持)。"
+    },
+    {
+      "id": "welfare-facility-users-have-disabilities",
+      "statementJa": "その就労継続支援施設の利用者は障がいのある方々である",
+      "statementEn": "The users of that welfare employment support facility are people with disabilities.",
+      "pillar": "WELFARE",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "就労継続支援(障害者総合支援法に基づく障害福祉サービス)の利用者であることを踏まえ、日本の制度を知らない読者にも伝わるよう明示。アカウント運営者(ユーザー)承認済み(2026-10-02)。既存のwelfare-facility-users-do-the-workは変更せず、本factを追加する形とする。"
     }
   ]
 }
