@@ -151,15 +151,16 @@ test("DAY7のみmedia.required=trueで、画像必須の想定になっている
   assert.deepEqual(requiredDays, [7]);
 });
 
-test("DAY7は画像が未承認のため、現時点では本番選出できない(canSelectForProduction=false)", () => {
+test("DAY7は承認済み商品写真(assets/lost-ball-product/day7-product-photo.png)が設定されているため、本番選出できる(canSelectForProduction=true)", () => {
   const day7 = bankFile.items.find((i) => i.day === 7);
+  assert.ok(day7.media.path, "DAY7: media.pathが設定されていない");
+  assert.ok(day7.media.approvedBy && day7.media.approvedAt, "DAY7: media承認情報が無い");
   const result = canSelectForProduction(day7);
-  assert.equal(result.ok, false);
-  assert.equal(result.reason, "media-not-approved");
+  assert.equal(result.ok, true, result.reason);
 });
 
-test("DAY1〜6はmedia.required=falseのため、画像未承認でも現時点で本番選出できる(canSelectForProduction=true)", () => {
-  for (const item of bankFile.items.filter((i) => i.day !== 7)) {
+test("DAY1〜7はすべてcanSelectForProduction=trueになっている(DAY7はmedia.required=trueだが承認済み、他はrequired=false)", () => {
+  for (const item of bankFile.items.filter((i) => i.day >= 1 && i.day <= 7)) {
     const result = canSelectForProduction(item);
     assert.equal(result.ok, true, `${item.id}: ${result.reason}`);
   }

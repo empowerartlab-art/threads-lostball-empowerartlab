@@ -182,16 +182,17 @@
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
+      "note": "商品写真はassets/lost-ball-product/product-flyer-original.png(販促フライヤー原本)の実写部分のみをトリミングした派生画像(assets/lost-ball-product/day7-product-photo.png)を使用。フライヤー上段の統計値・会社情報・QRコードは本画像には含めていない(詳細はassets/lost-ball-product/README.md参照)。",
       "media": {
         "type": "PRODUCT_PHOTO",
         "required": true,
         "aiVisualAllowed": false,
         "description": "実際に販売するロストボール＋ステッカーの商品写真が必須。承認済み商品写真が無い限り本番選出しない。",
-        "altText": null,
+        "altText": "A hand holding a package of recycled lost golf balls with the Hitori Janai yo project sticker. 再利用されたロストボール商品パッケージ(一人じゃないよプロジェクトのステッカー付き)を手に持っている様子。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "assets/lost-ball-product/day7-product-photo.png",
+        "approvedBy": "empower.artlab@gmail.com",
+        "approvedAt": "2026-10-02T00:00:00.000Z"
       }
     },
     {
