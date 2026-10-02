@@ -155,6 +155,42 @@
       "verified": true,
       "confirmedAt": "2026-10-02",
       "note": "ユーザー提供資料に基づき、アカウント運営者が確認済みの事実として承認(2026-10-02)。"
+    },
+    {
+      "id": "golf-ball-decomposition-about-1000-years",
+      "statementJa": "一説では、ゴルフボールが自然に還るまでには約1,000年かかるとも言われている",
+      "statementEn": "It's said that a golf ball can take around 1,000 years to break down in nature.",
+      "pillar": "ENVIRONMENT",
+      "verified": true,
+      "confirmedAt": "2026-10-03",
+      "note": "ユーザー提供情報に基づき、アカウント運営者が投稿への使用を明示的に承認した情報(2026-10-03)。外部の第三者資料による出典確認は行っておらず、本文側も「一説では」「とも言われています」という伝聞表現を維持する。data/content-ideas.jsonのenvironmental-conservationテーマに記載の元ネタに対応。"
+    },
+    {
+      "id": "estimated-500m-to-1b-lost-balls-near-japan-golf-courses",
+      "statementJa": "日本全国のゴルフ場付近には、推定5億〜10億球ものロストボールが回収されずに残っているとも言われている(2025年時点)",
+      "statementEn": "It's said that an estimated 500 million to 1 billion lost golf balls remain uncollected near golf courses across Japan (as of 2025).",
+      "pillar": "ENVIRONMENT",
+      "verified": true,
+      "confirmedAt": "2026-10-03",
+      "note": "ユーザー提供情報に基づき、アカウント運営者が投稿への使用を明示的に承認した情報(2026-10-03)。外部の第三者資料による出典確認は行っておらず、本文側も「とも言われています」という伝聞表現を維持する。data/content-ideas.jsonのenvironmental-conservationテーマに記載の元ネタに対応。"
+    },
+    {
+      "id": "estimated-21m-new-lost-balls-per-year",
+      "statementJa": "毎年、約2,100万球のゴルフボールが新たに自然の中へ残されているとも言われている",
+      "statementEn": "It's said that around 21 million new golf balls are left out in nature every year.",
+      "pillar": "ENVIRONMENT",
+      "verified": true,
+      "confirmedAt": "2026-10-03",
+      "note": "ユーザー提供情報に基づき、アカウント運営者が投稿への使用を明示的に承認した情報(2026-10-03)。外部の第三者資料による出典確認は行っておらず、本文側も「とも言われています」という伝聞表現を維持する。data/content-ideas.jsonのenvironmental-conservationテーマに記載の元ネタに対応。"
+    },
+    {
+      "id": "project-connects-people-across-relationships",
+      "statementJa": "『一人じゃないよプロジェクト』は、子どもと大人、子ども同士、企業同士、人と自然など、さまざまな『手と手』をつないでいく活動を大切にしている",
+      "statementEn": "The 一人じゃないよプロジェクト values connecting many kinds of relationships: children and adults, children with each other, companies with each other, and people with nature.",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "verified": true,
+      "confirmedAt": "2026-10-03",
+      "note": "ユーザー提供情報に基づき、アカウント運営者が投稿への使用を明示的に承認した情報(2026-10-03)。外部の第三者資料による出典確認は行っていない。虐待防止・株式会社saeへの寄付については、今回承認されたDAY16〜22本文に含まれていないため、この事実にも含めていない(data/content-ideas.jsonのhitori-janai-yo-project-deep-diveテーマ参照)。"
     }
   ]
 }
