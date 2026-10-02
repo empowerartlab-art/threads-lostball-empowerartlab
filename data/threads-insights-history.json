@@ -1,0 +1,6 @@
+{
+  "_note": "投稿単位のInsights(views/likes/replies/reposts/quotes/shares)の取得履歴。Insightsは時間経過で変化するため、最新値への上書きではなく、取得日時(fetchedAt)付きのスナップショットとして追記していく(1つのthreadsPostIdに対して複数件存在しうる)。scripts/fetch-threads-insights.mjsが追記し、lib/weekly-analysis.mjsが分析時に参照する(閲覧対象のみで自動投稿パイプラインからは参照されない)。data/threads-posts.jsonの役割(投稿成功の記録)は変更しない。",
+  "updatedAt": null,
+  "count": 0,
+  "snapshots": []
+}

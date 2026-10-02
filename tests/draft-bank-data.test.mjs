@@ -116,9 +116,24 @@ test("verified-facts.json の22件の事実がすべてverified:trueで登録さ
   }
 });
 
-test("draft-bank-candidates.json は現時点で空である(週2以降の提案は未生成)", async () => {
+test("draft-bank-candidates.json には10/20〜10/26の週次候補スケルトン7件があり、いずれも未承認(approvedBy/approvedAtがnull)のままである", async () => {
   const candidatesFile = await readJson("../data/draft-bank-candidates.json");
-  assert.deepEqual(candidatesFile.items, []);
+  assert.equal(candidatesFile.items.length, 7);
+  const targetDates = candidatesFile.items.map((i) => i.targetDate).sort();
+  assert.deepEqual(targetDates, ["2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25", "2026-10-26"]);
+  for (const item of candidatesFile.items) {
+    assert.equal(item.approvedBy, null, `${item.id}: approvedByがnullでない(自動承認されている)`);
+    assert.equal(item.approvedAt, null, `${item.id}: approvedAtがnullでない(自動承認されている)`);
+    assert.equal(item.status, "needs_human_draft");
+  }
+});
+
+test("draft-bank-candidates.jsonの候補は、draft-bank.jsonのidと一切重複しない(昇格前の候補と本番投稿を混同しない)", async () => {
+  const candidatesFile = await readJson("../data/draft-bank-candidates.json");
+  const candidateIds = new Set(candidatesFile.items.map((i) => i.id));
+  for (const item of bankFile.items) {
+    assert.equal(candidateIds.has(item.id), false, `${item.id}: draft-bank.jsonとdraft-bank-candidates.jsonの両方に存在する`);
+  }
 });
 
 test("threads-posts.json の構造が正しい(Phase 3の実投稿開始後は0件以上になり得る)", async () => {

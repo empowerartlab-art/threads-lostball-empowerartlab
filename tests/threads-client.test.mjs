@@ -1,7 +1,7 @@
 // fetchは必ずスタブし、実際のThreads/Meta APIへは一切接続しない。
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createTextContainer, createImageContainer, publishContainer } from "../lib/threads-client.mjs";
+import { createTextContainer, createImageContainer, publishContainer, getMediaInsights } from "../lib/threads-client.mjs";
 import { createSecretRedactor } from "../lib/redact.mjs";
 
 function stubFetch(handler) {
@@ -201,6 +201,55 @@ test("createImageContainer: 失敗時はエラーを投げ、access_tokenはエ�
         return true;
       }
     );
+  } finally {
+    restore();
+  }
+});
+
+test("getMediaInsights: 成功時にdataをそのまま返し、GETで正しいURL/パラメータを送る(投稿・削除は一切行わない)", async () => {
+  let capturedUrl;
+  let capturedInit;
+  const restore = stubFetch(async (url, init) => {
+    capturedUrl = url;
+    capturedInit = init;
+    return jsonResponse(200, { data: [{ name: "views", values: [{ value: 42 }] }] });
+  });
+  try {
+    const result = await getMediaInsights({ threadsPostId: "post-123", accessToken: "secret-token", metrics: "views,likes" });
+    assert.deepEqual(result.data, [{ name: "views", values: [{ value: 42 }] }]);
+    assert.equal(capturedInit.method, "GET");
+    const url = new URL(String(capturedUrl));
+    assert.equal(url.origin + url.pathname, "https://graph.threads.net/v1.0/post-123/insights");
+    assert.equal(url.searchParams.get("metric"), "views,likes");
+    assert.equal(url.searchParams.get("access_token"), "secret-token");
+  } finally {
+    restore();
+  }
+});
+
+test("getMediaInsights: 失敗時はエラーを投げ、access_tokenはエラーメッセージに露出しない", async () => {
+  const restore = stubFetch(async () =>
+    jsonResponse(400, { error: { message: "invalid token abc-secret-token", type: "OAuthException" } })
+  );
+  try {
+    const redact = createSecretRedactor(["abc-secret-token"]);
+    await assert.rejects(
+      () => getMediaInsights({ threadsPostId: "post-123", accessToken: "abc-secret-token", metrics: "views" }, { redact }),
+      (err) => {
+        assert.match(err.message, /Threads APIエラー/);
+        assert.doesNotMatch(err.message, /abc-secret-token/);
+        return true;
+      }
+    );
+  } finally {
+    restore();
+  }
+});
+
+test("getMediaInsights: レスポンスのdataが配列でなければ(res.okがtrueでも)エラーを投げる", async () => {
+  const restore = stubFetch(async () => jsonResponse(200, {}));
+  try {
+    await assert.rejects(() => getMediaInsights({ threadsPostId: "post-123", accessToken: "t", metrics: "views" }));
   } finally {
     restore();
   }

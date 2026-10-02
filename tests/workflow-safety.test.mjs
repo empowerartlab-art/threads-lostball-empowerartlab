@@ -173,3 +173,50 @@ test("discord-notification-test.ymlはshellがbashに明示され、既存のscr
   assert.match(content, /shell:\s*bash/);
   assert.match(content, /node scripts\/send-discord-notification\.mjs --live --content=/);
 });
+
+test("weekly-review.ymlは毎週土曜日9:00 JST(UTC 0:00土曜日)のcronがちょうど1つ設定されている", () => {
+  const content = readWorkflow("weekly-review.yml");
+  const cronMatches = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)];
+  assert.equal(cronMatches.length, 1, "cronトリガーが0個または複数ある");
+  assert.equal(cronMatches[0][1], "0 0 * * 6");
+});
+
+test("weekly-review.ymlはdata/draft-bank.json・data/verified-facts.json・data/threads-posts.jsonへ一切書き込まない(git add対象に含めない)", () => {
+  const content = stripComments(readWorkflow("weekly-review.yml"));
+  const gitAddLines = [...content.matchAll(/git add ([^\n]+)/g)].map((m) => m[1]);
+  assert.ok(gitAddLines.length > 0, "git addの行が見つからない");
+  for (const line of gitAddLines) {
+    assert.doesNotMatch(line, /data\/draft-bank\.json(?!-candidates)/, `git addにdraft-bank.jsonが含まれている: ${line}`);
+    assert.doesNotMatch(line, /data\/verified-facts\.json/, `git addにverified-facts.jsonが含まれている: ${line}`);
+    assert.doesNotMatch(line, /data\/threads-posts\.json/, `git addにthreads-posts.jsonが含まれている: ${line}`);
+  }
+});
+
+test("weekly-review.ymlは新しいSecretsを要求しない(既存のTHREADS_ACCESS_TOKEN/THREADS_USER_ID/DISCORD_WEBHOOK_URL/LIVE_DISCORDのみ参照)", () => {
+  const content = stripComments(readWorkflow("weekly-review.yml"));
+  const secretRefs = [...content.matchAll(/secrets\.([A-Z_]+)/g)].map((m) => m[1]);
+  const allowed = new Set(["THREADS_ACCESS_TOKEN", "THREADS_USER_ID", "DISCORD_WEBHOOK_URL", "LIVE_DISCORD"]);
+  for (const name of secretRefs) {
+    assert.ok(allowed.has(name), `未許可の新しいSecretsが参照されている: ${name}`);
+  }
+});
+
+test("weekly-review.ymlは THREADS_CLIENT_SECRET(App Secret) を一切参照しない", () => {
+  const content = readWorkflow("weekly-review.yml");
+  assert.doesNotMatch(content, /CLIENT_SECRET/i);
+});
+
+test("weekly-review.ymlのDiscord通知は「候補」「確認・承認してください」という文言を含み、投稿・予約が完了したかのような表現を含まない", () => {
+  const content = readWorkflow("weekly-review.yml");
+  const discordStepMatch = content.match(/Discord通知[\s\S]*?run:\s*\|([\s\S]*?)(?=\n {6}- name:|\n?$)/);
+  assert.ok(discordStepMatch, "Discord通知stepが見つからない");
+  const body = discordStepMatch[1];
+  assert.match(body, /候補/);
+  assert.match(body, /確認|承認/);
+  assert.doesNotMatch(body, /投稿予約完了|予約が完了|投稿が完了/);
+});
+
+test("weekly-review.ymlはThreads投稿・削除・編集を行う関数(createTextContainer/createImageContainer/publishContainer)を呼ぶコードを一切含まない", () => {
+  const content = stripComments(readWorkflow("weekly-review.yml"));
+  assert.doesNotMatch(content, /createTextContainer|createImageContainer|publishContainer|post-to-threads\.mjs/);
+});
