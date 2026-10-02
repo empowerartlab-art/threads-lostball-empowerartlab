@@ -315,6 +315,87 @@
         "approvedBy": null,
         "approvedAt": null
       }
+    },
+    {
+      "id": "lostball-day13-how-lost-balls-are-collected",
+      "day": 13,
+      "pillar": "GOLF",
+      "category": "LOST_BALL_COLLECTION_METHODS",
+      "bodyEn": "Lost golf balls that have sunk to the bottom of a pond.\nThere's actually a method where divers go underwater to retrieve them.\n\nIn forests and out-of-bounds areas, they're sometimes collected by hand, one at a time.\n\nBehind the lost balls we see without a second thought, there's a job: collecting them.",
+      "bodyJa": "池の中に沈んだロストボール。\n実は、潜水士が水中に入り回収する方法もあります。\n\n林やOBゾーンなどでは、人の手で一つずつ回収されることも。\n\n普段何気なく目にするロストボールの裏側には、「回収する」という仕事があります。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": ["lost-balls-retrieved-by-divers-from-ponds", "lost-balls-hand-collected-from-forests-and-ob-zones"],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "note": "潜水士・OBゾーン手作業による回収は業界一般の方法の紹介であり、Lost Ball自身がこの方法で回収しているとは主張しない(verified-facts.json参照)。",
+      "media": {
+        "type": "AI_ASSISTED_VISUAL",
+        "required": false,
+        "aiVisualAllowed": true,
+        "description": "ゴルフ場の池、または林・OBゾーンに残されたロストボールを想起させる風景。特定の実在写真の模写ではなく補助ビジュアル。現時点では画像未登録でよい。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
+    },
+    {
+      "id": "lostball-day14-unsellable-balls-possibilities",
+      "day": 14,
+      "pillar": "ENVIRONMENT",
+      "category": "UNSELLABLE_BALLS_POSSIBILITIES",
+      "bodyEn": "Not every lost ball we collect can be used as a golf ball again.\n\nDepending on the damage or condition, some balls are difficult to resell.\n\nRather than simply throwing those balls away, could they be put to use in some other form?\nThere are still many possibilities for a lost ball.",
+      "bodyJa": "回収されたロストボールが、すべてもう一度ゴルフボールとして使えるとは限りません。\n\n傷や状態によって、再販売が難しいボールもあります。\n\nそんなボールも捨てるだけではなく、別の形で活かせないか。\nロストボールには、まだいろいろな可能性があります。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": ["some-collected-balls-cannot-be-resold", "reuse-lost-balls-from-japan"],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "note": "「別の形で活かせないか」は問いかけ・展望として表現しており、Lost Ball自身が現時点で具体的な再活用策を実施しているとは主張しない。",
+      "media": {
+        "type": "AI_ASSISTED_VISUAL",
+        "required": false,
+        "aiVisualAllowed": true,
+        "description": "傷・変色等で判定に悩むロストボールを想起させるビジュアル。特定の実在写真の模写ではなく補助ビジュアル。現時点では画像未登録でよい。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
+    },
+    {
+      "id": "lostball-day15-ocean-golf-ball-research",
+      "day": 15,
+      "pillar": "ENVIRONMENT",
+      "category": "OCEAN_GOLF_BALL_RESEARCH",
+      "bodyEn": "Overseas, a study reported that around 50,000 golf balls were collected from the waters near a coastal golf course.\n\nEven golf balls can affect the environment if left out in nature.\n\nThat is exactly why collecting them comes first.\nThen reusing the ones that still can be.\n\nWe want to start by not wasting a single ball.",
+      "bodyJa": "海外では、沿岸のゴルフ場周辺から約5万球ものゴルフボールが回収された研究報告があります。\n\nゴルフボールも、自然の中に残れば環境への影響を考える必要があります。\n\nだからこそ、まず回収すること。\nそして、まだ使えるものはもう一度使う。\n\n一球を無駄にしないことから始めたいと考えています。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": ["overseas-coastal-golf-course-ocean-study-50000-balls", "abandoned-golf-balls-harm-environment"],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "note": "海外(米カリフォルニア州)の研究であり、日本国内の事実として扱わない(verified-facts.jsonのoverseas-coastal-golf-course-ocean-study-50000-balls参照)。",
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
     }
   ]
 }

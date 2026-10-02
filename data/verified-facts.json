@@ -101,6 +101,42 @@
       "verified": true,
       "confirmedAt": "2026-10-02",
       "note": "就労継続支援(障害者総合支援法に基づく障害福祉サービス)の利用者であることを踏まえ、日本の制度を知らない読者にも伝わるよう明示。アカウント運営者(ユーザー)承認済み(2026-10-02)。既存のwelfare-facility-users-do-the-workは変更せず、本factを追加する形とする。"
+    },
+    {
+      "id": "lost-balls-retrieved-by-divers-from-ponds",
+      "statementJa": "ゴルフ場の池に沈んだロストボールは、潜水士が水中に入って回収する方法がある",
+      "statementEn": "Some lost golf balls that sink in golf course ponds are retrieved by divers who go underwater.",
+      "pillar": "GOLF",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "業界一般の回収方法としてWeb検索で複数の一次情報を確認(例: ゴルフボールダイバーの仕事を取材した記事、ロストボール回収業者の解説記事等)。Lost Ball自身がこの方法で回収しているとは主張しない(一般的な回収方法の紹介)。"
+    },
+    {
+      "id": "lost-balls-hand-collected-from-forests-and-ob-zones",
+      "statementJa": "林やOBゾーンなどでは、ロストボールが人の手で一つずつ回収されることもある",
+      "statementEn": "In forests and out-of-bounds areas, lost golf balls are also sometimes collected by hand, one at a time.",
+      "pillar": "GOLF",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "業界一般の回収方法としてWeb検索で確認(OBゾーン・林での陸上回収は回収機械が無く手作業が一般的、との解説記事複数)。Lost Ball自身がこの方法で回収しているとは主張しない。"
+    },
+    {
+      "id": "some-collected-balls-cannot-be-resold",
+      "statementJa": "回収されたロストボールの中には、傷や状態により再販売が難しいものもある",
+      "statementEn": "Among the lost balls that get collected, some are too damaged or worn to be resold.",
+      "pillar": "GOLF",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "業界一般の事実としてWeb検索で確認(割れ・ヒビ等で再使用不能なボールは買取不可・産業廃棄物処理される、との解説記事複数)。Lost Ball自身の具体的な廃棄率・処理方法は主張しない。"
+    },
+    {
+      "id": "overseas-coastal-golf-course-ocean-study-50000-balls",
+      "statementJa": "海外では、沿岸のゴルフ場周辺の海から約5万球のゴルフボールが回収されたとする研究報告がある",
+      "statementEn": "Overseas, a published study reported that around 50,000 golf balls were collected from the waters around a coastal golf course.",
+      "pillar": "ENVIRONMENT",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "出典: Weber et al., \"Quantifying marine debris associated with coastal golf courses\", Marine Pollution Bulletin (2019年3月刊行、PubMed ID 30803622)。米カリフォルニア州モントレー湾(Pebble Beach/Carmel Bay沖)で50,681球(約2.5トン)を回収したとする調査。NPR・ABC7 News等の報道でも確認。日本国内の事実としては扱わない(statementJa/英語本文とも「海外では」と明記する)。"
     }
   ]
 }
