@@ -137,6 +137,24 @@
       "verified": true,
       "confirmedAt": "2026-10-02",
       "note": "出典: Weber et al., \"Quantifying marine debris associated with coastal golf courses\", Marine Pollution Bulletin (2019年3月刊行、PubMed ID 30803622)。米カリフォルニア州モントレー湾(Pebble Beach/Carmel Bay沖)で50,681球(約2.5トン)を回収したとする調査。NPR・ABC7 News等の報道でも確認。日本国内の事実としては扱わない(statementJa/英語本文とも「海外では」と明記する)。"
+    },
+    {
+      "id": "project-also-supports-parents-hardships",
+      "statementJa": "同プロジェクトは子どもだけでなく、親のつらさやしんどさにも目を向けている",
+      "statementEn": "The project also pays attention to the hardships and struggles that parents carry, not just the children.",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "ユーザー提供資料に基づき、アカウント運営者が確認済みの事実として承認(2026-10-02)。虐待防止・地域の大人との関わり・株式会社sae(寄付先/運営主体かどうか)等、data/content-ideas.jsonのhitori-janai-yo-project-deep-diveテーマ内の他の詳述部分は引き続き未確認のため、この事実には含めない。"
+    },
+    {
+      "id": "project-values-human-connections",
+      "statementJa": "同プロジェクトは人と人とのつながりを大切にする活動である",
+      "statementEn": "The project values the connections between people.",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "verified": true,
+      "confirmedAt": "2026-10-02",
+      "note": "ユーザー提供資料に基づき、アカウント運営者が確認済みの事実として承認(2026-10-02)。"
     }
   ]
 }

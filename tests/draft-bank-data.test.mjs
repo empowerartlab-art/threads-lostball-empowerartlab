@@ -16,10 +16,10 @@ const factsFile = await readJson("../data/verified-facts.json");
 const brandFile = await readJson("../data/brand-profile.json");
 const categoryFile = await readJson("../data/category-profile.json");
 
-test("draft-bank.json には初期7投稿(DAY1〜7)に加え、DAY8〜DAY12のうちDAY11を除く4件、およびDAY13〜DAY15が登録されている(DAY11はverified-facts確認待ちのため保留)", () => {
-  assert.equal(bankFile.items.length, 14);
+test("draft-bank.json には初期7投稿(DAY1〜7)に加え、DAY8〜DAY15がすべて登録されている", () => {
+  assert.equal(bankFile.items.length, 15);
   const days = bankFile.items.map((i) => i.day).sort((a, b) => a - b);
-  assert.deepEqual(days, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15]);
+  assert.deepEqual(days, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
 });
 
 test("初期7投稿(DAY1〜7)の本文(bodyEn/bodyJa)は今回の追加(DAY8以降)で一切変更されていない", () => {
@@ -106,8 +106,8 @@ test("category-profile.json の initialSevenDayPlan がdraft-bank.jsonのカテ�
   }
 });
 
-test("verified-facts.json の16件の事実がすべてverified:trueで登録されている", () => {
-  assert.equal(factsFile.facts.length, 16);
+test("verified-facts.json の18件の事実がすべてverified:trueで登録されている", () => {
+  assert.equal(factsFile.facts.length, 18);
   for (const fact of factsFile.facts) {
     assert.equal(fact.verified, true, `${fact.id} が未検証`);
   }

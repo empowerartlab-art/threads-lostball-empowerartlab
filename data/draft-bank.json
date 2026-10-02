@@ -286,6 +286,37 @@
       }
     },
     {
+      "id": "lostball-day11-hitori-janai-yo-deep-dive",
+      "day": 11,
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "HITORI_JANAI_YO_DEEP_DIVE",
+      "bodyEn": "\"We want to see fewer children feel alone.\"\nThat is the wish behind the 一人じゃないよプロジェクト (\"Hitori Janai yo\") project.\nIt looks not only at children, but also at the hardships parents carry, and it values the connections between people.",
+      "bodyJa": "「ひとりで寂しい思いをする子どもを減らしたい」\n『一人じゃないよプロジェクト』には、そんな想いがあります。\n子どもたちだけでなく、親のつらさやしんどさにも目を向け、人と人とのつながりを大切にする活動です。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "project-mission-reduce-lonely-children",
+        "project-also-supports-parents-hardships",
+        "project-values-human-connections"
+      ],
+      "targetDate": null,
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-02T00:00:00.000Z",
+      "note": "「親のつらさやしんどさを支える」「人と人とのつながりを大切にする」はユーザー提供資料に基づきアカウント運営者が確認済みの事実として承認(verified-facts.json参照)。虐待防止・地域の大人との関わり・株式会社sae等、data/content-ideas.jsonのhitori-janai-yo-project-deep-diveテーマ内の他の詳述部分は引き続き未確認のため本文に含めていない。",
+      "media": {
+        "type": "BRAND_GRAPHIC",
+        "required": false,
+        "aiVisualAllowed": true,
+        "description": "一人じゃないよプロジェクトのロゴ・ピンクの木等を用いたブランドグラフィック(任意)。無くてもTEXT_ONLYとして投稿可能。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      }
+    },
+    {
       "id": "lostball-day12-one-ball-connects-to-support",
       "day": 12,
       "pillar": "SOCIAL_CONTRIBUTION",
