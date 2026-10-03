@@ -1,6 +1,62 @@
 {
+  "updatedAt": "2026-10-03T00:07:37.001Z",
+  "count": 5,
   "_note": "投稿単位のInsights(views/likes/replies/reposts/quotes/shares)の取得履歴。Insightsは時間経過で変化するため、最新値への上書きではなく、取得日時(fetchedAt)付きのスナップショットとして追記していく(1つのthreadsPostIdに対して複数件存在しうる)。scripts/fetch-threads-insights.mjsが追記し、lib/weekly-analysis.mjsが分析時に参照する(閲覧対象のみで自動投稿パイプラインからは参照されない)。data/threads-posts.jsonの役割(投稿成功の記録)は変更しない。",
-  "updatedAt": null,
-  "count": 0,
-  "snapshots": []
+  "snapshots": [
+    {
+      "threadsPostId": "18105382757264754",
+      "sourceItemId": "lostball-day1-brand-intro",
+      "fetchedAt": "2026-10-03T00:07:36.094Z",
+      "views": 4,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18209524639363642",
+      "sourceItemId": "lostball-day2-japan-origin",
+      "fetchedAt": "2026-10-03T00:07:36.318Z",
+      "views": 89,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18116692862052350",
+      "sourceItemId": "lostball-day3-hand-polishing-process",
+      "fetchedAt": "2026-10-03T00:07:36.546Z",
+      "views": 2,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "17970479376138597",
+      "sourceItemId": "lostball-day4-reuse",
+      "fetchedAt": "2026-10-03T00:07:36.749Z",
+      "views": 5,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "17878126035554931",
+      "sourceItemId": "lostball-day5-welfare-jobs",
+      "fetchedAt": "2026-10-03T00:07:37.000Z",
+      "views": 21,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    }
+  ]
 }
