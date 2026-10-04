@@ -22,9 +22,9 @@ import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { jstDateKey } from "../lib/target-date.mjs";
 import { analyzeWeekly } from "../lib/weekly-analysis.mjs";
-import { generateWeeklyCandidates, nextTuesdayDateKey } from "../lib/weekly-candidates.mjs";
+import { generateWeeklyCandidates, estimateNextWeekStart } from "../lib/weekly-candidates.mjs";
 import { readInsightsHistoryFile } from "../lib/threads-insights-store.mjs";
-import { upsertCandidates } from "../lib/draft-bank-candidates-store.mjs";
+import { upsertCandidates, readCandidatesFile } from "../lib/draft-bank-candidates-store.mjs";
 
 const POSTS_PATH = new URL("../data/threads-posts.json", import.meta.url);
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
@@ -96,9 +96,22 @@ async function main() {
   // --weekStart=YYYY-MM-DD を明示した場合はそれを優先する
   // (例: DAY1〜22登録済みの初回だけ、実際の次回土曜日を待たずに10/20〜10/26分を
   // 作成するための手動実行。本番の毎週自動実行はこのフラグを使わず自動計算のみに頼る)。
+  //
+  // 2026-10-03判明の不具合修正: 単純にnextTuesdayDateKey(todayKey)だけを使うと、
+  // 既存の承認済み予定(draft-bank.json)・既存の未承認候補(draft-bank-candidates.json)・
+  // targetDateを持たないFIFOキューの残り件数のいずれも考慮せず、重複する週の候補を
+  // 生成してしまう(実際に発生した事象: lib/weekly-candidates.mjsのコメント参照)。
+  // estimateNextWeekStartが、この3つを踏まえた「重複しない次の火曜日」を計算する。
   const todayKey = jstDateKey();
+  const existingCandidatesFile = await readCandidatesFile(CANDIDATES_PATH_STR);
   const weekStartOverride = argValue("weekStart");
-  const weekStartDateKey = weekStartOverride || nextTuesdayDateKey(todayKey);
+  const weekStartDateKey =
+    weekStartOverride ||
+    estimateNextWeekStart(todayKey, {
+      bankItems: bankFile.items,
+      existingCandidates: existingCandidatesFile.items,
+      postedPosts: postsFile.posts
+    });
   const maxDay = bankFile.items.reduce((max, item) => Math.max(max, item.day ?? 0), 0);
 
   const candidates = generateWeeklyCandidates({

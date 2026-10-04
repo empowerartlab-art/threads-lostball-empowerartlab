@@ -6,7 +6,8 @@ import {
   nextTuesdayDateKey,
   nextSevenDates,
   assignPillarsForNextWeek,
-  generateWeeklyCandidates
+  generateWeeklyCandidates,
+  estimateNextWeekStart
 } from "../lib/weekly-candidates.mjs";
 
 test("nextTuesdayDateKey: 土曜日から見ると3日後の火曜日を返す", () => {
@@ -172,6 +173,50 @@ test("generateWeeklyCandidates: 同じバッチ内で同じトピックを2回�
   });
   const golfCandidatesWithTopic = candidates.filter((c) => c.pillar === "GOLF" && c.suggestedTopic?.id === "hand-polishing-detail");
   assert.ok(golfCandidatesWithTopic.length <= 1, "同じトピックが複数の候補で重複している");
+});
+
+// 2026-10-03に実際に発生した不具合の再発防止用テスト群:
+// nextTuesdayDateKey(todayKey)だけを使うと、既存の承認済み予定・既存の未承認候補・
+// targetDateを持たないFIFOキューの残り件数のいずれも考慮せず、重複する週の候補を
+// 生成してしまう(実際に2026-10-20〜10-26向けの既存候補と重複する形で
+// 2026-10-06〜10-12向けの候補が追加され、テストの期待値と不整合になった)。
+test("estimateNextWeekStart: 予定が何も無い場合は、従来どおり今日から見て次の火曜日を返す", () => {
+  const result = estimateNextWeekStart("2026-10-03", { bankItems: [], existingCandidates: [], postedPosts: [] });
+  assert.equal(result, "2026-10-06");
+});
+
+test("estimateNextWeekStart: targetDateを持たないFIFOキューの残り件数から完了予定日を推定し、それより後の火曜日を返す", () => {
+  // day6〜22(17件)が未投稿のまま残っている想定。今日(10/4)から1日1本消化すると
+  // 完了は10/4+16日=10/20。10/20より後の次の火曜日は10/27。
+  const bankItems = Array.from({ length: 17 }, (_, i) => ({ id: `day${i + 6}`, day: i + 6, targetDate: null, bodyJa: `本文${i}`, bodyEn: `body${i}` }));
+  const result = estimateNextWeekStart("2026-10-04", { bankItems, existingCandidates: [], postedPosts: [] });
+  assert.equal(result, "2026-10-27");
+});
+
+test("estimateNextWeekStart: 投稿済みのFIFOアイテムは残り件数から除外される(重複カウントしない)", () => {
+  const bankItems = [
+    { id: "day1", day: 1, targetDate: null, bodyJa: "投稿済み1", bodyEn: "posted1" },
+    { id: "day2", day: 2, targetDate: null, bodyJa: "未投稿2", bodyEn: "notposted2" }
+  ];
+  const postedPosts = [{ bodyJa: "投稿済み1", bodyEn: "posted1" }];
+  // 残り1件(day2)のみ → 完了予定日は今日(10/4)そのもの → 10/4より後の次の火曜日は10/6。
+  const result = estimateNextWeekStart("2026-10-04", { bankItems, existingCandidates: [], postedPosts });
+  assert.equal(result, "2026-10-06");
+});
+
+test("estimateNextWeekStart: 既存の未承認候補(draft-bank-candidates.json)の最終日が最も遅い場合、それより後の火曜日を返す(実際に発生した不具合の再現)", () => {
+  const existingCandidates = Array.from({ length: 7 }, (_, i) => ({
+    targetDate: `2026-10-${20 + i}`
+  }));
+  // 2026-10-26(月)より後の次の火曜日は2026-10-27。
+  const result = estimateNextWeekStart("2026-10-03", { bankItems: [], existingCandidates, postedPosts: [] });
+  assert.equal(result, "2026-10-27");
+});
+
+test("estimateNextWeekStart: draft-bank.jsonのtargetDate付きアイテムの最終日が最も遅い場合、それより後の火曜日を返す", () => {
+  const bankItems = [{ id: "future1", targetDate: "2026-11-02", bodyJa: "x", bodyEn: "x" }];
+  const result = estimateNextWeekStart("2026-10-03", { bankItems, existingCandidates: [], postedPosts: [] });
+  assert.equal(result, "2026-11-03");
 });
 
 test("generateWeeklyCandidates: マッチするトピックが無いpillarは suggestedTopic=null, category='TOPIC_TBD' になる(捏造しない)", () => {

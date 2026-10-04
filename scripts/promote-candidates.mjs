@@ -7,6 +7,7 @@
 import fs from "node:fs/promises";
 import { promoteCandidate } from "../lib/approval-gate.mjs";
 import { checkBilingualBody } from "../lib/bilingual-guard.mjs";
+import { checkFactFabricationSignals } from "../lib/fact-fabrication-guard.mjs";
 
 const CANDIDATES_PATH = new URL("../data/draft-bank-candidates.json", import.meta.url);
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
@@ -46,6 +47,26 @@ const bilingualCheck = checkBilingualBody(candidate);
 if (!bilingualCheck.ok) {
   console.error(`併記フォーマットチェックに失敗したため昇格を中止しました: ${bilingualCheck.errors.join(", ")}`);
   process.exit(1);
+}
+
+// verified-fact-guard(lib/verified-fact-guard.mjs)はrequiresVerifiedFact:trueの候補しか
+// 検証しない。そのため、本文に具体的な未確認事実(特定ゴルフ場での回収・回収数/販売数/寄付数の
+// 数字・架空の取引先・利用者の架空エピソード・障害/症状の創作・架空の環境効果・架空の寄付実績)を
+// 書いてしまった場合、requiresVerifiedFactをtrueにし忘れていると素通りしてしまう抜け道がある。
+// ここで追加チェックし、該当すれば昇格自体を止める(承認済みでも本文がこのまま昇格することはない)。
+if (candidate.requiresVerifiedFact !== true) {
+  const fabrication = checkFactFabricationSignals(candidate);
+  if (!fabrication.ok) {
+    console.error("未確認の具体的事実を含む可能性があるため昇格を中止しました(requiresVerifiedFact:trueではありません):");
+    for (const w of fabrication.warnings) {
+      console.error(`  - [${w.family}/${w.lang}] "${w.excerpt}" (${w.description})`);
+    }
+    console.error(
+      "本文を修正して確認できる事実だけにするか、verified-facts.jsonに事実を登録したうえで" +
+        "requiresVerifiedFact:true + verifiedFactIdsを設定してから再度実行してください。"
+    );
+    process.exit(1);
+  }
 }
 
 const promoted = promoteCandidate(candidate, {

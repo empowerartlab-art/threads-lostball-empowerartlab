@@ -7,6 +7,7 @@ import { buildPostedBodySet, isDuplicateBody } from "../lib/duplicate-guard.mjs"
 import { canUseCandidate } from "../lib/verified-fact-guard.mjs";
 import { checkBilingualBody, buildBilingualBody } from "../lib/bilingual-guard.mjs";
 import { checkClaims } from "../lib/claim-guard.mjs";
+import { checkFactFabricationSignals } from "../lib/fact-fabrication-guard.mjs";
 import { canSelectForProduction, isMediaApproved, defaultMedia } from "../lib/media-guard.mjs";
 
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
@@ -35,6 +36,20 @@ export async function selectDailyCandidate({ bankItems, postedPosts, facts, toda
     if (!check.ok) {
       skipped.push({ item, reason: check.reason });
       continue;
+    }
+    // verified-fact-guard(canUseCandidate)はrequiresVerifiedFact:trueの項目しか検証しない。
+    // draft-bank.jsonが直接手編集される等でこのフラグを立てずに具体的な未確認事実を含む
+    // 本文が入り込んだ場合に備えた、選出時点での最終防衛線(scripts/promote-candidates.mjsの
+    // 昇格時チェックと同じガードを、ここでも独立に適用する)。
+    if (item.requiresVerifiedFact !== true) {
+      const fabrication = checkFactFabricationSignals(item);
+      if (!fabrication.ok) {
+        skipped.push({
+          item,
+          reason: `unverified-fact-fabrication:${fabrication.warnings.map((w) => w.family).join(",")}`
+        });
+        continue;
+      }
     }
     // 画像が必須(media.required===true)の投稿は、人間が承認した実際の素材が無い限り選出しない。
     // 代わりにAI画像を自動生成する処理はここには一切無い(lib/media-guard.mjs参照)。

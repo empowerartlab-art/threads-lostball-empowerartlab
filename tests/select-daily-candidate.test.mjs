@@ -97,6 +97,48 @@ test("media.required=trueでも画像が承認済みなら選出される", asyn
   assert.deepEqual(skipped, []);
 });
 
+test("requiresVerifiedFact:falseのまま具体的な未確認事実(回収数の数字)を書いた候補はスキップされる(verified-fact-guardの抜け道を塞ぐ)", async () => {
+  const items = [
+    {
+      id: "fabricated-count",
+      day: 1,
+      bodyEn: "We collected 500 balls this week.",
+      bodyJa: "今週500球回収しました。",
+      requiresVerifiedFact: false,
+      verifiedFactIds: []
+    },
+    {
+      id: "safe-theme",
+      day: 2,
+      bodyEn: "Reusing a lost ball instead of throwing it away.",
+      bodyJa: "捨てずにもう一度使うという選択。",
+      requiresVerifiedFact: false,
+      verifiedFactIds: []
+    }
+  ];
+  const { selected, skipped } = await selectDailyCandidate({ bankItems: items, postedPosts: [], facts });
+  assert.equal(selected.id, "safe-theme");
+  assert.equal(skipped.length, 1);
+  assert.equal(skipped[0].item.id, "fabricated-count");
+  assert.match(skipped[0].reason, /unverified-fact-fabrication/);
+});
+
+test("requiresVerifiedFact:trueかつ実在idの候補は、本文に未確認事実っぽい表現があってもこのガードでは追加スキップされない(verified-fact-guard側で既にid確認済みのため対象外)", async () => {
+  const items = [
+    {
+      id: "verified-collection",
+      day: 1,
+      bodyEn: "Our lost balls are collected from golf courses in Japan.",
+      bodyJa: "このロストボールは、日本国内のゴルフ場で回収したものです。",
+      requiresVerifiedFact: true,
+      verifiedFactIds: ["fact-a"]
+    }
+  ];
+  const { selected, skipped } = await selectDailyCandidate({ bankItems: items, postedPosts: [], facts });
+  assert.equal(selected.id, "verified-collection");
+  assert.deepEqual(skipped, []);
+});
+
 test("すべての候補がmedia未承認で埋まっている場合はselectedがnullになる(何も自動生成しない)", async () => {
   const items = [
     {
