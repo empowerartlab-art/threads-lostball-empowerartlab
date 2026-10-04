@@ -147,7 +147,7 @@
         "project-mission-reduce-lonely-children",
         "project-made-picture-book"
       ],
-      "targetDate": null,
+      "targetDate": "2026-10-05",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
       "note": "絵本・プロジェクト自体の詳細はここで説明しきらず、週2以降の独立投稿(hitori-janai-yo-deep-dive等)に回す。",
@@ -179,7 +179,7 @@
         "welfare-facility-users-do-the-work",
         "donate-portion-to-hitori-janai-yo-project"
       ],
-      "targetDate": null,
+      "targetDate": "2026-10-06",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
       "note": "商品写真はassets/lost-ball-product/product-flyer-original.png(販促フライヤー原本)の実写部分のみをトリミングした派生画像(assets/lost-ball-product/day7-product-photo.png)を使用。フライヤー上段の統計値・会社情報・QRコードは本画像には含めていない(詳細はassets/lost-ball-product/README.md参照)。",
@@ -212,7 +212,7 @@
         "reuse-lost-balls-from-japan",
         "hand-polish-one-by-one"
       ],
-      "targetDate": null,
+      "targetDate": "2026-10-07",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
       "note": "「池や林に消えていく」「土に還らない」「環境を破壊する」はアカウント運営者が確認済みの事実として承認(verified-facts.json参照)。推定球数・分解年数等の具体的な数値は出典未確認のため使用しない(data/content-ideas.jsonのenvironmental-conservationテーマに未確認のまま保持)。",
@@ -239,7 +239,7 @@
       "hasShopLink": false,
       "requiresVerifiedFact": true,
       "verifiedFactIds": ["reuse-lost-balls-from-japan", "hand-polish-one-by-one"],
-      "targetDate": null,
+      "targetDate": "2026-10-08",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
       "media": {
@@ -270,7 +270,7 @@
         "welfare-facility-users-have-disabilities",
         "reuse-lost-balls-from-japan"
       ],
-      "targetDate": null,
+      "targetDate": "2026-10-09",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
       "note": "「障がいのある方々」はアカウント運営者の指示により明示(verified-facts.jsonのwelfare-facility-users-have-disabilities参照)。英語でもpeople with disabilitiesと明示し、日本の制度を知らない読者にも伝わるようにする。",
@@ -301,7 +301,7 @@
         "project-also-supports-parents-hardships",
         "project-values-human-connections"
       ],
-      "targetDate": null,
+      "targetDate": "2026-10-10",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
       "note": "「親のつらさやしんどさを支える」「人と人とのつながりを大切にする」はユーザー提供資料に基づきアカウント運営者が確認済みの事実として承認(verified-facts.json参照)。虐待防止・地域の大人との関わり・株式会社sae等、data/content-ideas.jsonのhitori-janai-yo-project-deep-diveテーマ内の他の詳述部分は引き続き未確認のため本文に含めていない。",
@@ -333,7 +333,7 @@
         "project-mission-reduce-lonely-children",
         "reuse-lost-balls-from-japan"
       ],
-      "targetDate": null,
+      "targetDate": "2026-10-11",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
       "media": {
@@ -359,7 +359,7 @@
       "hasShopLink": false,
       "requiresVerifiedFact": true,
       "verifiedFactIds": ["lost-balls-retrieved-by-divers-from-ponds", "lost-balls-hand-collected-from-forests-and-ob-zones"],
-      "targetDate": null,
+      "targetDate": "2026-10-12",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
       "note": "潜水士・OBゾーン手作業による回収は業界一般の方法の紹介であり、Lost Ball自身がこの方法で回収しているとは主張しない(verified-facts.json参照)。",
