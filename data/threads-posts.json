@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-04T17:21:34.449Z",
-  "count": 6,
+  "updatedAt": "2026-10-05T11:05:46.571Z",
+  "count": 7,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -68,6 +68,17 @@
       "postedAt": "2026-10-04T17:21:34.448Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37220182332"
+    },
+    {
+      "sourceItemId": "lostball-day14-unsellable-balls-possibilities",
+      "threadsPostId": "18114796937323057",
+      "bodyEn": "Not every lost ball we collect can be used as a golf ball again.\n\nDepending on the damage or condition, some balls are difficult to resell.\n\nRather than simply throwing those balls away, could they be put to use in some other form?\nThere are still many possibilities for a lost ball.",
+      "bodyJa": "回収されたロストボールが、すべてもう一度ゴルフボールとして使えるとは限りません。\n\n傷や状態によって、再販売が難しいボールもあります。\n\nそんなボールも捨てるだけではなく、別の形で活かせないか。\nロストボールには、まだいろいろな可能性があります。",
+      "pillar": "ENVIRONMENT",
+      "category": "UNSELLABLE_BALLS_POSSIBILITIES",
+      "postedAt": "2026-10-05T11:05:46.571Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37300677101"
     }
   ]
 }
