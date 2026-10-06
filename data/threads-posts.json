@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-05T11:05:46.571Z",
-  "count": 7,
+  "updatedAt": "2026-10-06T11:05:50.111Z",
+  "count": 8,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -79,6 +79,17 @@
       "postedAt": "2026-10-05T11:05:46.571Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37300677101"
+    },
+    {
+      "sourceItemId": "lostball-day7-product-shop",
+      "threadsPostId": "18102615044578917",
+      "bodyEn": "Our lost balls are in the shop — cleaned, checked, and hand-polished, one by one.\nBuying one supports the work at the welfare employment support facility, and a portion of the proceeds goes to 'Hitori Janai yo.'\nLink in bio ⛳",
+      "bodyJa": "ロストボールがショップに並びました。1球ずつ、手作業で洗浄・チェック・磨き上げています。\n購入することが、就労支援施設での仕事を支え、売上の一部は『一人じゃないよプロジェクト』への寄付につながります。\nプロフィールのリンクからご覧いただけます⛳",
+      "pillar": "GOLF",
+      "category": "PRODUCT_SHOP",
+      "postedAt": "2026-10-06T11:05:50.110Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37454083824"
     }
   ]
 }
