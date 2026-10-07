@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-06T11:05:50.111Z",
-  "count": 8,
+  "updatedAt": "2026-10-07T11:06:05.730Z",
+  "count": 9,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -90,6 +90,17 @@
       "postedAt": "2026-10-06T11:05:50.110Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37454083824"
+    },
+    {
+      "sourceItemId": "lostball-day8-environment-impact",
+      "threadsPostId": "18031817546885907",
+      "bodyEn": "Golf balls that disappear into ponds and forests on the course still have plenty of life left in them.\nWe collect them, check their condition, and put them back into play as golf balls.\nGolf balls that don't return to the earth and harm the environment — we give them another chance to be useful. That's the work we keep doing.",
+      "bodyJa": "ゴルフ場で池や林に消えていくロストボールも、まだまだ使えます。\n回収し、状態を確認して、もう一度ゴルフボールとして使う。\n土に還らない環境を破壊するゴルフボールを、もう一度活躍する機会をつくる。私たちはそんな取り組みを続けています。",
+      "pillar": "ENVIRONMENT",
+      "category": "ENVIRONMENT_DEEP_DIVE",
+      "postedAt": "2026-10-07T11:06:05.730Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37611752910"
     }
   ]
 }
