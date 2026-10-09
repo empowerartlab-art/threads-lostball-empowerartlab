@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-08T11:05:31.094Z",
-  "count": 10,
+  "updatedAt": "2026-10-09T11:05:10.109Z",
+  "count": 11,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -112,6 +112,17 @@
       "postedAt": "2026-10-08T11:05:31.094Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37767737939"
+    },
+    {
+      "sourceItemId": "lostball-day10-welfare-jobs-deep-dive",
+      "threadsPostId": "18108310631259232",
+      "bodyEn": "Checking and polishing each lost ball, one by one.\nThis process is also work for people with disabilities who use a welfare employment support facility.\nGiving lost balls a second life, and creating work opportunities —\n\nwe're taking on both of these together.",
+      "bodyJa": "ロストボールを1球ずつ確認し、磨いていく作業。\nこの工程が、就労継続支援施設を利用する障がいのある方々の仕事にもなっています。\nロストボールの再利用と、働く機会をつくること。\n\nその2つを一緒に取り組んでいます。",
+      "pillar": "WELFARE",
+      "category": "WELFARE_JOBS_DEEP_DIVE",
+      "postedAt": "2026-10-09T11:05:10.108Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37921520600"
     }
   ]
 }
