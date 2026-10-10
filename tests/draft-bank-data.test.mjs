@@ -16,12 +16,13 @@ const factsFile = await readJson("../data/verified-facts.json");
 const brandFile = await readJson("../data/brand-profile.json");
 const categoryFile = await readJson("../data/category-profile.json");
 
-test("draft-bank.json には初期7投稿(DAY1〜7)に加え、DAY8〜DAY22がすべて登録されている", () => {
-  assert.equal(bankFile.items.length, 22);
+// 毎週承認分が追記されていくため、件数は固定しない。DAY1から欠番・重複なく続いていることを確認する。
+test("draft-bank.json のDAYは1から欠番・重複なく続いている(初期22投稿を含む)", () => {
+  assert.ok(bankFile.items.length >= 22);
   const days = bankFile.items.map((i) => i.day).sort((a, b) => a - b);
   assert.deepEqual(
     days,
-    Array.from({ length: 22 }, (_, i) => i + 1)
+    Array.from({ length: days.length }, (_, i) => i + 1)
   );
 });
 
@@ -88,9 +89,22 @@ test("ショップ誘導(hasShopLink)が立っているのはDAY7のみ", () => 
   assert.deepEqual(shopLinkDays, [7]);
 });
 
-test("CTA(hasCta)が立っているのはDAY7のみ", () => {
-  const ctaDays = bankFile.items.filter((i) => i.hasCta).map((i) => i.day);
+test("初期22投稿(DAY1〜22)でCTA(hasCta)が立っているのはDAY7のみ", () => {
+  const ctaDays = bankFile.items.filter((i) => i.day <= 22 && i.hasCta).map((i) => i.day);
   assert.deepEqual(ctaDays, [7]);
+});
+
+// DAY23以降は週次(火〜月の7日)で承認する。販売投稿ばかりにしない方針(salesFrequencyPolicy)に沿って、
+// 問いかけ・販売などのCTAは1週あたり2本までに抑える。
+test("DAY23以降のCTA(hasCta)は1週(7日)あたり2本まで", () => {
+  const perWeek = new Map();
+  for (const item of bankFile.items.filter((i) => i.day > 22 && i.hasCta)) {
+    const week = Math.floor((item.day - 23) / 7);
+    perWeek.set(week, (perWeek.get(week) || 0) + 1);
+  }
+  for (const [week, count] of perWeek) {
+    assert.ok(count <= 2, `week ${week}: CTA ${count}本`);
+  }
 });
 
 test("brand-profile.json の5軸とcategory-profile.json の5軸が一致する", () => {

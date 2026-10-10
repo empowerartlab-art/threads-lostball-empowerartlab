@@ -11,7 +11,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["reuse-lost-balls-from-japan", "hand-polish-one-by-one"],
+      "verifiedFactIds": [
+        "reuse-lost-balls-from-japan",
+        "hand-polish-one-by-one"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
@@ -37,7 +40,9 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["reuse-lost-balls-from-japan"],
+      "verifiedFactIds": [
+        "reuse-lost-balls-from-japan"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
@@ -63,7 +68,9 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["hand-polish-one-by-one"],
+      "verifiedFactIds": [
+        "hand-polish-one-by-one"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
@@ -89,7 +96,9 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["reuse-lost-balls-from-japan"],
+      "verifiedFactIds": [
+        "reuse-lost-balls-from-japan"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
@@ -115,7 +124,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["welfare-facility-users-do-the-work", "purchase-supports-work-and-participation"],
+      "verifiedFactIds": [
+        "welfare-facility-users-do-the-work",
+        "purchase-supports-work-and-participation"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-09-27T00:00:00.000Z",
@@ -238,7 +250,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["reuse-lost-balls-from-japan", "hand-polish-one-by-one"],
+      "verifiedFactIds": [
+        "reuse-lost-balls-from-japan",
+        "hand-polish-one-by-one"
+      ],
       "targetDate": "2026-10-08",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
@@ -358,7 +373,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["lost-balls-retrieved-by-divers-from-ponds", "lost-balls-hand-collected-from-forests-and-ob-zones"],
+      "verifiedFactIds": [
+        "lost-balls-retrieved-by-divers-from-ponds",
+        "lost-balls-hand-collected-from-forests-and-ob-zones"
+      ],
       "targetDate": "2026-10-12",
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
@@ -385,7 +403,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["some-collected-balls-cannot-be-resold", "reuse-lost-balls-from-japan"],
+      "verifiedFactIds": [
+        "some-collected-balls-cannot-be-resold",
+        "reuse-lost-balls-from-japan"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
@@ -412,7 +433,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["overseas-coastal-golf-course-ocean-study-50000-balls", "abandoned-golf-balls-harm-environment"],
+      "verifiedFactIds": [
+        "overseas-coastal-golf-course-ocean-study-50000-balls",
+        "abandoned-golf-balls-harm-environment"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-02T00:00:00.000Z",
@@ -439,7 +463,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["reuse-lost-balls-from-japan", "hand-polish-one-by-one"],
+      "verifiedFactIds": [
+        "reuse-lost-balls-from-japan",
+        "hand-polish-one-by-one"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-03T00:00:00.000Z",
@@ -465,7 +492,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["golf-ball-decomposition-about-1000-years", "reuse-lost-balls-from-japan"],
+      "verifiedFactIds": [
+        "golf-ball-decomposition-about-1000-years",
+        "reuse-lost-balls-from-japan"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-03T00:00:00.000Z",
@@ -492,7 +522,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["estimated-500m-to-1b-lost-balls-near-japan-golf-courses", "reuse-lost-balls-from-japan"],
+      "verifiedFactIds": [
+        "estimated-500m-to-1b-lost-balls-near-japan-golf-courses",
+        "reuse-lost-balls-from-japan"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-03T00:00:00.000Z",
@@ -519,7 +552,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["estimated-21m-new-lost-balls-per-year", "reuse-lost-balls-from-japan"],
+      "verifiedFactIds": [
+        "estimated-21m-new-lost-balls-per-year",
+        "reuse-lost-balls-from-japan"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-03T00:00:00.000Z",
@@ -546,7 +582,10 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["project-mission-reduce-lonely-children", "project-also-supports-parents-hardships"],
+      "verifiedFactIds": [
+        "project-mission-reduce-lonely-children",
+        "project-also-supports-parents-hardships"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-03T00:00:00.000Z",
@@ -572,7 +611,9 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["project-connects-people-across-relationships"],
+      "verifiedFactIds": [
+        "project-connects-people-across-relationships"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-03T00:00:00.000Z",
@@ -599,7 +640,11 @@
       "hasCta": false,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
-      "verifiedFactIds": ["donate-portion-to-hitori-janai-yo-project", "purchase-supports-work-and-participation", "project-mission-reduce-lonely-children"],
+      "verifiedFactIds": [
+        "donate-portion-to-hitori-janai-yo-project",
+        "purchase-supports-work-and-participation",
+        "project-mission-reduce-lonely-children"
+      ],
       "targetDate": null,
       "approvedBy": "empower.artlab@gmail.com",
       "approvedAt": "2026-10-03T00:00:00.000Z",
@@ -614,6 +659,214 @@
         "approvedBy": null,
         "approvedAt": null
       }
+    },
+    {
+      "id": "lostball-20261013-pond-ball-hook",
+      "day": 23,
+      "pillar": "ENVIRONMENT",
+      "category": "POND_BALL_HOOK",
+      "bodyEn": "That ball you hit into the pond?\nSometimes it just stays there, at the bottom.\n\nGolf balls are made of material that doesn't break down in nature.\n\nWe take lost balls like that, polish each one by hand, and give them another round.",
+      "bodyJa": "池ポチャしたボール。\nそのまま、池の底に残ることがあります。\n\nゴルフボールは、土に還らない素材でできています。\n\nそんなロストボールを、1球ずつ手で磨いて、もう一度使えるようにしています。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "lost-balls-end-up-in-ponds-and-forests",
+        "golf-balls-dont-return-to-soil",
+        "hand-polish-one-by-one",
+        "reuse-lost-balls-from-japan"
+      ],
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。写真が用意できたら差し替えを検討する。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "targetDate": "2026-10-13",
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-10T01:42:24.654Z",
+      "sourceCandidateId": "lostball-20261013-pond-ball-hook"
+    },
+    {
+      "id": "lostball-20261014-ob-ball-hook",
+      "day": 24,
+      "pillar": "GOLF",
+      "category": "OB_BALL_HOOK",
+      "bodyEn": "Hit it OB into the trees and never found it?\nHappens more than we'd like to admit.\n\nIn forests and out-of-bounds areas, lost balls are sometimes collected by hand, one at a time.\n\nThe ones that get found can play another round.",
+      "bodyJa": "OBで林に消えたボール。\n探しても見つからないこと、ありますよね。\n\n林やOBゾーンでは、ロストボールが人の手で一つずつ回収されることもあります。\n\n見つけてもらえたボールには、もう一度出番があります。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "lost-balls-hand-collected-from-forests-and-ob-zones"
+      ],
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。写真が用意できたら差し替えを検討する。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "targetDate": "2026-10-14",
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-10T01:42:37.561Z",
+      "sourceCandidateId": "lostball-20261014-ob-ball-hook"
+    },
+    {
+      "id": "lostball-20261015-japan-lost-ball-count",
+      "day": 25,
+      "pillar": "ENVIRONMENT",
+      "category": "JAPAN_LOST_BALL_COUNT",
+      "bodyEn": "It's said that an estimated 500 million to 1 billion lost golf balls remain uncollected near golf courses across Japan (as of 2025).\n\nThe ball you lost this year might be one of them.",
+      "bodyJa": "日本のゴルフ場の近くには、\n推定5億〜10億球のロストボールが、回収されずに残っているとも言われています（2025年時点）。\n\n今年なくしたあのボールも、その中のどこかにあるかもしれません。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "estimated-500m-to-1b-lost-balls-near-japan-golf-courses"
+      ],
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。写真が用意できたら差し替えを検討する。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "targetDate": "2026-10-15",
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-10T01:42:37.622Z",
+      "sourceCandidateId": "lostball-20261015-japan-lost-ball-count"
+    },
+    {
+      "id": "lostball-20261016-hand-polish-as-work",
+      "day": 26,
+      "pillar": "WELFARE",
+      "category": "HAND_POLISH_AS_WORK",
+      "bodyEn": "Each of these lost balls is checked and polished by hand, one at a time.\n\nThat work is done by people with disabilities at a welfare employment support facility in Japan.\n\nOne ball at a time. As real work.",
+      "bodyJa": "このロストボールは、1球ずつ手で状態を確認して、磨いています。\n\n磨いているのは、就労継続支援施設で働く、障がいのある方々です。\n\n1球ずつ、仕事として。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "hand-polish-one-by-one",
+        "welfare-facility-users-do-the-work",
+        "welfare-facility-users-have-disabilities"
+      ],
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。写真が用意できたら差し替えを検討する。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "targetDate": "2026-10-16",
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-10T01:42:37.650Z",
+      "sourceCandidateId": "lostball-20261016-hand-polish-as-work"
+    },
+    {
+      "id": "lostball-20261017-golfer-question-balls-lost",
+      "day": 27,
+      "pillar": "GOLF",
+      "category": "GOLFER_QUESTION_BALLS_LOST",
+      "bodyEn": "Question for golfers:\nhow many balls do you usually lose in a round?\n\nIf it's zero, respect.",
+      "bodyJa": "ゴルファーに聞きたい。\n\n1ラウンドで、だいたい何球なくしますか？\n\n0球の人、尊敬します。",
+      "hasCta": true,
+      "hasShopLink": false,
+      "requiresVerifiedFact": false,
+      "verifiedFactIds": [],
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。写真が用意できたら差し替えを検討する。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "targetDate": "2026-10-17",
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-10T01:42:37.679Z",
+      "sourceCandidateId": "lostball-20261017-golfer-question-balls-lost"
+    },
+    {
+      "id": "lostball-20261018-pink-tree-sticker",
+      "day": 28,
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "PINK_TREE_STICKER",
+      "bodyEn": "Every lost ball we sell comes with a sticker:\na pink tree made of hearts, with people and animals beneath it.\n\nIt's from the 一人じゃないよプロジェクト (\"Hitori Janai yo\") project, and a portion of our sales goes to them.",
+      "bodyJa": "わたしたちのロストボールには、ピンクの木のステッカーが付いています。\n\nハートでできた木。その下に、人や動物たち。\n\n「一人じゃないよプロジェクト」のステッカーです。\n売上の一部は、このプロジェクトへ寄付しています。",
+      "hasCta": false,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "product-includes-pink-tree-sticker",
+        "donate-portion-to-hitori-janai-yo-project"
+      ],
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。写真が用意できたら差し替えを検討する。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "targetDate": "2026-10-18",
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-10T01:42:37.706Z",
+      "sourceCandidateId": "lostball-20261018-pink-tree-sticker"
+    },
+    {
+      "id": "lostball-20261019-shop-hand-polished",
+      "day": 29,
+      "pillar": "GOLF",
+      "category": "SHOP_HAND_POLISHED",
+      "bodyEn": "Not brand new.\nBut good enough to play, and polished by hand.\n\nWe sell them in our shop in Japan (domestic shipping only).",
+      "bodyJa": "新品じゃなくていい。\nでも、ちゃんと使えるボールがいい。\n\n1球ずつ手で磨いたロストボールを、ショップで販売しています。\n\nプロフィールのリンクから。",
+      "hasCta": true,
+      "hasShopLink": false,
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "hand-polish-one-by-one",
+        "reuse-lost-balls-from-japan"
+      ],
+      "media": {
+        "type": "TEXT_ONLY",
+        "required": false,
+        "aiVisualAllowed": false,
+        "description": "テキストのみで投稿可能。写真が用意できたら差し替えを検討する。",
+        "altText": null,
+        "aiReferenceNote": null,
+        "path": null,
+        "approvedBy": null,
+        "approvedAt": null
+      },
+      "targetDate": "2026-10-19",
+      "approvedBy": "empower.artlab@gmail.com",
+      "approvedAt": "2026-10-10T01:42:37.733Z",
+      "sourceCandidateId": "lostball-20261019-shop-hand-polished"
     }
   ]
 }
