@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-09T11:05:10.109Z",
-  "count": 11,
+  "updatedAt": "2026-10-10T00:54:27.853Z",
+  "count": 12,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -123,6 +123,17 @@
       "postedAt": "2026-10-09T11:05:10.108Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/37921520600"
+    },
+    {
+      "sourceItemId": "lostball-day11-hitori-janai-yo-deep-dive",
+      "threadsPostId": "17989248159062796",
+      "bodyEn": "\"We want to see fewer children feel alone.\"\nThat is the wish behind the 一人じゃないよプロジェクト (\"Hitori Janai yo\") project.\nIt looks not only at children, but also at the hardships parents carry, and it values the connections between people.",
+      "bodyJa": "「ひとりで寂しい思いをする子どもを減らしたい」\n『一人じゃないよプロジェクト』には、そんな想いがあります。\n子どもたちだけでなく、親のつらさやしんどさにも目を向け、人と人とのつながりを大切にする活動です。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "HITORI_JANAI_YO_DEEP_DIVE",
+      "postedAt": "2026-10-10T00:54:27.853Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38011000746"
     }
   ]
 }
