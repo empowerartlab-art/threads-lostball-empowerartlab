@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-10T12:02:29.408Z",
-  "count": 13,
+  "updatedAt": "2026-10-10T20:01:49.378Z",
+  "count": 14,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -146,6 +146,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38050506150",
       "lang": "en"
+    },
+    {
+      "sourceItemId": "lostball-day12-one-ball-connects-to-support",
+      "threadsPostId": "18088058279252803",
+      "bodyEn": "One ball for enjoying golf can connect to someone's work, and to support for children.\nA portion of our lost ball sales is donated to the 一人じゃないよプロジェクト (\"Hitori Janai yo\") project.\nBy giving lost balls a second life, we hope to build a gentle cycle, little by little.",
+      "bodyJa": "ゴルフを楽しむための一球が、誰かの仕事や子どもたちへの支援につながる。\nロストボールの売上の一部は、『一人じゃないよプロジェクト』への寄付にあてています。\nロストボールをもう一度使うことから、少しずつ優しい循環をつくっていきたいと考えています。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "ONE_BALL_CONNECTS_TO_SUPPORT",
+      "postedAt": "2026-10-10T20:01:49.378Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38082098250",
+      "lang": "ja"
     }
   ]
 }
