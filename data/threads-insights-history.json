@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-03T00:07:37.001Z",
-  "count": 5,
+  "updatedAt": "2026-10-10T00:08:55.418Z",
+  "count": 16,
   "_note": "投稿単位のInsights(views/likes/replies/reposts/quotes/shares)の取得履歴。Insightsは時間経過で変化するため、最新値への上書きではなく、取得日時(fetchedAt)付きのスナップショットとして追記していく(1つのthreadsPostIdに対して複数件存在しうる)。scripts/fetch-threads-insights.mjsが追記し、lib/weekly-analysis.mjsが分析時に参照する(閲覧対象のみで自動投稿パイプラインからは参照されない)。data/threads-posts.jsonの役割(投稿成功の記録)は変更しない。",
   "snapshots": [
     {
@@ -52,6 +52,127 @@
       "sourceItemId": "lostball-day5-welfare-jobs",
       "fetchedAt": "2026-10-03T00:07:37.000Z",
       "views": 21,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18105382757264754",
+      "sourceItemId": "lostball-day1-brand-intro",
+      "fetchedAt": "2026-10-10T00:08:51.895Z",
+      "views": 4,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18209524639363642",
+      "sourceItemId": "lostball-day2-japan-origin",
+      "fetchedAt": "2026-10-10T00:08:52.176Z",
+      "views": 89,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18116692862052350",
+      "sourceItemId": "lostball-day3-hand-polishing-process",
+      "fetchedAt": "2026-10-10T00:08:52.609Z",
+      "views": 2,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "17970479376138597",
+      "sourceItemId": "lostball-day4-reuse",
+      "fetchedAt": "2026-10-10T00:08:52.823Z",
+      "views": 5,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "17878126035554931",
+      "sourceItemId": "lostball-day5-welfare-jobs",
+      "fetchedAt": "2026-10-10T00:08:53.178Z",
+      "views": 21,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18152723311524623",
+      "sourceItemId": "lostball-day6-hitori-janai-yo-project",
+      "fetchedAt": "2026-10-10T00:08:53.436Z",
+      "views": 21,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18114796937323057",
+      "sourceItemId": "lostball-day14-unsellable-balls-possibilities",
+      "fetchedAt": "2026-10-10T00:08:53.800Z",
+      "views": 5,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18102615044578917",
+      "sourceItemId": "lostball-day7-product-shop",
+      "fetchedAt": "2026-10-10T00:08:54.190Z",
+      "views": 1,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18031817546885907",
+      "sourceItemId": "lostball-day8-environment-impact",
+      "fetchedAt": "2026-10-10T00:08:54.558Z",
+      "views": 6,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18098228270418029",
+      "sourceItemId": "lostball-day9-collection-to-product",
+      "fetchedAt": "2026-10-10T00:08:55.012Z",
+      "views": 9,
+      "likes": 0,
+      "replies": 0,
+      "reposts": 0,
+      "quotes": 0,
+      "shares": 0
+    },
+    {
+      "threadsPostId": "18108310631259232",
+      "sourceItemId": "lostball-day10-welfare-jobs-deep-dive",
+      "fetchedAt": "2026-10-10T00:08:55.417Z",
+      "views": 6,
       "likes": 0,
       "replies": 0,
       "reposts": 0,
