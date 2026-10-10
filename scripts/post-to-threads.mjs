@@ -36,6 +36,7 @@ import { createSecretRedactor } from "../lib/redact.mjs";
 import { buildDiscordDryRunMessage } from "../lib/discord-notifier.mjs";
 import { runLivePost, OUTCOME } from "../lib/live-post-runner.mjs";
 import { appendPostRecord } from "../lib/threads-posts-store.mjs";
+import { POST_LANGS } from "../lib/bilingual-guard.mjs";
 
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
 const POSTS_PATH = new URL("../data/threads-posts.json", import.meta.url);
@@ -146,11 +147,21 @@ async function main() {
   const todayKey = jstDateKey();
   console.log(`実行日(JST): ${todayKey}`);
 
+  // --lang=ja|en|both(既定both)。朝の日本語・夜の英語はworkflow側がscheduleから決めて渡す。
+  const langArg = process.argv.find((a) => a.startsWith("--lang="));
+  const lang = langArg ? langArg.slice("--lang=".length) : "both";
+  if (!POST_LANGS.includes(lang)) {
+    console.error(`--lang の値が不正です: ${lang}(${POST_LANGS.join(" / ")} のいずれか)`);
+    process.exit(1);
+  }
+  console.log(`投稿言語: ${lang}`);
+
   const result = await runLivePost({
     bankItems: bank.items,
     postedPosts: postsFile.posts,
     facts: factsFile.facts,
     todayKey,
+    lang,
     userId: env.THREADS_USER_ID,
     accessToken: env.THREADS_ACCESS_TOKEN,
     live: liveFlagRequested,

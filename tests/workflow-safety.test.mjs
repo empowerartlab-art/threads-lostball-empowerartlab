@@ -41,10 +41,16 @@ test("live-post-manual.ymlとdaily-live-post.ymlは同じconcurrency groupを共
   assert.equal(dailyGroup, manualGroup, "concurrency groupがlive-post-manual.ymlとdaily-live-post.ymlで異なる(同時実行による二重投稿のリスク)");
 });
 
-test("daily-live-post.ymlにscheduleのcronトリガーがちょうど1つ設定されている", () => {
+// 2026-10-10〜: 朝(日本語)と夜(英語)の2スロット。cronごとに言語が1対1で決まり、
+// 未知のcronでは投稿せずに止まることを確認する(言語の取り違え・同じ言語の二重投稿を防ぐ)。
+test("daily-live-post.ymlのcronは朝(日本語)と夜(英語)の2つで、それぞれ言語が1対1で決まる", () => {
   const content = readWorkflow("daily-live-post.yml");
-  const cronMatches = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)];
-  assert.equal(cronMatches.length, 1, "cronトリガーが0個または複数ある");
+  const crons = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)].map((m) => m[1]).sort();
+  assert.deepEqual(crons, ["0 12 * * *", "0 20 * * *"]);
+  assert.match(content, /"0 20 \* \* \*"\) LANG_ARG=ja ;;/);
+  assert.match(content, /"0 12 \* \* \*"\) LANG_ARG=en ;;/);
+  assert.match(content, /\*\) echo "未知のscheduleです[^\n]*exit 1 ;;/);
+  assert.match(content, /post-to-threads\.mjs \$\{\{ steps\.mode\.outputs\.live_flag \}\} --lang=\$\{\{ steps\.lang\.outputs\.lang \}\}/);
 });
 
 test("live-post-manual.ymlにはscheduleトリガーが存在しない(手動実行専用であることを維持)", () => {

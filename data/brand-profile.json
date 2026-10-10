@@ -9,8 +9,9 @@
   },
   "positioning": "単なる中古ゴルフボールの安売りアカウントにはしない。日本 × 環境保護 × 福祉 × 社会貢献 × ゴルフを体現するブランドとして認知を獲得し、プロフィールのショップ導線からBASEでの購入につなげる。",
   "targetAudience": {
-    "primary": "Overseas (mainly English-speaking) golfers",
-    "secondary": "Japanese-speaking followers"
+    "primary": "Japanese golfers (BASE shop ships within Japan only)",
+    "secondary": "English-speaking audience, toward future inbound visitors to Japan",
+    "note": "2026-10-10 運用者指示: 海外発送はしない。今は日本のゴルファーを主に狙い、英語は将来のインバウンド向けに育てる。"
   },
   "pillars": [
     {
@@ -41,7 +42,7 @@
   ],
   "brandStory": "ロストボールを買う → ボールがもう一度使われる → 福祉の仕事につながる → 売上の一部が『一人じゃないよプロジェクト』へ寄付される、という循環をブランドストーリーとして扱う。誇張や因果の断定は行わない。",
   "postingRules": {
-    "languageOrder": "英語 → 日本語の順で併記する。EN/JP等のラベルは付けない。",
+    "languageOrder": "承認済みアイテムは英語(bodyEn)と日本語(bodyJa)の両方を持つ。2026-10-10〜、同じアイテムを朝(JST 05:00)は日本語だけ、夜(JST 21:00)は英語だけの別投稿として出す。両言語の合計500文字以内は承認時の基準として維持する。",
     "englishStyle": "短く、分かりやすく、不自然な直訳英語にしない。英語圏のゴルファーが普通に理解できる表現を優先する。",
     "japaneseStyle": "英語の機械的な直訳ではなく、日本語として自然な文章にする。",
     "maxCombinedLength": 500,
@@ -53,7 +54,8 @@
     "noWelfarePityAppeal": "福祉を過度に美談化しない。『障害者だから買ってください』という訴求にしない。",
     "noUnfoundedEnvironmentalClaims": "環境保護について根拠のない数値や効果を断定しない。",
     "noUnverifiedAbsoluteClaims": "「すべて」「必ず」「全て」「絶対に」およびall/every/always等の未確認の断定的表現を避ける。ただしverified-facts.jsonで裏付けられた事実に基づく場合はこの限りではない（例:『すべての商品にステッカーが付く』は検証済み事実のため使用可）。",
-    "aiAutoApprovalForbidden": "AIによる自動承認は禁止。draft-bank.jsonへの昇格は人間の明示的承認（approvedBy/approvedAt）が無い限り行わない。"
+    "aiAutoApprovalForbidden": "AIによる自動承認は禁止。draft-bank.jsonへの昇格は人間の明示的承認（approvedBy/approvedAt）が無い限り行わない。",
+    "englishShopPolicy": "海外発送はしないため、英語投稿ではショップへ誘導しない。触れる場合は『日本国内発送のみ』と明記する。"
   },
   "doNotDo": [
     "単なる中古ゴルフボールの安売り訴求",

@@ -3,7 +3,7 @@
 
 import fs from "node:fs/promises";
 import { jstDateKey, selectDueItems } from "../lib/target-date.mjs";
-import { buildPostedBodySet, isDuplicateBody } from "../lib/duplicate-guard.mjs";
+import { buildPostedBodySet, isDuplicateBody, isPostedInLang } from "../lib/duplicate-guard.mjs";
 import { canUseCandidate } from "../lib/verified-fact-guard.mjs";
 import { checkBilingualBody, buildBilingualBody } from "../lib/bilingual-guard.mjs";
 import { checkClaims } from "../lib/claim-guard.mjs";
@@ -22,7 +22,7 @@ async function readJson(url, fallback) {
   }
 }
 
-export async function selectDailyCandidate({ bankItems, postedPosts, facts, todayKey = jstDateKey() }) {
+export async function selectDailyCandidate({ bankItems, postedPosts, facts, todayKey = jstDateKey(), lang = "both" }) {
   const postedBodies = buildPostedBodySet(postedPosts);
   const ordered = selectDueItems(bankItems, todayKey);
   const skipped = [];
@@ -30,6 +30,10 @@ export async function selectDailyCandidate({ bankItems, postedPosts, facts, toda
   for (const item of ordered) {
     if (isDuplicateBody(item, postedBodies)) {
       skipped.push({ item, reason: "duplicate-of-posted" });
+      continue;
+    }
+    if (lang !== "both" && isPostedInLang(item, postedPosts, lang)) {
+      skipped.push({ item, reason: `already-posted-in-${lang}` });
       continue;
     }
     const check = canUseCandidate(item, facts);
