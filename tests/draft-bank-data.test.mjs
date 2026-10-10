@@ -116,11 +116,14 @@ test("verified-facts.json の22件の事実がすべてverified:trueで登録さ
   }
 });
 
-test("draft-bank-candidates.json には10/20〜10/26の週次候補スケルトン7件があり、いずれも未承認(approvedBy/approvedAtがnull)のままである", async () => {
+// The weekly review appends a new Tue..Mon week of skeletons every Saturday, so the
+// exact count and dates change each week. What must always hold: one candidate per
+// date, and none of them approved automatically.
+test("draft-bank-candidates.json の週次候補スケルトンは日付が重複せず、いずれも未承認(approvedBy/approvedAtがnull)のままである", async () => {
   const candidatesFile = await readJson("../data/draft-bank-candidates.json");
-  assert.equal(candidatesFile.items.length, 7);
-  const targetDates = candidatesFile.items.map((i) => i.targetDate).sort();
-  assert.deepEqual(targetDates, ["2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25", "2026-10-26"]);
+  assert.ok(candidatesFile.items.length > 0);
+  const targetDates = candidatesFile.items.map((i) => i.targetDate);
+  assert.equal(new Set(targetDates).size, targetDates.length, "同じtargetDateの候補が複数ある");
   for (const item of candidatesFile.items) {
     assert.equal(item.approvedBy, null, `${item.id}: approvedByがnullでない(自動承認されている)`);
     assert.equal(item.approvedAt, null, `${item.id}: approvedAtがnullでない(自動承認されている)`);

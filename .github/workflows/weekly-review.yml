@@ -21,7 +21,7 @@ name: Lost Ball Threads - Weekly Review (候補作成のみ・自動承認なし
 #     人間の明示操作(--approvedBy・--yes必須)でのみ行う。このworkflowはそれを一切迂回しない)。
 #   - Threads APIへの投稿・削除・編集(scripts/fetch-threads-insights.mjsはGETしか呼ばない
 #     lib/threads-client.mjsのgetMediaInsightsのみを使う。createTextContainer等は一切importしない)。
-#   - 既存の毎日20:00 JST自動投稿(.github/workflows/daily-live-post.yml)・duplicate guard・
+#   - 既存の毎日05:00 JST自動投稿(.github/workflows/daily-live-post.yml)・duplicate guard・
 #     verified-fact guard・media guard・approval gate・画像投稿機能への変更
 #     (このworkflowはこれらのファイルを一切変更しない)。
 #
@@ -132,5 +132,5 @@ jobs:
 
           翌週7投稿の候補を作成しています。内容を確認・承認してください。
           承認済みのものだけが scripts/promote-candidates.mjs 経由で data/draft-bank.json へ昇格し、
-          毎日20:00 JSTの既存の自動投稿処理の対象になります(このworkflow自体は投稿・承認を一切行っていません)。"
+          毎日05:00 JSTの既存の自動投稿処理の対象になります(このworkflow自体は投稿・承認を一切行っていません)。"
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"

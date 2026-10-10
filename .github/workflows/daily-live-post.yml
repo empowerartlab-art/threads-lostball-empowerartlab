@@ -63,11 +63,12 @@ on:
           - live
         default: dry-run
   schedule:
-    # 20:00 JST = UTC 11:00 (JST = UTC+9)。
+    # 05:00 JST = UTC 20:00(前日) (JST = UTC+9)。投稿対象日はJST基準(lib/target-date.mjs)で判定するので、
+    # UTC上は前日でも正しい日の投稿が選ばれる。2026-10-10に20:00 JSTから変更(移動中に投稿が重ならないように)。
     # 例: 09:00 JSTにしたい場合は "0 0 * * *"、12:30 JSTなら "30 3 * * *" にする。
     # このworkflowはGitHub Secretsに LIVE_POST="true" が登録されていない限り
     # scheduleで動いてもdry-run相当のままなので、時刻変更自体に投稿リスクは無い。
-    - cron: "0 11 * * *"
+    - cron: "0 20 * * *"
 
 concurrency:
   group: lostball-live-post
