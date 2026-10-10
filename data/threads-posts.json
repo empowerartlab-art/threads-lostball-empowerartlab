@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-10T00:54:27.853Z",
-  "count": 12,
+  "updatedAt": "2026-10-10T12:02:29.408Z",
+  "count": 13,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -134,6 +134,18 @@
       "postedAt": "2026-10-10T00:54:27.853Z",
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38011000746"
+    },
+    {
+      "sourceItemId": "lostball-day15-ocean-golf-ball-research",
+      "threadsPostId": "17949393120313291",
+      "bodyEn": "Overseas, a study reported that around 50,000 golf balls were collected from the waters near a coastal golf course.\n\nEven golf balls can affect the environment if left out in nature.\n\nThat is exactly why collecting them comes first.\nThen reusing the ones that still can be.\n\nWe want to start by not wasting a single ball.",
+      "bodyJa": "海外では、沿岸のゴルフ場周辺から約5万球ものゴルフボールが回収された研究報告があります。\n\nゴルフボールも、自然の中に残れば環境への影響を考える必要があります。\n\nだからこそ、まず回収すること。\nそして、まだ使えるものはもう一度使う。\n\n一球を無駄にしないことから始めたいと考えています。",
+      "pillar": "ENVIRONMENT",
+      "category": "OCEAN_GOLF_BALL_RESEARCH",
+      "postedAt": "2026-10-10T12:02:29.407Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38050506150",
+      "lang": "en"
     }
   ]
 }
