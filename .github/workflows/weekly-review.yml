@@ -31,8 +31,8 @@ name: Lost Ball Threads - Weekly Review (候補作成のみ・自動承認なし
 on:
   workflow_dispatch: {}
   schedule:
-    # 9:00 JST = UTC 0:00 (JST = UTC+9)。
-    - cron: "0 0 * * 6"
+    # 土曜 07:07 JST = 金曜 22:07 UTC (JST = UTC+9)。2026-10-12に9:00から変更(全アカウントの分析を朝7時台にそろえる)。
+    - cron: "7 22 * * 5"
 
 concurrency:
   group: lostball-weekly-review

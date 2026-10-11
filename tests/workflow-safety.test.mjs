@@ -180,11 +180,11 @@ test("discord-notification-test.ymlはshellがbashに明示され、既存のscr
   assert.match(content, /node scripts\/send-discord-notification\.mjs --live --content=/);
 });
 
-test("weekly-review.ymlは毎週土曜日9:00 JST(UTC 0:00土曜日)のcronがちょうど1つ設定されている", () => {
+test("weekly-review.ymlは毎週土曜日7:07 JST(UTC 22:07金曜日)のcronがちょうど1つ設定されている", () => {
   const content = readWorkflow("weekly-review.yml");
   const cronMatches = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)];
   assert.equal(cronMatches.length, 1, "cronトリガーが0個または複数ある");
-  assert.equal(cronMatches[0][1], "0 0 * * 6");
+  assert.equal(cronMatches[0][1], "7 22 * * 5");
 });
 
 test("weekly-review.ymlはdata/draft-bank.json・data/verified-facts.json・data/threads-posts.jsonへ一切書き込まない(git add対象に含めない)", () => {
