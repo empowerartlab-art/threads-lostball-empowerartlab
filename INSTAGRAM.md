@@ -56,7 +56,7 @@ Instagram は、同じ日の Threads のネタを画像で深掘りする（例�
 |---|---|
 | 一覧と検査 | `npm run x:validate` |
 | 承認 | `node scripts/x-approve.mjs --from 2026-10-14 --to 2026-10-19 --by <名前> --yes` |
-| 鍵の登録（本人がターミナルで。1つの開発者アプリ＋PIN方式で4アカウント共通） | `node scripts/connect-x.mjs [--repo empowerartlab-art/<repo>]` |
+| 鍵の登録（本人がターミナルで。1つの開発者アプリ＋PIN方式で4アカウント共通） | `node scripts/connect-x.mjs --all`（4アカウント順番に）／`--repo empowerartlab-art/<repo>`（1つだけ） |
 | 止まったとき | `node scripts/x-resolve.mjs --id <id> --outcome published|not-published [--x-id <id>] --by <名前> --yes` |
 
 スイッチ：GitHub Secrets `X_LIVE_POST` が `true` のときだけ実投稿（Threads・Instagram とは別）。
