@@ -13,6 +13,7 @@
 // 使い方: node scripts/connect-x.mjs                          (このリポジトリ=ロストボール)
 //         node scripts/connect-x.mjs --repo empowerartlab-art/threads-zero-riders
 //         node scripts/connect-x.mjs --all    (4アカウントを順番に。API Key の入力は1回だけ)
+//         node scripts/connect-x.mjs --only ハーレー,ロストボール,ZERO   (名前の一部で選ぶ)
 import { createInterface } from 'node:readline';
 import { spawnSync } from 'node:child_process';
 import { createHmac, randomBytes } from 'node:crypto';
@@ -26,7 +27,10 @@ const ALL = [
   { repo: 'empowerartlab-art/threads-zero-riders', label: 'ZERO RIDERS' },
 ];
 const argRepo = process.argv.indexOf('--repo');
-const TARGETS = process.argv.includes('--all')
+const argOnly = process.argv.indexOf('--only'); // 例: --only ハーレー個人,ロストボール,ZERO
+const TARGETS = argOnly !== -1
+  ? ALL.filter((t) => process.argv[argOnly + 1].split(',').some((w) => w && t.label.includes(w.trim())))
+  : process.argv.includes('--all')
   ? ALL
   : [{ repo: argRepo === -1 ? 'empowerartlab-art/threads-lostball-empowerartlab' : process.argv[argRepo + 1], label: '' }];
 const API = 'https://api.x.com';
@@ -82,33 +86,49 @@ if (!consumerKey || !consumerSecret) {
 let failed = 0;
 for (const { repo, label } of TARGETS) {
   console.log(`\n===== ${label || repo} =====`);
-  try {
-    const req = await signedPost(`${API}/oauth/request_token`, { consumerKey, consumerSecret, oauthExtra: { oauth_callback: 'oob' } });
-    secrets.push(req.oauth_token, req.oauth_token_secret);
-    console.log(`ブラウザの X を「${label || '接続したいアカウント'}」に切り替えてから、次の URL を開き「アプリにアクセスを許可」を押してください。`);
-    console.log(`  https://api.x.com/oauth/authorize?oauth_token=${req.oauth_token}\n`);
-    const pin = await ask('表示された PIN（数字）。このアカウントを飛ばすなら空のまま Enter: ');
-    if (!pin) {
-      console.log('飛ばしました（何も保存していません）。');
-      continue;
+  // URL は数分で期限切れになるので、失敗したら同じアカウントで新しい URL を出し直す。
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const req = await signedPost(`${API}/oauth/request_token`, { consumerKey, consumerSecret, oauthExtra: { oauth_callback: 'oob' } });
+      secrets.push(req.oauth_token, req.oauth_token_secret);
+      console.log(`先に、ブラウザ（シークレットウィンドウ）で X に「${label || '接続したいアカウント'}」でログインしておいてください。`);
+      console.log('準備ができたら、すぐに次の URL を開き「連携アプリを認証」を押してください（URL は数分で期限切れになります）。');
+      console.log(`  https://api.x.com/oauth/authorize?oauth_token=${req.oauth_token}\n`);
+      const pin = await ask('表示された PIN（数字）。新しい URL を出し直すなら r、このアカウントを飛ばすなら空のまま Enter: ');
+      if (!pin) {
+        console.log('飛ばしました（何も保存していません）。');
+        break;
+      }
+      if (pin.toLowerCase() === 'r') {
+        console.log('新しい URL を出し直します。');
+        continue;
+      }
+      const acc = await signedPost(`${API}/oauth/access_token`, {
+        consumerKey, consumerSecret, token: req.oauth_token, tokenSecret: req.oauth_token_secret, form: { oauth_verifier: pin },
+      });
+      secrets.push(acc.oauth_token, acc.oauth_token_secret);
+      const username = acc.screen_name;
+      if (!acc.oauth_token || !acc.oauth_token_secret || !username) throw new Error('鍵を受け取れませんでした。');
+      const ok = await ask(`@${username} を ${label || repo}（${repo}）に接続します。合っていますか？ (y/N): `);
+      if (ok.toLowerCase() !== 'y') {
+        console.log('このアカウントには保存しませんでした。正しいアカウントでやり直します（飛ばすなら次で空のまま Enter）。');
+        continue;
+      }
+      setSecret(repo, 'X_API_KEY', consumerKey);
+      setSecret(repo, 'X_API_SECRET', consumerSecret);
+      setSecret(repo, 'X_ACCESS_TOKEN', acc.oauth_token);
+      setSecret(repo, 'X_ACCESS_TOKEN_SECRET', acc.oauth_token_secret);
+      console.log(`✅ @${username} を ${label || repo} に接続しました（GitHub Secrets に4つの鍵を保存済み）。`);
+      break;
+    } catch (err) {
+      console.error(`❌ ${label || repo}: ${redactX(err.message, secrets)}`);
+      if (attempt >= 3) {
+        failed++;
+        console.error('3回うまくいかなかったので、このアカウントは飛ばします。');
+        break;
+      }
+      console.log('もう一度、新しい URL でやり直します。');
     }
-    const acc = await signedPost(`${API}/oauth/access_token`, {
-      consumerKey, consumerSecret, token: req.oauth_token, tokenSecret: req.oauth_token_secret, form: { oauth_verifier: pin },
-    });
-    secrets.push(acc.oauth_token, acc.oauth_token_secret);
-    const username = acc.screen_name;
-    if (!acc.oauth_token || !acc.oauth_token_secret || !username) throw new Error('鍵を受け取れませんでした。何も保存していません。');
-    const ok = await ask(`@${username} を ${label || repo}（${repo}）に接続します。合っていますか？ (y/N): `);
-    if (ok.toLowerCase() !== 'y') throw new Error('中止しました。このアカウントには何も保存していません。');
-
-    setSecret(repo, 'X_API_KEY', consumerKey);
-    setSecret(repo, 'X_API_SECRET', consumerSecret);
-    setSecret(repo, 'X_ACCESS_TOKEN', acc.oauth_token);
-    setSecret(repo, 'X_ACCESS_TOKEN_SECRET', acc.oauth_token_secret);
-    console.log(`✅ @${username} を ${label || repo} に接続しました（GitHub Secrets に4つの鍵を保存済み）。`);
-  } catch (err) {
-    failed++;
-    console.error(`❌ ${label || repo}: ${redactX(err.message, secrets)}`);
   }
 }
 console.log(failed ? `\n${failed}件うまくいきませんでした。上のメッセージを Claude に伝えてください（鍵の値は貼らないでください）。` : '\nすべて完了しました。');
