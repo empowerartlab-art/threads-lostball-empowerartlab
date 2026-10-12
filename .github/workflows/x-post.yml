@@ -1,6 +1,6 @@
-name: Lost Ball X - Daily Post (12:10 JST)
+name: Lost Ball X - Daily Post (05:53 JST)
 
-# 承認済みの X 投稿(data/x-queue.json)を毎日 12:10 JST に1本だけ投稿する。
+# 承認済みの X 投稿(data/x-queue.json)を毎日 05:53 JST に1本だけ投稿する。
 # 設計は ig-post.yml と同じ(先に予約(claim)を push → 読み戻して確認 → 投稿。結果不明は人が確認するまで停止)。
 # 中身は承認済み Threads 投稿を X 用(全角140字以内)に書き直したもの。丸写しは検査で止まる。
 #
@@ -10,8 +10,8 @@ name: Lost Ball X - Daily Post (12:10 JST)
 
 on:
   schedule:
-    # 03:10 UTC = 12:10 JST(昼休み。Threads 05:00/21:00、Instagram 07:00 とずらす)
-    - cron: "10 3 * * *"
+    # 20:53 UTC = 05:53 JST(早朝5〜7時枠。Threads 05:00、Instagram 07:00 の間。2026-10-12 運用者指示)
+    - cron: "53 20 * * *"
   workflow_dispatch:
     inputs:
       mode:
