@@ -97,14 +97,14 @@ jobs:
 
       # Instagram(2026-10-12 追加): 反応の取得(読み取りのみ)と、来週(火〜月)の予定・承認状況。
       # 失敗しても週次レビュー全体は止めない。
-      - name: "Instagramの反応と来週の予定(読み取りのみ)"
+      - name: "Instagramの反応と、Instagram・Xの来週の予定(読み取りのみ)"
         id: ig
         continue-on-error: true
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
         run: |
-          { node scripts/ig-week.mjs; node scripts/ig-insights.mjs; } > "$RUNNER_TEMP/ig.md" || true
+          { node scripts/ig-week.mjs; node scripts/x-week.mjs; node scripts/ig-insights.mjs; } > "$RUNNER_TEMP/ig.md" || true
           cat "$RUNNER_TEMP/ig.md"
 
       - name: 変更をcommit/push(data/threads-insights-history.json・data/draft-bank-candidates.json・data/ig-stats.jsonのみ)

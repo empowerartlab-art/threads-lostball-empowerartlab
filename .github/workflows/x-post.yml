@@ -1,0 +1,109 @@
+name: Lost Ball X - Daily Post (12:10 JST)
+
+# 承認済みの X 投稿(data/x-queue.json)を毎日 12:10 JST に1本だけ投稿する。
+# 設計は ig-post.yml と同じ(先に予約(claim)を push → 読み戻して確認 → 投稿。結果不明は人が確認するまで停止)。
+# 中身は承認済み Threads 投稿を X 用(全角140字以内)に書き直したもの。丸写しは検査で止まる。
+#
+# 実際に投稿するのは、GitHub Secrets に X_LIVE_POST="true" がある場合だけ。
+# 無ければ schedule でも dry-run(ログに出すだけ)。Threads・Instagram のスイッチとは別。
+# X の投稿 API は従量課金(1本あたり約2.3円、リンク付きは約30円が目安。公式未確認)。リンクは allowLink: true のものだけ・週2本まで。
+
+on:
+  schedule:
+    # 03:10 UTC = 12:10 JST(昼休み。Threads 05:00/21:00、Instagram 07:00 とずらす)
+    - cron: "10 3 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run(確認のみ) / live(実際に投稿。X_LIVE_POST Secret も必要)"
+        required: true
+        type: choice
+        options:
+          - dry-run
+          - live
+        default: dry-run
+      target_date:
+        description: "YYYY-MM-DD(dry-run のときだけ有効。その日の投稿を確認する)"
+        type: string
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lostball-x-post
+  cancel-in-progress: false
+
+env:
+  LIVE_POST: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.X_LIVE_POST == 'true' && 'true' || 'false' }}
+  TARGET_DATE: ${{ (github.event_name == 'workflow_dispatch' && inputs.mode != 'live') && inputs.target_date || '' }}
+  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: X 投稿予定の検査
+        run: node scripts/x-validate.mjs
+
+      - name: Git identity
+        if: env.LIVE_POST == 'true'
+        run: |
+          git config user.name "lostball-x-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      # 予約を GitHub に書き込んで読み戻す。今日の予定が無ければ skip=true で終わる。
+      - name: 今日の投稿を予約(claim)
+        id: claim
+        if: env.LIVE_POST == 'true'
+        run: node scripts/x-claim.mjs
+
+      - name: 投稿
+        id: publish
+        if: env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true'
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: node scripts/x-publish.mjs --live
+
+      - name: "Discord通知(投稿できた時・失敗した時のみ)"
+        if: always() && env.LIVE_POST == 'true' && (steps.publish.outputs.stage == 'published' || failure())
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          STAGE: ${{ steps.publish.outputs.stage }}
+          POST_ID: ${{ steps.publish.outputs.post_id }}
+        run: |
+          if [ "$STAGE" = "published" ]; then
+            CONTENT="【Lost Ball X｜投稿しました】${POST_ID}
+          Run: ${RUN_URL}"
+          else
+            CONTENT="【Lost Ball X｜⚠️ 失敗】stage=${STAGE:-unknown} ${POST_ID}
+          再実行はしないでください(二重投稿の恐れ)。X を目で確認して、Claude に相談してください。
+          Run: ${RUN_URL}"
+          fi
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
+
+      - name: 復旧の案内
+        if: failure() && env.LIVE_POST == 'true'
+        run: |
+          echo "data/x-journal.json に未解決の予約が残っている可能性があります。"
+          echo "X のプロフィールを目で確認してから、次を実行するまで投稿は止まります:"
+          echo "  node scripts/x-resolve.mjs --id <postId> --outcome published|not-published [--x-id <id>] --by <名前> --yes"
+          echo "この workflow をそのまま再実行しないでください(二重投稿の原因になります)。"

@@ -246,3 +246,16 @@ test("ig-post.ymlは投稿前に claim し、毎日07:00 JSTのcronが1つだけ
   assert.match(content, /steps\.claim\.outputs\.skip != 'true'/);
   assert.equal(concurrencyGroup(content), "lostball-instagram-post");
 });
+
+// ---- X(x-post.yml。2026-10-12 追加) ----
+test("x-post.ymlは X_LIVE_POST Secret が \"true\" のときだけ実投稿し、claim してから publish する。12:10 JST の cron が1つだけ", () => {
+  const content = stripComments(readWorkflow("x-post.yml"));
+  assert.match(content, /secrets\.X_LIVE_POST == 'true'/);
+  assert.doesNotMatch(content, /secrets\.(LIVE_POST|IG_LIVE_POST)\b/);
+  assert.doesNotMatch(content, /CLIENT_SECRET/i);
+  const crons = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)].map((m) => m[1]);
+  assert.deepEqual(crons, ["10 3 * * *"]);
+  assert.ok(content.indexOf("x-claim.mjs") < content.indexOf("x-publish.mjs"), "claim が publish より前にない");
+  assert.match(content, /steps\.claim\.outputs\.skip != 'true'/);
+  assert.equal(concurrencyGroup(content), "lostball-x-post");
+});
