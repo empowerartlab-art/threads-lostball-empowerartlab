@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-11T20:02:28.482Z",
-  "count": 16,
+  "updatedAt": "2026-10-12T12:09:12.481Z",
+  "count": 17,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -182,6 +182,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38170498426",
       "lang": "ja"
+    },
+    {
+      "sourceItemId": "lostball-day13-how-lost-balls-are-collected",
+      "threadsPostId": "17875342086585078",
+      "bodyEn": "Lost golf balls that have sunk to the bottom of a pond.\nThere's actually a method where divers go underwater to retrieve them.\n\nIn forests and out-of-bounds areas, they're sometimes collected by hand, one at a time.\n\nBehind the lost balls we see without a second thought, there's a job: collecting them.",
+      "bodyJa": "池の中に沈んだロストボール。\n実は、潜水士が水中に入り回収する方法もあります。\n\n林やOBゾーンなどでは、人の手で一つずつ回収されることも。\n\n普段何気なく目にするロストボールの裏側には、「回収する」という仕事があります。",
+      "pillar": "GOLF",
+      "category": "LOST_BALL_COLLECTION_METHODS",
+      "postedAt": "2026-10-12T12:09:12.481Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38247185003",
+      "lang": "en"
     }
   ]
 }
