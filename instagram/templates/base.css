@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=block');
+
+:root {
+  --green: #1f6b45;
+  --green-dark: #154d31;
+  --pink: #ec5f8a;
+  --cream: #f7f5ee;
+  --ink: #26332b;
+  --muted: #6b7a70;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1350px; overflow: hidden; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+  position: relative;
+}
+
+/* 共通：上のラベルと下のフッター */
+.eyebrow {
+  position: absolute; top: 80px; left: 90px;
+  display: flex; align-items: center; gap: 14px;
+  font-size: 30px; font-weight: 700; letter-spacing: .12em; color: var(--green);
+}
+.eyebrow::before { content: ''; width: 16px; height: 16px; border-radius: 50%; background: var(--pink); }
+.footer {
+  position: absolute; bottom: 70px; left: 90px; right: 90px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 24px; color: var(--muted); letter-spacing: .06em;
+}
+.footer b { color: var(--green); font-weight: 700; }
+
+/* ゴルフボール（CSSで描画。AI画像ではない） */
+.ball {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255,255,255,.95) 0 18%, transparent 40%),
+    radial-gradient(circle, rgba(0,0,0,.07) 0 2.2px, transparent 3px) 0 0 / 22px 22px,
+    radial-gradient(circle at 60% 65%, #ffffff 0%, #e9ece8 70%, #cfd6cf 100%);
+  box-shadow: inset -18px -24px 40px rgba(0,0,0,.10), 0 30px 50px rgba(31,107,69,.18);
+}

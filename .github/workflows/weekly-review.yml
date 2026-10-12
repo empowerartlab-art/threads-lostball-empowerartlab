@@ -95,13 +95,26 @@ jobs:
         id: review
         run: node scripts/weekly-review.mjs
 
-      - name: 変更をcommit/push(data/threads-insights-history.json・data/draft-bank-candidates.jsonのみ)
+      # Instagram(2026-10-12 追加): 反応の取得(読み取りのみ)と、来週(火〜月)の予定・承認状況。
+      # 失敗しても週次レビュー全体は止めない。
+      - name: "Instagramの反応と来週の予定(読み取りのみ)"
+        id: ig
+        continue-on-error: true
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: |
+          { node scripts/ig-week.mjs; node scripts/ig-insights.mjs; } > "$RUNNER_TEMP/ig.md" || true
+          cat "$RUNNER_TEMP/ig.md"
+
+      - name: 変更をcommit/push(data/threads-insights-history.json・data/draft-bank-candidates.json・data/ig-stats.jsonのみ)
         id: commit
         continue-on-error: true
         run: |
           git config user.name "lostball-weekly-review-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/threads-insights-history.json data/draft-bank-candidates.json
+          if [ -f data/ig-stats.json ]; then git add data/ig-stats.json; fi
           if git diff --cached --quiet; then
             echo "変更なし(commitしません)。"
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -133,4 +146,9 @@ jobs:
           翌週7投稿の候補を作成しています。内容を確認・承認してください。
           承認済みのものだけが scripts/promote-candidates.mjs 経由で data/draft-bank.json へ昇格し、
           毎日05:00 JSTの既存の自動投稿処理の対象になります(このworkflow自体は投稿・承認を一切行っていません)。"
+          if [ -s "$RUNNER_TEMP/ig.md" ]; then
+            CONTENT="${CONTENT}
+
+          $(cat "$RUNNER_TEMP/ig.md")"
+          fi
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"

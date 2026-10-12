@@ -198,10 +198,12 @@ test("weekly-review.ymlはdata/draft-bank.json・data/verified-facts.json・data
   }
 });
 
-test("weekly-review.ymlは新しいSecretsを要求しない(既存のTHREADS_ACCESS_TOKEN/THREADS_USER_ID/DISCORD_WEBHOOK_URL/LIVE_DISCORDのみ参照)", () => {
+// 2026-10-12: Instagram の反応(読み取りのみ)のため IG_ACCESS_TOKEN / IG_USER_ID を追加(運用者承認済み)。
+// 投稿のスイッチ IG_LIVE_POST は週次レビューでは参照しない。
+test("weekly-review.ymlは新しいSecretsを要求しない(既存のTHREADS_ACCESS_TOKEN/THREADS_USER_ID/DISCORD_WEBHOOK_URL/LIVE_DISCORDと、読み取り用のIG_ACCESS_TOKEN/IG_USER_IDのみ参照)", () => {
   const content = stripComments(readWorkflow("weekly-review.yml"));
   const secretRefs = [...content.matchAll(/secrets\.([A-Z_]+)/g)].map((m) => m[1]);
-  const allowed = new Set(["THREADS_ACCESS_TOKEN", "THREADS_USER_ID", "DISCORD_WEBHOOK_URL", "LIVE_DISCORD"]);
+  const allowed = new Set(["THREADS_ACCESS_TOKEN", "THREADS_USER_ID", "DISCORD_WEBHOOK_URL", "LIVE_DISCORD", "IG_ACCESS_TOKEN", "IG_USER_ID"]);
   for (const name of secretRefs) {
     assert.ok(allowed.has(name), `未許可の新しいSecretsが参照されている: ${name}`);
   }
@@ -225,4 +227,22 @@ test("weekly-review.ymlのDiscord通知は「候補」「確認・承認して�
 test("weekly-review.ymlはThreads投稿・削除・編集を行う関数(createTextContainer/createImageContainer/publishContainer)を呼ぶコードを一切含まない", () => {
   const content = stripComments(readWorkflow("weekly-review.yml"));
   assert.doesNotMatch(content, /createTextContainer|createImageContainer|publishContainer|post-to-threads\.mjs/);
+});
+
+// ---- Instagram(ig-post.yml。2026-10-12 追加) ----
+test("ig-post.ymlは IG_LIVE_POST Secret が \"true\" のときだけ実投稿し、Threads の LIVE_POST Secret は参照しない", () => {
+  const content = stripComments(readWorkflow("ig-post.yml"));
+  assert.match(content, /secrets\.IG_LIVE_POST == 'true'/);
+  assert.doesNotMatch(content, /secrets\.LIVE_POST\b/);
+  assert.doesNotMatch(content, /CLIENT_SECRET/i);
+  assert.doesNotMatch(content, /post-to-threads\.mjs|createTextContainer|publishContainer/);
+});
+
+test("ig-post.ymlは投稿前に claim し、毎日07:00 JSTのcronが1つだけ", () => {
+  const content = stripComments(readWorkflow("ig-post.yml"));
+  const crons = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)].map((m) => m[1]);
+  assert.deepEqual(crons, ["0 22 * * *"]);
+  assert.ok(content.indexOf("ig-claim.mjs") < content.indexOf("ig-publish.mjs"), "claim が publish より前にない");
+  assert.match(content, /steps\.claim\.outputs\.skip != 'true'/);
+  assert.equal(concurrencyGroup(content), "lostball-instagram-post");
 });

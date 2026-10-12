@@ -1,0 +1,109 @@
+name: Lost Ball Instagram - Daily Post (07:00 JST)
+
+# 承認済みの Instagram 投稿(data/ig-queue.json)を毎朝 07:00 JST に1本だけ投稿する。
+# 設計は ~/Documents/threads-zero-riders/.github/workflows/ig-post.yml と同じ:
+#   - 投稿 API を呼ぶ前に「予約(claim)」を data/ig-journal.json に書いて push し、読み戻して確認する。
+#   - 投稿されたか分からない失敗は自動で再試行しない。人が確認して scripts/ig-resolve.mjs で閉じるまで止まる。
+#   - 予定が無い日(週3〜4回なので多くの日)は何もせず正常終了する。
+#
+# 実際に投稿するのは、GitHub Secrets に IG_LIVE_POST="true" がある場合だけ。
+# 無ければ schedule でも dry-run(ログに出すだけ)。Threads の LIVE_POST とは別のスイッチ。
+# Threads の workflow(daily-live-post.yml 等)には一切触れない。
+
+on:
+  schedule:
+    # 22:00 UTC = 07:00 JST
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run(確認のみ) / live(実際に投稿。IG_LIVE_POST Secret も必要)"
+        required: true
+        type: choice
+        options:
+          - dry-run
+          - live
+        default: dry-run
+      target_date:
+        description: "YYYY-MM-DD(dry-run のときだけ有効。その日の投稿を確認する)"
+        type: string
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lostball-instagram-post
+  cancel-in-progress: false
+
+env:
+  LIVE_POST: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.IG_LIVE_POST == 'true' && 'true' || 'false' }}
+  TARGET_DATE: ${{ (github.event_name == 'workflow_dispatch' && inputs.mode != 'live') && inputs.target_date || '' }}
+  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instagram 投稿予定の検査
+        run: node scripts/ig-validate.mjs
+
+      - name: Git identity
+        if: env.LIVE_POST == 'true'
+        run: |
+          git config user.name "lostball-instagram-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      # 予約を GitHub に書き込んで読み戻す。今日の予定が無ければ skip=true で終わる。
+      - name: 今日の投稿を予約(claim)
+        id: claim
+        if: env.LIVE_POST == 'true'
+        run: node scripts/ig-claim.mjs
+
+      - name: 投稿
+        id: publish
+        if: env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: node scripts/ig-publish.mjs --live
+
+      - name: "Discord通知(投稿できた時・失敗した時のみ)"
+        if: always() && env.LIVE_POST == 'true' && (steps.publish.outputs.stage == 'published' || failure())
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          STAGE: ${{ steps.publish.outputs.stage }}
+          POST_ID: ${{ steps.publish.outputs.post_id }}
+        run: |
+          if [ "$STAGE" = "published" ]; then
+            CONTENT="【Lost Ball Instagram｜投稿しました】${POST_ID}
+          Run: ${RUN_URL}"
+          else
+            CONTENT="【Lost Ball Instagram｜⚠️ 失敗】stage=${STAGE:-unknown} ${POST_ID}
+          再実行はしないでください(二重投稿の恐れ)。Instagram を目で確認して、Claude に相談してください。
+          Run: ${RUN_URL}"
+          fi
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
+
+      - name: 復旧の案内
+        if: failure() && env.LIVE_POST == 'true'
+        run: |
+          echo "data/ig-journal.json に未解決の予約が残っている可能性があります。"
+          echo "Instagram のプロフィールを目で確認してから、次を実行するまで投稿は止まります:"
+          echo "  node scripts/ig-resolve.mjs --id <postId> --outcome published|not-published --by <名前> --yes"
+          echo "この workflow をそのまま再実行しないでください(二重投稿の原因になります)。"
