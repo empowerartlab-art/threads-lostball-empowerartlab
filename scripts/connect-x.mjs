@@ -14,6 +14,7 @@
 //         node scripts/connect-x.mjs --repo empowerartlab-art/threads-zero-riders
 //         node scripts/connect-x.mjs --all    (4アカウントを順番に。API Key の入力は1回だけ)
 //         node scripts/connect-x.mjs --only ハーレー,ロストボール,ZERO   (名前の一部で選ぶ)
+//         --wait を付けると、鍵の入力後に「認証設定を済ませたら Enter」で待つ(新しいアプリ用)
 import { createInterface } from 'node:readline';
 import { spawnSync } from 'node:child_process';
 import { createHmac, randomBytes } from 'node:crypto';
@@ -81,6 +82,12 @@ const secrets = [consumerKey, consumerSecret];
 if (!consumerKey || !consumerSecret) {
   console.error('❌ 空の鍵があります。何も保存していません。');
   process.exit(1);
+}
+
+// 新しいアプリのときは、鍵を入れたあとに「ユーザー認証設定（読み取りと書き込み）」を済ませてもらう。
+// 鍵の画面を閉じても、ここで入力済みの鍵はこのツールが覚えている。
+if (process.argv.includes('--wait')) {
+  await ask('\n鍵は受け取りました。鍵の画面を閉じて、アプリの「ユーザー認証設定」で「読み取りと書き込み」を保存してください。終わったら Enter: ');
 }
 
 let failed = 0;
