@@ -1,21 +1,27 @@
-// ロストボールの X アカウントを接続する(最初の1回と、鍵を作り直したとき)。
-// アカウントの持ち主が自分のターミナルで実行する。Claude は実行しない・値を見ない。
+// X アカウントを接続する(最初の1回と、鍵を作り直したとき)。持ち主が自分のターミナルで実行する。
+// Claude は実行しない・値を見ない。
 //
-// X 開発者画面で作った4つの鍵を、表示されない入力欄に1つずつ貼り付ける。
-// 鍵が本物か・どのアカウントのものかを GET /2/users/me で確かめてから、
-// gh 経由で GitHub Secrets(X_API_KEY / X_API_SECRET / X_ACCESS_TOKEN / X_ACCESS_TOKEN_SECRET)に直接保存する。
-// 秘密値は画面にもファイルにも出さない。アカウント名だけ data/x-account.json に残す。
+// 1つの X 開発者アプリで、複数のアカウント(ロストボール・ZERO RIDERS・ハーレー・エンパワー)に
+// 投稿できるようにする。各アカウントの開発者登録は不要。流れ:
+//   1. アプリの API Key / API Key Secret を貼る(表示されない)
+//   2. 表示された URL を、接続したい X アカウントでログインしたブラウザで開き「許可」→ 7桁の PIN が出る
+//   3. PIN を入力 → そのアカウント用の Access Token / Secret を受け取り、アカウント名を確認
+//   4. 4つの鍵を、指定したリポジトリの GitHub Secrets に直接保存
+//      (X_API_KEY / X_API_SECRET / X_ACCESS_TOKEN / X_ACCESS_TOKEN_SECRET)
+// 秘密値は画面にもファイルにも出さない。
 //
-// 使い方: node scripts/connect-x.mjs
+// 使い方: node scripts/connect-x.mjs                          (このリポジトリ=ロストボール)
+//         node scripts/connect-x.mjs --repo empowerartlab-art/threads-zero-riders
 import { createInterface } from 'node:readline';
 import { spawnSync } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
-import { oauthHeader } from '../lib/x-api.mjs';
+import { createHmac, randomBytes } from 'node:crypto';
 import { redactX } from '../lib/x-flow.mjs';
 
-const REPO = 'empowerartlab-art/threads-lostball-empowerartlab';
+const argRepo = process.argv.indexOf('--repo');
+const REPO = argRepo === -1 ? 'empowerartlab-art/threads-lostball-empowerartlab' : process.argv[argRepo + 1];
 const ACCOUNT_PATH = 'data/x-account.json';
-const ME_URL = 'https://api.x.com/2/users/me';
+const API = 'https://api.x.com';
 
 function ask(question, { hidden = false } = {}) {
   return new Promise((resolve) => {
@@ -30,6 +36,31 @@ function setSecret(name, value) {
   if (r.status !== 0) throw new Error(`gh secret set ${name} failed`);
 }
 
+const pe = (s) => encodeURIComponent(String(s)).replace(/[!'()*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+
+// OAuth 1.0a の署名付きリクエスト(PIN 方式の request_token / access_token 用)。
+async function signedPost(url, { consumerKey, consumerSecret, token = '', tokenSecret = '', oauthExtra = {}, form = {} }) {
+  const oauth = {
+    oauth_consumer_key: consumerKey,
+    oauth_nonce: randomBytes(16).toString('hex'),
+    oauth_signature_method: 'HMAC-SHA1',
+    oauth_timestamp: String(Math.floor(Date.now() / 1000)),
+    oauth_version: '1.0',
+    ...(token ? { oauth_token: token } : {}),
+    ...oauthExtra,
+  };
+  const all = { ...form, ...oauth };
+  const params = Object.keys(all).sort().map((k) => `${pe(k)}=${pe(all[k])}`).join('&');
+  const base = ['POST', pe(url), pe(params)].join('&');
+  oauth.oauth_signature = createHmac('sha1', `${pe(consumerSecret)}&${pe(tokenSecret)}`).update(base).digest('base64');
+  const header = 'OAuth ' + Object.entries(oauth).map(([k, v]) => `${pe(k)}="${pe(v)}"`).join(', ');
+  const body = new URLSearchParams(form).toString();
+  const res = await fetch(url, { method: 'POST', headers: { Authorization: header, 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`${url} failed (HTTP ${res.status}): ${text.slice(0, 300)}`);
+  return Object.fromEntries(new URLSearchParams(text));
+}
+
 let account = {};
 try {
   account = JSON.parse(await readFile(ACCOUNT_PATH, 'utf8'));
@@ -37,40 +68,41 @@ try {
   if (err.code !== 'ENOENT') throw err;
 }
 
-console.log('X 開発者画面の4つの鍵を、1つずつ貼り付けてください（入力は表示されません）。');
-const creds = {
-  apiKey: await ask('1/4 API Key（Consumer Key）: ', { hidden: true }),
-  apiSecret: await ask('2/4 API Key Secret（Consumer Secret）: ', { hidden: true }),
-  accessToken: await ask('3/4 Access Token: ', { hidden: true }),
-  accessSecret: await ask('4/4 Access Token Secret: ', { hidden: true }),
-};
-const secrets = Object.values(creds);
+console.log(`接続先リポジトリ: ${REPO}`);
+const consumerKey = await ask('1/2 アプリの API Key（Consumer Key）: ', { hidden: true });
+const consumerSecret = await ask('2/2 アプリの API Key Secret（Consumer Secret）: ', { hidden: true });
+const secrets = [consumerKey, consumerSecret];
 
 try {
-  if (secrets.some((s) => !s)) throw new Error('空の鍵があります。何も保存していません。');
-  const { header } = oauthHeader({ method: 'GET', url: ME_URL, consumerKey: creds.apiKey, consumerSecret: creds.apiSecret, token: creds.accessToken, tokenSecret: creds.accessSecret });
-  const res = await fetch(ME_URL, { headers: { Authorization: header } });
-  const body = await res.text();
-  if (!res.ok) throw new Error(`鍵の確認に失敗しました（HTTP ${res.status}）: ${body.slice(0, 300)}\n何も保存していません。`);
-  const username = JSON.parse(body)?.data?.username;
-  if (!username) throw new Error('アカウント名が取れませんでした。何も保存していません。');
+  if (!consumerKey || !consumerSecret) throw new Error('空の鍵があります。何も保存していません。');
+  const req = await signedPost(`${API}/oauth/request_token`, { consumerKey, consumerSecret, oauthExtra: { oauth_callback: 'oob' } });
+  secrets.push(req.oauth_token, req.oauth_token_secret);
+  console.log('\n次の URL を、接続したい X アカウントでログインしたブラウザで開き、「アプリにアクセスを許可」を押してください。');
+  console.log(`  https://api.x.com/oauth/authorize?oauth_token=${req.oauth_token}\n`);
+  const pin = await ask('表示された PIN（数字）: ');
+  const acc = await signedPost(`${API}/oauth/access_token`, {
+    consumerKey, consumerSecret, token: req.oauth_token, tokenSecret: req.oauth_token_secret, form: { oauth_verifier: pin },
+  });
+  secrets.push(acc.oauth_token, acc.oauth_token_secret);
+  const username = acc.screen_name;
+  if (!acc.oauth_token || !acc.oauth_token_secret || !username) throw new Error('鍵を受け取れませんでした。何も保存していません。');
 
   if (account.xUsername && username !== account.xUsername) {
-    throw new Error(`別のアカウント（@${username}）の鍵です。@${account.xUsername} で作り直してください。何も保存していません。`);
+    throw new Error(`別のアカウント（@${username}）です。@${account.xUsername} でログインし直してください。何も保存していません。`);
   }
-  if (!account.xUsername) {
-    const ok = await ask(`@${username} を接続します。ロストボールの X アカウントで合っていますか？ (y/N): `);
-    if (ok.toLowerCase() !== 'y') throw new Error('中止しました。何も保存していません。');
+  const ok = await ask(`@${username} を ${REPO} に接続します。合っていますか？ (y/N): `);
+  if (ok.toLowerCase() !== 'y') throw new Error('中止しました。何も保存していません。');
+
+  setSecret('X_API_KEY', consumerKey);
+  setSecret('X_API_SECRET', consumerSecret);
+  setSecret('X_ACCESS_TOKEN', acc.oauth_token);
+  setSecret('X_ACCESS_TOKEN_SECRET', acc.oauth_token_secret);
+
+  if (argRepo === -1) {
+    await writeFile(ACCOUNT_PATH, JSON.stringify({ ...account, xUsername: username, connectedAt: new Date().toISOString() }, null, 2) + '\n');
   }
-  console.log('（注意）投稿の権限（Read and write）が無い鍵でも、ここでは確認できません。最初の投稿で分かります。');
-
-  setSecret('X_API_KEY', creds.apiKey);
-  setSecret('X_API_SECRET', creds.apiSecret);
-  setSecret('X_ACCESS_TOKEN', creds.accessToken);
-  setSecret('X_ACCESS_TOKEN_SECRET', creds.accessSecret);
-
-  await writeFile(ACCOUNT_PATH, JSON.stringify({ ...account, xUsername: username, connectedAt: new Date().toISOString() }, null, 2) + '\n');
-  console.log(`\n✅ X @${username} を接続しました。GitHub Secrets に4つの鍵を保存済み。`);
+  console.log(`\n✅ X @${username} を ${REPO} に接続しました（GitHub Secrets に4つの鍵を保存済み）。`);
+  console.log('   投稿の権限（Read and write）が無いアプリだと、最初の投稿で失敗します。アプリ設定を確認してください。');
 } catch (err) {
   console.error(`\n❌ ${redactX(err.message, secrets)}`);
   process.exit(1);
