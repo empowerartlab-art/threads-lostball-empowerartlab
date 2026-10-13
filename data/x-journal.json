@@ -18,5 +18,15 @@
     "at": "2026-10-12T21:03:59.504Z",
     "threadsId": "2109751960715030776",
     "note": "x post id stored in threadsId"
+  },
+  {
+    "postId": "x-2026-10-14",
+    "date": "2026-10-14",
+    "stage": "claimed",
+    "runId": "38469005110",
+    "runAttempt": "1",
+    "at": "2026-10-13T21:14:05.024Z",
+    "threadsId": null,
+    "note": null
   }
 ]
