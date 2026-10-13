@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-12T20:05:09.326Z",
-  "count": 18,
+  "updatedAt": "2026-10-13T12:07:31.462Z",
+  "count": 19,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -206,6 +206,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38301855482",
       "lang": "ja"
+    },
+    {
+      "sourceItemId": "lostball-20261013-pond-ball-hook",
+      "threadsPostId": "18112065281587371",
+      "bodyEn": "That ball you hit into the pond?\nSometimes it just stays there, at the bottom.\n\nGolf balls are made of material that doesn't break down in nature.\n\nWe take lost balls like that, polish each one by hand, and give them another round.",
+      "bodyJa": "池ポチャしたボール。\nそのまま、池の底に残ることがあります。\n\nゴルフボールは、土に還らない素材でできています。\n\nそんなロストボールを、1球ずつ手で磨いて、もう一度使えるようにしています。",
+      "pillar": "ENVIRONMENT",
+      "category": "POND_BALL_HOOK",
+      "postedAt": "2026-10-13T12:07:31.462Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38394949316",
+      "lang": "en"
     }
   ]
 }
