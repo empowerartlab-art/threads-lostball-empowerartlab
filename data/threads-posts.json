@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-13T12:07:31.462Z",
-  "count": 19,
+  "updatedAt": "2026-10-13T20:15:55.214Z",
+  "count": 20,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -218,6 +218,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38394949316",
       "lang": "en"
+    },
+    {
+      "sourceItemId": "lostball-20261014-ob-ball-hook",
+      "threadsPostId": "18165093799490958",
+      "bodyEn": "Hit it OB into the trees and never found it?\nHappens more than we'd like to admit.\n\nIn forests and out-of-bounds areas, lost balls are sometimes collected by hand, one at a time.\n\nThe ones that get found can play another round.",
+      "bodyJa": "OBで林に消えたボール。\n探しても見つからないこと、ありますよね。\n\n林やOBゾーンでは、ロストボールが人の手で一つずつ回収されることもあります。\n\n見つけてもらえたボールには、もう一度出番があります。",
+      "pillar": "GOLF",
+      "category": "OB_BALL_HOOK",
+      "postedAt": "2026-10-13T20:15:55.214Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38461377689",
+      "lang": "ja"
     }
   ]
 }
