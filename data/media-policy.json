@@ -1,6 +1,13 @@
 {
   "_note": "メディア(画像)運用方針の構造化データ。人間可読の詳細方針は MEDIA_POLICY.md を参照。lib/media-guard.mjsが参照するのはmediaTypesのみで、その他はドキュメント・将来の生成プロンプト設計用の参照情報。",
-  "mediaTypes": ["TEXT_ONLY", "REAL_PHOTO", "PRODUCT_PHOTO", "REAL_WORK", "AI_ASSISTED_VISUAL", "BRAND_GRAPHIC"],
+  "mediaTypes": [
+    "TEXT_ONLY",
+    "REAL_PHOTO",
+    "PRODUCT_PHOTO",
+    "REAL_WORK",
+    "AI_ASSISTED_VISUAL",
+    "BRAND_GRAPHIC"
+  ],
   "principle": "「画像が無いから、とりあえずAI画像を作る」運用は禁止。AI画像は実在の出来事・人物・商品の証拠として使用しない。",
   "goal": "AI作品を見せることではなく、投稿内容を自然に視覚補助すること。",
   "realMediaPriority": {
@@ -85,5 +92,6 @@
       "x": "画像投稿は未実装。将来もInstagram承認済み画像の再利用のみ・同じルール"
     },
     "enforcedBy": "lib/media-guard.mjs checkHetaroCharacterPost"
-  }
+  },
+  "aiAssistedVisualStatus": "使用停止（2026-10-14）。2026-09-28 の最初の方針の名残。新しく使わない。AI画像はヘタ郎のキャラクター画像（characterException）だけ。"
 }
