@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "postId": "ig-2026-10-15-number",
+    "date": "2026-10-15",
+    "stage": "claimed",
+    "runId": "38646398803",
+    "runAttempt": "1",
+    "at": "2026-10-14T22:16:02.749Z",
+    "threadsId": null,
+    "note": null
+  }
+]
