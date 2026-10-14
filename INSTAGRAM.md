@@ -16,6 +16,11 @@ Instagram は、同じ日の Threads のネタを画像で深掘りする（例�
 
 ## 画像のルール
 - **AI 画像は使わない**（MEDIA_POLICY.md）。`mediaType` は BRAND_GRAPHIC / PRODUCT_PHOTO / REAL_PHOTO / REAL_WORK のみ（検査で強制）。
+- **例外はヘタ郎だけ**（2026-10-14 オーナーOK）：`mediaType` を `CHARACTER_HETARO` にすると、ヘタ郎（Lost Ball の見習いアンバサダー）のキャラクター画像を使える。
+  - 画像は hetaro-media の公開URL（`https://empowerartlab-art.github.io/hetaro-media/ig/<ファイル名>`）だけ。このリポジトリの画像や他の画像と混ぜない。
+  - 説明文に「見習いアンバサダー」か「#ヘタ郎」を必ず入れる。
+  - 商品写真・実在の人・お客様の結果・実際のイベントのように書かない（「商品写真」「お客様」「イベント当日」などがあると検査で止まる）。
+  - 詳しくは MEDIA_POLICY.md の「例外：ヘタ郎のキャラクター画像」。
 - 文字デザイン（`instagram/templates/*.html`）＋実写・ステッカー原画で作る。1080×1350（縦4:5）JPEG。
 - ステッカー原画は QR コード部分を写さない。チラシ原本（顔・住所・QR入り）は使わない。
 - 作り方: `instagram/templates/<日付>-<名前>.html` を作る → `npm run ig:render` → `assets/instagram/` に JPEG。
@@ -68,7 +73,7 @@ Instagram は、同じ日の Threads のネタを画像で深掘りする（例�
 - 同じ日の3本・7日以内の X どうしが似すぎていても止まる（Threads と同じ基準）。
 - 新しい事実は足さない。事実を書くときは `requiresVerifiedFact: true` と `verifiedFactIds`（`data/verified-facts.json` の確認済みのものだけ）。
 - タグは0〜1個。ショップ誘導（「販売中」「プロフィールのリンクから」など）は**週1回まで**（検査で止まる）。
-- 画像付きは未対応（使うようになっても、Instagram で承認済みの画像の再利用だけ。AI画像は使わない）。
+- 画像付きは未対応（使うようになっても、Instagram で承認済みの画像の再利用だけ。AI画像は使わない。例外はヘタ郎のキャラクター画像だけで、MEDIA_POLICY.md のルールに従う）。
 
 ## 料金とリンク（大事）
 - X の投稿は1本ごとにお金がかかる。目安：**URLなし 1本 $0.015、URL入り 1本 $0.20（約13倍）**。1日3本・URLなしなら月およそ $1.4。

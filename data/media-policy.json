@@ -63,5 +63,29 @@
     "Harley Threads",
     "Empower Art Lab note"
   ],
-  "futureAccountsGoal": "『AIがコンテンツを作っているアカウント』ではなく、『実際の商品・活動・作品・旅を中心に、AIが編集・デザイン・運用を補助しているアカウント』に見える状態を目指す。"
+  "futureAccountsGoal": "『AIがコンテンツを作っているアカウント』ではなく、『実際の商品・活動・作品・旅を中心に、AIが編集・デザイン・運用を補助しているアカウント』に見える状態を目指す。",
+  "characterException": {
+    "mediaType": "CHARACTER_HETARO",
+    "decidedAt": "2026-10-13",
+    "finalApprovalAt": "2026-10-14",
+    "summary": "AI画像は引き続き禁止。唯一の例外はヘタ郎(Lost Ballの見習いアンバサダー、架空のキャラクター)の画像。",
+    "allowedImageSource": "https://empowerartlab-art.github.io/hetaro-media/ig/<ファイル名>(公開リポジトリ empowerartlab-art/hetaro-media の ig/)",
+    "captionMustContainOneOf": [
+      "見習いアンバサダー",
+      "#ヘタ郎"
+    ],
+    "forbidden": [
+      "実際の商品(商品写真)の代わりに使う",
+      "実在の人物・お客様のように見せる",
+      "実際の出来事・イベントのように見せる",
+      "お客様の結果を示す",
+      "ヘタ郎以外のAI画像"
+    ],
+    "channels": {
+      "instagram": "使用可(lib/ig-flow.mjsで検査)",
+      "threads": "現在は文字のみ。将来画像を出すときも同じルール",
+      "x": "画像投稿は未実装。将来もInstagram承認済み画像の再利用のみ・同じルール"
+    },
+    "enforcedBy": "lib/media-guard.mjs checkHetaroCharacterPost"
+  }
 }

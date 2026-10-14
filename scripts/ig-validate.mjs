@@ -2,6 +2,7 @@
 // errors があれば終了コード1(投稿 workflow はここで止まる)。warnings は表示のみ。
 import { readFile, access } from 'node:fs/promises';
 import { validateIgQueue, IG_QUEUE_PATH, IG_MEDIA_DIR } from '../lib/ig-flow.mjs';
+import { CHARACTER_HETARO } from '../lib/media-guard.mjs';
 
 let queue = [];
 try {
@@ -13,6 +14,9 @@ const factsRaw = JSON.parse(await readFile('data/verified-facts.json', 'utf8'));
 const facts = Array.isArray(factsRaw) ? factsRaw : factsRaw.facts ?? [];
 const { errors, warnings } = validateIgQueue(queue, { factIds: facts.map((f) => f.id) });
 for (const p of queue) {
+  // ヘタ郎の画像は別リポジトリ(hetaro-media の GitHub Pages)にある。置き場の検査は validateIgQueue、
+  // 実在の確認は投稿直前の HEAD チェック(lib/ig-flow.mjs)で行う。
+  if (p.mediaType === CHARACTER_HETARO) continue;
   for (const f of p.images ?? []) {
     try {
       await access(IG_MEDIA_DIR + f);
