@@ -18,7 +18,7 @@ Instagram は、同じ日の Threads のネタを画像で深掘りする（例�
 - **AI 画像は使わない**（MEDIA_POLICY.md）。`mediaType` は BRAND_GRAPHIC / PRODUCT_PHOTO / REAL_PHOTO / REAL_WORK のみ（検査で強制）。
 - **例外はヘタ郎だけ**（2026-10-14 オーナーOK）：`mediaType` を `CHARACTER_HETARO` にすると、ヘタ郎（Lost Ball の見習いアンバサダー）のキャラクター画像を使える。
   - 画像は hetaro-media の公開URL（`https://empowerartlab-art.github.io/hetaro-media/ig/<ファイル名>`）だけ。このリポジトリの画像や他の画像と混ぜない。
-  - 説明文に「見習いアンバサダー」か「#ヘタ郎」を必ず入れる。
+  - 説明文に「見習いアンバサダー」を毎回必ず入れる（「#ヘタ郎」だけでは不可。「#ヘタ郎」は併記してよい）。
   - 商品写真・実在の人・お客様の結果・実際のイベントのように書かない（「商品写真」「お客様」「イベント当日」などがあると検査で止まる）。
   - 詳しくは MEDIA_POLICY.md の「例外：ヘタ郎のキャラクター画像」。
 - 文字デザイン（`instagram/templates/*.html`）＋実写・ステッカー原画で作る。1080×1350（縦4:5）JPEG。

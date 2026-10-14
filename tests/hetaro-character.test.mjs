@@ -37,10 +37,22 @@ test("ヘタ郎の置き場: GitHub Pages の URL と hetaro-media/ig/ のパス
   ]) assert.equal(hetaroImageUrl(bad), null, String(bad));
 });
 
-test("許可: ヘタ郎の画像だけ＋説明文に目印(見習いアンバサダー or #ヘタ郎)", () => {
+test("許可: ヘタ郎の画像だけ＋説明文に「見習いアンバサダー」(#ヘタ郎 の併記も可)", () => {
   assert.deepEqual(checkHetaroCharacterPost({ images: [`${PAGES}a.jpg`, "hetaro-media/ig/b.jpg"], caption: okCaption }), { ok: true, errors: [] });
-  assert.equal(checkHetaroCharacterPost({ images: [`${PAGES}a.jpg`], caption: "見習いアンバサダーの練習日記" }).ok, true);
-  assert.equal(checkHetaroCharacterPost({ images: [`${PAGES}a.jpg`], caption: "今日の一打 #ヘタ郎" }).ok, true);
+});
+
+test("目印: 見習いアンバサダーのみ → 可", () => {
+  assert.deepEqual(checkHetaroCharacterPost({ images: [`${PAGES}a.jpg`], caption: "見習いアンバサダーの練習日記" }), { ok: true, errors: [] });
+});
+
+test("目印: 見習いアンバサダー＋#ヘタ郎 → 可", () => {
+  assert.deepEqual(checkHetaroCharacterPost({ images: [`${PAGES}a.jpg`], caption: "見習いアンバサダーの今日の一打 #ヘタ郎" }), { ok: true, errors: [] });
+});
+
+test("目印: #ヘタ郎 のみ → エラー(見習いアンバサダーは毎回必須)", () => {
+  const r = checkHetaroCharacterPost({ images: [`${PAGES}a.jpg`], caption: "今日の一打 #ヘタ郎" });
+  assert.equal(r.ok, false);
+  assert.ok(r.errors.some((e) => e.startsWith("hetaro-caption-missing-marker")), String(r.errors));
 });
 
 test("不可: ヘタ郎以外の画像が1枚でも混ざる", () => {

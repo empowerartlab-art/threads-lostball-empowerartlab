@@ -70,10 +70,8 @@
     "finalApprovalAt": "2026-10-14",
     "summary": "AI画像は引き続き禁止。唯一の例外はヘタ郎(Lost Ballの見習いアンバサダー、架空のキャラクター)の画像。",
     "allowedImageSource": "https://empowerartlab-art.github.io/hetaro-media/ig/<ファイル名>(公開リポジトリ empowerartlab-art/hetaro-media の ig/)",
-    "captionMustContainOneOf": [
-      "見習いアンバサダー",
-      "#ヘタ郎"
-    ],
+    "captionMustContain": "見習いアンバサダー",
+    "captionMarkerNote": "2026-10-14 オーナー決定: 「見習いアンバサダー」は毎回必須。「#ヘタ郎」だけでは不可(併記は可)。",
     "forbidden": [
       "実際の商品(商品写真)の代わりに使う",
       "実在の人物・お客様のように見せる",
