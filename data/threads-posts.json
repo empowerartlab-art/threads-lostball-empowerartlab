@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-14T12:18:01.176Z",
-  "count": 21,
+  "updatedAt": "2026-10-14T20:17:16.755Z",
+  "count": 22,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -242,6 +242,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38562709885",
       "lang": "en"
+    },
+    {
+      "sourceItemId": "lostball-20261015-japan-lost-ball-count",
+      "threadsPostId": "18132171418768429",
+      "bodyEn": "It's said that an estimated 500 million to 1 billion lost golf balls remain uncollected near golf courses across Japan (as of 2025).\n\nThe ball you lost this year might be one of them.",
+      "bodyJa": "日本のゴルフ場の近くには、\n推定5億〜10億球のロストボールが、回収されずに残っているとも言われています（2025年時点）。\n\n今年なくしたあのボールも、その中のどこかにあるかもしれません。",
+      "pillar": "ENVIRONMENT",
+      "category": "JAPAN_LOST_BALL_COUNT",
+      "postedAt": "2026-10-14T20:17:16.754Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38630720483",
+      "lang": "ja"
     }
   ]
 }
