@@ -1,0 +1,70 @@
+name: lostball-insights-daily
+
+# 目的: 毎日1回、Threads と Instagram のアカウント全体（前日JST分）と直近60日の投稿ごとのInsightsを取得し、
+# data/insights-daily.json（sns-growth-dashboard data-contract v1）へマージしてcommitする。
+# GET専用(投稿・書き込みAPIは一切呼ばない)。
+#
+# - Secretsの渡し方は weekly-review.yml と同じ:
+#   Threads は一時的な .env.local（job終了時に必ず削除）、Instagram は step の env。
+# - 投稿系workflowとは別concurrency group。commit対象は data/insights-daily.json のみ。
+#   他workflowとのpush競合を避けるため push前に pull --rebase する。
+#
+# schedule: 毎日 JST 03:20。GitHub Actionsのcron式はUTC基準のため、
+# JST 03:20 = UTC 18:20（前日）として `20 18 * * *` を指定している。
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "20 18 * * *" # JST 03:20
+
+concurrency:
+  group: lostball-insights-daily
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: テスト
+        run: npm test
+
+      - name: Write ephemeral .env.local from GitHub Secrets(コミットしない。job終了時に必ず削除)
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        run: |
+          {
+            echo "THREADS_ACCESS_TOKEN=${THREADS_ACCESS_TOKEN}"
+            echo "THREADS_USER_ID=${THREADS_USER_ID}"
+          } > .env.local
+
+      - name: "日次Insights取得(読み取り専用。data/insights-daily.jsonへ書き込むだけ)"
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: node scripts/collect-insights-daily.mjs
+
+      - name: Remove ephemeral .env.local(Secretsをディスク上に残さない)
+        if: always()
+        run: rm -f .env.local
+
+      - name: 変更をcommit/push(data/insights-daily.jsonのみ。変更が無ければcommitしない)
+        run: |
+          git config user.name "lostball-insights-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/insights-daily.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(lostball): daily insights snapshot for the dashboard"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
