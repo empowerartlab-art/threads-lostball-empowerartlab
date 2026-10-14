@@ -78,6 +78,19 @@ node scripts/bulk-approve.mjs --week 2026-10-20 --exclude id1,id2 --by 承認者
 - 同じ日・同じ枠の日本語 Threads を X 用に書き直したものを `data/x-queue.json` に入れ、`node scripts/x-bulk-approve.mjs --week <日付>` でまとめて承認する。
 - URL 入りは1本 $0.20（URLなし $0.015 の約13倍）なので原則入れない。詳しくは [`INSTAGRAM.md`](./INSTAGRAM.md) の「X 自動投稿」。
 
+## コメントの返信アシスト（半自動。2026-10-15〜）
+
+- 毎時（6:27〜23:27）に、**直近7日の投稿**についたThreads・Instagramの新しいコメントを見回る（`comment-watch.yml`）
+- 見つけたコメントは**暗号化して** `data/comment-inbox.enc.json` に置くだけ（7日で消える）。`data/comment-seen.json` は見た印（IDだけ）
+- 毎時45分に `sns-daily-digest` が読み、AIの返信案を2〜3個つけて **LINE に1件ずつ**届ける
+- **自動では返信しない**。LINE の案から選んで、ロストボールのアカウントで手で貼る
+- 自分たちのアカウントのコメントは知らせない。一覧は `scripts/comment-watch.mjs` の `OWN_USERNAMES`
+- 最初の1回は、いまあるコメントを「見た」にするだけ（昔のコメントは送らない）
+- 鍵に許可が無いときは「許可なし（未接続）」と1行出して何もしない（失敗にしない）
+- Threads は 2026-10-15 時点で許可が無い（403）。土曜に鍵を作り直したら、次の見回りから自動で動き出す（その最初の1回は「見た」にするだけ）
+- 返信案でロストボールの商品・活動について言うのは `data/verified-facts.json` の確認済み（`verified: true`）の事実だけ
+- 公開鍵は `config/inbox-public.pem`（秘密鍵は sns-daily-digest の Secret だけにある）
+
 ## ディレクトリ構成
 
 ```

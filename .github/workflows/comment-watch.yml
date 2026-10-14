@@ -1,0 +1,57 @@
+name: コメントの見回り
+
+# 毎時(6:27〜23:27 JST。公開リポジトリなので Actions の時間を気にしなくてよい)、直近7日のThreads・Instagramの投稿についた新しいコメントを探し、
+# 暗号化して data/comment-inbox.enc.json に置く。sns-daily-digest がそれを読み、返信案をつけて LINE に送る。
+# API は読むだけ。投稿・返信は一切しない。ログは件数だけ。鍵に許可が無いときは静かに飛ばす(失敗にしない)。
+on:
+  schedule:
+    - cron: "27 21-23,0-14 * * *" # UTC。JST では 6:27〜23:27 の毎時
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# 専用の concurrency group。投稿の group に入ると、待っている投稿の実行が取り消されることがある
+# (GitHub は同じ group で待てるのを1つだけにする)ため。push 前に pull --rebase して最大5回やり直す。
+concurrency:
+  group: comment-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 新しいコメントを探す(読み取りのみ)
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: node scripts/comment-watch.mjs
+
+      - name: 見た印と暗号化したコメントを commit/push(変わったときだけ)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for f in data/comment-seen.json data/comment-inbox.enc.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: record comment watch"
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          echo "push が5回とも失敗しました"
+          exit 1
