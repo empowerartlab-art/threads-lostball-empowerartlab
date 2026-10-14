@@ -57,8 +57,14 @@ jobs:
       - name: 当日の投稿候補選出
         run: npm run lostball:select-daily
 
-      - name: 投稿処理のdry-run
-        run: npm run lostball:post-dry-run | tee dry-run-result.log
+      # 1日4本(2026-10-20〜)に合わせ、今日の全部の枠(従来05:00・朝・昼・夜・英語21:00)を順にdry-runする。
+      # --live を渡さず LIVE_POST も "false" なので、どの枠も実投稿は行わない(すでに出た枠は「対象なし」と出る)。
+      - name: 投稿処理のdry-run(今日の全部の枠)
+        run: |
+          for r in legacy_ja morning noon night night_en; do
+            echo "##### 枠: ${r}"
+            node scripts/post-to-threads.mjs --run="${r}"
+          done | tee dry-run-result.log
 
       - name: 結果ログ確認
         run: |

@@ -9,6 +9,8 @@ import {
   collectInsightsDaily,
   mergeInsightsDaily,
   buildThemeLookup,
+  buildPostInfoLookup,
+  threadsMediaType,
   MAX_DAYS
 } from "../lib/insights-daily.mjs";
 
@@ -257,6 +259,37 @@ test("theme comes from the repo's own records, else null", async () => {
   const doc = await collectInsightsDaily({ brand: BRAND, existing: null, credentials: { threads: { token: TOKEN, userId: USER } }, fetchImpl: fakeFetch(), now: NOW, themeOf });
   assert.equal(doc.posts.find((p) => p.postId === "T2").theme, "HARLEY");
   assert.equal(doc.posts.find((p) => p.postId === "T1").theme, null);
+});
+
+test("v1 additions: Threads posts carry slot, lang (from threads-posts.json) and mediaType (from media_type)", async () => {
+  const records = [
+    { threadsPostId: "T2", slot: "night", lang: "en" },
+    { threadsPostId: "T1", lang: "ja" }, // legacy single-language post: no slot
+    { threadsPostId: "X9", slot: "weird", lang: "both" }
+  ];
+  const postInfoOf = { threads: buildPostInfoLookup(records, { idKey: "threadsPostId" }) };
+  const doc = await collectInsightsDaily({ brand: BRAND, existing: null, credentials: { threads: { token: TOKEN, userId: USER } }, fetchImpl: fakeFetch(), now: NOW, postInfoOf });
+  const t2 = doc.posts.find((p) => p.postId === "T2");
+  const t1 = doc.posts.find((p) => p.postId === "T1");
+  assert.equal(t2.slot, "night");
+  assert.equal(t2.lang, "en");
+  assert.equal(t2.mediaType, "TEXT");
+  assert.equal(t1.slot, null);
+  assert.equal(t1.lang, "ja");
+  const lookup = postInfoOf.threads;
+  assert.deepEqual(lookup("X9"), { slot: null, lang: null });
+  assert.equal(lookup("nope"), null);
+  assert.equal(threadsMediaType("IMAGE"), "IMAGE");
+  assert.equal(threadsMediaType("CAROUSEL_ALBUM"), "CAROUSEL");
+  assert.equal(threadsMediaType("SOMETHING"), null);
+});
+
+test("without post records, slot and lang are null (consumers treat them as optional)", async () => {
+  const doc = await collectInsightsDaily({ brand: BRAND, existing: null, credentials: { threads: { token: TOKEN, userId: USER } }, fetchImpl: fakeFetch(), now: NOW });
+  for (const p of doc.posts.filter((x) => x.platform === "threads")) {
+    assert.equal(p.slot, null);
+    assert.equal(p.lang, null);
+  }
 });
 
 // ---- workflow ----

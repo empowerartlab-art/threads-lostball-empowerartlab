@@ -2,17 +2,76 @@
 
 `@lost_ball_empowerartlab`（Japan Lost Golf Balls）のThreads運用基盤。
 
-**現在はPhase 4稼働中（Phase 3完了：GitHub Secrets登録・初回LIVE投稿を人間が確認済み。@lost_ball_empowerartlab のThreadsアカウントへ実際に投稿された実績あり。Phase 4の毎日自動投稿は投稿時刻(JST 20:00)を人間が確定し、本番稼働中。Discordへの実送信は引き続き未実装）。**
+**現在はPhase 4稼働中（毎日自動投稿。2026-10-20からは1日4本：日本語 7:35・12:35・20:35、英語 21:00。詳しくは下の「1日4本（2026-10-20〜）」）。**
 
 ## 中心思想
 
 - 単なる中古ゴルフボールの安売りアカウントにはしない
 - ブランドの5軸：JAPAN / ENVIRONMENT / WELFARE / SOCIAL_CONTRIBUTION / GOLF
 - 「事実は verified-facts.json、表現はAI/人」：`data/verified-facts.json` に無い事実は投稿本文で使用できない
-- 承認済みの投稿は英語・日本語の両方を持ち（合計500文字以内、本文に生URLを含めない。ショップ誘導は常にプロフィールリンク経由）、**2026-10-10からは朝JST 05:00に日本語だけ、夜JST 21:00に英語だけ**を別々に投稿する（`daily-live-post.yml` の2つのcron → `post-to-threads.mjs --lang=ja|en`）。今は日本のゴルファーが主な対象で、海外発送はしないため英語投稿ではショップへ誘導しない
+- 承認済みの投稿は英語・日本語の両方を持つ（合計500文字以内、本文に生URLを含めない。ショップ誘導は常にプロフィールリンク経由）。今は日本のゴルファーが主な対象で、海外発送はしないため英語投稿ではショップへ誘導しない
+- **2026-10-19まで**：1つの承認済み投稿を、朝JST 05:00に日本語だけ、夜JST 21:00に英語だけで出す（2026-10-10〜の運用）
+- **2026-10-20から**：1日4本（すべて文字のみ）。日本語 朝7:35・昼12:35・夜20:35、英語 夜21:00。詳しくは下の「1日4本（2026-10-20〜）」
 - 福祉の同情訴求・過度な美談化、根拠のない環境効果の数値化、未確認の断定表現（all/every/すべて/必ず 等）を避ける
 - AIによる自動承認・自動昇格は禁止（`draft-bank.json`への追加は人間の明示的承認が必須）
 - 画像も「画像が無いから、とりあえずAI画像を作る」運用は禁止。詳細は [`MEDIA_POLICY.md`](./MEDIA_POLICY.md) を参照
+
+## 1日4本（2026-10-20〜）
+
+### 時刻（JST）と cron（UTC）
+| 枠 | 言語 | 時刻（JST） | cron（UTC） | draft-bank.json の書き方 |
+|---|---|---|---|---|
+| 朝 | 日本語 | 07:35 | `35 22 * * *`（前日） | `"slot": "morning", "lang": "ja"` |
+| 昼 | 日本語 | 12:35 | `35 3 * * *` | `"slot": "noon", "lang": "ja"` |
+| 夜 | 日本語 | 20:35 | `35 11 * * *` | `"slot": "night", "lang": "ja"` |
+| 夜 | 英語 | 21:00（今までと同じ） | `0 12 * * *` | `"slot": "night", "lang": "en"` |
+| （従来） | 日本語 | 05:00 | `0 20 * * *`（前日） | slot・lang なし（10/19まで） |
+
+- どの枠かは「どの cron で起動されたか」で決まる（`lib/slots.mjs`・`scripts/resolve-run.mjs`）。GitHub の混雑で起動が遅れても枠を取り違えない。21:00 の英語が0時を過ぎてから動いても、前の日の分を出す。
+- 1回の実行で出すのは「その日・その枠」の承認済み1件だけ。前の枠で出せなかった投稿を後の枠で出すこと（繰り越し）はしない。
+- 2026-10-20 以降の日付は「日本語の朝・昼・夜を1件ずつ＋英語の夜を1件」のちょうど4件。足りない・多い・従来の形と混ざっている日は、データ検査（`npm run lostball:validate-data`）でエラーになり、投稿の前に止まる。
+- 英語の投稿も、これまでどおり英語（bodyEn）と日本語訳（bodyJa）の両方を持つ（併記チェック・事実チェックは今までと同じ）。投稿されるのは英語だけ。
+- 投稿記録（`data/threads-posts.json`）には `lang`・`slot`・`targetDate` が残る。
+
+### 従来の投稿（10/19まで）との関係
+- slot の無い投稿は、これまでとまったく同じ選び方で 05:00 に日本語・21:00 に英語で出る（2026-10-19 まで）。
+- 2026-10-20 からは、05:00 の実行は何もせずに終わる。21:00 は「夜・英語」の枠として動く。
+- 10/19 までに出せなかった従来の投稿は、10/20 以降は自動では出ない（必要なら人が4本の枠に組み直して承認する）。
+
+### まとめて承認（土曜日）
+週次レビュー（土曜 07:07）が作るのは「テーマ案（下書き前のスケルトン）」だけ。本文は人（＋Claude）が書き、
+`data/draft-bank-candidates.json` に1日4件（`slot`・`lang`・`targetDate` 付き）で入れてから、人がまとめて承認する。
+
+```bash
+# 見るだけ（何も書き換えない）。--week はその日を含む火〜月の1週間
+node scripts/bulk-approve.mjs --week 2026-10-20
+node scripts/bulk-approve.mjs --date 2026-10-21
+
+# 承認する（--by 名前 と --yes の両方が必要）
+node scripts/bulk-approve.mjs --week 2026-10-20 --by 承認者 --yes
+# 一部を外して承認する（1日の4件をまとめて外すと、その日は投稿なし）
+node scripts/bulk-approve.mjs --week 2026-10-20 --exclude id1,id2 --by 承認者 --yes
+```
+
+- 1件でも問題があれば何も書き換えない（全部OKのときだけ承認）。問題のある id と理由が表示される。
+- 1日の途中まで（例：英語だけ無い）では承認できない。その日の4件をそろえるか、4件とも外す。
+- 承認したら `npm run lostball:validate-data` → `data/draft-bank.json` と `data/draft-bank-candidates.json` を commit / push。
+- 1件ずつ承認する `scripts/promote-candidates.mjs` は従来の形（slot なし）専用。slot 付きの候補は受け付けない。
+
+### 承認のときに止めるもの（ガード）
+- これまでのもの：英日併記・500文字・生URL禁止、`verified-facts.json` に無い事実、裏付けの無い具体的な数字や実績（fact-fabrication-guard）、画像ルール、投稿済みと同じ本文。
+- 文字のみ：`media.type` は `TEXT_ONLY` だけ。
+- 似すぎ（`lib/similarity-guard.mjs`。比べるのは実際に出す言語の本文どうし。日本語と英語は比べない）：
+  - 同じ日の日本語3本：似ている（類似度0.25以上）・同じカテゴリー・同じ書き出しは不可
+  - 7日以内：日本語0.35以上・英語0.30以上は不可
+  - 投稿済み（直近60日）：日本語0.45以上・英語0.40以上は不可
+- 表現の警告（断定表現など）は止めずに表示するだけ。人が判断する。
+
+### 安全のしくみ
+- 手動実行（Actions の Run workflow）は `mode` の既定が `dry-run`（投稿しない）。`run` で枠、`date` で日付（dry-run のときだけ）を選べる。
+- Threads 投稿の実行は Threads 専用の concurrency group（`lostball-live-post`、`cancel-in-progress: false`）。Instagram・X・週次レビューとは別なので、土曜の週次レビューが枠の実行を取り消すことはない。
+- 投稿記録の push が他の workflow とぶつかったら、`git pull --rebase` して最大5回やり直す。やり直すのは記録の push だけで、Threads への投稿は絶対にやり直さない。
+- 毎朝 09:00 の確認用 dry-run（`daily-post.yml`）は、その日の全部の枠を順に試す（投稿はしない）。
 
 ## ディレクトリ構成
 
@@ -42,10 +101,15 @@ lib/                          # テーマ非依存の汎用ロジック。Thread
   threads-publish.mjs         # live投稿の二重ゲート(env.LIVE_POST==="true" かつ live===true)＋API呼び出し＋投稿レコード生成
   live-post-runner.mjs        # 候補選出→既存ガード→二重ゲート→publishPost→state保存 のオーケストレーション(選出/ガード/API呼び出しは再実装せず既存モジュールを呼ぶだけ)
   threads-posts-store.mjs     # data/threads-posts.jsonへの投稿記録の永続化専用(atomic write。git操作は一切行わない)
+  slots.mjs                   # 1日4本の枠(時刻・cron・slot/lang)、実行の枠の決め方、draft-bank.jsonの枠の検査
+  similarity-guard.mjs        # 似すぎた投稿(同じ日・同じ週・投稿済みの言い換え)を止める
+  bulk-approve.mjs            # まとめて承認の計画と一覧表示(ファイルI/Oなし)
 
 scripts/                      # ローカル実行専用。Threads/Meta APIへは、二重ゲートが揃わない限り一切接続しない
   select-daily-candidate.mjs  # 本日投稿してよい候補をdraft-bank.jsonから選出し表示するだけ(メディア状態も表示)
-  promote-candidates.mjs      # candidate→draft-bank.json への唯一の昇格経路(--approvedBy, --yes必須)
+  promote-candidates.mjs      # candidate→draft-bank.json への昇格(従来の1件ずつ。--approvedBy, --yes必須)
+  bulk-approve.mjs            # 1日4本の候補を日付・週ごとにまとめて人が承認(--by, --yes必須。全部OKのときだけ書き込む)
+  resolve-run.mjs             # workflowの最初に「どの枠・どの日の投稿か」を決める(読み取りのみ)
   validate-data.mjs           # data/*.json の構造整合性・併記フォーマット・事実整合性・メディア整合性チェック
   threads-auth-url.mjs        # 認可URLを生成して表示するだけ(接続・書き込みなし)
   exchange-threads-token.mjs  # 認可コード→短期→長期トークン交換・GET /me確認・.env.localへの安全な保存
@@ -57,7 +121,7 @@ tests/                        # node標準テストランナーのみ使用(外�
 .github/workflows/
   daily-post.yml               # 候補選出→ガードチェック→投稿dry-run→結果ログ確認 を自動実行(毎日09:00 JSTのschedule付き。LIVE_POSTは常に"false"固定・--liveも渡さないため実投稿・実送信は発生しない)
   live-post-manual.yml         # 緊急時・単発テスト用の手動LIVE投稿。workflow_dispatch専用(schedule無し)、確認文字列("POST LIVE")必須、二重ゲート、投稿成功時のみdata/threads-posts.jsonをcommit/push
-  daily-live-post.yml          # Phase 4: 毎日自動でThreadsへ投稿するworkflow。schedule実行時は常にlive投稿を試み、workflow_dispatchは検証モード(dry-run)がデフォルト。live-post-manual.ymlとconcurrency groupを共有し同時実行(≒二重投稿)を防止
+  daily-live-post.yml          # Phase 4: 毎日自動でThreadsへ投稿するworkflow(2026-10-20から1日4本。上の「1日4本」参照)。schedule実行時は常にlive投稿を試み、workflow_dispatchは検証モード(dry-run)がデフォルト。live-post-manual.ymlとconcurrency groupを共有し同時実行(≒二重投稿)を防止
 ```
 
 ## メディア(画像)運用方針

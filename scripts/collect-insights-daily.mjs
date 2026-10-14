@@ -9,12 +9,14 @@
 //   - git add/commit/pushはここでは一切行わない(呼び出し側のworkflowの責務)。
 //
 // theme: Threadsは data/threads-posts.json の category(無ければpillar)。
+// slot / lang(Threadsのみ。data-contract v1 additions): data/threads-posts.json の slot(morning/noon/night)と
+//        lang(ja/en)。2026-10-19までの従来の投稿は slot=null、英日併記の投稿は lang=null。
 //        Instagramは data/ig-posts.json(mediaId→id) と data/ig-queue.json(id→pillar) を突き合わせる。
 
 import fs from "node:fs/promises";
 import { loadLocalEnv, mergeWithProcessEnv } from "../lib/load-local-env.mjs";
 import { createSecretRedactor } from "../lib/redact.mjs";
-import { collectInsightsDaily, buildThemeLookup } from "../lib/insights-daily.mjs";
+import { collectInsightsDaily, buildThemeLookup, buildPostInfoLookup } from "../lib/insights-daily.mjs";
 
 const data = (name) => new URL(`../data/${name}`, import.meta.url);
 const OUTPUT_PATH = data("insights-daily.json");
@@ -50,6 +52,9 @@ const doc = await collectInsightsDaily({
   themeOf: {
     threads: buildThemeLookup(threadsPosts, { idKey: "threadsPostId", themeKeys: ["category", "pillar"] }),
     instagram: buildThemeLookup(igRecords, { idKey: "mediaId", themeKeys: ["pillar"] })
+  },
+  postInfoOf: {
+    threads: buildPostInfoLookup(threadsPosts, { idKey: "threadsPostId" })
   },
   redact,
   log: (msg) => console.log(redact(msg))

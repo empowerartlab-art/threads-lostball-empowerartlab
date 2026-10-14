@@ -9,6 +9,8 @@ import { checkBilingualBody, buildBilingualBody } from "../lib/bilingual-guard.m
 import { checkClaims } from "../lib/claim-guard.mjs";
 import { checkFactFabricationSignals } from "../lib/fact-fabrication-guard.mjs";
 import { canSelectForProduction, isMediaApproved, defaultMedia } from "../lib/media-guard.mjs";
+import { isSlotItem } from "../lib/slots.mjs";
+import { isPostedTextDuplicate } from "../lib/similarity-guard.mjs";
 
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
 const POSTS_PATH = new URL("../data/threads-posts.json", import.meta.url);
@@ -22,9 +24,11 @@ async function readJson(url, fallback) {
   }
 }
 
+// 従来の1日1本（slot を持たない item）の選び方。2026-10-20からの枠付き item（slot/lang あり）は
+// ここでは一切選ばない（枠付きは selectSlotCandidate が、その日・その枠の1件だけを選ぶ）。
 export async function selectDailyCandidate({ bankItems, postedPosts, facts, todayKey = jstDateKey(), lang = "both" }) {
   const postedBodies = buildPostedBodySet(postedPosts);
-  const ordered = selectDueItems(bankItems, todayKey);
+  const ordered = selectDueItems((bankItems || []).filter((item) => !isSlotItem(item)), todayKey);
   const skipped = [];
 
   for (const item of ordered) {
@@ -63,6 +67,41 @@ export async function selectDailyCandidate({ bankItems, postedPosts, facts, toda
       continue;
     }
     return { selected: item, skipped };
+  }
+  return { selected: null, skipped };
+}
+
+// 1日4本（2026-10-20〜）の枠付き item の選び方。対象日（todayKey）・枠（slot）・言語（lang）が
+// 一致する item だけを候補にする。前の日や前の枠の取り残しを後から出すこと（繰り越し）はしない。
+// 既存のガード（重複・verified-facts・未確認事実・メディア）は従来と同じものをそのまま通す。
+export async function selectSlotCandidate({ bankItems, postedPosts, facts, todayKey = jstDateKey(), slot, lang }) {
+  const skipped = [];
+  const matches = (bankItems || []).filter(
+    (item) => isSlotItem(item) && item.slot === slot && item.lang === lang && item.targetDate === todayKey
+  );
+  if (matches.length === 0) return { selected: null, skipped };
+  if (matches.length > 1) {
+    // validate-data.mjs が止めるはずの状態。どれを出すべきか決められないので、1件も出さない。
+    for (const item of matches) skipped.push({ item, reason: "multiple-items-for-slot" });
+    return { selected: null, skipped };
+  }
+  const item = matches[0];
+  const postedBodies = buildPostedBodySet(postedPosts);
+  if ((postedPosts || []).some((post) => post?.sourceItemId === item.id)) {
+    skipped.push({ item, reason: "already-posted" });
+  } else if (isDuplicateBody(item, postedBodies) || isPostedTextDuplicate(item, lang, postedPosts)) {
+    skipped.push({ item, reason: "duplicate-of-posted" });
+  } else if ((item.media?.type ?? "TEXT_ONLY") !== "TEXT_ONLY") {
+    skipped.push({ item, reason: "threads-is-text-only" });
+  } else {
+    const check = canUseCandidate(item, facts);
+    const fabrication = item.requiresVerifiedFact === true ? { ok: true, warnings: [] } : checkFactFabricationSignals(item);
+    const mediaCheck = canSelectForProduction(item);
+    if (!check.ok) skipped.push({ item, reason: check.reason });
+    else if (!fabrication.ok) {
+      skipped.push({ item, reason: `unverified-fact-fabrication:${fabrication.warnings.map((w) => w.family).join(",")}` });
+    } else if (!mediaCheck.ok) skipped.push({ item, reason: mediaCheck.reason });
+    else return { selected: item, skipped };
   }
   return { selected: null, skipped };
 }

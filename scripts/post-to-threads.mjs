@@ -37,6 +37,7 @@ import { buildDiscordDryRunMessage } from "../lib/discord-notifier.mjs";
 import { runLivePost, OUTCOME } from "../lib/live-post-runner.mjs";
 import { appendPostRecord } from "../lib/threads-posts-store.mjs";
 import { POST_LANGS } from "../lib/bilingual-guard.mjs";
+import { RUN_IDS, runInfo, planRun } from "../lib/slots.mjs";
 
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
 const POSTS_PATH = new URL("../data/threads-posts.json", import.meta.url);
@@ -144,15 +145,38 @@ async function main() {
   const postsFile = await readJson(POSTS_PATH, { posts: [] });
   const factsFile = await readJson(FACTS_PATH, { facts: [] });
 
-  const todayKey = jstDateKey();
+  // --date=YYYY-MM-DD: 対象日(JST)。workflow の「枠の決定」stepが決めた日付を渡す
+  // (21:00の実行が0時を過ぎて始まっても前日の夜の分を出すため)。未指定なら今日(JST)。
+  const dateArg = process.argv.find((a) => a.startsWith("--date="));
+  const todayKey = dateArg ? dateArg.slice("--date=".length) : jstDateKey();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(todayKey)) {
+    console.error(`--date の値が不正です: ${todayKey}(YYYY-MM-DD)`);
+    process.exit(1);
+  }
   console.log(`実行日(JST): ${todayKey}`);
 
-  // --lang=ja|en|both(既定both)。朝の日本語・夜の英語はworkflow側がscheduleから決めて渡す。
+  // --run=<id>: 1日4本(2026-10-20〜)の実行の種類(lib/slots.mjs の RUNS)。指定すると枠と言語はここで決まる。
+  // 未指定なら従来どおり --lang=ja|en|both(既定both)だけで選ぶ(live-post-manual.yml 等)。
+  const runArg = process.argv.find((a) => a.startsWith("--run="));
+  const run = runArg ? runArg.slice("--run=".length) : null;
+  if (run !== null && !RUN_IDS.includes(run)) {
+    console.error(`--run の値が不正です: ${run}(${RUN_IDS.join(" / ")} のいずれか)`);
+    process.exit(1);
+  }
   const langArg = process.argv.find((a) => a.startsWith("--lang="));
-  const lang = langArg ? langArg.slice("--lang=".length) : "both";
+  let lang = langArg ? langArg.slice("--lang=".length) : "both";
   if (!POST_LANGS.includes(lang)) {
     console.error(`--lang の値が不正です: ${lang}(${POST_LANGS.join(" / ")} のいずれか)`);
     process.exit(1);
+  }
+  if (run) {
+    const plan = planRun(run, todayKey);
+    const info = runInfo(run);
+    console.log(`実行の枠: ${run}(${info.label} ${info.time} JST)`);
+    if (plan.kind === "slot") console.log(`この日の扱い: 枠付き(slot=${plan.slot} lang=${plan.lang})`);
+    else if (plan.kind === "legacy") console.log(`この日の扱い: 従来の1日1本(lang=${plan.lang})`);
+    else console.log(`この日の扱い: この枠はこの日には投稿しません(${plan.reason})`);
+    if (plan.kind !== "none") lang = plan.lang;
   }
   console.log(`投稿言語: ${lang}`);
 
@@ -162,6 +186,7 @@ async function main() {
     facts: factsFile.facts,
     todayKey,
     lang,
+    run,
     userId: env.THREADS_USER_ID,
     accessToken: env.THREADS_ACCESS_TOKEN,
     live: liveFlagRequested,

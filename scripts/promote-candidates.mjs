@@ -43,6 +43,13 @@ if (!candidate) {
   process.exit(1);
 }
 
+// 1日4本（2026-10-20〜）の枠付き候補（slot あり）は、1日4件そろえて承認しないと
+// draft-bank.json の検査（lib/slots.mjs）を通らないため、ここでは1件ずつ昇格しない。
+if (candidate.slot !== undefined && candidate.slot !== null) {
+  console.error("この候補は枠(slot)付きです。scripts/bulk-approve.mjs で日付・週ごとにまとめて承認してください。");
+  process.exit(1);
+}
+
 const bilingualCheck = checkBilingualBody(candidate);
 if (!bilingualCheck.ok) {
   console.error(`併記フォーマットチェックに失敗したため昇格を中止しました: ${bilingualCheck.errors.join(", ")}`);

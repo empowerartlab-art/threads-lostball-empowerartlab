@@ -6,6 +6,7 @@ import { checkBilingualBody } from "../lib/bilingual-guard.mjs";
 import { canUseCandidate } from "../lib/verified-fact-guard.mjs";
 import { checkClaims } from "../lib/claim-guard.mjs";
 import { checkMedia } from "../lib/media-guard.mjs";
+import { validateBankSlots, SLOTS_START, DAILY_SLOT_KEYS, itemSlotKey, isSlotItem } from "../lib/slots.mjs";
 
 const ALLOWED_PILLARS = new Set(["JAPAN", "ENVIRONMENT", "WELFARE", "SOCIAL_CONTRIBUTION", "GOLF"]);
 
@@ -84,6 +85,22 @@ function validateItems(items, label) {
 
 validateItems(bankFile.items, "draft-bank.json");
 validateItems(candidatesFile.items, "draft-bank-candidates.json");
+
+// 1日4本（2026-10-20〜）: 承認済みの枠のルール（lib/slots.mjs の validateBankSlots）。
+const slotCheck = validateBankSlots(bankFile.items);
+for (const e of slotCheck.errors) fail(e);
+for (const w of slotCheck.warnings) warn(w);
+
+// 候補は「枠の値が正しいか」だけを見る（4枠そろっているかは承認時に scripts/bulk-approve.mjs が確かめる）。
+for (const c of candidatesFile.items || []) {
+  const label = `draft-bank-candidates.json[${c.id ?? "?"}]`;
+  if (isSlotItem(c)) {
+    if (!DAILY_SLOT_KEYS.includes(itemSlotKey(c))) fail(`${label}: slot/lang が不正です（slot=${c.slot} lang=${c.lang ?? "(なし)"}）`);
+    if (typeof c.targetDate !== "string" || c.targetDate < SLOTS_START) fail(`${label}: slot 付きの候補は ${SLOTS_START} 以降だけです`);
+  } else if (typeof c.targetDate === "string" && c.targetDate >= SLOTS_START && c.status !== "needs_human_draft") {
+    warn(`${label}: ${SLOTS_START} 以降の候補には slot と lang が必要です（このままでは承認できません）`);
+  }
+}
 
 console.log(`検証完了: error=${errorCount} warning=${warningCount}`);
 if (errorCount > 0) process.exit(1);

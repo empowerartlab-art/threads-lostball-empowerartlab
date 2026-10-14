@@ -41,16 +41,44 @@ test("live-post-manual.ymlとdaily-live-post.ymlは同じconcurrency groupを共
   assert.equal(dailyGroup, manualGroup, "concurrency groupがlive-post-manual.ymlとdaily-live-post.ymlで異なる(同時実行による二重投稿のリスク)");
 });
 
-// 2026-10-10〜: 朝(日本語)と夜(英語)の2スロット。cronごとに言語が1対1で決まり、
-// 未知のcronでは投稿せずに止まることを確認する(言語の取り違え・同じ言語の二重投稿を防ぐ)。
-test("daily-live-post.ymlのcronは朝(日本語)と夜(英語)の2つで、それぞれ言語が1対1で決まる", () => {
+// 2026-10-20〜: 1日4本(朝・昼・夜の日本語＋夜の英語)。10/19までの従来の05:00日本語も残す。
+// cron の文字列は lib/slots.mjs の RUNS と一致し、枠はcronから決まる(scripts/resolve-run.mjs)。
+test("daily-live-post.ymlのcronは lib/slots.mjs の5本と一致し、枠は github.event.schedule から決まる", async () => {
+  const { RUNS } = await import("../lib/slots.mjs");
   const content = readWorkflow("daily-live-post.yml");
   const crons = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)].map((m) => m[1]).sort();
-  assert.deepEqual(crons, ["0 12 * * *", "0 20 * * *"]);
-  assert.match(content, /"0 20 \* \* \*"\) LANG_ARG=ja ;;/);
-  assert.match(content, /"0 12 \* \* \*"\) LANG_ARG=en ;;/);
-  assert.match(content, /\*\) echo "未知のscheduleです[^\n]*exit 1 ;;/);
-  assert.match(content, /post-to-threads\.mjs \$\{\{ steps\.mode\.outputs\.live_flag \}\} --lang=\$\{\{ steps\.lang\.outputs\.lang \}\}/);
+  assert.deepEqual(crons, RUNS.map((r) => r.cron).sort());
+  assert.deepEqual(crons, ["0 12 * * *", "0 20 * * *", "35 11 * * *", "35 22 * * *", "35 3 * * *"]);
+  assert.match(content, /RUN_SCHEDULE:\s*\$\{\{ github\.event\.schedule \}\}/);
+  assert.match(content, /node scripts\/resolve-run\.mjs/);
+  assert.match(content, /post-to-threads\.mjs \$\{\{ steps\.mode\.outputs\.live_flag \}\} --run=\$\{\{ steps\.resolve\.outputs\.run \}\} --date=\$\{\{ steps\.resolve\.outputs\.date \}\}/);
+  assert.match(content, /if: steps\.resolve\.outputs\.has_run == 'true'/);
+});
+
+test("daily-live-post.ymlの手動実行は既定でdry-run、date入力はdry-runのときだけ使う", () => {
+  const content = readWorkflow("daily-live-post.yml");
+  assert.match(content, /options:\s*\n\s*- dry-run\s*\n\s*- live\s*\n\s*default: dry-run/);
+  assert.match(content, /RUN_DATE_INPUT: \$\{\{ \(github\.event_name == 'workflow_dispatch' && github\.event\.inputs\.mode != 'live'\) && github\.event\.inputs\.date \|\| '' \}\}/);
+  // live になるのは schedule か、手動で mode=live を選んだときだけ。
+  assert.match(content, /if \[ "\$\{\{ github\.event_name \}\}" = "schedule" \] \|\| \[ "\$\{\{ github\.event\.inputs\.mode \}\}" = "live" \]/);
+});
+
+test("daily-live-post.ymlはThreads専用のconcurrency group(cancel-in-progress: false)で、週次レビュー・IG・Xとは共有しない", () => {
+  const daily = readWorkflow("daily-live-post.yml");
+  assert.equal(concurrencyGroup(daily), "lostball-live-post");
+  assert.match(daily, /group: lostball-live-post\s*\n\s*cancel-in-progress: false/);
+  for (const other of ["weekly-review.yml", "ig-post.yml", "x-post.yml", "insights-daily.yml", "daily-post.yml"]) {
+    assert.notEqual(concurrencyGroup(readWorkflow(other)), "lostball-live-post", `${other} がThreads投稿のgroupを共有している`);
+  }
+});
+
+test("daily-live-post.ymlの記録のpushは pull --rebase して最大5回やり直し、Threadsへの投稿はやり直さない", () => {
+  const content = readWorkflow("daily-live-post.yml");
+  const step = content.slice(content.indexOf("id: commit-state"), content.indexOf("Discord通知: 投稿成功"));
+  assert.match(step, /for attempt in 1 2 3 4 5; do/);
+  assert.ok(step.indexOf("git pull --rebase") < step.indexOf("git push"));
+  assert.doesNotMatch(step, /post-to-threads\.mjs/);
+  assert.equal((content.match(/node scripts\/post-to-threads\.mjs/g) || []).length, 1, "投稿の呼び出しは1回だけ");
 });
 
 test("live-post-manual.ymlにはscheduleトリガーが存在しない(手動実行専用であることを維持)", () => {

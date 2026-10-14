@@ -3,6 +3,12 @@ name: Lost Ball Threads - Daily LIVE Post (Phase 4)
 # 毎日自動でThreadsへ投稿するworkflow。Phase 3で実証済みの二重ゲート・各種ガード・
 # state保存・commit/pushの仕組みを、人間の手動確認(confirm入力)無しで日次スケジュール実行する。
 #
+# 1日4本(2026-10-20〜、文字のみ):
+#   朝07:35 日本語 / 昼12:35 日本語 / 夜20:35 日本語 / 夜21:00 英語。
+#   1回の実行で投稿するのは「その日・その枠」の承認済み1件だけ(lib/slots.mjs / scripts/select-daily-candidate.mjs)。
+#   前の枠の取り残しを後の枠で出すことはしない。2026-10-19までは従来どおり(05:00 日本語・21:00 英語)。
+#   手動実行(workflow_dispatch)は mode=dry-run が既定で、Threadsへは投稿しない。
+#
 # 安全設計(Phase 2/3から一切変更していない部分):
 #   - 候補選出(scripts/select-daily-candidate.mjs)・各種ガード(bilingual/verified-fact/
 #     duplicate/media/claim)・二重ゲート(lib/threads-publish.mjsのisLivePostAllowed)・
@@ -62,28 +68,44 @@ on:
           - dry-run
           - live
         default: dry-run
-      lang:
-        description: "投稿言語 ja(日本語のみ) / en(英語のみ) / both(英語→日本語の併記)"
+      run:
+        description: "確認する枠。auto = 今の時刻から決める / morning=朝7:35 / noon=昼12:35 / night=夜20:35 / night_en=英語21:00 / legacy_ja=従来の日本語5:00(10/19まで)"
         required: true
         type: choice
         options:
-          - ja
-          - en
-          - both
-        default: ja
+          - auto
+          - morning
+          - noon
+          - night
+          - night_en
+          - legacy_ja
+        default: auto
+      date:
+        description: "確認したい日付 YYYY-MM-DD(dry-runのときだけ有効。空なら今日)"
+        required: false
+        type: string
   schedule:
-    # 05:00 JST = UTC 20:00(前日) (JST = UTC+9)。投稿対象日はJST基準(lib/target-date.mjs)で判定するので、
-    # UTC上は前日でも正しい日の投稿が選ばれる。2026-10-10に20:00 JSTから変更(移動中に投稿が重ならないように)。
-    # 例: 09:00 JSTにしたい場合は "0 0 * * *"、12:30 JSTなら "30 3 * * *" にする。
+    # 時刻はJST(= UTC+9。夏時間なし)。GitHub Actionsのcron式はUTC基準。
+    # どの枠で動くかは、下の「枠の決定」stepが github.event.schedule(起動したcronの文字列)から決める
+    # (時刻から推測しないので、GitHubの混雑で起動が遅れても枠を取り違えない)。
+    # この5つの文字列は lib/slots.mjs の RUNS と一字一句同じでなければならない(tests/slots.test.mjs で確認)。
+    #
+    # 2026-10-20〜: 1日4本(文字のみ)。data/draft-bank.json の slot / lang 付きの投稿を、その日・その枠の1件だけ出す。
+    - cron: "35 22 * * *"   # JST 07:35 朝・日本語(UTC上は前日22:35)
+    - cron: "35 3 * * *"    # JST 12:35 昼・日本語
+    - cron: "35 11 * * *"   # JST 20:35 夜・日本語
+    - cron: "0 12 * * *"    # JST 21:00 夜・英語(今までの英語と同じ時刻。10/19までは従来の英語、10/20からは夜・英語の枠)
+    # 2026-10-19まで: slot の無い従来の投稿を、朝は日本語だけ・夜は英語だけで出す(2026-10-10〜の運用)。
+    - cron: "0 20 * * *"    # JST 05:00 従来の日本語(UTC上は前日20:00)。10/20以降は何もせず終わる(消しても害はない)
     # このworkflowはGitHub Secretsに LIVE_POST="true" が登録されていない限り
     # scheduleで動いてもdry-run相当のままなので、時刻変更自体に投稿リスクは無い。
-    # 2026-10-10〜: 同じ承認済みアイテムを、朝は日本語だけ・夜は英語だけの2投稿に分けて出す(運用者指示)。
-    #   "0 20 * * *" = JST 05:00 → 日本語(日本のゴルファー向け)
-    #   "0 12 * * *" = JST 21:00 → 英語(米国東部の朝8時・英国の昼13時ごろ。将来のインバウンド向け)
-    # どちらの言語で出すかは、下の「投稿言語の判定」stepが github.event.schedule の値から決める。
-    - cron: "0 20 * * *"
-    - cron: "0 12 * * *"
 
+# Threads投稿だけのconcurrency group(live-post-manual.yml・threads-diagnostic.yml と共有。
+# Instagram・X・週次レビュー・insightsはそれぞれ別のgroup)。cancel-in-progress: false なので、
+# 走っている実行は絶対に取り消されず、後から来た実行は待つ(同時に2本走って二重投稿することがない)。
+# GitHubは1つのgroupに「待ち」を1本しか置かないため、他のworkflow(土曜07:07の週次レビュー等)と
+# groupを共有すると、待っている枠の実行が取り消されるおそれがある。だからThreads投稿専用のgroupにしている。
+# 他のworkflowと同時にpushがぶつかった場合は、下の commit/push step が pull --rebase して最大5回やり直す。
 concurrency:
   group: lostball-live-post
   cancel-in-progress: false
@@ -132,20 +154,17 @@ jobs:
             echo "このrunは検証モード(dry-run)です。Threads APIへは接続しません。"
           fi
 
-      - name: 投稿言語の判定(schedule は時刻で決まる。手動実行は入力値)
-        id: lang
-        run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            case "${{ github.event.schedule }}" in
-              "0 20 * * *") LANG_ARG=ja ;;
-              "0 12 * * *") LANG_ARG=en ;;
-              *) echo "未知のscheduleです: ${{ github.event.schedule }}"; exit 1 ;;
-            esac
-          else
-            LANG_ARG="${{ github.event.inputs.lang }}"
-          fi
-          echo "lang=${LANG_ARG}" >> "$GITHUB_OUTPUT"
-          echo "投稿言語: ${LANG_ARG}"
+      # 枠(run)と対象日(JST)をここで1回だけ決める(読み取りのみ)。後のstepはこの値だけを使う。
+      #   schedule: 起動したcronの文字列(github.event.schedule)で決まる。対象日は「その枠の時刻が最後に来た日」。
+      #   手動実行: 入力の run(autoなら今の時刻から)。date入力は dry-run のときだけ使う(liveでは常に今日)。
+      # 投稿する枠が無い(例: 手動autoを05:00前に実行)ときは has_run=false で、投稿stepは動かない。
+      - name: 枠の決定(どの枠・どの日の投稿か)
+        id: resolve
+        env:
+          RUN_SCHEDULE: ${{ github.event.schedule }}
+          RUN_INPUT: ${{ github.event.inputs.run }}
+          RUN_DATE_INPUT: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.mode != 'live') && github.event.inputs.date || '' }}
+        run: node scripts/resolve-run.mjs
 
       - name: Write ephemeral .env.local from GitHub Secrets(コミットしない。job終了時に必ず削除)
         env:
@@ -159,9 +178,10 @@ jobs:
 
       - name: "投稿実行(二重ゲート: secrets.LIVE_POST=\"true\" + --live。揃わなければ常にdry-run)"
         id: publish
+        if: steps.resolve.outputs.has_run == 'true'
         env:
           LIVE_POST: ${{ secrets.LIVE_POST }}
-        run: node scripts/post-to-threads.mjs ${{ steps.mode.outputs.live_flag }} --lang=${{ steps.lang.outputs.lang }} | tee daily-live-post-result.log
+        run: node scripts/post-to-threads.mjs ${{ steps.mode.outputs.live_flag }} --run=${{ steps.resolve.outputs.run }} --date=${{ steps.resolve.outputs.date }} | tee daily-live-post-result.log
 
       - name: Remove ephemeral .env.local(Secretsをディスク上に残さない)
         if: always()
@@ -189,12 +209,26 @@ jobs:
         id: commit-state
         if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED'
         continue-on-error: true
+        env:
+          RUN_ID: ${{ steps.resolve.outputs.run }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
         run: |
           git config user.name "lostball-daily-live-post-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/threads-posts.json
-          git commit -m "chore(lostball): record daily live Threads post"
-          git push
+          git commit -m "chore(lostball): record Threads post (${RUN_DATE} ${RUN_ID})"
+          # Instagram(07:00)・X(05:53)・土曜07:07の週次レビュー・insights等が先にpushしていても
+          # 記録を落とさないよう、rebaseしてからpushする。pushが弾かれたら少し待って最大5回までやり直す
+          # (やり直すのは記録のpushだけ。Threadsへの投稿は絶対にやり直さない)。
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            echo "push rejected (attempt ${attempt}/5); retrying after rebase"
+            sleep $((attempt * 5))
+          done
+          exit 1
 
       - name: "Discord通知: 投稿成功(state保存・commit/push成功)"
         if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success'
@@ -202,6 +236,8 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          RUN_LABEL: ${{ steps.resolve.outputs.label }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
           SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
           THREADS_POST_ID: ${{ steps.publish.outputs.threadsPostId }}
           POST_BODY: ${{ steps.publish.outputs.body }}
@@ -218,6 +254,7 @@ jobs:
           fi
           CONTENT="【Lost Ball Threads｜自動投稿成功】
           投稿日時: ${POSTED_AT}
+          枠: ${RUN_DATE} ${RUN_LABEL}
           投稿候補ID: ${SOURCE_ITEM_ID}
           Threads投稿ID: ${THREADS_POST_ID}
           Run: ${RUN_URL}
@@ -233,6 +270,8 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          RUN_LABEL: ${{ steps.resolve.outputs.label }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
           SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
           THREADS_POST_ID: ${{ steps.publish.outputs.threadsPostId }}
           ERROR_MESSAGE: ${{ steps.publish.outputs.errorMessage }}
@@ -240,6 +279,7 @@ jobs:
           FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
           CONTENT="【Lost Ball Threads｜自動投稿 要確認】
           失敗日時: ${FAILED_AT}
+          枠: ${RUN_DATE} ${RUN_LABEL}
           投稿候補ID: ${SOURCE_ITEM_ID}
           Threads投稿ID: ${THREADS_POST_ID}
           失敗段階: state保存(data/threads-posts.jsonへの記録)
@@ -265,12 +305,15 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          RUN_LABEL: ${{ steps.resolve.outputs.label }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
           SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
           THREADS_POST_ID: ${{ steps.publish.outputs.threadsPostId }}
         run: |
           FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
           CONTENT="【Lost Ball Threads｜自動投稿 要確認】
           失敗日時: ${FAILED_AT}
+          枠: ${RUN_DATE} ${RUN_LABEL}
           投稿候補ID: ${SOURCE_ITEM_ID}
           Threads投稿ID: ${THREADS_POST_ID}
           失敗段階: data/threads-posts.jsonのcommit/push
@@ -293,6 +336,8 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          RUN_LABEL: ${{ steps.resolve.outputs.label }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
           SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
           FAILURE_REASON: ${{ steps.publish.outputs.failureReason }}
           ERROR_MESSAGE: ${{ steps.publish.outputs.errorMessage }}
@@ -309,6 +354,7 @@ jobs:
           fi
           CONTENT="【Lost Ball Threads｜自動投稿失敗】
           失敗日時: ${FAILED_AT}
+          枠: ${RUN_DATE} ${RUN_LABEL}
           投稿候補ID: ${SOURCE_ITEM_ID:-(未選出)}
           失敗段階: ${FAILURE_REASON:-投稿処理呼び出し}
           エラー概要: ${ERROR_MESSAGE}${RETRY_NOTE}
