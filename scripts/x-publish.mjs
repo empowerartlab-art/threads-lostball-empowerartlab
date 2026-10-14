@@ -1,15 +1,19 @@
-// 今日の承認済み X 投稿を出す。--live かつ env LIVE_POST === "true"(workflow では Secret X_LIVE_POST から渡す)
+// この枠(env X_RUN。scripts/x-resolve-run.mjs が決める)・この日(env TARGET_DATE)の承認済み X 投稿を1本出す。
+// --live かつ env LIVE_POST === "true"(workflow では Secret X_LIVE_POST から渡す)
 // の両方がそろわない限り dry-run。live でも scripts/x-claim.mjs の予約が GitHub 上にないと投稿しない。
 import { appendFileSync } from 'node:fs';
-import { runXPublish, jstToday } from '../lib/x-flow.mjs';
+import { runXPublish } from '../lib/x-flow.mjs';
+import { xRunFromEnv } from '../lib/x-run-env.mjs';
 import { fileIo } from '../lib/json-io.mjs';
 import { gitRunner } from '../lib/ig-persist.mjs';
 
+const { today, plan } = xRunFromEnv();
 const result = await runXPublish({
   io: fileIo,
   git: gitRunner(),
   branch: process.env.GITHUB_REF_NAME || 'main',
-  today: process.env.TARGET_DATE || jstToday(),
+  today,
+  plan,
   live: process.argv.includes('--live') && process.env.LIVE_POST === 'true',
   creds: {
     apiKey: process.env.X_API_KEY,

@@ -1,4 +1,5 @@
-// The only way an X post becomes publishable.
+// The only way an X post becomes publishable (1件ずつ・従来の形向け).
+// 2026-10-20 以降の1日3本は、まとめて検査してから承認する scripts/x-bulk-approve.mjs を使う。
 // Usage: node scripts/x-approve.mjs --from 2026-10-14 --to 2026-10-19 --by <名前> --yes
 //        node scripts/x-approve.mjs --id <postId> --by <名前> --yes
 import { readFile, writeFile } from 'node:fs/promises';

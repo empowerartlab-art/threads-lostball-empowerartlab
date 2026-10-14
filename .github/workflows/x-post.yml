@@ -1,42 +1,58 @@
-name: Lost Ball X - Daily Post (05:53 JST)
+name: Lost Ball X - Post (2026-10-20〜 1日3本 07:10/12:10/20:10 JST・10/19まで 05:53 JST)
 
-# 承認済みの X 投稿(data/x-queue.json)を毎日 05:53 JST に1本だけ投稿する。
-# 設計は ig-post.yml と同じ(先に予約(claim)を push → 読み戻して確認 → 投稿。結果不明は人が確認するまで停止)。
-# 中身は承認済み Threads 投稿を X 用(全角140字以内)に書き直したもの。丸写しは検査で止まる。
+# 承認済みの X 投稿(data/x-queue.json)を出す。
+#   2026-10-20〜: 1日3本(日本語・文字のみ)。朝 07:10 / 昼 12:10 / 夜 20:10 JST。
+#                 1回の実行で出すのは「その日・その枠(slot)」の承認済み1本だけ(前の枠の取り残しは出さない)。
+#   2026-10-19まで: 従来どおり 05:53 JST に slot の無い承認済み1本だけ(10/20以降、05:53 の実行は何もせず終わる)。
+# どの枠かは「どの cron で起動されたか」(github.event.schedule)で決める(scripts/x-resolve-run.mjs・lib/x-slots.mjs)。
+# GitHub の混雑で起動が遅れても枠を取り違えない。
 #
-# 実際に投稿するのは、GitHub Secrets に X_LIVE_POST="true" がある場合だけ。
-# 無ければ schedule でも dry-run(ログに出すだけ)。Threads・Instagram のスイッチとは別。
-# X の投稿 API は従量課金(1本あたり約2.3円、リンク付きは約30円が目安。公式未確認)。リンクは allowLink: true のものだけ・週2本まで。
+# 設計は ig-post.yml と同じ(先に予約(claim)を push → 読み戻して確認 → 投稿。結果不明は人が確認するまで全枠停止。
+# 自動で投稿し直すことは絶対にしない)。中身は承認済み Threads 投稿を X 用(全角140字以内)に書き直したもの。
+# Threads の丸写し・ほぼ写しは検査で止まる。
+#
+# 実際に投稿するのは、schedule で起動され、かつ GitHub Secrets に X_LIVE_POST="true" がある場合だけ。
+# 手動実行(Run workflow)は必ず dry-run(ログに出すだけ・投稿しない)。Threads・Instagram のスイッチとは別。
+# X の投稿 API は従量課金(目安: 1本 $0.015、URL入りは1本 $0.20 = 約13倍)。URL は allowLink: true のものだけ・週2本まで。
 
 on:
   schedule:
-    # 20:53 UTC = 05:53 JST(早朝5〜7時枠。Threads 05:00、Instagram 07:00 の間。2026-10-12 運用者指示)
-    - cron: "53 20 * * *"
+    # 時刻は JST(= UTC+9。夏時間なし)。cron は UTC。この4つの文字列は lib/x-slots.mjs の X_RUNS と一字一句同じ(tests で確認)。
+    - cron: "10 22 * * *"   # JST 07:10 朝(UTC上は前日22:10)。2026-10-20〜
+    - cron: "10 3 * * *"    # JST 12:10 昼。2026-10-20〜
+    - cron: "10 11 * * *"   # JST 20:10 夜。2026-10-20〜
+    - cron: "53 20 * * *"   # JST 05:53 従来の1日1本(UTC上は前日20:53)。2026-10-19まで。10/20以降は何もせず終わる(消しても害はない)
   workflow_dispatch:
     inputs:
-      mode:
-        description: "dry-run(確認のみ) / live(実際に投稿。X_LIVE_POST Secret も必要)"
+      run:
+        description: "確認する枠(必ず dry-run・投稿しない)。auto = 今の時刻から決める / morning=朝7:10 / noon=昼12:10 / night=夜20:10 / legacy=従来の5:53(10/19まで)"
         required: true
         type: choice
         options:
-          - dry-run
-          - live
-        default: dry-run
-      target_date:
-        description: "YYYY-MM-DD(dry-run のときだけ有効。その日の投稿を確認する)"
+          - auto
+          - morning
+          - noon
+          - night
+          - legacy
+        default: auto
+      date:
+        description: "確認したい日付 YYYY-MM-DD(空なら今日)"
         type: string
         required: false
 
 permissions:
   contents: write
 
+# X 専用の concurrency group(Threads・Instagram・週次レビューとは別)。cancel-in-progress: false なので
+# 走っている実行は取り消されず、後から来た実行は待つ(同じ枠を同時に2本走らせない)。
+# 記録の push が他の workflow とぶつかったら、scripts 側で pull --rebase して最大5回やり直す
+# (やり直すのは記録の push だけ。X への投稿は絶対にやり直さない)。
 concurrency:
   group: lostball-x-post
   cancel-in-progress: false
 
 env:
-  LIVE_POST: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.X_LIVE_POST == 'true' && 'true' || 'false' }}
-  TARGET_DATE: ${{ (github.event_name == 'workflow_dispatch' && inputs.mode != 'live') && inputs.target_date || '' }}
+  LIVE_POST: ${{ github.event_name == 'schedule' && secrets.X_LIVE_POST == 'true' && 'true' || 'false' }}
   RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 defaults:
@@ -59,22 +75,36 @@ jobs:
       - name: X 投稿予定の検査
         run: node scripts/x-validate.mjs
 
+      # 枠(run)と対象日(JST)をここで1回だけ決める(読み取りのみ)。後の step はこの値だけを使う。
+      - name: 枠の決定(どの枠・どの日の投稿か)
+        id: resolve
+        env:
+          RUN_SCHEDULE: ${{ github.event.schedule }}
+          RUN_INPUT: ${{ github.event.inputs.run }}
+          RUN_DATE_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.date || '' }}
+        run: node scripts/x-resolve-run.mjs
+
       - name: Git identity
-        if: env.LIVE_POST == 'true'
+        if: env.LIVE_POST == 'true' && steps.resolve.outputs.has_run == 'true'
         run: |
           git config user.name "lostball-x-bot"
           git config user.email "actions@users.noreply.github.com"
 
-      # 予約を GitHub に書き込んで読み戻す。今日の予定が無ければ skip=true で終わる。
-      - name: 今日の投稿を予約(claim)
+      # 予約を GitHub に書き込んで読み戻す。この枠の予定が無ければ skip=true で終わる。
+      - name: この枠の投稿を予約(claim)
         id: claim
-        if: env.LIVE_POST == 'true'
+        if: env.LIVE_POST == 'true' && steps.resolve.outputs.has_run == 'true'
+        env:
+          X_RUN: ${{ steps.resolve.outputs.run }}
+          TARGET_DATE: ${{ steps.resolve.outputs.date }}
         run: node scripts/x-claim.mjs
 
       - name: 投稿
         id: publish
-        if: env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true'
+        if: steps.resolve.outputs.has_run == 'true' && (env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true')
         env:
+          X_RUN: ${{ steps.resolve.outputs.run }}
+          TARGET_DATE: ${{ steps.resolve.outputs.date }}
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
@@ -89,12 +119,14 @@ jobs:
           LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
           STAGE: ${{ steps.publish.outputs.stage }}
           POST_ID: ${{ steps.publish.outputs.post_id }}
+          RUN_LABEL: ${{ steps.resolve.outputs.label }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
         run: |
           if [ "$STAGE" = "published" ]; then
-            CONTENT="【Lost Ball X｜投稿しました】${POST_ID}
+            CONTENT="【Lost Ball X｜投稿しました】${RUN_DATE} ${RUN_LABEL} ${POST_ID}
           Run: ${RUN_URL}"
           else
-            CONTENT="【Lost Ball X｜⚠️ 失敗】stage=${STAGE:-unknown} ${POST_ID}
+            CONTENT="【Lost Ball X｜⚠️ 失敗】${RUN_DATE} ${RUN_LABEL} stage=${STAGE:-unknown} ${POST_ID}
           再実行はしないでください(二重投稿の恐れ)。X を目で確認して、Claude に相談してください。
           Run: ${RUN_URL}"
           fi
@@ -104,6 +136,6 @@ jobs:
         if: failure() && env.LIVE_POST == 'true'
         run: |
           echo "data/x-journal.json に未解決の予約が残っている可能性があります。"
-          echo "X のプロフィールを目で確認してから、次を実行するまで投稿は止まります:"
+          echo "X のプロフィールを目で確認してから、次を実行するまで X の投稿は全部の枠で止まります:"
           echo "  node scripts/x-resolve.mjs --id <postId> --outcome published|not-published [--x-id <id>] --by <名前> --yes"
           echo "この workflow をそのまま再実行しないでください(二重投稿の原因になります)。"

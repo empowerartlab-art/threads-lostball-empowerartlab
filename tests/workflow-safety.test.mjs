@@ -275,15 +275,34 @@ test("ig-post.ymlは投稿前に claim し、毎日07:00 JSTのcronが1つだけ
   assert.equal(concurrencyGroup(content), "lostball-instagram-post");
 });
 
-// ---- X(x-post.yml。2026-10-12 追加) ----
-test("x-post.ymlは X_LIVE_POST Secret が \"true\" のときだけ実投稿し、claim してから publish する。05:53 JST の cron が1つだけ", () => {
+// ---- X(x-post.yml。2026-10-12 追加、2026-10-20〜 1日3本) ----
+test("x-post.ymlは schedule かつ X_LIVE_POST Secret が \"true\" のときだけ実投稿し、claim してから publish する。cron は朝・昼・夜＋従来05:53", () => {
   const content = stripComments(readWorkflow("x-post.yml"));
   assert.match(content, /secrets\.X_LIVE_POST == 'true'/);
   assert.doesNotMatch(content, /secrets\.(LIVE_POST|IG_LIVE_POST)\b/);
   assert.doesNotMatch(content, /CLIENT_SECRET/i);
   const crons = [...content.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)].map((m) => m[1]);
-  assert.deepEqual(crons, ["53 20 * * *"]);
+  assert.deepEqual(crons, ["10 22 * * *", "10 3 * * *", "10 11 * * *", "53 20 * * *"]);
+  assert.ok(content.indexOf("x-resolve-run.mjs") < content.indexOf("x-claim.mjs"), "枠の決定が claim より前にない");
   assert.ok(content.indexOf("x-claim.mjs") < content.indexOf("x-publish.mjs"), "claim が publish より前にない");
   assert.match(content, /steps\.claim\.outputs\.skip != 'true'/);
+  assert.match(content, /RUN_SCHEDULE: \$\{\{ github\.event\.schedule \}\}/);
+  assert.equal((content.match(/X_RUN: \$\{\{ steps\.resolve\.outputs\.run \}\}/g) || []).length, 2, "claim と publish の両方が同じ枠を使う");
+  assert.equal((content.match(/node scripts\/x-publish\.mjs/g) || []).length, 1, "投稿の呼び出しは1回だけ");
+});
+
+test("x-post.ymlの手動実行は必ず dry-run(live の選択肢が無く、LIVE_POST は schedule のときだけ true)", () => {
+  const content = stripComments(readWorkflow("x-post.yml"));
+  assert.match(content, /LIVE_POST: \$\{\{ github\.event_name == 'schedule' && secrets\.X_LIVE_POST == 'true' && 'true' \|\| 'false' \}\}/);
+  assert.doesNotMatch(topLevelOnBlock(content), /- live\b/);
+  assert.doesNotMatch(content, /inputs\.mode/);
+});
+
+test("x-post.ymlは X 専用の concurrency group(cancel-in-progress: false)で、他の workflow と共有しない", () => {
+  const content = readWorkflow("x-post.yml");
   assert.equal(concurrencyGroup(content), "lostball-x-post");
+  assert.match(content, /group: lostball-x-post\s*\n\s*cancel-in-progress: false/);
+  for (const other of ["daily-live-post.yml", "live-post-manual.yml", "weekly-review.yml", "ig-post.yml", "insights-daily.yml", "daily-post.yml", "threads-diagnostic.yml"]) {
+    assert.notEqual(concurrencyGroup(readWorkflow(other)), "lostball-x-post", `${other} が X 投稿の group を共有している`);
+  }
 });

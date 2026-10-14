@@ -73,6 +73,11 @@ node scripts/bulk-approve.mjs --week 2026-10-20 --exclude id1,id2 --by 承認者
 - 投稿記録の push が他の workflow とぶつかったら、`git pull --rebase` して最大5回やり直す。やり直すのは記録の push だけで、Threads への投稿は絶対にやり直さない。
 - 毎朝 09:00 の確認用 dry-run（`daily-post.yml`）は、その日の全部の枠を順に試す（投稿はしない）。
 
+### X（@LostBallempower）も1日3本（2026-10-20〜）
+- 朝 07:10・昼 12:10・夜 20:10（日本語・文字のみ）。10/19 までは今までどおり 05:53 に1本。
+- 同じ日・同じ枠の日本語 Threads を X 用に書き直したものを `data/x-queue.json` に入れ、`node scripts/x-bulk-approve.mjs --week <日付>` でまとめて承認する。
+- URL 入りは1本 $0.20（URLなし $0.015 の約13倍）なので原則入れない。詳しくは [`INSTAGRAM.md`](./INSTAGRAM.md) の「X 自動投稿」。
+
 ## ディレクトリ構成
 
 ```
@@ -104,12 +109,16 @@ lib/                          # テーマ非依存の汎用ロジック。Thread
   slots.mjs                   # 1日4本の枠(時刻・cron・slot/lang)、実行の枠の決め方、draft-bank.jsonの枠の検査
   similarity-guard.mjs        # 似すぎた投稿(同じ日・同じ週・投稿済みの言い換え)を止める
   bulk-approve.mjs            # まとめて承認の計画と一覧表示(ファイルI/Oなし)
+  x-slots.mjs                 # X の1日3本の枠(朝07:10・昼12:10・夜20:10)、実行の枠の決め方、x-queue.jsonの枠の検査
+  x-bulk-approve.mjs          # X のまとめて承認の計画と一覧表示(ファイルI/Oなし)
 
 scripts/                      # ローカル実行専用。Threads/Meta APIへは、二重ゲートが揃わない限り一切接続しない
   select-daily-candidate.mjs  # 本日投稿してよい候補をdraft-bank.jsonから選出し表示するだけ(メディア状態も表示)
   promote-candidates.mjs      # candidate→draft-bank.json への昇格(従来の1件ずつ。--approvedBy, --yes必須)
   bulk-approve.mjs            # 1日4本の候補を日付・週ごとにまとめて人が承認(--by, --yes必須。全部OKのときだけ書き込む)
   resolve-run.mjs             # workflowの最初に「どの枠・どの日の投稿か」を決める(読み取りのみ)
+  x-bulk-approve.mjs          # X の1日3本を日付・週ごとにまとめて人が承認(--by, --yes必須。全部OKのときだけ書き込む)
+  x-resolve-run.mjs           # x-post.ymlの最初に「X のどの枠・どの日の投稿か」を決める(読み取りのみ)
   validate-data.mjs           # data/*.json の構造整合性・併記フォーマット・事実整合性・メディア整合性チェック
   threads-auth-url.mjs        # 認可URLを生成して表示するだけ(接続・書き込みなし)
   exchange-threads-token.mjs  # 認可コード→短期→長期トークン交換・GET /me確認・.env.localへの安全な保存

@@ -217,7 +217,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/threads-posts.json
           git commit -m "chore(lostball): record Threads post (${RUN_DATE} ${RUN_ID})"
-          # Instagram(07:00)・X(05:53)・土曜07:07の週次レビュー・insights等が先にpushしていても
+          # Instagram(07:00)・X(07:10/12:10/20:10。10/19までは05:53)・土曜07:07の週次レビュー・insights等が先にpushしていても
           # 記録を落とさないよう、rebaseしてからpushする。pushが弾かれたら少し待って最大5回までやり直す
           # (やり直すのは記録のpushだけ。Threadsへの投稿は絶対にやり直さない)。
           for attempt in 1 2 3 4 5; do
