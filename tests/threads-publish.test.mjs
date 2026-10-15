@@ -27,6 +27,7 @@ function jsonResponse(status, body) {
 function containerThenPublishHandler({ containerId = "container-1", threadsPostId = "post-1" } = {}) {
   return async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: containerId });
     if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: threadsPostId });
     throw new Error(`unexpected URL requested in test: ${u}`);
@@ -56,7 +57,7 @@ test("publishPost: LIVE_POST=true かつ live=true → 投稿処理(fetch)へ進
     assert.equal(result.wouldPost, false);
     assert.equal(result.threadsPostId, "post-1");
     assert.match(result.body, /Hello\.\n\nこんにちは。/);
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -148,6 +149,7 @@ test("publishPost: imageUrl指定時はIMAGE投稿(media_type=IMAGE/image_url付
   let capturedContainerUrl;
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) {
       capturedContainerUrl = u;
       return jsonResponse(200, { id: "container-img" });
@@ -171,7 +173,7 @@ test("publishPost: imageUrl指定時はIMAGE投稿(media_type=IMAGE/image_url付
     assert.equal(result.usedImage, true);
     assert.equal(capturedContainerUrl.searchParams.get("media_type"), "IMAGE");
     assert.equal(capturedContainerUrl.searchParams.get("image_url"), imageUrl);
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -181,6 +183,7 @@ test("publishPost: 画像コンテナ作成が1回目失敗・2回目成功な�
   let attempts = 0;
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) {
       attempts += 1;
       if (attempts === 1) return jsonResponse(400, { error: { message: "temporary error", type: "Err" } });
@@ -203,7 +206,7 @@ test("publishPost: 画像コンテナ作成が1回目失敗・2回目成功な�
     assert.equal(result.threadsPostId, "post-img-retry");
     assert.equal(result.containerRetry.attempted, true);
     assert.equal(result.containerRetry.count, 1);
-    assert.equal(getCallCount(), 3);
+    assert.equal(getCallCount(), 4); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -212,6 +215,7 @@ test("publishPost: 画像コンテナ作成が1回目失敗・2回目成功な�
 test("publishPost: 画像コンテナ作成が2回とも失敗したらエラーを投げ(stage=createImageContainer)、threads_publishは一切呼ばれない", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(400, { error: { message: "bad image_url", type: "Err" } });
     throw new Error("コンテナ作成失敗後にthreads_publishが呼ばれてはいけない");
   });
@@ -244,6 +248,7 @@ test("publishPost: 画像コンテナ作成が2回とも失敗したらエラー
 test("publishPost: 画像投稿でpublishContainer(threads_publish)が失敗した場合もリトライせず、テキスト投稿へのフォールバックも行わない", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-img-ok" });
     return jsonResponse(500, { error: { message: "server error", type: "Err" } });
   });
@@ -262,7 +267,7 @@ test("publishPost: 画像投稿でpublishContainer(threads_publish)が失敗し�
     );
     // コンテナ作成成功1回(IMAGE) + threads_publish失敗1回 = 合計2回。
     // 失敗後にTEXTでの再試行(=合計3回目の/threads呼び出し)が発生していないことを確認する。
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -271,6 +276,7 @@ test("publishPost: 画像投稿でpublishContainer(threads_publish)が失敗し�
 test("publishPost: コンテナ作成が2回とも失敗したらエラーを投げ、threads_publishは一切呼ばれない(リトライは最大1回)", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(400, { error: { message: "bad request", type: "Err" } });
     throw new Error("コンテナ作成失敗後にthreads_publishが呼ばれてはいけない");
   });
@@ -308,6 +314,7 @@ test("publishPost: コンテナ作成が1回目失敗・2回目成功なら、1�
   const delayCalls = [];
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) {
       attempts += 1;
       if (attempts === 1) return jsonResponse(400, { error: { message: "temporary OAuthException", type: "OAuthException" } });
@@ -336,7 +343,7 @@ test("publishPost: コンテナ作成が1回目失敗・2回目成功なら、1�
     // 待機は1回だけ、かつ約4秒(4000ms)であること。
     assert.deepEqual(delayCalls, [4000]);
     // コンテナ作成2回(失敗+成功) + threads_publish 1回 = 合計3回。
-    assert.equal(getCallCount(), 3);
+    assert.equal(getCallCount(), 4); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -345,6 +352,7 @@ test("publishPost: コンテナ作成が1回目失敗・2回目成功なら、1�
 test("publishPost: publishContainer(threads_publish)が失敗したらエラーを投げ、一切リトライしない", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-1" });
     return jsonResponse(500, { error: { message: "server error", type: "Err" } });
   });
@@ -367,7 +375,7 @@ test("publishPost: publishContainer(threads_publish)が失敗したらエラー�
       }
     );
     // コンテナ作成成功1回 + threads_publish失敗1回 = 合計2回。リトライで3回目が呼ばれないこと。
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -436,4 +444,60 @@ test("buildPostRecord: pillar/category/workflowRunUrl省略時はnull、mode省�
   assert.equal(record.workflowRunUrl, null);
   assert.equal(record.mode, "live");
   assert.ok(new Date(record.postedAt).getTime() >= before);
+});
+
+// 2026-10-16: コンテナ作成直後に threads_publish を呼ぶと
+// 「HTTP 400 code=24 error_subcode=4279009 The requested resource does not exist」になった。
+// 公開前に status=FINISHED を待ち、準備できなければ公開を呼ばない。
+test("publishPost: コンテナがまだ見つからない(400)間は待ち、FINISHEDになってから1回だけ公開する", async () => {
+  let statusChecks = 0;
+  let publishCalls = 0;
+  const delays = [];
+  const { restore } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") {
+      statusChecks += 1;
+      if (statusChecks < 3) return jsonResponse(400, { error: { message: "The requested resource does not exist", type: "OAuthException", code: 24, error_subcode: 4279009 } });
+      return jsonResponse(200, { status: "FINISHED" });
+    }
+    if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-slow" });
+    if (u.pathname.endsWith("/threads_publish")) {
+      publishCalls += 1;
+      return jsonResponse(200, { id: "post-slow" });
+    }
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    const result = await publishPost({
+      bodyEn: "Hello.", bodyJa: "こんにちは。", userId: "999", accessToken: "secret-token",
+      live: true, env: { LIVE_POST: "true" }, delay: async (ms) => { delays.push(ms); }
+    });
+    assert.equal(result.threadsPostId, "post-slow");
+    assert.equal(statusChecks, 3);
+    assert.equal(publishCalls, 1);
+    assert.deepEqual(delays, [3000, 3000]);
+  } finally {
+    restore();
+  }
+});
+
+test("publishPost: コンテナがERRORなら公開(threads_publish)を呼ばずにエラー(投稿は行われていない)", async () => {
+  const { restore } = stubFetch(async (url) => {
+    const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "ERROR", error_message: "FAILED_PROCESSING" });
+    if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-bad" });
+    if (u.pathname.endsWith("/threads_publish")) throw new Error("準備できていないコンテナを公開してはいけない");
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  });
+  try {
+    await assert.rejects(
+      publishPost({
+        bodyEn: "Hello.", bodyJa: "こんにちは。", userId: "999", accessToken: "secret-token",
+        live: true, env: { LIVE_POST: "true" }, delay: async () => {}
+      }),
+      (err) => err.stage === "waitForContainerReady" && err.containerCreationFailure === true && /status=ERROR/.test(err.message)
+    );
+  } finally {
+    restore();
+  }
 });

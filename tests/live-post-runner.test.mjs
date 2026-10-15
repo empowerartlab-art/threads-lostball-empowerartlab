@@ -32,6 +32,7 @@ function jsonResponse(status, body) {
 function containerThenPublishHandler({ containerId = "container-1", threadsPostId = "post-1" } = {}) {
   return async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: containerId });
     if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: threadsPostId });
     throw new Error(`unexpected URL requested in test: ${u}`);
@@ -145,7 +146,7 @@ test("LIVE_POST=true + live=true → mockされたpublish処理(fetch)へ進み�
     assert.equal(result.threadsPostId, "post-999");
     assert.equal(result.record.threadsPostId, "post-999");
     assert.equal(result.record.sourceItemId, "item-1");
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -155,6 +156,7 @@ test("承認済みmedia(path+approvedBy+approvedAt)を持つ候補 → lib/media
   let capturedContainerUrl;
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) {
       capturedContainerUrl = u;
       return jsonResponse(200, { id: "container-img" });
@@ -192,7 +194,7 @@ test("承認済みmedia(path+approvedBy+approvedAt)を持つ候補 → lib/media
       capturedContainerUrl.searchParams.get("image_url"),
       "https://raw.githubusercontent.com/owner/repo/main/assets/lost-ball-product/day7-product-photo.png"
     );
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -202,6 +204,7 @@ test("media.pathはあるが未承認の候補 → imageUrlは解決されず、
   let capturedContainerUrl;
   const { restore } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) {
       capturedContainerUrl = u;
       return jsonResponse(200, { id: "container-txt" });
@@ -244,6 +247,7 @@ test("media.required=falseでpathはあるが未承認の候補 → 選出はブ
   let capturedContainerUrl;
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) {
       capturedContainerUrl = u;
       return jsonResponse(200, { id: "container-txt-2" });
@@ -275,7 +279,7 @@ test("media.required=falseでpathはあるが未承認の候補 → 選出はブ
     assert.equal(result.outcome, OUTCOME.POSTED_STATE_SAVED);
     assert.equal(capturedContainerUrl.searchParams.get("media_type"), "TEXT");
     assert.equal(capturedContainerUrl.searchParams.has("image_url"), false);
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -326,7 +330,7 @@ test("重複候補(1件目が投稿済みと同一本文)＋LIVE_POST=true+live=
     assert.equal(result.skipped[0].item.id, "dup-item");
     const containerCall = getCalls().find((c) => new URL(c.url).pathname.endsWith("/threads"));
     assert.match(decodeURIComponent(new URL(containerCall.url).searchParams.get("text")), /Fresh content\./);
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -356,6 +360,7 @@ test("全件重複(候補すべてが投稿済み)＋LIVE_POST=true+live=true �
 test("コンテナ作成が2回とも失敗 → PRE_POST_FAILURE(container-creation-failed-after-retry)。fetchは2回だけ呼ばれ、publishは呼ばれない", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(400, { error: { message: "bad request", type: "Err" } });
     throw new Error("コンテナ作成失敗後にthreads_publishが呼ばれてはいけない");
   });
@@ -386,6 +391,7 @@ test("コンテナ作成が1回目失敗・2回目成功 → POSTED_STATE_SAVED�
   let attempts = 0;
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) {
       attempts += 1;
       if (attempts === 1) return jsonResponse(400, { error: { message: "temporary OAuthException", type: "OAuthException" } });
@@ -410,7 +416,7 @@ test("コンテナ作成が1回目失敗・2回目成功 → POSTED_STATE_SAVED�
     assert.equal(result.containerRetry.attempted, true);
     assert.equal(result.containerRetry.count, 1);
     assert.match(result.containerRetry.firstAttemptError.message, /temporary OAuthException/);
-    assert.equal(getCallCount(), 3);
+    assert.equal(getCallCount(), 4); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }
@@ -419,6 +425,7 @@ test("コンテナ作成が1回目失敗・2回目成功 → POSTED_STATE_SAVED�
 test("publish失敗(publishContainer由来) → PRE_POST_FAILURE。reasonはcontainer-creation-failed-after-retryにならず、リトライもしない", async () => {
   const { restore, getCallCount } = stubFetch(async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-1" });
     return jsonResponse(500, { error: { message: "server error", type: "Err" } });
   });
@@ -435,7 +442,7 @@ test("publish失敗(publishContainer由来) → PRE_POST_FAILURE。reasonはcont
     assert.equal(result.outcome, OUTCOME.PRE_POST_FAILURE);
     assert.ok(result.error);
     assert.equal(result.reason, "publish-error");
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     restore();
   }

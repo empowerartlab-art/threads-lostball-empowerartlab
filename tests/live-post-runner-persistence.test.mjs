@@ -31,6 +31,7 @@ function jsonResponse(status, body) {
 function containerThenPublishHandler({ threadsPostId = "post-1" } = {}) {
   return async (url) => {
     const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") return jsonResponse(200, { status: "FINISHED" }); // コンテナ準備確認(読み取りのみ)
     if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-1" });
     if (u.pathname.endsWith("/threads_publish")) return jsonResponse(200, { id: threadsPostId });
     throw new Error(`unexpected URL requested in test: ${u}`);
@@ -135,7 +136,7 @@ test("publish成功 + state保存失敗(書き込み先ディレクトリを読�
     assert.equal(result.outcome, OUTCOME.POSTED_STATE_SAVE_FAILED);
     assert.equal(result.threadsPostId, "post-888");
     // コンテナ作成1回+publish1回=2回のみ。state保存失敗を検知した後にpublishが再度呼ばれていないことを確認する。
-    assert.equal(getCallCount(), 2);
+    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
   } finally {
     await chmod(dir, 0o755);
     restore();
