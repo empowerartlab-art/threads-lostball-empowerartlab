@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-15T12:17:06.550Z",
-  "count": 23,
+  "updatedAt": "2026-10-15T23:43:26.192Z",
+  "count": 24,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -266,6 +266,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38733420465",
       "lang": "en"
+    },
+    {
+      "sourceItemId": "lostball-20261016-hand-polish-as-work",
+      "threadsPostId": "18071679104734042",
+      "bodyEn": "Each of these lost balls is checked and polished by hand, one at a time.\n\nThat work is done by people with disabilities at a welfare employment support facility in Japan.\n\nOne ball at a time. As real work.",
+      "bodyJa": "このロストボールは、1球ずつ手で状態を確認して、磨いています。\n\n磨いているのは、就労継続支援施設で働く、障がいのある方々です。\n\n1球ずつ、仕事として。",
+      "pillar": "WELFARE",
+      "category": "HAND_POLISH_AS_WORK",
+      "postedAt": "2026-10-15T23:43:26.191Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38825216763",
+      "lang": "ja"
     }
   ]
 }
