@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-16T15:40:21.958Z",
-  "count": 25,
+  "updatedAt": "2026-10-16T22:17:08.161Z",
+  "count": 26,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -290,6 +290,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38925775793",
       "lang": "en"
+    },
+    {
+      "sourceItemId": "lostball-20261017-golfer-question-balls-lost",
+      "threadsPostId": "17952810513083510",
+      "bodyEn": "Question for golfers:\nhow many balls do you usually lose in a round?\n\nIf it's zero, respect.",
+      "bodyJa": "ゴルファーに聞きたい。\n\n1ラウンドで、だいたい何球なくしますか？\n\n0球の人、尊敬します。",
+      "pillar": "GOLF",
+      "category": "GOLFER_QUESTION_BALLS_LOST",
+      "postedAt": "2026-10-16T22:17:08.160Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/38974766425",
+      "lang": "ja"
     }
   ]
 }
