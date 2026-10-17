@@ -17,9 +17,11 @@ const brandFile = await readJson("../data/brand-profile.json");
 const categoryFile = await readJson("../data/category-profile.json");
 
 // 毎週承認分が追記されていくため、件数は固定しない。DAY1から欠番・重複なく続いていることを確認する。
+// 2026-10-20 以降の1日4本(slot付き)はDAY番号を持たないので、DAY番号のある従来の投稿だけを見る。
+const dayItems = () => bankFile.items.filter((i) => Number.isInteger(i.day));
 test("draft-bank.json のDAYは1から欠番・重複なく続いている(初期22投稿を含む)", () => {
-  assert.ok(bankFile.items.length >= 22);
-  const days = bankFile.items.map((i) => i.day).sort((a, b) => a - b);
+  assert.ok(dayItems().length >= 22);
+  const days = dayItems().map((i) => i.day).sort((a, b) => a - b);
   assert.deepEqual(
     days,
     Array.from({ length: days.length }, (_, i) => i + 1)
@@ -90,7 +92,7 @@ test("ショップ誘導(hasShopLink)が立っているのはDAY7のみ", () => 
 });
 
 test("初期22投稿(DAY1〜22)でCTA(hasCta)が立っているのはDAY7のみ", () => {
-  const ctaDays = bankFile.items.filter((i) => i.day <= 22 && i.hasCta).map((i) => i.day);
+  const ctaDays = dayItems().filter((i) => i.day <= 22 && i.hasCta).map((i) => i.day);
   assert.deepEqual(ctaDays, [7]);
 });
 
@@ -98,7 +100,7 @@ test("初期22投稿(DAY1〜22)でCTA(hasCta)が立っているのはDAY7のみ"
 // 問いかけ・販売などのCTAは1週あたり2本までに抑える。
 test("DAY23以降のCTA(hasCta)は1週(7日)あたり2本まで", () => {
   const perWeek = new Map();
-  for (const item of bankFile.items.filter((i) => i.day > 22 && i.hasCta)) {
+  for (const item of dayItems().filter((i) => i.day > 22 && i.hasCta)) {
     const week = Math.floor((item.day - 23) / 7);
     perWeek.set(week, (perWeek.get(week) || 0) + 1);
   }
@@ -132,16 +134,17 @@ test("verified-facts.json の22件の事実がすべてverified:trueで登録さ
 
 // The weekly review appends a new Tue..Mon week of skeletons every Saturday, so the
 // exact count and dates change each week. What must always hold: one candidate per
-// date, and none of them approved automatically.
-test("draft-bank-candidates.json の週次候補スケルトンは日付が重複せず、いずれも未承認(approvedBy/approvedAtがnull)のままである", async () => {
+// date (from 2026-10-20: one per date × slot × lang, the 4-a-day drafts written by
+// hand), and none of them approved automatically.
+test("draft-bank-candidates.json の週次候補は枠ごとに重複せず、いずれも未承認(approvedBy/approvedAtが無い)のままである", async () => {
   const candidatesFile = await readJson("../data/draft-bank-candidates.json");
   assert.ok(candidatesFile.items.length > 0);
-  const targetDates = candidatesFile.items.map((i) => i.targetDate);
-  assert.equal(new Set(targetDates).size, targetDates.length, "同じtargetDateの候補が複数ある");
+  const keys = candidatesFile.items.map((i) => `${i.targetDate}|${i.slot ?? ""}|${i.lang ?? ""}`);
+  assert.equal(new Set(keys).size, keys.length, "同じtargetDate・枠の候補が複数ある");
   for (const item of candidatesFile.items) {
-    assert.equal(item.approvedBy, null, `${item.id}: approvedByがnullでない(自動承認されている)`);
-    assert.equal(item.approvedAt, null, `${item.id}: approvedAtがnullでない(自動承認されている)`);
-    assert.equal(item.status, "needs_human_draft");
+    assert.equal(item.approvedBy ?? null, null, `${item.id}: approvedByがある(自動承認されている)`);
+    assert.equal(item.approvedAt ?? null, null, `${item.id}: approvedAtがある(自動承認されている)`);
+    if (!item.slot) assert.equal(item.status, "needs_human_draft");
   }
 });
 

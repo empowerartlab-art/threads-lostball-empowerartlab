@@ -22,6 +22,7 @@ import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { jstDateKey } from "../lib/target-date.mjs";
 import { analyzeWeekly } from "../lib/weekly-analysis.mjs";
+import { analysisWindow, windowLabel } from "../lib/analysis-window.mjs";
 import { generateWeeklyCandidates, estimateNextWeekStart } from "../lib/weekly-candidates.mjs";
 import { readInsightsHistoryFile } from "../lib/threads-insights-store.mjs";
 import { upsertCandidates, readCandidatesFile } from "../lib/draft-bank-candidates-store.mjs";
@@ -84,8 +85,13 @@ async function main() {
   const categoryProfile = await readJson(CATEGORY_PROFILE_PATH, { week2PlusCandidateCategories: [] });
   const insightsHistory = await readInsightsHistoryFile(INSIGHTS_HISTORY_PATH_STR);
 
+  // 分析するのは、この実行の前の土曜〜金曜の投稿（2026-10-17 山本さん決定。初回 10/24 は 10/12〜10/23）。
+  // 投稿の準備・承認の週（火〜月）は変えない。
+  const win = analysisWindow();
+  const windowPosts = (postsFile.posts || []).filter((p) => p.postedAt >= win.since && p.postedAt < win.until);
+  console.log(`分析の対象: ${windowLabel(win)}の投稿（${windowPosts.length}件）`);
   const analysis = analyzeWeekly({
-    posts: postsFile.posts,
+    posts: windowPosts,
     bankItems: bankFile.items,
     insightsHistory,
     contentIdeas

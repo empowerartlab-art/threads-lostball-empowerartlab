@@ -81,5 +81,152 @@
     "approved": true,
     "approvedBy": "KEITA",
     "approvedAt": "2026-10-12T01:38:54.270Z"
+  },
+  {
+    "id": "ig-2026-10-20-again",
+    "date": "2026-10-20",
+    "pillar": "JAPAN",
+    "mediaType": "BRAND_GRAPHIC",
+    "images": [
+      "2026-10-20-again.jpg"
+    ],
+    "caption": "池に、林に、消えていったボール。\n日本のゴルフ場では、回収されないまま残ってしまうボールもあります。\n\nわたしたちは、回収されたロストボールを1球ずつ手で確かめて、汚れを落とし、磨いています。\n新品ではありません。でも、まだまだ打てるボールです。\n\nもう一度、コースで出番をつくるために。\n次のラウンドで、あなたのバッグに入るかもしれません。\n\n#ロストボール #ゴルフ #ゴルフボール #手磨き #ゴルフ好きな人と繋がりたい #サステナブル",
+    "verifiedFactIds": [
+      "lost-balls-end-up-in-ponds-and-forests",
+      "reuse-lost-balls-from-japan",
+      "hand-polish-one-by-one"
+    ],
+    "threadsDate": "2026-10-20",
+    "note": "2026-10-17 土曜に作成",
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.415Z"
+  },
+  {
+    "id": "ig-2026-10-21-people",
+    "date": "2026-10-21",
+    "pillar": "WELFARE",
+    "mediaType": "BRAND_GRAPHIC",
+    "images": [
+      "2026-10-21-people.jpg"
+    ],
+    "caption": "1球の向こうに、働く人がいます。\n\nこのロストボールを磨いているのは、就労継続支援施設で働く、障がいのある方々です。\n状態を見て、汚れを落として、手で磨く。\n誰かの次のラウンドに届くボールを、仕事として1球ずつ、丁寧に仕上げています。\nできあがったボールは、ショップから全国のゴルファーへ届きます。\n\nボールを買っていただくことが、この仕事と、働く人の社会参加につながっています。\n\n#ロストボール #ゴルフ #ゴルフボール #手磨き #ゴルフ好きな人と繋がりたい #福祉 #就労支援",
+    "verifiedFactIds": [
+      "welfare-facility-users-do-the-work",
+      "welfare-facility-users-have-disabilities",
+      "purchase-supports-work-and-participation",
+      "hand-polish-one-by-one"
+    ],
+    "threadsDate": "2026-10-21",
+    "note": "2026-10-17 土曜に作成",
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.446Z"
+  },
+  {
+    "id": "ig-2026-10-22-journey",
+    "date": "2026-10-22",
+    "pillar": "GOLF",
+    "mediaType": "BRAND_GRAPHIC",
+    "images": [
+      "2026-10-22-journey.jpg"
+    ],
+    "caption": "1球のロストボールにも、道のりがあります。\n\n池に沈んだボールは、潜水士が水の中に入って回収する方法があります。\n林やOBゾーンでは、人の手でひとつずつ拾われることもあります。\n\nそうして戻ってきたボールも、傷や状態によっては再販売が難しいものがあります。\nだから、わたしたちは1球ずつ手に取って確かめてから磨いています。\nラウンド中にボールを見送ったら、その1球のその後を、少しだけ思い出してみてください。\n\n#ロストボール #ゴルフ #ゴルフボール #手磨き #ゴルフ好きな人と繋がりたい #池ポチャ",
+    "verifiedFactIds": [
+      "lost-balls-retrieved-by-divers-from-ponds",
+      "lost-balls-hand-collected-from-forests-and-ob-zones",
+      "some-collected-balls-cannot-be-resold",
+      "hand-polish-one-by-one"
+    ],
+    "threadsDate": "2026-10-22",
+    "note": "2026-10-17 土曜に作成",
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.480Z"
+  },
+  {
+    "id": "ig-2026-10-23-wish",
+    "date": "2026-10-23",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "mediaType": "BRAND_GRAPHIC",
+    "images": [
+      "2026-10-23-wish.jpg"
+    ],
+    "caption": "ひとりで寂しい思いをする子を、減らしたい。\n\n「一人じゃないよプロジェクト」は、その想いから活動しています。\n言葉だけでは届きにくい想いを伝えるために、絵本もつくっています。\n子どもだけでなく、親のしんどさにも目を向けている活動です。\n\nわたしたちは、ロストボールの売上の一部をこのプロジェクトへ寄付しています。\nボールに付いているハートの木のステッカーは、このプロジェクトのものです。\n\n#ロストボール #ゴルフ #ゴルフボール #手磨き #ゴルフ好きな人と繋がりたい #一人じゃないよプロジェクト",
+    "verifiedFactIds": [
+      "project-mission-reduce-lonely-children",
+      "project-made-picture-book",
+      "donate-portion-to-hitori-janai-yo-project",
+      "project-also-supports-parents-hardships",
+      "product-includes-pink-tree-sticker"
+    ],
+    "threadsDate": "2026-10-23",
+    "note": "2026-10-17 土曜に作成",
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.510Z"
+  },
+  {
+    "id": "ig-2026-10-24-1000years",
+    "date": "2026-10-24",
+    "pillar": "ENVIRONMENT",
+    "mediaType": "BRAND_GRAPHIC",
+    "images": [
+      "2026-10-24-1000years.jpg"
+    ],
+    "caption": "ゴルフボールが自然に還るまで、一説では約1,000年かかるとも言われています。\nゴルフボールは、土に還らない素材でできているからです。\n\n回収されずに放置されたボールは、環境を傷つけてしまいます。\n毎年、約2,100万球が新たに自然の中へ残されているとも言われています。\n\nだからこそ、捨てずに、もう一度使う。\nロストボールは、その小さなひとつの方法です。\n\n#ロストボール #ゴルフ #ゴルフボール #手磨き #ゴルフ好きな人と繋がりたい #環境",
+    "verifiedFactIds": [
+      "golf-ball-decomposition-about-1000-years",
+      "golf-balls-dont-return-to-soil",
+      "reuse-lost-balls-from-japan",
+      "abandoned-golf-balls-harm-environment",
+      "estimated-21m-new-lost-balls-per-year"
+    ],
+    "threadsDate": "2026-10-24",
+    "note": "2026-10-17 土曜に作成",
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.541Z"
+  },
+  {
+    "id": "ig-2026-10-25-practice",
+    "date": "2026-10-25",
+    "pillar": "GOLF",
+    "mediaType": "PRODUCT_PHOTO",
+    "images": [
+      "2026-10-25-practice.jpg"
+    ],
+    "caption": "練習ラウンドに、手で磨いたロストボールを。\n\n日本のロストボールを、1球ずつ手で確認し、磨きました。\n磨いているのは、福祉施設で働く方々です。\n新品ではないぶん、池越えのホールも少し気楽に打てます。\n\nボールには「一人じゃないよプロジェクト」のピンクの木のステッカーが付き、売上の一部はプロジェクトへ寄付されます。\n\nショップはプロフィールのリンクから（国内発送のみ）。\n\n#ロストボール #ゴルフ #ゴルフボール #手磨き #ゴルフ好きな人と繋がりたい #練習ラウンド",
+    "verifiedFactIds": [
+      "hand-polish-one-by-one",
+      "reuse-lost-balls-from-japan",
+      "product-includes-pink-tree-sticker",
+      "welfare-facility-users-do-the-work",
+      "donate-portion-to-hitori-janai-yo-project"
+    ],
+    "threadsDate": "2026-10-25",
+    "note": "2026-10-17 土曜に作成",
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.571Z"
+  },
+  {
+    "id": "ig-2026-10-26-hetaro",
+    "date": "2026-10-26",
+    "pillar": "GOLF",
+    "mediaType": "CHARACTER_HETARO",
+    "images": [
+      "hetaro-media/ig/2026-10-26-ig-1.jpg"
+    ],
+    "caption": "林で見つかるのは、いつも知らない人のボール。\n\nうちの見習いアンバサダー、ヘタ郎（@hetarou.golf2026）も、今日はボール探しに苦戦中のようです。\nゴルフをしていると、誰にでも一度はある場面ですよね。\n\n林やOBゾーンのボールは、人の手でひとつずつ拾われることもあります。\nそうして戻ってきたボールを、1球ずつ手で確かめて磨くのが、わたしたちの仕事です。\nヘタ郎の100切りまで、一緒に応援してください。\n\n#ヘタ郎 #ロストボール #ゴルフ #ゴルフあるある #ゴルフ好きな人と繋がりたい",
+    "verifiedFactIds": [
+      "hand-polish-one-by-one",
+      "lost-balls-hand-collected-from-forests-and-ob-zones"
+    ],
+    "threadsDate": "2026-10-26",
+    "note": "2026-10-17 作成。ヘタ郎の同じ日の絵（ヘタ郎の投稿と同じ日なので7日ルールに当たらない）",
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.601Z"
   }
 ]

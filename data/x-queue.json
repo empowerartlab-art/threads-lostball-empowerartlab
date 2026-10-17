@@ -68,5 +68,318 @@
     "approved": true,
     "approvedBy": "KEITA",
     "approvedAt": "2026-10-12T04:17:41.779Z"
+  },
+  {
+    "id": "x-2026-10-20-morning",
+    "date": "2026-10-20",
+    "slot": "morning",
+    "pillar": "JAPAN",
+    "text": "池や林に消えたボールも、回収されればまたコースに戻れる。手で確かめて磨いた、日本のゴルフ場からのロストボールです。二度目の出番を待っています。",
+    "threadsItemId": "lb-2026-10-20-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "lost-balls-end-up-in-ponds-and-forests",
+      "reuse-lost-balls-from-japan",
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-20-noon",
+    "date": "2026-10-20",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "池越えのティーショット。構えた瞬間から水面しか見えない。越えるだけと分かっているのに、なぜか体が固まる。みんなのおまじない、教えてください。 #ゴルフあるある",
+    "threadsItemId": "lb-2026-10-20-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-20-night",
+    "date": "2026-10-20",
+    "slot": "night",
+    "pillar": "JAPAN",
+    "text": "秋のコースは朝の空気が格別。ひんやりしたティーグラウンドと、色づき始めた木々。今週ラウンドの方、寒暖差があるので上着を一枚お忘れなく。",
+    "threadsItemId": "lb-2026-10-20-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-21-morning",
+    "date": "2026-10-21",
+    "slot": "morning",
+    "pillar": "WELFARE",
+    "text": "1球のロストボールの向こうに、働く人がいる。状態を見て、汚れを落とし、手で磨く。担っているのは、福祉施設で働く障がいのある方々です。",
+    "threadsItemId": "lb-2026-10-21-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "welfare-facility-users-do-the-work",
+      "welfare-facility-users-have-disabilities",
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-21-noon",
+    "date": "2026-10-21",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "練習ラウンドくらいは、OBも池も気にせず振り抜きたい。新しいクラブを試す日、スイングを確かめる日。ボールの心配が少ないだけで、思い切って振れる。",
+    "threadsItemId": "lb-2026-10-21-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-21-night",
+    "date": "2026-10-21",
+    "slot": "night",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "text": "子育て中の夜がしんどいとき、ひとりで抱え込まなくていい。寄付先のプロジェクトは、子どもだけでなく親のつらさにも寄り添う活動をしています。",
+    "threadsItemId": "lb-2026-10-21-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "project-also-supports-parents-hardships",
+      "donate-portion-to-hitori-janai-yo-project"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-22-morning",
+    "date": "2026-10-22",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "池ポチャしたボールのその後。潜水士が水に潜って、池の底から回収する方法があるそうです。見送ったあの1球にも、戻ってくるまでの道のりがある。",
+    "threadsItemId": "lb-2026-10-22-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "lost-balls-retrieved-by-divers-from-ponds"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-22-noon",
+    "date": "2026-10-22",
+    "slot": "noon",
+    "pillar": "ENVIRONMENT",
+    "text": "ラウンド中に探しきれなかった、林の奥やOBの斜面のボール。そういう場所では、人の手でひとつずつ拾われることもあります。",
+    "threadsItemId": "lb-2026-10-22-noon-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "lost-balls-hand-collected-from-forests-and-ob-zones"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-22-night",
+    "date": "2026-10-22",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "拾われたボールでも、深い傷や状態によっては、もう売れないものがある。だから全部を手に取って確かめて、使えるものだけを磨いています。",
+    "threadsItemId": "lb-2026-10-22-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "some-collected-balls-cannot-be-resold",
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-23-morning",
+    "date": "2026-10-23",
+    "slot": "morning",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "text": "ロストボールに付いてくる1枚のステッカー。ハートでできたピンクの木と、その下の人や動物たち。「一人じゃないよプロジェクト」のマークです。",
+    "threadsItemId": "lb-2026-10-23-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-includes-pink-tree-sticker"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-23-noon",
+    "date": "2026-10-23",
+    "slot": "noon",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "text": "寂しい思いをする子を減らしたい。言葉だけでは届きにくいその想いを、絵本にもしているプロジェクトです。小さな子にも、大人にも届くように。",
+    "threadsItemId": "lb-2026-10-23-noon-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "project-mission-reduce-lonely-children",
+      "project-made-picture-book"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-23-night",
+    "date": "2026-10-23",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "明日ラウンドの方へ。グローブ、ティー、マーカーはOK？いちばん悩むのはボールの数。池の多いコースだと、つい多めに入れてしまう。何球派ですか？",
+    "threadsItemId": "lb-2026-10-23-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-24-morning",
+    "date": "2026-10-24",
+    "slot": "morning",
+    "pillar": "ENVIRONMENT",
+    "text": "ゴルフボールが自然に還るのは、一説では約1,000年後。土に還らない素材だから。今日なくした1球が、1,000年先も残っているかもしれない。",
+    "threadsItemId": "lb-2026-10-24-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "golf-ball-decomposition-about-1000-years",
+      "golf-balls-dont-return-to-soil"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-24-noon",
+    "date": "2026-10-24",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "1番ホールの1打目、何年やっても緊張する。後ろの組の視線、練習場ではあんなに当たったのに…。今日ラウンドの方、肩の力を抜いて。 #ゴルフあるある",
+    "threadsItemId": "lb-2026-10-24-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-24-night",
+    "date": "2026-10-24",
+    "slot": "night",
+    "pillar": "ENVIRONMENT",
+    "text": "新たに自然へ残されるゴルフボールは、毎年約2,100万球とも。放置されたボールは環境を傷つける。全部は無理でも、1球でも多くもう一度コースへ。",
+    "threadsItemId": "lb-2026-10-24-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "estimated-21m-new-lost-balls-per-year",
+      "abandoned-golf-balls-harm-environment"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-25-morning",
+    "date": "2026-10-25",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "日曜の練習場。ウェッジから軽く、と分かっているのに、1球目は毎回なぜか力みすぎて、たいてい右へ。みなさんは何番から打ち始めますか？",
+    "threadsItemId": "lb-2026-10-25-morning-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-25-noon",
+    "date": "2026-10-25",
+    "slot": "noon",
+    "pillar": "ENVIRONMENT",
+    "text": "海沿いのゴルフ場では、ボールが海へ入ることも。海外では、沿岸のゴルフ場近くの海から約5万球が回収されたという研究報告もあります。",
+    "threadsItemId": "lb-2026-10-25-noon-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "overseas-coastal-golf-course-ocean-study-50000-balls"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-25-night",
+    "date": "2026-10-25",
+    "slot": "night",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "text": "子どもと大人、子ども同士、企業同士、人と自然。いろんな「手と手」をつないでいくのが「一人じゃないよプロジェクト」。1球のボールも、その手のひとつに。",
+    "threadsItemId": "lb-2026-10-25-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "project-connects-people-across-relationships"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-26-morning",
+    "date": "2026-10-26",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "次のラウンドに、1球ずつ手で磨いた日本のロストボールを。新品ではないぶん、池越えも少し気楽に打てます。ショップはプロフィールのリンクから⛳",
+    "threadsItemId": "lb-2026-10-26-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one",
+      "reuse-lost-balls-from-japan"
+    ],
+    "hasCta": true,
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-26-noon",
+    "date": "2026-10-26",
+    "slot": "noon",
+    "pillar": "WELFARE",
+    "text": "ボールを1つ買うことが、磨く仕事と働く人の社会参加につながり、売上の一部はプロジェクトへの寄付に。ゴルフを楽しむことが、誰かの応援にもなる。",
+    "threadsItemId": "lb-2026-10-26-noon-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "purchase-supports-work-and-participation",
+      "donate-portion-to-hitori-janai-yo-project"
+    ],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
+  },
+  {
+    "id": "x-2026-10-26-night",
+    "date": "2026-10-26",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "月曜の夜、週末のスコアカードを見返す時間。悔しい1打も、次への材料。次回の目標スコアは決まりましたか？100切り、90台、OB2発以内でも。",
+    "threadsItemId": "lb-2026-10-26-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-17T08:02:51.098Z"
   }
 ]

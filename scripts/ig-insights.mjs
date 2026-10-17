@@ -3,12 +3,14 @@
 // can show the change. Read-only toward Instagram. Never exits non-zero: a
 // failure becomes a warning line in the review instead of blocking the Issue.
 import { readFile, writeFile } from 'node:fs/promises';
+import { analysisWindow, windowLabel } from '../lib/analysis-window.mjs';
 import { collectIgStats, igStatsMarkdown, igStatsFailureMarkdown } from '../lib/ig-insights.mjs';
 
 const STATS_PATH = 'data/ig-stats.json';
 const token = process.env.IG_ACCESS_TOKEN;
 const userId = process.env.IG_USER_ID;
-const days = Number(process.env.IG_INSIGHT_DAYS || 14);
+// Posts of the Saturday..Friday before this run (lib/analysis-window.mjs).
+const win = analysisWindow();
 
 let history = [];
 try {
@@ -21,10 +23,9 @@ if (!token || !userId) {
   console.log(igStatsFailureMarkdown('IG_ACCESS_TOKEN / IG_USER_ID が設定されていません', []));
 } else {
   try {
-    const since = new Date(Date.now() - days * 86400 * 1000).toISOString();
-    const stats = await collectIgStats({ token, userId, since });
+    const stats = await collectIgStats({ token, userId, since: win.since, until: win.until });
     const prev = history.at(-1)?.followers ?? null;
-    console.log(igStatsMarkdown(stats, { prevFollowers: prev }));
+    console.log(igStatsMarkdown(stats, { prevFollowers: prev, period: windowLabel(win) }));
     history.push({ at: new Date().toISOString(), followers: stats.followers, mediaCount: stats.mediaCount });
     await writeFile(STATS_PATH, JSON.stringify(history, null, 2) + '\n');
   } catch (err) {
