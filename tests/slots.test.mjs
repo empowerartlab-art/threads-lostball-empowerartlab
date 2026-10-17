@@ -151,7 +151,25 @@ test("validateBankSlots: 枠の不足・重複・英語の朝・言語なし・�
   assert.match(errs([...day, legacyItem("old", "2026-10-20")]), /slot と lang が必要です/);
   assert.match(errs(fullDay("2026-10-19")), /2026-10-20 以降だけです/);
   assert.match(errs([{ ...legacyItem("old", "2026-10-18"), lang: "ja" }]), /lang は slot と一緒に/);
-  assert.match(errs([...day.slice(1), { ...day[0], media: { type: "REAL_PHOTO" } }]), /文字のみです/);
+  assert.match(errs([...day.slice(1), { ...day[0], media: { type: "REAL_PHOTO" } }]), /assets\/instagram\/ のInstagram画像だけです/);
+});
+
+test("validateBankSlots: 画像は日本語の枠だけ・1日1本まで・assets/instagram/ の承認済み画像だけ（2026-10-17〜）", () => {
+  const day = fullDay("2026-10-20");
+  const errs = (items) => validateBankSlots(items).errors.join("\n");
+  const img = (path = "assets/instagram/2026-10-20-again.jpg", extra = {}) => ({
+    type: "BRAND_GRAPHIC", required: false, aiVisualAllowed: false, altText: "説明", path,
+    approvedBy: "山本", approvedAt: "2026-10-17T00:00:00.000Z", ...extra
+  });
+  const withImg = (pred, media) => day.map((i) => (pred(i) ? { ...i, media } : i));
+  const isMorning = (i) => i.slot === "morning" && i.lang === "ja";
+
+  assert.equal(errs(withImg(isMorning, img())), "");
+  assert.match(errs(withImg((i) => i.lang === "en", img())), /英語の投稿は文字のみです/);
+  assert.match(errs(withImg((i) => i.lang === "ja", img())), /画像付きの投稿が3件あります（画像は1日1本まで）/);
+  assert.match(errs(withImg(isMorning, img("assets/other/x.jpg"))), /Instagram画像だけです/);
+  assert.match(errs(withImg(isMorning, img("assets/instagram/../../secret.jpg"))), /Instagram画像だけです/);
+  assert.match(errs(withImg(isMorning, img(undefined, { approvedAt: null }))), /画像が承認されていません/);
 });
 
 test("validateBankSlots: 同じ日の日本語どうしが似すぎ・同じカテゴリーならエラー（英語と日本語は比べない）", () => {

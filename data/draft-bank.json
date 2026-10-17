@@ -884,15 +884,15 @@
         "hand-polish-one-by-one"
       ],
       "media": {
-        "type": "TEXT_ONLY",
+        "type": "BRAND_GRAPHIC",
         "required": false,
         "aiVisualAllowed": false,
-        "description": "テキストのみ。",
-        "altText": null,
+        "description": "その日のInstagram画像を使い回し（2026-10-17 決定）",
+        "altText": "緑の背景に「池に、林に、消えていったボール。もう一度、出番を。」の文字と白いゴルフボール。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "assets/instagram/2026-10-20-again.jpg",
+        "approvedBy": "山本（2026-10-17 チャットで、Instagram画像を1日1本Threadsに付ける案を承認）",
+        "approvedAt": "2026-10-17T10:28:25.848Z"
       },
       "targetDate": "2026-10-20",
       "approvedBy": "KEITA",
@@ -1008,15 +1008,15 @@
         "hand-polish-one-by-one"
       ],
       "media": {
-        "type": "TEXT_ONLY",
+        "type": "BRAND_GRAPHIC",
         "required": false,
         "aiVisualAllowed": false,
-        "description": "テキストのみ。",
-        "altText": null,
+        "description": "その日のInstagram画像を使い回し（2026-10-17 決定）",
+        "altText": "白い背景に「1球の向こうに、働く人がいる。」の文字。磨いているのは福祉施設で働く障がいのある方々、と添えた画像。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "assets/instagram/2026-10-21-people.jpg",
+        "approvedBy": "山本（2026-10-17 チャットで、Instagram画像を1日1本Threadsに付ける案を承認）",
+        "approvedAt": "2026-10-17T10:28:25.848Z"
       },
       "targetDate": "2026-10-21",
       "approvedBy": "KEITA",
@@ -1134,15 +1134,15 @@
         "lost-balls-retrieved-by-divers-from-ponds"
       ],
       "media": {
-        "type": "TEXT_ONLY",
+        "type": "BRAND_GRAPHIC",
         "required": false,
         "aiVisualAllowed": false,
-        "description": "テキストのみ。",
-        "altText": null,
+        "description": "その日のInstagram画像を使い回し（2026-10-17 決定）",
+        "altText": "緑の背景に、池は潜水士が水の中へ、林・OBゾーンは人の手でひとつずつ、と回収方法を並べ「1球にも、道のりがある。」の文字。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "assets/instagram/2026-10-22-journey.jpg",
+        "approvedBy": "山本（2026-10-17 チャットで、Instagram画像を1日1本Threadsに付ける案を承認）",
+        "approvedAt": "2026-10-17T10:28:25.848Z"
       },
       "targetDate": "2026-10-22",
       "approvedBy": "KEITA",
@@ -1295,15 +1295,15 @@
         "project-made-picture-book"
       ],
       "media": {
-        "type": "TEXT_ONLY",
+        "type": "BRAND_GRAPHIC",
         "required": false,
         "aiVisualAllowed": false,
-        "description": "テキストのみ。",
-        "altText": null,
+        "description": "その日のInstagram画像を使い回し（2026-10-17 決定）",
+        "altText": "ハートでできたピンクの木のイラストと「ひとりで寂しい思いをする子を、減らしたい。」の文字。一人じゃないよプロジェクトの紹介画像。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "assets/instagram/2026-10-23-wish.jpg",
+        "approvedBy": "山本（2026-10-17 チャットで、Instagram画像を1日1本Threadsに付ける案を承認）",
+        "approvedAt": "2026-10-17T10:28:25.848Z"
       },
       "targetDate": "2026-10-23",
       "approvedBy": "KEITA",
@@ -1389,15 +1389,15 @@
         "golf-balls-dont-return-to-soil"
       ],
       "media": {
-        "type": "TEXT_ONLY",
+        "type": "BRAND_GRAPHIC",
         "required": false,
         "aiVisualAllowed": false,
-        "description": "テキストのみ。",
-        "altText": null,
+        "description": "その日のInstagram画像を使い回し（2026-10-17 決定）",
+        "altText": "「ゴルフボールが自然に還るまで約1,000年」の大きな文字と白いゴルフボール。一説では、と注記。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "assets/instagram/2026-10-24-1000years.jpg",
+        "approvedBy": "山本（2026-10-17 チャットで、Instagram画像を1日1本Threadsに付ける案を承認）",
+        "approvedAt": "2026-10-17T10:28:25.848Z"
       },
       "targetDate": "2026-10-24",
       "approvedBy": "KEITA",
@@ -1513,15 +1513,15 @@
       "requiresVerifiedFact": false,
       "verifiedFactIds": [],
       "media": {
-        "type": "TEXT_ONLY",
+        "type": "PRODUCT_PHOTO",
         "required": false,
         "aiVisualAllowed": false,
-        "description": "テキストのみ。",
-        "altText": null,
+        "description": "その日のInstagram画像を使い回し（2026-10-17 決定）",
+        "altText": "袋に入った手磨きのロストボールと、一人じゃないよプロジェクトのピンクの木のステッカー。「練習ラウンドに、手で磨いたロストボールを。」の文字。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "assets/instagram/2026-10-25-practice.jpg",
+        "approvedBy": "山本（2026-10-17 チャットで、Instagram画像を1日1本Threadsに付ける案を承認）",
+        "approvedAt": "2026-10-17T10:28:25.848Z"
       },
       "targetDate": "2026-10-25",
       "approvedBy": "KEITA",

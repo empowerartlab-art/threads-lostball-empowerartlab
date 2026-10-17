@@ -136,7 +136,25 @@ test("枠のルール: 英語の朝・slotなし・10/19以前・過去日・同
   assert.match(reasonsOf(d, ["2026-10-20"], { todayKey: "2026-10-21" }), /過去の日付/);
   assert.match(reasonsOf([...d, { ...d[0], id: "c-other", bodyJa: "まったく別の話。芝の手入れ。", category: "Z" }]), /候補が2件以上/);
   assert.match(reasonsOf(d, ["2026-10-20"], { bankItems: [{ ...d[0], id: "already" }] }), /承認済みの別の投稿で埋まっています/);
-  assert.match(reasonsOf([{ ...d[0], media: { type: "REAL_PHOTO", required: false } }, ...d.slice(1)]), /文字のみ/);
+  assert.match(reasonsOf([{ ...d[0], media: { type: "REAL_PHOTO", required: false } }, ...d.slice(1)]), /Instagram画像だけです/);
+});
+
+test("画像（2026-10-17〜）: 日本語1本に assets/instagram/ の画像を付けた候補は、一覧に 🖼 が出て、本文と一緒に画像も承認される", () => {
+  const d = day("2026-10-20", 0);
+  const media = { type: "BRAND_GRAPHIC", required: false, aiVisualAllowed: false, altText: "説明", path: "assets/instagram/2026-10-20-again.jpg" };
+  const i = d.findIndex((c) => c.slot === "morning" && c.lang === "ja");
+  const cands = d.map((c, k) => (k === i ? { ...c, media } : c));
+  const plan = planBulkApproval({ ...base, candidates: cands, dates: ["2026-10-20"] });
+  assert.equal(plan.ok, true, JSON.stringify(plan.problems));
+  const promoted = plan.toApprove.find((p) => p.id === cands[i].id);
+  assert.equal(promoted.media.path, media.path);
+  assert.equal(promoted.media.approvedBy, base.approvedBy);
+  assert.equal(promoted.media.approvedAt, base.approvedAt);
+  assert.match(formatBulkList({ dates: ["2026-10-20"], rows: plan.rows }), /🖼 画像: assets\/instagram\/2026-10-20-again\.jpg/);
+
+  const en = d.findIndex((c) => c.lang === "en");
+  const enPlan = planBulkApproval({ ...base, candidates: d.map((c, k) => (k === en ? { ...c, media } : c)), dates: ["2026-10-20"] });
+  assert.match(JSON.stringify(enPlan.problems), /英語の投稿は文字のみです/);
 });
 
 test("事実のガード: 裏付けの無い具体的な数字・未登録のverifiedFactIdsは承認できない", () => {

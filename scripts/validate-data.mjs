@@ -6,7 +6,7 @@ import { checkBilingualBody } from "../lib/bilingual-guard.mjs";
 import { canUseCandidate } from "../lib/verified-fact-guard.mjs";
 import { checkClaims } from "../lib/claim-guard.mjs";
 import { checkMedia } from "../lib/media-guard.mjs";
-import { validateBankSlots, SLOTS_START, DAILY_SLOT_KEYS, itemSlotKey, isSlotItem } from "../lib/slots.mjs";
+import { validateBankSlots, SLOTS_START, DAILY_SLOT_KEYS, itemSlotKey, isSlotItem, hasSlotImage } from "../lib/slots.mjs";
 
 const ALLOWED_PILLARS = new Set(["JAPAN", "ENVIRONMENT", "WELFARE", "SOCIAL_CONTRIBUTION", "GOLF"]);
 
@@ -90,6 +90,16 @@ validateItems(candidatesFile.items, "draft-bank-candidates.json");
 const slotCheck = validateBankSlots(bankFile.items);
 for (const e of slotCheck.errors) fail(e);
 for (const w of slotCheck.warnings) warn(w);
+
+// 枠付き投稿の画像（2026-10-17〜）: 指定したファイルが本当にリポジトリにあるか（無いとThreadsが画像を取りに来て失敗する）。
+for (const item of [...(bankFile.items || []), ...(candidatesFile.items || [])]) {
+  if (!isSlotItem(item) || !hasSlotImage(item) || typeof item.media.path !== "string") continue;
+  try {
+    await fs.access(new URL(`../${item.media.path}`, import.meta.url));
+  } catch {
+    fail(`${item.id}: 画像ファイルがありません（${item.media.path}）`);
+  }
+}
 
 // 候補は「枠の値が正しいか」だけを見る（4枠そろっているかは承認時に scripts/bulk-approve.mjs が確かめる）。
 for (const c of candidatesFile.items || []) {

@@ -3,7 +3,7 @@ name: Lost Ball Threads - Daily LIVE Post (Phase 4)
 # 毎日自動でThreadsへ投稿するworkflow。Phase 3で実証済みの二重ゲート・各種ガード・
 # state保存・commit/pushの仕組みを、人間の手動確認(confirm入力)無しで日次スケジュール実行する。
 #
-# 1日4本(2026-10-20〜、文字のみ):
+# 1日4本(2026-10-20〜。日本語のうち1日1本だけInstagram画像付き、ほかは文字のみ):
 #   朝07:35 日本語 / 昼12:35 日本語 / 夜20:35 日本語 / 夜21:00 英語。
 #   1回の実行で投稿するのは「その日・その枠」の承認済み1件だけ(lib/slots.mjs / scripts/select-daily-candidate.mjs)。
 #   前の枠の取り残しを後の枠で出すことはしない。2026-10-19までは従来どおり(05:00 日本語・21:00 英語)。
@@ -90,7 +90,7 @@ on:
     # (時刻から推測しないので、GitHubの混雑で起動が遅れても枠を取り違えない)。
     # この5つの文字列は lib/slots.mjs の RUNS と一字一句同じでなければならない(tests/slots.test.mjs で確認)。
     #
-    # 2026-10-20〜: 1日4本(文字のみ)。data/draft-bank.json の slot / lang 付きの投稿を、その日・その枠の1件だけ出す。
+    # 2026-10-20〜: 1日4本(画像は日本語の1本だけ。lib/slots.mjs の slotMediaProblem)。data/draft-bank.json の slot / lang 付きの投稿を、その日・その枠の1件だけ出す。
     - cron: "35 22 * * *"   # JST 07:35 朝・日本語(UTC上は前日22:35)
     - cron: "35 3 * * *"    # JST 12:35 昼・日本語
     - cron: "35 11 * * *"   # JST 20:35 夜・日本語

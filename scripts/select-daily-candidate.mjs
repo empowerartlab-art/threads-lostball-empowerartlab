@@ -9,7 +9,7 @@ import { checkBilingualBody, buildBilingualBody } from "../lib/bilingual-guard.m
 import { checkClaims } from "../lib/claim-guard.mjs";
 import { checkFactFabricationSignals } from "../lib/fact-fabrication-guard.mjs";
 import { canSelectForProduction, isMediaApproved, defaultMedia } from "../lib/media-guard.mjs";
-import { isSlotItem } from "../lib/slots.mjs";
+import { isSlotItem, slotMediaProblem } from "../lib/slots.mjs";
 import { isPostedTextDuplicate } from "../lib/similarity-guard.mjs";
 
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
@@ -91,8 +91,8 @@ export async function selectSlotCandidate({ bankItems, postedPosts, facts, today
     skipped.push({ item, reason: "already-posted" });
   } else if (isDuplicateBody(item, postedBodies) || isPostedTextDuplicate(item, lang, postedPosts)) {
     skipped.push({ item, reason: "duplicate-of-posted" });
-  } else if ((item.media?.type ?? "TEXT_ONLY") !== "TEXT_ONLY") {
-    skipped.push({ item, reason: "threads-is-text-only" });
+  } else if (slotMediaProblem(item)) {
+    skipped.push({ item, reason: "threads-media-not-allowed" });
   } else {
     const check = canUseCandidate(item, facts);
     const fabrication = item.requiresVerifiedFact === true ? { ok: true, warnings: [] } : checkFactFabricationSignals(item);
