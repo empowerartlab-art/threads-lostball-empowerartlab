@@ -48,5 +48,15 @@
     "at": "2026-10-17T23:36:43.804Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-10-18-sticker",
+    "date": "2026-10-18",
+    "stage": "published",
+    "runId": "39079682340",
+    "runAttempt": "1",
+    "at": "2026-10-17T23:37:06.951Z",
+    "threadsId": "18125161936916780",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
