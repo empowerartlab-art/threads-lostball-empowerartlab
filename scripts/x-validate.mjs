@@ -2,7 +2,7 @@
 // 2026-10-20 以降は1日3本(朝・昼・夜)の枠がちょうど1件ずつ(lib/x-slots.mjs)。
 // errors があれば終了コード1。warnings(断定表現など)は表示のみで、人が承認時に判断する。
 // URL 入りの投稿は料金が約13倍($0.20。URLなしは $0.015)なので、毎回大きく警告する。
-import { readFile } from 'node:fs/promises';
+import { readFile, access } from 'node:fs/promises';
 import { validateXQueue, xWarnings, linkCostWarnings, X_QUEUE_PATH } from '../lib/x-flow.mjs';
 import { xWeight, hasLink } from '../lib/x-api.mjs';
 import { xSlotInfo } from '../lib/x-slots.mjs';
@@ -25,10 +25,19 @@ const threadsTexts = [
 ];
 const facts = (await readJson('data/verified-facts.json', { facts: [] })).facts ?? [];
 const errors = validateXQueue(queue, { threadsTexts, facts });
+// 画像ファイルが本当にあるか(無いと投稿時に X へのアップロードで止まる)。
+for (const p of queue) {
+  if (typeof p.image !== 'string') continue;
+  try {
+    await access(p.image);
+  } catch {
+    errors.push(`${p.id}: image file not found (${p.image})`);
+  }
+}
 if (process.argv.includes('--list')) {
   for (const p of queue) {
     const when = p.slot ? `${p.slot}(${xSlotInfo(p.slot)?.time ?? '?'})` : '05:53';
-    console.log(`${p.date} ${when} ${p.approved ? '承認済み' : '未承認'} ${xWeight(p.text ?? '')}/280${hasLink(p.text ?? '') ? ' ⚠️URLあり' : ''} ${p.id}`);
+    console.log(`${p.date} ${when} ${p.approved ? '承認済み' : '未承認'} ${xWeight(p.text ?? '')}/280${hasLink(p.text ?? '') ? ' ⚠️URLあり' : ''}${p.image ? ` 🖼${p.image}` : ''} ${p.id}`);
   }
 }
 for (const w of xWarnings(queue)) console.log(`warning: ${w}`);

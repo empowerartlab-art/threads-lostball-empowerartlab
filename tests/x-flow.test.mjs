@@ -185,3 +185,54 @@ test('data/x-queue.json は検査を通り、Threads(日本語・英語)の丸�
   assert.deepEqual(validateXQueue(read('data/x-queue.json'), threads), []);
   assert.ok(validateXQueue([post({ text: threads[0] })], threads).some((e) => e.includes('same text as a Threads post')));
 });
+
+// 画像(2026-10-17〜): Instagram の画像を1日1本だけ使い回す。
+function imageFetch(h, { image = 'ok', upload = 'ok' } = {}) {
+  h.deps.fetchImpl = async (url, init) => {
+    h.calls.push({ url: String(url), init });
+    if (String(url).startsWith('https://img.test/')) {
+      if (image === '404') return { ok: false, status: 404, headers: { get: () => 'text/plain' }, arrayBuffer: async () => new ArrayBuffer(0) };
+      return { ok: true, status: 200, headers: { get: () => 'image/jpeg' }, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer };
+    }
+    if (String(url).endsWith('/2/media/upload')) {
+      if (upload === '403') return { ok: false, status: 403, text: async () => 'forbidden' };
+      return { ok: true, status: 200, text: async () => '{"data":{"id":"1900000000000000001"}}' };
+    }
+    return { ok: true, status: 201, text: async () => '{"data":{"id":"1840000000000000001","text":"x"}}' };
+  };
+  h.deps.mediaBase = 'https://img.test/';
+}
+
+test('image: uploads the Instagram image first, then posts with its media id and records it', async () => {
+  const h = harness({ queue: [post({ image: 'assets/instagram/2026-10-14-a.jpg' })] });
+  imageFetch(h);
+  const r = await claimThenPublish(h);
+  assert.equal(r.code, 0, h.out.join('\n'));
+  assert.deepEqual(h.calls.map((c) => c.url), ['https://img.test/assets/instagram/2026-10-14-a.jpg', 'https://api.x.com/2/media/upload', 'https://api.x.com/2/tweets']);
+  assert.deepEqual(JSON.parse(h.calls[2].init.body), { text: post().text, media: { media_ids: ['1900000000000000001'] } });
+  assert.equal(h.remote[X_POSTED_PATH][0].image, 'assets/instagram/2026-10-14-a.jpg');
+});
+
+test('image: a failed image fetch or upload aborts before the post call (nothing published, not halted)', async () => {
+  for (const opt of [{ image: '404' }, { upload: '403' }]) {
+    const h = harness({ queue: [post({ image: 'assets/instagram/2026-10-14-a.jpg' })] });
+    imageFetch(h, opt);
+    const r = await claimThenPublish(h);
+    assert.equal(r.code, 1);
+    assert.equal(r.stage, J.ABORTED);
+    assert.ok(!h.calls.some((c) => c.url.endsWith('/2/tweets')), JSON.stringify(opt));
+    assert.equal(J.openEntries(h.remote[X_JOURNAL_PATH]).length, 0);
+  }
+});
+
+test('validateXQueue: image is one assets/instagram/ file on a slot post, at most 1 a day', () => {
+  const d = '2026-10-20';
+  const day = ['morning', 'noon', 'night'].map((slot, i) => ({ id: `x-${slot}`, date: d, slot, text: ['朝の文です。ボールの話。', '昼の文です。池越えの話。', '夜の文です。秋の空気の話。'][i], approved: true, approvedBy: 'K', approvedAt: 'x' }));
+  const errs = (q) => validateXQueue(q).join('\n');
+  const ok = errs(day.map((p, i) => (i === 0 ? { ...p, image: 'assets/instagram/2026-10-20-a.jpg' } : p)));
+  assert.doesNotMatch(ok, /image/);
+  assert.match(errs(day.map((p, i) => (i < 2 ? { ...p, image: 'assets/instagram/2026-10-20-a.jpg' } : p))), /2 X image posts \(at most 1 a day\)/);
+  assert.match(errs(day.map((p, i) => (i === 0 ? { ...p, image: 'assets/other/a.jpg' } : p))), /assets\/instagram\/ の \.jpg\/\.png だけ/);
+  assert.match(errs(day.map((p, i) => (i === 0 ? { ...p, image: 'assets/instagram/../x.jpg' } : p))), /assets\/instagram\//);
+  assert.match(errs([post({ image: 'assets/instagram/a.jpg' })]), /枠\(slot\)付きの投稿だけ/);
+});
