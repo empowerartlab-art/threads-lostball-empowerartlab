@@ -323,3 +323,18 @@ test("post-to-threads.mjs --run / --date: 枠と日付を表示してdry-runで�
   assert.equal(cli(["--run=lunch"]).status, 1);
   assert.equal(cli(["--run=noon", "--date=2026/10/20"]).status, 1);
 });
+
+test("validateBankSlots: ヘタ郎の画像は hetaro-media の画像で、本文に「見習いアンバサダー」があるときだけ（2026-10-18〜）", () => {
+  const day = fullDay("2026-10-20");
+  const errs = (items) => validateBankSlots(items).errors.join("\n");
+  const media = (path = "hetaro-media/ig/2026-10-26-ig-1.jpg") => ({
+    type: "CHARACTER_HETARO", required: false, aiVisualAllowed: false, altText: "ヘタ郎", path,
+    approvedBy: "山本", approvedAt: "2026-10-18T00:00:00.000Z"
+  });
+  const set = (m, extra = {}) => day.map((i) => (i.slot === "morning" && i.lang === "ja" ? { ...i, media: m, ...extra } : i));
+  const marked = (i) => `${i.bodyJa}\nうちの見習いアンバサダー、ヘタ郎です。`;
+  const morning = day.find((i) => i.slot === "morning" && i.lang === "ja");
+  assert.equal(errs(set(media(), { bodyJa: marked(morning) })), "");
+  assert.match(errs(set(media())), /見習いアンバサダー/);
+  assert.match(errs(set(media("assets/instagram/a.jpg"), { bodyJa: marked(morning) })), /hetaro-image-not-from-hetaro-media/);
+});

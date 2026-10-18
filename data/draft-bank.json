@@ -1633,7 +1633,7 @@
       "pillar": "GOLF",
       "category": "SHOP_WEEKLY",
       "bodyEn": "Lost balls from Japan, polished by hand. The shop link is in our profile (shipping within Japan only).",
-      "bodyJa": "週の始まりに、次のラウンドの準備を。\n\n日本のロストボールを、1球ずつ手で確かめて、磨きました。\n新品ではないぶん、池越えも少し気楽に打てます。\nボールには「一人じゃないよプロジェクト」のステッカーが付きます。\n\nショップは、プロフィールのリンクから。",
+      "bodyJa": "週の始まりに、次のラウンドの準備を。\n\n日本のロストボールを、1球ずつ手で確かめて、磨きました。\n新品ではないぶん、池越えも少し気楽に打てます。\nボールには「一人じゃないよプロジェクト」のステッカーが付きます。\n\n林でボール探しに苦戦しているのは、うちの見習いアンバサダー、ヘタ郎です。\nショップは、プロフィールのリンクから。",
       "hasCta": true,
       "hasShopLink": false,
       "requiresVerifiedFact": true,
@@ -1643,15 +1643,15 @@
         "product-includes-pink-tree-sticker"
       ],
       "media": {
-        "type": "TEXT_ONLY",
+        "type": "CHARACTER_HETARO",
         "required": false,
         "aiVisualAllowed": false,
-        "description": "テキストのみ。",
-        "altText": null,
+        "description": "その日のInstagram画像（ヘタ郎）を使い回し",
+        "altText": "紺のキャップに丸めがね、黄色のシャツのヘタ郎が、ゴルフボールを手に困った顔をしているキャラクター画像。「見つかるのは、知らない人のボール。」の文字。",
         "aiReferenceNote": null,
-        "path": null,
-        "approvedBy": null,
-        "approvedAt": null
+        "path": "hetaro-media/ig/2026-10-26-ig-1.jpg",
+        "approvedBy": "山本（2026-10-18 チャットで、10/26朝に見習いアンバサダーの一言とヘタ郎の画像を付ける案を承認）",
+        "approvedAt": "2026-10-18T03:38:06.687Z"
       },
       "targetDate": "2026-10-26",
       "approvedBy": "KEITA",

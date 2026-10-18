@@ -50,3 +50,9 @@ test("resolvePublicMediaUrl: aiVisualAllowed:trueの画像でも、path/承認�
   const url = resolvePublicMediaUrl(media, {});
   assert.match(url, /^https:\/\/raw\.githubusercontent\.com\//);
 });
+
+test("resolvePublicMediaUrl: ヘタ郎の画像は hetaro-media の公開URL", async () => {
+  const { resolvePublicMediaUrl } = await import("../lib/media-url.mjs");
+  const url = resolvePublicMediaUrl({ type: "CHARACTER_HETARO", path: "hetaro-media/ig/2026-10-26-ig-1.jpg", approvedBy: "山本", approvedAt: "x" }, {});
+  assert.equal(url, "https://empowerartlab-art.github.io/hetaro-media/ig/2026-10-26-ig-1.jpg");
+});

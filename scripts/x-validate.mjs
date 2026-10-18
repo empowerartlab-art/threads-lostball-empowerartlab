@@ -27,7 +27,7 @@ const facts = (await readJson('data/verified-facts.json', { facts: [] })).facts 
 const errors = validateXQueue(queue, { threadsTexts, facts });
 // 画像ファイルが本当にあるか(無いと投稿時に X へのアップロードで止まる)。
 for (const p of queue) {
-  if (typeof p.image !== 'string') continue;
+  if (typeof p.image !== 'string' || p.image.startsWith('hetaro-media/')) continue; // ヘタ郎の画像は別のリポジトリ
   try {
     await access(p.image);
   } catch {

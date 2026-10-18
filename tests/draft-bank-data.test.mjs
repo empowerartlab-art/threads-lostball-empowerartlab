@@ -178,7 +178,8 @@ test("threads-posts.json の構造が正しい(Phase 3の実投稿開始後は0�
 test("初期7投稿はすべて有効なmediaTypeを持ち、構造チェックにパスする", () => {
   for (const item of bankFile.items) {
     assert.ok(item.media, `${item.id}: mediaが無い`);
-    assert.ok(MEDIA_TYPES.includes(item.media.type), `${item.id}: 不明なmediaType ${item.media.type}`);
+    // ヘタ郎の画像（CHARACTER_HETARO）は枠付きの日本語投稿だけ使える例外（2026-10-18〜。lib/slots.mjs の slotMediaProblem）。
+    assert.ok(MEDIA_TYPES.includes(item.media.type) || item.media.type === "CHARACTER_HETARO", `${item.id}: 不明なmediaType ${item.media.type}`);
     const result = checkMedia(item);
     assert.equal(result.ok, true, `${item.id}: ${result.errors.join(", ")}`);
   }

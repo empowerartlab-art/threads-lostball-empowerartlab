@@ -236,3 +236,24 @@ test('validateXQueue: image is one assets/instagram/ file on a slot post, at mos
   assert.match(errs(day.map((p, i) => (i === 0 ? { ...p, image: 'assets/instagram/../x.jpg' } : p))), /assets\/instagram\//);
   assert.match(errs([post({ image: 'assets/instagram/a.jpg' })]), /枠\(slot\)付きの投稿だけ/);
 });
+
+test('image: Hetaro images come from hetaro-media and need 見習いアンバサダー in the text', async () => {
+  const d = '2026-10-20';
+  const day = ['morning', 'noon', 'night'].map((slot, i) => ({ id: `x-${slot}`, date: d, slot, text: ['朝の文です。ボールの話。', '昼の文です。池越えの話。', '夜の文です。秋の空気の話。'][i], approved: true, approvedBy: 'K', approvedAt: 'x' }));
+  const img = 'hetaro-media/ig/2026-10-26-ig-1.jpg';
+  assert.match(validateXQueue(day.map((p, i) => (i === 0 ? { ...p, image: img } : p))).join(), /見習いアンバサダー/);
+  assert.doesNotMatch(validateXQueue(day.map((p, i) => (i === 0 ? { ...p, image: img, text: `${p.text}うちの見習いアンバサダーです。` } : p))).join(), /image|ヘタ郎/);
+
+  const h = harness({ queue: [post({ image: img })] });
+  imageFetch(h);
+  const seen = [];
+  const inner = h.deps.fetchImpl;
+  h.deps.fetchImpl = async (url, init) => {
+    seen.push(String(url));
+    if (String(url).startsWith('https://empowerartlab-art.github.io/')) return { ok: true, status: 200, headers: { get: () => 'image/jpeg' }, arrayBuffer: async () => new Uint8Array([1]).buffer };
+    return inner(url, init);
+  };
+  const r = await claimThenPublish(h);
+  assert.equal(r.code, 0, h.out.join('\n'));
+  assert.equal(seen[0], 'https://empowerartlab-art.github.io/hetaro-media/ig/2026-10-26-ig-1.jpg');
+});

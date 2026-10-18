@@ -94,6 +94,7 @@ for (const w of slotCheck.warnings) warn(w);
 // 枠付き投稿の画像（2026-10-17〜）: 指定したファイルが本当にリポジトリにあるか（無いとThreadsが画像を取りに来て失敗する）。
 for (const item of [...(bankFile.items || []), ...(candidatesFile.items || [])]) {
   if (!isSlotItem(item) || !hasSlotImage(item) || typeof item.media.path !== "string") continue;
+  if (item.media.path.startsWith("hetaro-media/")) continue; // ヘタ郎の画像は別のリポジトリ（公開URLで配信）
   try {
     await fs.access(new URL(`../${item.media.path}`, import.meta.url));
   } catch {

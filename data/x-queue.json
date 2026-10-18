@@ -347,7 +347,7 @@
     "date": "2026-10-26",
     "slot": "morning",
     "pillar": "GOLF",
-    "text": "次のラウンドに、1球ずつ手で磨いた日本のロストボールを。新品ではないぶん、池越えも少し気楽に打てます。ショップはプロフィールのリンクから⛳",
+    "text": "次のラウンドに、1球ずつ手で磨いた日本のロストボールを。新品ではないぶん、池越えも少し気楽に打てます。画像はうちの見習いアンバサダー、ヘタ郎です。ショップはプロフィールのリンクから⛳",
     "threadsItemId": "lb-2026-10-26-morning-ja",
     "requiresVerifiedFact": true,
     "verifiedFactIds": [
@@ -357,7 +357,8 @@
     "hasCta": true,
     "approved": true,
     "approvedBy": "KEITA",
-    "approvedAt": "2026-10-17T08:02:51.098Z"
+    "approvedAt": "2026-10-17T08:02:51.098Z",
+    "image": "hetaro-media/ig/2026-10-26-ig-1.jpg"
   },
   {
     "id": "x-2026-10-26-noon",
