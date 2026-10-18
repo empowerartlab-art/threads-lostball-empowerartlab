@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-17T21:49:18.257Z",
-  "count": 28,
+  "updatedAt": "2026-10-18T14:58:35.250Z",
+  "count": 29,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -326,6 +326,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39072507267",
       "lang": "ja"
+    },
+    {
+      "sourceItemId": "lostball-20261018-pink-tree-sticker",
+      "threadsPostId": "18112164253885908",
+      "bodyEn": "Every lost ball we sell comes with a sticker:\na pink tree made of hearts, with people and animals beneath it.\n\nIt's from the 一人じゃないよプロジェクト (\"Hitori Janai yo\") project, and a portion of our sales goes to them.",
+      "bodyJa": "わたしたちのロストボールには、ピンクの木のステッカーが付いています。\n\nハートでできた木。その下に、人や動物たち。\n\n「一人じゃないよプロジェクト」のステッカーです。\n売上の一部は、このプロジェクトへ寄付しています。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "PINK_TREE_STICKER",
+      "postedAt": "2026-10-18T14:58:35.249Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39138339852",
+      "lang": "en"
     }
   ]
 }
