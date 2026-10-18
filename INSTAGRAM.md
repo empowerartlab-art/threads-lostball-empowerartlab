@@ -31,7 +31,8 @@ Instagram は、同じ日の Threads のネタを画像で深掘りする（例�
    - **画像の使い回し（2026-10-17 オーナー決定・毎週）**: その日の Instagram 画像を、Threads（日本語）と X からそれぞれ**1本だけ**選んで付ける。選ぶのは画像の中身にいちばん合う投稿（時間帯はそろえなくてよい）。英語の夜には付けない。新しい画像は作らない。
      - Threads：候補の `media` に `{ "type": "BRAND_GRAPHIC" など, "required": false, "aiVisualAllowed": false, "altText": "<画像の説明>", "path": "assets/instagram/<ファイル名>" }` を書く。一括承認の一覧に `🖼 画像:` と出るので、本文と一緒に見て承認する（承認で画像も承認済みになる）。
      - X：その投稿に `"image": "assets/instagram/<ファイル名>"` を書く。一覧に `🖼 画像:` と出る。
-     - 合う投稿が無い日・ヘタ郎の画像の日は、無理に付けずに山本さんに聞く（ヘタ郎の画像は Threads・X ではまだ使えない。下の「画像のルール」）。
+     - ヘタ郎の画像の日（2026-10-18〜）：Threads は `media.type` を `CHARACTER_HETARO`・`path` を `hetaro-media/ig/<ファイル名>`、X は `image` を同じ `hetaro-media/ig/<ファイル名>` にする。本文に「見習いアンバサダー」の一言が必須（無いと検査で止まる）。足す一言は山本さんに見せてから。
+     - 合う投稿が無い日は、無理に付けずに山本さんに聞く。
 3. **人が承認**: `node scripts/ig-approve.mjs --id <id> --by <名前> --yes`（AI の自動承認はしない）→ commit / push。
 4. **火〜月 07:00**: 承認済みの分だけ自動投稿。予定がない日は何もしない。
 
