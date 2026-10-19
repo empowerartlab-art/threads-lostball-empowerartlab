@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-18T21:59:40.512Z",
-  "count": 30,
+  "updatedAt": "2026-10-19T17:51:39.461Z",
+  "count": 31,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -350,6 +350,18 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39170216889",
       "lang": "ja"
+    },
+    {
+      "sourceItemId": "lostball-20261019-shop-hand-polished",
+      "threadsPostId": "18106613429219353",
+      "bodyEn": "Not brand new.\nBut good enough to play, and polished by hand.\n\nWe sell them in our shop in Japan (domestic shipping only).",
+      "bodyJa": "新品じゃなくていい。\nでも、ちゃんと使えるボールがいい。\n\n1球ずつ手で磨いたロストボールを、ショップで販売しています。\n\nプロフィールのリンクから。",
+      "pillar": "GOLF",
+      "category": "SHOP_HAND_POLISHED",
+      "postedAt": "2026-10-19T17:51:39.460Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39297648372",
+      "lang": "en"
     }
   ]
 }
