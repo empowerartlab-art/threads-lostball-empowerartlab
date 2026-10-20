@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-20T04:20:33.694Z",
-  "count": 33,
+  "updatedAt": "2026-10-20T11:29:54.774Z",
+  "count": 34,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -389,6 +389,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39369023096",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-20"
+    },
+    {
+      "sourceItemId": "lb-2026-10-20-night-ja",
+      "threadsPostId": "17919568113451681",
+      "bodyEn": "Autumn mornings may be the best time of year on a Japanese course. Have a good round this week, and bring a layer.",
+      "bodyJa": "秋のゴルフ場は、一年でいちばん朝の空気が気持ちいい季節かもしれません。\n\n少しひんやりしたティーグラウンド。\n色づき始めた木々と、朝露の残るフェアウェイ。\n\n今週ラウンドの予定がある方、いい一日になりますように。\n寒暖差があるので、上着を一枚忘れずに。",
+      "pillar": "JAPAN",
+      "category": "JAPAN_AUTUMN_ROUND",
+      "postedAt": "2026-10-20T11:29:54.774Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39415314144",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-20"
     }
   ]
