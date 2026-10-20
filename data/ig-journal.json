@@ -108,5 +108,15 @@
     "at": "2026-10-20T23:02:37.443Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-10-21-people",
+    "date": "2026-10-21",
+    "stage": "published",
+    "runId": "39512311429",
+    "runAttempt": "1",
+    "at": "2026-10-20T23:02:51.543Z",
+    "threadsId": "18233146768325949",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
