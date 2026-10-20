@@ -30,6 +30,16 @@ try {
   await output("has_run", run ? "true" : "false");
   console.log(run ? `枠: ${run}（${label} JST） 対象日: ${date}（決め方: ${source}）` : `対象日 ${date} の今の時刻に投稿する枠はありません（決め方: ${source}）`);
 } catch (err) {
+  // 合図(mode=tick)の slot が不正なときは、ここで失敗(赤)にせず「枠なし」として続け、
+  // 次の run gate step が理由(unknown-slot 等)を付けて見送る(投稿しない・緑で終わる)。
+  if (process.env.RUN_MODE === "tick") {
+    await output("run", "");
+    await output("date", "");
+    await output("label", "");
+    await output("has_run", "false");
+    console.log(`合図(tick)の枠を決められません(${err.message})。投稿しません`);
+    process.exit(0);
+  }
   console.error(`枠を決められませんでした: ${err.message}`);
   process.exit(1);
 }

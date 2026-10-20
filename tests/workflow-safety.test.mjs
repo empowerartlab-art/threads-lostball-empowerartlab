@@ -51,16 +51,18 @@ test("daily-live-post.ymlのcronは lib/slots.mjs の5本と一致し、枠は g
   assert.deepEqual(crons, ["0 12 * * *", "0 20 * * *", "35 11 * * *", "35 22 * * *", "35 3 * * *"]);
   assert.match(content, /RUN_SCHEDULE:\s*\$\{\{ github\.event\.schedule \}\}/);
   assert.match(content, /node scripts\/resolve-run\.mjs/);
-  assert.match(content, /post-to-threads\.mjs \$\{\{ steps\.mode\.outputs\.live_flag \}\} --run=\$\{\{ steps\.resolve\.outputs\.run \}\} --date=\$\{\{ steps\.resolve\.outputs\.date \}\}/);
-  assert.match(content, /if: steps\.resolve\.outputs\.has_run == 'true'/);
+  // --claim(2026-10-20〜): live のときは予約(data/threads-journal.json)を API の直前に確かめる。
+  assert.match(content, /post-to-threads\.mjs \$\{\{ steps\.mode\.outputs\.live_flag \}\} --claim --run=\$\{\{ steps\.resolve\.outputs\.run \}\} --date=\$\{\{ steps\.resolve\.outputs\.date \}\}/);
+  assert.match(content, /if: env\.RUN_GO == 'true' && steps\.resolve\.outputs\.has_run == 'true'/);
 });
 
 test("daily-live-post.ymlの手動実行は既定でdry-run、date入力はdry-runのときだけ使う", () => {
   const content = readWorkflow("daily-live-post.yml");
-  assert.match(content, /options:\s*\n\s*- dry-run\s*\n\s*- live\s*\n\s*default: dry-run/);
-  assert.match(content, /RUN_DATE_INPUT: \$\{\{ \(github\.event_name == 'workflow_dispatch' && github\.event\.inputs\.mode != 'live'\) && github\.event\.inputs\.date \|\| '' \}\}/);
-  // live になるのは schedule か、手動で mode=live を選んだときだけ。
-  assert.match(content, /if \[ "\$\{\{ github\.event_name \}\}" = "schedule" \] \|\| \[ "\$\{\{ github\.event\.inputs\.mode \}\}" = "live" \]/);
+  assert.match(content, /options:\s*\n\s*- dry-run\s*\n\s*- live\s*\n\s*- tick\s*\n\s*default: dry-run/);
+  // date 入力は手動の dry-run のときだけ(live・tick では使わない)。
+  assert.match(content, /RUN_DATE_INPUT: \$\{\{ \(github\.event_name == 'workflow_dispatch' && github\.event\.inputs\.mode == 'dry-run'\) && github\.event\.inputs\.date \|\| '' \}\}/);
+  // live になるのは schedule・合図(tick)か、手動で mode=live を選んだときだけ(schedule・tick は Run gate も通ること)。
+  assert.match(content, /if \[ "\$\{\{ github\.event_name \}\}" = "schedule" \] \|\| \[ "\$\{\{ github\.event\.inputs\.mode \}\}" = "live" \] \|\| \[ "\$\{\{ github\.event\.inputs\.mode \}\}" = "tick" \]/);
 });
 
 test("daily-live-post.ymlはThreads専用のconcurrency group(cancel-in-progress: false)で、週次レビュー・IG・Xとは共有しない", () => {
@@ -291,12 +293,13 @@ test("x-post.ymlは schedule かつ X_LIVE_POST Secret が \"true\" のときだ
   assert.equal((content.match(/node scripts\/x-publish\.mjs/g) || []).length, 1, "投稿の呼び出しは1回だけ");
 });
 
-test("x-post.ymlの手動実行は POST LIVE の確認つきのときだけ本番(live の選択肢は無い)", () => {
+test("x-post.ymlの手動実行は POST LIVE の確認つきのときだけ本番(live の選択肢は無い)。LIVE_POST は schedule・合図(tick)・POST LIVE のときだけ true", () => {
   const content = stripComments(readWorkflow("x-post.yml"));
   // 2026-10-21: 代表者のOKがあるときだけ、手動実行で confirm に POST LIVE と入れると本番（1回目だけ。X_LIVE_POST Secret も必要）。
-  assert.match(content, /LIVE_POST: \$\{\{ \(github\.event_name == 'schedule' \|\| \(github\.event_name == 'workflow_dispatch' && inputs\.confirm == 'POST LIVE' && github\.run_attempt == '1'\)\) && secrets\.X_LIVE_POST == 'true' && 'true' \|\| 'false' \}\}/);
+  assert.match(content, /LIVE_POST: \$\{\{ \(github\.event_name == 'schedule' \|\| \(github\.event_name == 'workflow_dispatch' && \(inputs\.mode == 'tick' \|\| \(inputs\.confirm == 'POST LIVE' && github\.run_attempt == '1'\)\)\)\) && secrets\.X_LIVE_POST == 'true' && 'true' \|\| 'false' \}\}/);
   assert.doesNotMatch(topLevelOnBlock(content), /- live\b/);
-  assert.doesNotMatch(content, /inputs\.mode/);
+  // mode は dry-run(手動)と tick(外の時計)だけ。
+  assert.match(content, /options:\s*\n\s*- dry-run\s*\n\s*- tick\s*\n\s*default: dry-run/);
 });
 
 test("x-post.ymlは X 専用の concurrency group(cancel-in-progress: false)で、他の workflow と共有しない", () => {

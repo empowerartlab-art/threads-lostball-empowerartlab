@@ -1,4 +1,5 @@
 name: Lost Ball X - Post (2026-10-20〜 1日3本 07:10/12:10/20:10 JST・10/19まで 05:53 JST)
+run-name: "${{ inputs.mode == 'tick' && format('Lost Ball X tick {0} {1} #{2}', inputs.slot, inputs.date, inputs.tick_id) || github.event_name == 'schedule' && format('Lost Ball X schedule {0}', github.event.schedule) || format('Lost Ball X manual {0}', inputs.run || 'auto') }}"
 
 # 承認済みの X 投稿(data/x-queue.json)を出す。
 #   2026-10-20〜: 1日3本(日本語・文字のみ)。朝 07:10 / 昼 12:10 / 夜 20:10 JST。
@@ -14,6 +15,12 @@ name: Lost Ball X - Post (2026-10-20〜 1日3本 07:10/12:10/20:10 JST・10/19�
 # 実際に投稿するのは、schedule で起動され、かつ GitHub Secrets に X_LIVE_POST="true" がある場合だけ。
 # 手動実行(Run workflow)は必ず dry-run(ログに出すだけ・投稿しない)。Threads・Instagram のスイッチとは別。
 # X の投稿 API は従量課金(目安: 1本 $0.015、URL入りは1本 $0.20 = 約13倍)。URL は allowLink: true のものだけ・週2本まで。
+#
+# 2026-10-20 追加(合図 tick。~/projects/sns-posting-standard/reliable-trigger-proposal.md 4-3):
+#   外の時計(Cloudflare Worker)が mode=tick + slot + date + tick_id で起動する。tick は schedule と同じ本番扱い
+#   (X_LIVE_POST Secret が必要なのは同じ)だが、scripts/run-gate.mjs の確認(1回目の実行・本物の枠・今日・
+#   枠の時刻の3分前〜60分後・承認済みで未投稿・未解決の記録なし)がすべて通ったときだけ投稿する。
+#   schedule も同じ時間の範囲の外で始まったら投稿せず緑で終わる。手動実行(mode=dry-run)は今までどおり必ず dry-run。
 
 on:
   schedule:
@@ -29,6 +36,14 @@ on:
         type: string
         required: false
         default: ""
+      mode:
+        description: "dry-run(手動実行。confirm が POST LIVE のときだけ本番) / tick(外の時計からの合図専用。人は選ばない)"
+        required: false
+        type: choice
+        options:
+          - dry-run
+          - tick
+        default: dry-run
       run:
         description: "確認する枠(必ず dry-run・投稿しない)。auto = 今の時刻から決める / morning=朝7:10 / noon=昼12:10 / night=夜20:10 / legacy=従来の5:53(10/19まで)"
         required: true
@@ -41,7 +56,15 @@ on:
           - legacy
         default: auto
       date:
-        description: "確認したい日付 YYYY-MM-DD(空なら今日)"
+        description: "確認したい日付 YYYY-MM-DD(空なら今日。dry-run のとき)。tick のときは合図の日付(JST・今日でなければ投稿しない)"
+        type: string
+        required: false
+      slot:
+        description: "tick only: morning / noon / night(手動実行では使わない。手動は上の run)"
+        type: string
+        required: false
+      tick_id:
+        description: "tick only: id from the external clock, logged"
         type: string
         required: false
 
@@ -57,7 +80,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  LIVE_POST: ${{ (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.confirm == 'POST LIVE' && github.run_attempt == '1')) && secrets.X_LIVE_POST == 'true' && 'true' || 'false' }}
+  # tick は schedule と同じ扱い(X_LIVE_POST Secret が必要なのは同じ)。投稿してよいかは下の Run gate(RUN_GO)も見る。
+  # 代表者のOKがあるときの手動本番(confirm = POST LIVE、1回目だけ)も本番。時刻の範囲は当てないが、予約(claim)は必ず通る。
+  LIVE_POST: ${{ (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.mode == 'tick' || (inputs.confirm == 'POST LIVE' && github.run_attempt == '1')))) && secrets.X_LIVE_POST == 'true' && 'true' || 'false' }}
   RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 defaults:
@@ -85,12 +110,26 @@ jobs:
         id: resolve
         env:
           RUN_SCHEDULE: ${{ github.event.schedule }}
-          RUN_INPUT: ${{ github.event.inputs.run }}
-          RUN_DATE_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.date || '' }}
+          RUN_INPUT: ${{ inputs.mode == 'tick' && inputs.slot || github.event.inputs.run }}
+          RUN_DATE_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.mode != 'tick' && github.event.inputs.date || '' }}
+          RUN_MODE: ${{ inputs.mode || '' }}
         run: node scripts/x-resolve-run.mjs
 
+      # RUN_GO を決める(lib/tick-gate.mjs の SLOT_WINDOW = 枠の時刻の3分前〜60分後)。
+      #   schedule: 範囲の外で始まったら投稿しない。tick: scripts/run-gate.mjs の確認がすべて通ったときだけ。
+      #   手動: 今までどおり(RUN_GO=true・必ず dry-run)。RUN_GO=false の実行は予約も投稿も通知もせず緑で終わる。
+      - name: Run gate(この実行が投稿してよいか)
+        env:
+          RUN_MODE: ${{ inputs.mode || '' }}
+          TICK_SLOT: ${{ inputs.slot || '' }}
+          TICK_DATE: ${{ inputs.date || '' }}
+          TICK_ID: ${{ inputs.tick_id || '' }}
+          RUN_SLOT: ${{ steps.resolve.outputs.run }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
+        run: node scripts/run-gate.mjs --media x
+
       - name: Git identity
-        if: env.LIVE_POST == 'true' && steps.resolve.outputs.has_run == 'true'
+        if: env.LIVE_POST == 'true' && env.RUN_GO == 'true' && steps.resolve.outputs.has_run == 'true'
         run: |
           git config user.name "lostball-x-bot"
           git config user.email "actions@users.noreply.github.com"
@@ -98,7 +137,7 @@ jobs:
       # 予約を GitHub に書き込んで読み戻す。この枠の予定が無ければ skip=true で終わる。
       - name: この枠の投稿を予約(claim)
         id: claim
-        if: env.LIVE_POST == 'true' && steps.resolve.outputs.has_run == 'true'
+        if: env.LIVE_POST == 'true' && env.RUN_GO == 'true' && steps.resolve.outputs.has_run == 'true'
         env:
           X_RUN: ${{ steps.resolve.outputs.run }}
           TARGET_DATE: ${{ steps.resolve.outputs.date }}
@@ -106,7 +145,7 @@ jobs:
 
       - name: 投稿
         id: publish
-        if: steps.resolve.outputs.has_run == 'true' && (env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true')
+        if: env.RUN_GO == 'true' && steps.resolve.outputs.has_run == 'true' && (env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true')
         env:
           X_RUN: ${{ steps.resolve.outputs.run }}
           TARGET_DATE: ${{ steps.resolve.outputs.date }}
@@ -117,7 +156,8 @@ jobs:
         run: node scripts/x-publish.mjs --live
 
       - name: "Discord通知(投稿できた時・失敗した時のみ)"
-        if: always() && env.LIVE_POST == 'true' && (steps.publish.outputs.stage == 'published' || failure())
+        # RUN_GO=false(見送り)の実行は通知しない。Run gate より前の失敗(検査NGなど)は今までどおり通知する。
+        if: always() && env.LIVE_POST == 'true' && env.RUN_GO != 'false' && (steps.publish.outputs.stage == 'published' || failure())
         continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -138,7 +178,7 @@ jobs:
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"
 
       - name: 復旧の案内
-        if: failure() && env.LIVE_POST == 'true'
+        if: failure() && env.LIVE_POST == 'true' && env.RUN_GO != 'false'
         run: |
           echo "data/x-journal.json に未解決の予約が残っている可能性があります。"
           echo "X のプロフィールを目で確認してから、次を実行するまで X の投稿は全部の枠で止まります:"

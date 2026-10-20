@@ -1,4 +1,5 @@
 name: Lost Ball Instagram - Daily Post (07:00 JST)
+run-name: "${{ inputs.mode == 'tick' && format('Lost Ball Instagram tick {0} {1} #{2}', inputs.slot, inputs.date, inputs.tick_id) || github.event_name == 'schedule' && 'Lost Ball Instagram schedule' || format('Lost Ball Instagram manual {0}', inputs.target_date || 'today') }}"
 
 # 承認済みの Instagram 投稿(data/ig-queue.json)を毎朝 07:00 JST に1本だけ投稿する。
 # 設計は ~/Documents/threads-zero-riders/.github/workflows/ig-post.yml と同じ:
@@ -9,6 +10,12 @@ name: Lost Ball Instagram - Daily Post (07:00 JST)
 # 実際に投稿するのは、GitHub Secrets に IG_LIVE_POST="true" がある場合だけ。
 # 無ければ schedule でも dry-run(ログに出すだけ)。Threads の LIVE_POST とは別のスイッチ。
 # Threads の workflow(daily-live-post.yml 等)には一切触れない。
+#
+# 2026-10-20 追加(合図 tick。~/projects/sns-posting-standard/reliable-trigger-proposal.md 4-3):
+#   外の時計(Cloudflare Worker)が mode=tick + slot=daily + date + tick_id で起動する。tick は schedule と同じ本番扱い
+#   (IG_LIVE_POST Secret が必要なのは同じ)だが、scripts/run-gate.mjs の確認(1回目の実行・slot=daily・今日・
+#   07:00 の3分前〜60分後・承認済みで未投稿・未解決の記録なし)がすべて通ったときだけ投稿する。
+#   schedule も同じ時間の範囲の外で始まったら投稿せず緑で終わる。手動実行(dry-run / live)は今までどおり。
 
 on:
   schedule:
@@ -23,9 +30,22 @@ on:
         options:
           - dry-run
           - live
+          - tick
         default: dry-run
       target_date:
         description: "YYYY-MM-DD(dry-run のときだけ有効。その日の投稿を確認する)"
+        type: string
+        required: false
+      slot:
+        description: "tick only: daily(Instagram の枠は1つだけ)"
+        type: string
+        required: false
+      date:
+        description: "tick only: YYYY-MM-DD JST(今日でなければ投稿しない)"
+        type: string
+        required: false
+      tick_id:
+        description: "tick only: id from the external clock, logged"
         type: string
         required: false
 
@@ -37,8 +57,10 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  LIVE_POST: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.IG_LIVE_POST == 'true' && 'true' || 'false' }}
-  TARGET_DATE: ${{ (github.event_name == 'workflow_dispatch' && inputs.mode != 'live') && inputs.target_date || '' }}
+  # tick は schedule と同じ扱い(IG_LIVE_POST Secret が必要なのは同じ)。投稿してよいかは下の Run gate(RUN_GO)も見る。
+  # tick は dry-run 用の target_date を使わない(常に今日)。
+  LIVE_POST: ${{ (github.event_name == 'schedule' || inputs.mode == 'live' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'tick')) && secrets.IG_LIVE_POST == 'true' && 'true' || 'false' }}
+  TARGET_DATE: ${{ (github.event_name == 'workflow_dispatch' && inputs.mode == 'dry-run') && inputs.target_date || '' }}
   RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 defaults:
@@ -61,8 +83,19 @@ jobs:
       - name: Instagram 投稿予定の検査
         run: node scripts/ig-validate.mjs
 
+      # RUN_GO を決める(lib/tick-gate.mjs の SLOT_WINDOW = 07:00 の3分前〜60分後)。
+      #   schedule: 範囲の外で始まったら投稿しない。tick: scripts/run-gate.mjs の確認がすべて通ったときだけ。
+      #   手動: 今までどおり(RUN_GO=true)。RUN_GO=false の実行は予約も投稿も通知もせず緑で終わる。
+      - name: Run gate(この実行が投稿してよいか)
+        env:
+          RUN_MODE: ${{ inputs.mode || '' }}
+          TICK_SLOT: ${{ inputs.slot || '' }}
+          TICK_DATE: ${{ inputs.date || '' }}
+          TICK_ID: ${{ inputs.tick_id || '' }}
+        run: node scripts/run-gate.mjs --media ig
+
       - name: Git identity
-        if: env.LIVE_POST == 'true'
+        if: env.LIVE_POST == 'true' && env.RUN_GO == 'true'
         run: |
           git config user.name "lostball-instagram-bot"
           git config user.email "actions@users.noreply.github.com"
@@ -70,19 +103,20 @@ jobs:
       # 予約を GitHub に書き込んで読み戻す。今日の予定が無ければ skip=true で終わる。
       - name: 今日の投稿を予約(claim)
         id: claim
-        if: env.LIVE_POST == 'true'
+        if: env.LIVE_POST == 'true' && env.RUN_GO == 'true'
         run: node scripts/ig-claim.mjs
 
       - name: 投稿
         id: publish
-        if: env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true'
+        if: env.RUN_GO == 'true' && (env.LIVE_POST != 'true' || steps.claim.outputs.skip != 'true')
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
         run: node scripts/ig-publish.mjs --live
 
       - name: "Discord通知(投稿できた時・失敗した時のみ)"
-        if: always() && env.LIVE_POST == 'true' && (steps.publish.outputs.stage == 'published' || failure())
+        # RUN_GO=false(見送り)の実行は通知しない。Run gate より前の失敗(検査NGなど)は今までどおり通知する。
+        if: always() && env.LIVE_POST == 'true' && env.RUN_GO != 'false' && (steps.publish.outputs.stage == 'published' || failure())
         continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -101,7 +135,7 @@ jobs:
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"
 
       - name: 復旧の案内
-        if: failure() && env.LIVE_POST == 'true'
+        if: failure() && env.LIVE_POST == 'true' && env.RUN_GO != 'false'
         run: |
           echo "data/ig-journal.json に未解決の予約が残っている可能性があります。"
           echo "Instagram のプロフィールを目で確認してから、次を実行するまで投稿は止まります:"

@@ -1,4 +1,5 @@
 name: Lost Ball Threads - Daily LIVE Post (Phase 4)
+run-name: "${{ inputs.mode == 'tick' && format('Lost Ball Threads tick {0} {1} #{2}', inputs.slot, inputs.date, inputs.tick_id) || github.event_name == 'schedule' && format('Lost Ball Threads schedule {0}', github.event.schedule) || format('Lost Ball Threads manual {0}', inputs.run || 'auto') }}"
 
 # 毎日自動でThreadsへ投稿するworkflow。Phase 3で実証済みの二重ゲート・各種ガード・
 # state保存・commit/pushの仕組みを、人間の手動確認(confirm入力)無しで日次スケジュール実行する。
@@ -56,17 +57,29 @@ name: Lost Ball Threads - Daily LIVE Post (Phase 4)
 #     一切変更していない。引き続き緊急時・単発テスト用として残す。
 #
 # EAL側・Harley側・lostball-threads-callbackのファイル・Secrets・リポジトリは一切参照しない。
+#
+# 2026-10-20 追加(合図 tick と「先に記録」claim。~/projects/sns-posting-standard/reliable-trigger-proposal.md 4-3/4-4):
+#   - 外の時計(Cloudflare Worker)が mode=tick + slot + date + tick_id でこのworkflowを起動する。
+#     tick は schedule と同じ本番扱いだが、scripts/run-gate.mjs の確認(1回目の実行・本物の枠・今日の日付・
+#     枠の時刻の3分前〜60分後・承認済みで未投稿・未解決の記録なし)がすべて通ったときだけ投稿する。
+#     通らなければ何もせず緑で終わる(SKIP_REASON)。LIVE_POST Secret が必要なのは今までと同じ。
+#   - schedule も同じ時間の範囲(lib/tick-gate.mjs の SLOT_WINDOW)の外で始まったら投稿せず緑で終わる
+#     (GitHubの混雑で数時間遅れた cron が、昼の投稿を夕方に出すことを防ぐ)。手動実行は今までどおり。
+#   - live の実行は、Threads API を呼ぶ前に data/threads-journal.json へ予約(claim)を push する
+#     (scripts/threads-claim.mjs)。未解決の記録(claimed / unknown)があると、以後の本番の実行は全部の枠
+#     (英語の night_en も)で止まる。人が Threads を目で確認して scripts/threads-resolve.mjs で閉じるまで。
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "dry-run(検証のみ・投稿しない) / live(実際に投稿を試みる。LIVE_POST Secretが必要)"
+        description: "dry-run(検証のみ・投稿しない) / live(実際に投稿を試みる。LIVE_POST Secretが必要) / tick(外の時計からの合図専用。人は選ばない)"
         required: true
         type: choice
         options:
           - dry-run
           - live
+          - tick
         default: dry-run
       run:
         description: "確認する枠。auto = 今の時刻から決める / morning=朝7:35 / noon=昼12:35 / night=夜20:35 / night_en=英語21:00 / legacy_ja=従来の日本語5:00(10/19まで)"
@@ -81,7 +94,15 @@ on:
           - legacy_ja
         default: auto
       date:
-        description: "確認したい日付 YYYY-MM-DD(dry-runのときだけ有効。空なら今日)"
+        description: "確認したい日付 YYYY-MM-DD(dry-runのときだけ有効。空なら今日)。tick のときは合図の日付(JST・今日でなければ投稿しない)"
+        required: false
+        type: string
+      slot:
+        description: "tick only: morning / noon / night / night_en(手動実行では使わない。手動は上の run)"
+        required: false
+        type: string
+      tick_id:
+        description: "tick only: id from the external clock, logged"
         required: false
         type: string
   schedule:
@@ -143,10 +164,10 @@ jobs:
       - name: データ検証
         run: npm run lostball:validate-data
 
-      - name: 実行モードの判定(schedule実行は常にlive試行。手動実行はmode=liveの時のみ)
+      - name: 実行モードの判定(schedule・tick は常にlive試行。手動実行はmode=liveの時のみ。投稿するかは下の Run gate も見る)
         id: mode
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.mode }}" = "live" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.mode }}" = "live" ] || [ "${{ github.event.inputs.mode }}" = "tick" ]; then
             echo "live_flag=--live" >> "$GITHUB_OUTPUT"
             echo "このrunはlive投稿を試みます(実際に投稿されるかは LIVE_POST Secret 次第)。"
           else
@@ -157,14 +178,47 @@ jobs:
       # 枠(run)と対象日(JST)をここで1回だけ決める(読み取りのみ)。後のstepはこの値だけを使う。
       #   schedule: 起動したcronの文字列(github.event.schedule)で決まる。対象日は「その枠の時刻が最後に来た日」。
       #   手動実行: 入力の run(autoなら今の時刻から)。date入力は dry-run のときだけ使う(liveでは常に今日)。
+      #   tick: 入力の slot(date入力は使わない。対象日は常に今日。合図の date が今日かは Run gate が確かめる)。
       # 投稿する枠が無い(例: 手動autoを05:00前に実行)ときは has_run=false で、投稿stepは動かない。
       - name: 枠の決定(どの枠・どの日の投稿か)
         id: resolve
         env:
           RUN_SCHEDULE: ${{ github.event.schedule }}
-          RUN_INPUT: ${{ github.event.inputs.run }}
-          RUN_DATE_INPUT: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.mode != 'live') && github.event.inputs.date || '' }}
+          RUN_INPUT: ${{ github.event.inputs.mode == 'tick' && github.event.inputs.slot || github.event.inputs.run }}
+          RUN_DATE_INPUT: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'dry-run') && github.event.inputs.date || '' }}
+          RUN_MODE: ${{ github.event.inputs.mode || '' }}
         run: node scripts/resolve-run.mjs
+
+      # RUN_GO を決める(lib/tick-gate.mjs の SLOT_WINDOW = 枠の時刻の3分前〜60分後)。
+      #   schedule: 枠の時刻の範囲の外で始まったら投稿しない。tick: scripts/run-gate.mjs の確認がすべて通ったときだけ。
+      #   手動: 今までどおり(RUN_GO=true)。RUN_GO=false の実行は予約も投稿も通知もせず、緑で終わる。
+      - name: Run gate(この実行が投稿してよいか)
+        env:
+          RUN_MODE: ${{ github.event.inputs.mode || '' }}
+          TICK_SLOT: ${{ github.event.inputs.slot || '' }}
+          TICK_DATE: ${{ github.event.inputs.date || '' }}
+          TICK_ID: ${{ github.event.inputs.tick_id || '' }}
+          RUN_SLOT: ${{ steps.resolve.outputs.run }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
+        run: node scripts/run-gate.mjs --media threads
+
+      - name: Git identity(予約・記録の push 用)
+        if: env.RUN_GO == 'true' && steps.resolve.outputs.has_run == 'true' && steps.mode.outputs.live_flag == '--live'
+        run: |
+          git config user.name "lostball-daily-live-post-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      # Threads API を呼ぶ前に、この枠で出す1件の予約を data/threads-journal.json に書いて push し、読み戻す。
+      # 予約できない(未解決の記録で停止中・push できない)ときは失敗で終わり、下の投稿 step は動かない。
+      # LIVE_POST Secret が "true" でなければ(=dry-run 相当)何も予約しない。
+      - name: この枠の投稿を予約(claim)
+        id: claim
+        if: env.RUN_GO == 'true' && steps.resolve.outputs.has_run == 'true' && steps.mode.outputs.live_flag == '--live'
+        env:
+          LIVE_POST: ${{ secrets.LIVE_POST }}
+          THREADS_RUN: ${{ steps.resolve.outputs.run }}
+          TARGET_DATE: ${{ steps.resolve.outputs.date }}
+        run: node scripts/threads-claim.mjs --live
 
       - name: Write ephemeral .env.local from GitHub Secrets(コミットしない。job終了時に必ず削除)
         env:
@@ -178,10 +232,12 @@ jobs:
 
       - name: "投稿実行(二重ゲート: secrets.LIVE_POST=\"true\" + --live。揃わなければ常にdry-run)"
         id: publish
-        if: steps.resolve.outputs.has_run == 'true'
+        if: env.RUN_GO == 'true' && steps.resolve.outputs.has_run == 'true'
         env:
           LIVE_POST: ${{ secrets.LIVE_POST }}
-        run: node scripts/post-to-threads.mjs ${{ steps.mode.outputs.live_flag }} --run=${{ steps.resolve.outputs.run }} --date=${{ steps.resolve.outputs.date }} | tee daily-live-post-result.log
+          THREADS_CLAIMED: ${{ steps.claim.outputs.claimed }}
+        # --claim: live のときは、上の予約が GitHub 上にあることを API を呼ぶ直前に確かめ、結果を journal に残す。
+        run: node scripts/post-to-threads.mjs ${{ steps.mode.outputs.live_flag }} --claim --run=${{ steps.resolve.outputs.run }} --date=${{ steps.resolve.outputs.date }} | tee daily-live-post-result.log
 
       - name: Remove ephemeral .env.local(Secretsをディスク上に残さない)
         if: always()
@@ -205,9 +261,9 @@ jobs:
       # これらのケースに対応するstepには明示的に failure() を付けている
       # (POSTED_STATE_SAVEDの場合は「投稿実行」step自体が成功しているため不要)。
 
-      - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ)
+      - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ。予約の結果 published も一緒に)
         id: commit-state
-        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED'
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && env.RUN_GO == 'true'
         continue-on-error: true
         env:
           RUN_ID: ${{ steps.resolve.outputs.run }}
@@ -216,6 +272,11 @@ jobs:
           git config user.name "lostball-daily-live-post-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/threads-posts.json
+          # 予約(data/threads-journal.json)の published も同じ commit で push する。push できなければ予約は開いたまま
+          # (以後の本番の実行は止まる。人が scripts/threads-resolve.mjs --outcome published で閉じる)。
+          if [ -f data/threads-journal.json ]; then
+            git add data/threads-journal.json
+          fi
           git commit -m "chore(lostball): record Threads post (${RUN_DATE} ${RUN_ID})"
           # Instagram(07:00)・X(07:10/12:10/20:10。10/19までは05:53)・土曜07:07の週次レビュー・insights等が先にpushしていても
           # 記録を落とさないよう、rebaseしてからpushする。pushが弾かれたら少し待って最大5回までやり直す
@@ -231,7 +292,7 @@ jobs:
           exit 1
 
       - name: "Discord通知: 投稿成功(state保存・commit/push成功)"
-        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success'
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success' && env.RUN_GO == 'true'
         continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -265,7 +326,7 @@ jobs:
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"
 
       - name: "Discord通知: 投稿は成功したがstate保存に失敗(再実行禁止)"
-        if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
+        if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED' && env.RUN_GO == 'true'
         continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -291,7 +352,7 @@ jobs:
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"
 
       - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力もこのstepで行う)
-        if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
+        if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED' && env.RUN_GO == 'true'
         run: |
           echo "::error::Threadsへの投稿自体は成功しましたが、data/threads-posts.jsonへの記録に失敗しました。"
           echo "::error::【再実行禁止】このworkflowの次回スケジュール実行より前に、人間の確認が必要です。"
@@ -300,7 +361,7 @@ jobs:
           exit 1
 
       - name: "Discord通知: 投稿・state保存は成功したがcommit/pushに失敗(再実行禁止)"
-        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure'
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure' && env.RUN_GO == 'true'
         continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -324,14 +385,14 @@ jobs:
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"
 
       - name: 警告(投稿・state保存は成功したがcommit/pushに失敗。再実行禁止。ログ出力のみ)
-        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure'
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'failure' && env.RUN_GO == 'true'
         run: |
           echo "::error::Threadsへの投稿・ローカルstate保存までは成功しましたが、commit/pushに失敗しました。"
           echo "::error::【再実行禁止】人間が data/threads-posts.json の内容を確認し、手動でcommit/pushしてください。"
           exit 1
 
       - name: "Discord通知: 投稿前または投稿処理自体の失敗(Threadsへの投稿は行われていない)"
-        if: failure() && steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
+        if: failure() && steps.publish.outputs.outcome == 'PRE_POST_FAILURE' && env.RUN_GO == 'true'
         continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -341,6 +402,7 @@ jobs:
           SOURCE_ITEM_ID: ${{ steps.publish.outputs.sourceItemId }}
           FAILURE_REASON: ${{ steps.publish.outputs.failureReason }}
           ERROR_MESSAGE: ${{ steps.publish.outputs.errorMessage }}
+          JOURNAL_STAGE: ${{ steps.publish.outputs.journalStage }}
           CONTAINER_RETRY_ATTEMPTED: ${{ steps.publish.outputs.containerRetryAttempted }}
           CONTAINER_RETRY_COUNT: ${{ steps.publish.outputs.containerRetryCount }}
           CONTAINER_FIRST_ATTEMPT_ERROR_MESSAGE: ${{ steps.publish.outputs.containerFirstAttemptErrorMessage }}
@@ -352,25 +414,97 @@ jobs:
           コンテナ作成: 1回目失敗 → ${CONTAINER_RETRY_COUNT}回リトライも失敗
           1回目のエラー: ${CONTAINER_FIRST_ATTEMPT_ERROR_MESSAGE}"
           fi
+          # 予約(data/threads-journal.json)の結果で、最後の案内を変える。
+          #   unknown*        … 公開(threads_publish)の呼び出しが失敗。出たか不明。予約は開いたまま
+          #   *-not-persisted … 予約を閉じる記録を push できなかった。予約は開いたまま
+          #   left-open       … 予約を確認できなかった(未解決の記録で停止中など)。API は呼んでいない
+          case "${JOURNAL_STAGE}" in
+            unknown*)
+              CLOSING="公開の呼び出しが失敗しました。Threadsに出たかは不明です。【再実行禁止】
+          Threadsを目で確認し、node scripts/threads-resolve.mjs --id ${SOURCE_ITEM_ID} --outcome published|not-published --by <名前> --yes で閉じるまで、Threadsの本番投稿は全部の枠で止まります。" ;;
+            *-not-persisted)
+              CLOSING="Threadsへの投稿は行われていませんが、予約を閉じる記録をpushできませんでした。
+          node scripts/threads-resolve.mjs --id ${SOURCE_ITEM_ID} --outcome not-published --by <名前> --yes で閉じるまで、Threadsの本番投稿は全部の枠で止まります。" ;;
+            left-open)
+              CLOSING="予約を確認できなかったため、Threadsへの投稿は行っていません(未解決の記録があれば、閉じるまで全部の枠で止まります)。" ;;
+            *)
+              CLOSING="Threadsへの投稿は行われていません。再実行しても二重投稿にはなりません。" ;;
+          esac
           CONTENT="【Lost Ball Threads｜自動投稿失敗】
           失敗日時: ${FAILED_AT}
           枠: ${RUN_DATE} ${RUN_LABEL}
           投稿候補ID: ${SOURCE_ITEM_ID:-(未選出)}
           失敗段階: ${FAILURE_REASON:-投稿処理呼び出し}
           エラー概要: ${ERROR_MESSAGE}${RETRY_NOTE}
+          予約の記録: ${JOURNAL_STAGE:-none}
           Run: ${RUN_URL}
 
-          Threadsへの投稿は行われていません。再実行しても二重投稿にはなりません。"
+          ${CLOSING}"
           node scripts/send-discord-notification.mjs --live --content="$CONTENT"
 
       - name: 投稿前または投稿処理自体の失敗(Threadsへの投稿は行われていない)
-        if: failure() && steps.publish.outputs.outcome == 'PRE_POST_FAILURE'
+        if: failure() && steps.publish.outputs.outcome == 'PRE_POST_FAILURE' && env.RUN_GO == 'true'
+        env:
+          JOURNAL_STAGE: ${{ steps.publish.outputs.journalStage }}
         run: |
-          echo "::error::Threadsへの投稿前、または投稿処理自体が失敗しました(Threadsへの投稿は行われていません)。"
+          if [ "${JOURNAL_STAGE#unknown}" != "${JOURNAL_STAGE}" ]; then
+            echo "::error::公開(threads_publish)の呼び出しが失敗しました。Threadsに出たかは不明です(再実行禁止)。"
+            echo "::error::Threadsを目で確認し、scripts/threads-resolve.mjs で data/threads-journal.json の記録を閉じるまで、Threadsの本番投稿は止まります。"
+          else
+            echo "::error::Threadsへの投稿前、または投稿処理自体が失敗しました(Threadsへの投稿は行われていません)。予約の記録: ${JOURNAL_STAGE:-none}"
+          fi
           echo "詳細は上の「投稿実行」stepのログ、またはartifact(lostball-daily-live-post-log)を確認してください。"
           exit 1
 
+      # 予約(claim)の step が失敗した: 未解決の記録で停止中、または予約を push できなかった。Threads API は呼んでいない。
+      - name: "Discord通知: 予約(claim)できず投稿していない(未解決の記録で停止中を含む)"
+        if: failure() && env.RUN_GO == 'true' && steps.claim.outcome == 'failure'
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          RUN_LABEL: ${{ steps.resolve.outputs.label }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
+          CLAIM_REASON: ${{ steps.claim.outputs.reason }}
+        run: |
+          FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          CONTENT="【Lost Ball Threads｜投稿を止めました(予約できず)】
+          日時: ${FAILED_AT}
+          枠: ${RUN_DATE} ${RUN_LABEL}
+          理由: ${CLAIM_REASON:-不明}
+          Run: ${RUN_URL}
+
+          Threadsへの投稿は行っていません。
+          open-claim(未解決の記録)の場合: Threadsを目で確認し、node scripts/threads-resolve.mjs --id <postId> --outcome published|not-published --by <名前> --yes で閉じるまで、Threadsの本番投稿は全部の枠で止まります。"
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
+
+      - name: 予約(claim)できず投稿していない(ログ出力)
+        if: failure() && env.RUN_GO == 'true' && steps.claim.outcome == 'failure'
+        run: |
+          echo "::error::予約(claim)できなかったため、Threadsへの投稿は行っていません(上の「この枠の投稿を予約」stepのログ参照)。"
+          echo "::error::未解決の記録がある場合は、Threadsを目で確認してから scripts/threads-resolve.mjs で閉じてください。このworkflowをそのまま再実行しないでください。"
+          exit 1
+
+      # 投稿 step が outcome を出さずに失敗した(想定外のエラー)。予約していれば開いたまま(出たか分からないため)。
+      - name: "Discord通知: 投稿処理が想定外のエラーで止まった(要確認)"
+        if: failure() && env.RUN_GO == 'true' && ((steps.publish.outcome == 'failure' && steps.publish.outputs.outcome == '') || (steps.claim.outputs.claimed == 'true' && steps.publish.outcome == 'skipped'))
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIVE_DISCORD: ${{ secrets.LIVE_DISCORD }}
+          RUN_LABEL: ${{ steps.resolve.outputs.label }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
+        run: |
+          FAILED_AT="$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          CONTENT="【Lost Ball Threads｜自動投稿 要確認(想定外のエラー)】
+          失敗日時: ${FAILED_AT}
+          枠: ${RUN_DATE} ${RUN_LABEL}
+          Run: ${RUN_URL}
+
+          再実行禁止。Threadsを目で確認してください。予約(data/threads-journal.json)が開いたままなら、scripts/threads-resolve.mjs で閉じるまでThreadsの本番投稿は止まります。"
+          node scripts/send-discord-notification.mjs --live --content="$CONTENT"
+
       - name: 完了サマリ
-        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success'
+        if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success' && env.RUN_GO == 'true'
         run: |
           echo "Threadsへの投稿、state保存、commit/pushすべて成功しました。"

@@ -38,6 +38,10 @@ import { runLivePost, OUTCOME } from "../lib/live-post-runner.mjs";
 import { appendPostRecord } from "../lib/threads-posts-store.mjs";
 import { POST_LANGS } from "../lib/bilingual-guard.mjs";
 import { RUN_IDS, runInfo, planRun } from "../lib/slots.mjs";
+import { runThreadsPostWithClaim, THREADS_JOURNAL_PATH } from "../lib/threads-claim.mjs";
+import { openEntries, describe as describeJournalEntry } from "../lib/ig-journal.mjs";
+import { fileIo } from "../lib/json-io.mjs";
+import { gitRunner } from "../lib/ig-persist.mjs";
 
 const BANK_PATH = new URL("../data/draft-bank.json", import.meta.url);
 const POSTS_PATH = new URL("../data/threads-posts.json", import.meta.url);
@@ -180,7 +184,21 @@ async function main() {
   }
   console.log(`投稿言語: ${lang}`);
 
-  const result = await runLivePost({
+  // --claim(daily-live-post.yml だけが付ける): live のときは、scripts/threads-claim.mjs が GitHub に
+  // push した予約(data/threads-journal.json)をAPIを呼ぶ直前に確かめ、結果(published / aborted / unknown)を
+  // journal に残す(lib/threads-claim.mjs)。--claim が無い(live-post-manual.yml 等)ときは従来どおり。
+  const claimMode = attemptingLive && process.argv.includes("--claim");
+  if (!attemptingLive) {
+    // dry-run は何も書かない・push しない。未解決の記録があれば知らせるだけ。
+    const journal = await fileIo.readJson(fileURLToPath(new URL(`../${THREADS_JOURNAL_PATH}`, import.meta.url)), []).catch(() => []);
+    const open = Array.isArray(journal) ? openEntries(journal) : [];
+    if (open.length) {
+      console.log(`注意: ${THREADS_JOURNAL_PATH} に未解決の記録が${open.length}件あります(本番の実行はここで止まります。scripts/threads-resolve.mjs で閉じてください):`);
+      for (const e of open) console.log(`  ${describeJournalEntry(e)}`);
+    }
+  }
+
+  const runnerArgs = {
     bankItems: bank.items,
     postedPosts: postsFile.posts,
     facts: factsFile.facts,
@@ -196,7 +214,38 @@ async function main() {
     // Threads投稿(publish)が実際に成功した場合にのみ呼ばれる。dry-run/失敗時は一切呼ばれないため、
     // data/threads-posts.jsonはここでは書き換わらない(lib/live-post-runner.mjs参照)。
     saveState: (record) => appendPostRecord(POSTS_PATH_STR, record)
-  });
+  };
+  let journalStage = "none";
+  let result;
+  if (claimMode) {
+    const claimed = await runThreadsPostWithClaim({
+      runnerArgs,
+      io: fileIo,
+      git: gitRunner(fileURLToPath(new URL("..", import.meta.url))),
+      branch: env.GITHUB_REF_NAME || "main",
+      todayKey,
+      run,
+      runId: env.GITHUB_RUN_ID || "local",
+      runAttempt: env.GITHUB_RUN_ATTEMPT || "1",
+      claimed: env.THREADS_CLAIMED === "true",
+      now: () => new Date().toISOString(),
+      log: console.log,
+      errLog: console.error,
+      sleep: (ms) => new Promise((r) => setTimeout(r, ms))
+    });
+    if (!claimed.result) {
+      await writeGithubOutput("outcome", "");
+      await writeGithubOutput("journalStage", claimed.journalStage);
+      console.error(`想定外のエラー: ${redact(claimed.error?.message ?? "(詳細不明)")}`);
+      process.exitCode = 1;
+      return;
+    }
+    result = claimed.result;
+    journalStage = claimed.persisted === false ? `${claimed.journalStage}-not-persisted` : claimed.journalStage;
+    console.log(`journal(${THREADS_JOURNAL_PATH}): ${journalStage}`);
+  } else {
+    result = await runLivePost(runnerArgs);
+  }
 
   // Discord通知の本文組み立て用に、workflow側から参照できる形でいくつか追加出力する。
   // ここに書き出すのは投稿本文・候補ID・投稿ID・(既にredact済みの)エラーメッセージのみで、
@@ -223,6 +272,7 @@ async function main() {
     : "";
 
   await writeGithubOutput("outcome", result.outcome);
+  await writeGithubOutput("journalStage", journalStage);
   await writeGithubOutput("sourceItemId", sourceItemId);
   await writeGithubOutput("threadsPostId", result.threadsPostId ?? "");
   await writeGithubOutput("failureReason", failureReason);
@@ -259,7 +309,14 @@ async function main() {
     if (result.report) printReport(result.report);
     console.log("");
     console.log(`エラー: ${redact(result.error?.message ?? "(詳細不明)")}`);
-    console.log("最終結果: PRE_POST_FAILURE (Threadsへの投稿は行われていません)");
+    if (journalStage.startsWith("unknown")) {
+      // 公開(threads_publish)の呼び出しが失敗: 出たかどうか分からない。予約は開いたまま(自動で出し直さない)。
+      console.log("最終結果: PRE_POST_FAILURE (公開の呼び出しが失敗。Threadsに出たかは不明です。再実行禁止・Threadsを目で確認してください)");
+    } else if (result.reason === "claim-check-failed") {
+      console.log("最終結果: PRE_POST_FAILURE (予約を確認できないため、Threadsへの投稿は行っていません)");
+    } else {
+      console.log("最終結果: PRE_POST_FAILURE (Threadsへの投稿は行われていません)");
+    }
     process.exitCode = 1;
     return;
   }
