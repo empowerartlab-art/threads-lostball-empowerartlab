@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-20T11:29:54.774Z",
-  "count": 34,
+  "updatedAt": "2026-10-20T12:03:19.538Z",
+  "count": 35,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -402,6 +402,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39415314144",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-20"
+    },
+    {
+      "sourceItemId": "lb-2026-10-20-night-en",
+      "threadsPostId": "17978058102136264",
+      "bodyEn": "These are lost balls from golf courses in Japan.\n\nSome end up in ponds and woods, and stay there if no one collects them. The ones that do come back are checked and polished by hand, one at a time.\n\nThen they go back out to play another round.",
+      "bodyJa": "日本のゴルフ場から来たロストボール。池や林に消えたボールを、1球ずつ手で確かめて磨き、もう一度コースへ。",
+      "pillar": "JAPAN",
+      "category": "JAPAN_ORIGIN_EN",
+      "postedAt": "2026-10-20T12:03:19.537Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39419328026",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-20"
     }
