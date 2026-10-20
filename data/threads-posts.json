@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-20T00:40:16.146Z",
-  "count": 32,
+  "updatedAt": "2026-10-20T04:20:33.694Z",
+  "count": 33,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -375,6 +375,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39348950422",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-10-20"
+    },
+    {
+      "sourceItemId": "lb-2026-10-20-noon-ja",
+      "threadsPostId": "18114373757140101",
+      "bodyEn": "Tee shot over water. Already bracing for the splash? Tell us your pre-shot ritual.",
+      "bodyJa": "池越えのティーショット。\n\nアドレスに入った瞬間から、水面ばかりが目に入る。\n「越えればいいだけ」と分かっていても、なぜか体が固くなる。\n\n打つ前から、ちょっとだけ覚悟していませんか。\nみなさんの「池越えのおまじない」があれば、教えてください。",
+      "pillar": "GOLF",
+      "category": "GOLF_WATER_HAZARD_QUESTION",
+      "postedAt": "2026-10-20T04:20:33.693Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39369023096",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-10-20"
     }
   ]
