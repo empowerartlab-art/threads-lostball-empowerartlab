@@ -98,5 +98,15 @@
     "at": "2026-10-20T00:40:04.035Z",
     "threadsId": "18088771952695783",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-10-21-people",
+    "date": "2026-10-21",
+    "stage": "claimed",
+    "runId": "39512311429",
+    "runAttempt": "1",
+    "at": "2026-10-20T23:02:37.443Z",
+    "threadsId": null,
+    "note": null
   }
 ]
