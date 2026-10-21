@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-21T04:04:40.063Z",
-  "count": 37,
+  "updatedAt": "2026-10-21T12:31:25.779Z",
+  "count": 38,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -445,6 +445,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39542000410",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-21"
+    },
+    {
+      "sourceItemId": "lb-2026-10-21-night-ja",
+      "threadsPostId": "18101681270305778",
+      "bodyEn": "Part of our sales goes to the \"一人じゃないよプロジェクト\" (Hitori Janai yo) project. It looks out for parents too, not only children.",
+      "bodyJa": "子育てがしんどい夜は、誰にでもあると思います。\n\n寄付先の「一人じゃないよプロジェクト」は、子どもだけでなく、親のつらさやしんどさにも目を向けている活動です。\n\n頑張っている大人のことも、置いていかない。\nわたしたちが、このプロジェクトを応援している理由のひとつです。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "PROJECT_PARENTS_TOO",
+      "postedAt": "2026-10-21T12:31:25.775Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39600212401",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-21"
     }
   ]
