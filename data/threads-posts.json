@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-21T12:31:59.975Z",
-  "count": 39,
+  "updatedAt": "2026-10-21T22:49:19.925Z",
+  "count": 40,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -474,6 +474,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-21"
+    },
+    {
+      "sourceItemId": "lb-2026-10-22-morning-ja",
+      "threadsPostId": "18438014374180301",
+      "bodyEn": "Balls that sink in ponds can be recovered by divers who go into the water. Even one ball has a journey behind it.",
+      "bodyJa": "池に沈んだボールは、どうやって戻ってくるのか。\n\n方法のひとつは、潜水士が実際に水の中に入って回収することです。\n池の底から、1球ずつ。\n\nラウンド中に見送ったあの1球にも、ここまでの道のりがあります。",
+      "pillar": "GOLF",
+      "category": "COLLECTION_DIVERS",
+      "postedAt": "2026-10-21T22:49:19.924Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39689171449",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-22"
     }
   ]
 }
