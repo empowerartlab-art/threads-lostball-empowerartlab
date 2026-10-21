@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-21T12:31:25.779Z",
-  "count": 38,
+  "updatedAt": "2026-10-21T12:31:59.975Z",
+  "count": 39,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -458,6 +458,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39600212401",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-21"
+    },
+    {
+      "sourceItemId": "lb-2026-10-21-night-en",
+      "threadsPostId": "17972699367173782",
+      "bodyEn": "The polishing is done by people working at a welfare employment support facility in Japan, many of them people with disabilities.\n\nIt's real work, done with care: checking each ball, cleaning it, polishing it by hand.\n\nWhen you buy a ball, you support that work and the people who do it.",
+      "bodyJa": "磨く作業をしているのは、日本の就労継続支援施設で働く、障がいのある方々。ボールを買うことが、その仕事と社会参加につながります。",
+      "pillar": "WELFARE",
+      "category": "WELFARE_WORK_EN",
+      "postedAt": "2026-10-21T12:31:59.975Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39600217796",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-21"
     }
