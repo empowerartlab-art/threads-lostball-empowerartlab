@@ -291,9 +291,10 @@ test("x-post.ymlは schedule かつ X_LIVE_POST Secret が \"true\" のときだ
   assert.equal((content.match(/node scripts\/x-publish\.mjs/g) || []).length, 1, "投稿の呼び出しは1回だけ");
 });
 
-test("x-post.ymlの手動実行は必ず dry-run(live の選択肢が無く、LIVE_POST は schedule のときだけ true)", () => {
+test("x-post.ymlの手動実行は POST LIVE の確認つきのときだけ本番(live の選択肢は無い)", () => {
   const content = stripComments(readWorkflow("x-post.yml"));
-  assert.match(content, /LIVE_POST: \$\{\{ github\.event_name == 'schedule' && secrets\.X_LIVE_POST == 'true' && 'true' \|\| 'false' \}\}/);
+  // 2026-10-21: 代表者のOKがあるときだけ、手動実行で confirm に POST LIVE と入れると本番（1回目だけ。X_LIVE_POST Secret も必要）。
+  assert.match(content, /LIVE_POST: \$\{\{ \(github\.event_name == 'schedule' \|\| \(github\.event_name == 'workflow_dispatch' && inputs\.confirm == 'POST LIVE' && github\.run_attempt == '1'\)\) && secrets\.X_LIVE_POST == 'true' && 'true' \|\| 'false' \}\}/);
   assert.doesNotMatch(topLevelOnBlock(content), /- live\b/);
   assert.doesNotMatch(content, /inputs\.mode/);
 });

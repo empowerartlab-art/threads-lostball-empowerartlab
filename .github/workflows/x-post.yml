@@ -24,6 +24,11 @@ on:
     - cron: "53 20 * * *"   # JST 05:53 従来の1日1本(UTC上は前日20:53)。2026-10-19まで。10/20以降は何もせず終わる(消しても害はない)
   workflow_dispatch:
     inputs:
+      confirm:
+        description: "本番で出すときだけ POST LIVE と入力（代表者のOKがあるときだけ。空なら dry-run）"
+        type: string
+        required: false
+        default: ""
       run:
         description: "確認する枠(必ず dry-run・投稿しない)。auto = 今の時刻から決める / morning=朝7:10 / noon=昼12:10 / night=夜20:10 / legacy=従来の5:53(10/19まで)"
         required: true
@@ -52,7 +57,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  LIVE_POST: ${{ github.event_name == 'schedule' && secrets.X_LIVE_POST == 'true' && 'true' || 'false' }}
+  LIVE_POST: ${{ (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.confirm == 'POST LIVE' && github.run_attempt == '1')) && secrets.X_LIVE_POST == 'true' && 'true' || 'false' }}
   RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 defaults:
