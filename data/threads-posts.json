@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-20T23:02:53.204Z",
-  "count": 36,
+  "updatedAt": "2026-10-21T04:04:40.063Z",
+  "count": 37,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -431,6 +431,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39512306766",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-10-21"
+    },
+    {
+      "sourceItemId": "lb-2026-10-21-noon-ja",
+      "threadsPostId": "18120371066516363",
+      "bodyEn": "On a practice round, it's nice to swing without worrying about OB or water. Just us?",
+      "bodyJa": "練習ラウンドの日くらいは、OBも池も、少し気楽に打ちたい。\n\n新しいクラブを試したい日。\nスコアより、スイングの感覚を確かめたい日。\nそういう日は、ボールの心配が少ないだけで、思い切って振れる気がします。\n\nそう思うのは、わたしたちだけでしょうか。",
+      "pillar": "GOLF",
+      "category": "GOLF_PRACTICE_ROUND",
+      "postedAt": "2026-10-21T04:04:40.062Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39542000410",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-10-21"
     }
   ]
