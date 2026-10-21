@@ -128,5 +128,15 @@
     "at": "2026-10-21T22:49:05.195Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-10-22-journey",
+    "date": "2026-10-22",
+    "stage": "published",
+    "runId": "39689180283",
+    "runAttempt": "1",
+    "at": "2026-10-21T22:49:22.047Z",
+    "threadsId": "18079197782403122",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
