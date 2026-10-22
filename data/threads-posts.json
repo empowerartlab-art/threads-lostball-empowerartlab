@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-22T03:13:53.822Z",
-  "count": 41,
+  "updatedAt": "2026-10-22T14:22:08.615Z",
+  "count": 42,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -501,6 +501,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39715652075",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-22"
+    },
+    {
+      "sourceItemId": "lb-2026-10-22-night-ja",
+      "threadsPostId": "18092504444226701",
+      "bodyEn": "Not every collected ball can be used again. That's why each one gets checked by hand.",
+      "bodyJa": "回収されたボールが、全部また使えるとは限りません。\n\n深い傷があるもの、状態がよくないもの。\nそういうボールは、再販売が難しいこともあります。\n\nだから、1球ずつ手に取って確かめます。\n使えるボールだけを磨いて、次のゴルファーへ。",
+      "pillar": "GOLF",
+      "category": "NOT_ALL_RESELLABLE",
+      "postedAt": "2026-10-22T14:22:08.615Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39794988327",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-22"
     }
   ]
