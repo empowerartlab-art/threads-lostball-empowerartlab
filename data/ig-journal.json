@@ -138,5 +138,15 @@
     "at": "2026-10-21T22:49:22.047Z",
     "threadsId": "18079197782403122",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-10-23-wish",
+    "date": "2026-10-23",
+    "stage": "claimed",
+    "runId": "39876904606",
+    "runAttempt": "1",
+    "at": "2026-10-23T00:14:31.375Z",
+    "threadsId": null,
+    "note": null
   }
 ]
