@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-23T00:52:49.136Z",
-  "count": 44,
+  "updatedAt": "2026-10-23T06:46:55.399Z",
+  "count": 45,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -543,6 +543,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39880688719",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-10-23"
+    },
+    {
+      "sourceItemId": "lb-2026-10-23-noon-ja",
+      "threadsPostId": "18207755179370112",
+      "bodyEn": "The project wants fewer children to feel alone, and has made a picture book to share that wish.",
+      "bodyJa": "ひとりで寂しい思いをする子を、減らしたい。\n\n「一人じゃないよプロジェクト」は、その想いから活動しています。\n言葉だけでは届きにくい想いを伝えるために、絵本もつくっています。\n\n小さな子にも、大人にも、伝わるように。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "PROJECT_MISSION",
+      "postedAt": "2026-10-23T06:46:55.398Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39913552797",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-10-23"
     }
   ]
