@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-23T06:46:55.399Z",
-  "count": 45,
+  "updatedAt": "2026-10-23T10:57:51.747Z",
+  "count": 46,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -557,6 +557,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39913552797",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-23"
+    },
+    {
+      "sourceItemId": "lb-2026-10-23-night-ja",
+      "threadsPostId": "18152338738470390",
+      "bodyEn": "Friday night. Playing tomorrow? How many balls are you packing?",
+      "bodyJa": "金曜の夜。\n明日ラウンドの方は、そろそろ準備の時間でしょうか。\n\nグローブ、ティー、マーカー。\nそして、いちばん悩むのがボールの数。\n\n池の多いコースだと、つい多めに入れたくなりますよね。\nみなさんは、いつも何球持っていきますか。",
+      "pillar": "GOLF",
+      "category": "GOLF_FRIDAY_QUESTION",
+      "postedAt": "2026-10-23T10:57:51.746Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39942704036",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-23"
     }
   ]
