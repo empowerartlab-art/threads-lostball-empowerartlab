@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-23T10:57:51.747Z",
-  "count": 46,
+  "updatedAt": "2026-10-23T11:05:00.607Z",
+  "count": 47,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -570,6 +570,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39942704036",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-23"
+    },
+    {
+      "sourceItemId": "lb-2026-10-23-night-en",
+      "threadsPostId": "18060519485804663",
+      "bodyEn": "A portion of every sale is donated to the \"一人じゃないよプロジェクト\" (Hitori Janai yo) project.\n\nThe project is driven by a wish to see fewer children feel alone.\n\nEvery ball we sell also comes with the project's sticker: a pink tree made of hearts, with people and animals drawn beneath it.",
+      "bodyJa": "売上の一部は「一人じゃないよプロジェクト」へ。ひとりで寂しい思いをする子を減らしたい、という想いの活動です。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "DONATION_EN",
+      "postedAt": "2026-10-23T11:05:00.606Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39943526625",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-23"
     }
