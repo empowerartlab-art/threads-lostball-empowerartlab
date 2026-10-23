@@ -162,7 +162,7 @@ test('threads: a tick is skipped when the journal already says published for the
 });
 
 // ---- schedule ----
-const schedEnv = (slot, date = D) => ({ GITHUB_EVENT_NAME: 'schedule', GITHUB_RUN_ATTEMPT: '1', RUN_SLOT: slot, RUN_DATE: date });
+const schedEnv = (slot, date = D, extra = { SCHEDULE_LATE_SKIP: 'true' }) => ({ GITHUB_EVENT_NAME: 'schedule', GITHUB_RUN_ATTEMPT: '1', RUN_SLOT: slot, RUN_DATE: date, ...extra });
 
 test('threads schedule: on time -> go, GitHub-late beyond +60 min -> skip (every run incl. night_en and legacy_ja)', async () => {
   for (const r of RUNS) {
@@ -184,8 +184,28 @@ test('x schedule: on time -> go, late -> skip; ig schedule uses 07:00 today', as
     assert.equal((await planGate({ media: 'x', env: schedEnv(r.id), now: at(plus(r.time, 2)), io: memIo({}) })).go, true, r.id);
     assert.equal((await planGate({ media: 'x', env: schedEnv(r.id), now: at(plus(r.time, 90)), io: memIo({}) })).reason, 'too-late', r.id);
   }
-  assert.equal((await planGate({ media: 'ig', env: { GITHUB_EVENT_NAME: 'schedule' }, now: at(`${D}T07:30:00`), io: memIo({}) })).go, true);
-  assert.equal((await planGate({ media: 'ig', env: { GITHUB_EVENT_NAME: 'schedule' }, now: at(`${D}T10:15:00`), io: memIo({}) })).reason, 'too-late');
+  assert.equal((await planGate({ media: 'ig', env: { GITHUB_EVENT_NAME: 'schedule', SCHEDULE_LATE_SKIP: 'true' }, now: at(`${D}T07:30:00`), io: memIo({}) })).go, true);
+  assert.equal((await planGate({ media: 'ig', env: { GITHUB_EVENT_NAME: 'schedule', SCHEDULE_LATE_SKIP: 'true' }, now: at(`${D}T10:15:00`), io: memIo({}) })).reason, 'too-late');
+});
+
+test('SCHEDULE_LATE_SKIP unset/false (default): late schedule runs go as before on every medium; ticks keep the window', async () => {
+  for (const v of [{}, { SCHEDULE_LATE_SKIP: '' }, { SCHEDULE_LATE_SKIP: 'false' }]) {
+    for (const r of RUNS) {
+      const late = await planGate({ media: 'threads', env: schedEnv(r.id, D, v), now: at(plus(r.time, 200)), io: memIo({}) });
+      assert.deepEqual([late.go, late.reason], [true, 'schedule-window-off'], `${r.id} ${JSON.stringify(v)}`);
+    }
+    for (const r of X_RUNS) assert.equal((await planGate({ media: 'x', env: schedEnv(r.id, D, v), now: at(plus(r.time, 90)), io: memIo({}) })).go, true, r.id);
+    assert.equal((await planGate({ media: 'ig', env: { GITHUB_EVENT_NAME: 'schedule', ...v }, now: at(`${D}T10:15:00`), io: memIo({}) })).go, true);
+    // the 21:00 English run started after midnight still goes, as before
+    assert.equal((await planGate({ media: 'threads', env: schedEnv('night_en', D, v), now: at('2026-10-22T00:20:00'), io: memIo({}) })).go, true);
+  }
+});
+
+test('workflows pass vars.SCHEDULE_LATE_SKIP to every run gate', () => {
+  for (const f of ['daily-live-post.yml', 'x-post.yml', 'ig-post.yml']) {
+    const text = readFileSync(new URL(`../.github/workflows/${f}`, import.meta.url), 'utf8');
+    assert.match(text, /SCHEDULE_LATE_SKIP: \$\{\{ vars\.SCHEDULE_LATE_SKIP \|\| '' \}\}/, f);
+  }
 });
 
 test('schedule without a resolved slot is an internal error (job fails, nothing posts)', async () => {

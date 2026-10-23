@@ -20,6 +20,12 @@ name: Lost Ball Threads - LIVE Post (Manual, Phase 3 Stage 4)
 #      さらにPOSTED_STATE_SAVE_FAILEDの場合はjobを失敗させ、再実行しないよう明示する
 #      (このworkflow自体に自動リトライの仕組みは一切無い。再実行は常に人間の判断のみ)。
 #   6. Discordへの実通知はこのworkflowでも一切行わない(ログ出力のみ)。
+#   7. 先に記録(claim、2026-10-23〜): daily-live-post.yml と同じく、Threads API を呼ぶ前に
+#      data/threads-journal.json へ予約を書いて push し、読み戻す(scripts/threads-claim.mjs)。
+#      その日・その枠が投稿済み、または未解決の記録(claimed / unknown)があれば予約できず、投稿しない。
+#      投稿は scripts/post-to-threads.mjs --claim で、予約がGitHub上にあることを直前に確かめてから行う。
+#      時刻の範囲(lib/tick-gate.mjs)は当てない(遅れた枠を人が出すための経路)。
+#      記録のpushは scripts/push-records.mjs(最新のリモートに追記し直す。rebase の衝突で止まらない)。
 #
 # EAL側・Harley側・lostball-threads-callbackのファイル・Secrets・リポジトリは一切参照しない。
 
@@ -30,6 +36,17 @@ on:
         description: '本当にThreadsへ実投稿する場合のみ、大文字で正確に "POST LIVE" と入力してください(それ以外は中断されます)'
         required: true
         type: string
+      run:
+        description: "出す枠。auto = 今の時刻までに来た最後の枠 / morning=朝7:35 / noon=昼12:35 / night=夜20:35 / night_en=英語21:00(対象日は常に今日 JST)"
+        required: true
+        type: choice
+        options:
+          - auto
+          - morning
+          - noon
+          - night
+          - night_en
+        default: auto
 
 concurrency:
   group: lostball-live-post
@@ -75,6 +92,35 @@ jobs:
       - name: データ検証
         run: npm run lostball:validate-data
 
+      # 枠(run)と対象日(JST の今日)を1回だけ決める(読み取りのみ)。
+      - name: 枠の決定(どの枠・どの日の投稿か)
+        id: resolve
+        env:
+          RUN_INPUT: ${{ github.event.inputs.run }}
+        run: node scripts/resolve-run.mjs
+
+      - name: 枠が無ければ止める(投稿しない)
+        if: steps.resolve.outputs.has_run != 'true'
+        run: |
+          echo "::error::今出せる枠がありません(run=auto で朝の枠より前など)。投稿しません。"
+          exit 1
+
+      - name: Git identity(予約・記録の push 用)
+        run: |
+          git config user.name "lostball-live-post-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      # Threads API を呼ぶ前に、この枠の1件の予約を data/threads-journal.json に書いて push し、読み戻す。
+      # 投稿済み・未解決の記録で停止中・push できない → 失敗で終わり、下の投稿 step は動かない(投稿しない)。
+      # LIVE_POST Secret が "true" でなければ(=dry-run 相当)何も予約しない。
+      - name: この枠の投稿を予約(claim)
+        id: claim
+        env:
+          LIVE_POST: ${{ secrets.LIVE_POST }}
+          THREADS_RUN: ${{ steps.resolve.outputs.run }}
+          TARGET_DATE: ${{ steps.resolve.outputs.date }}
+        run: node scripts/threads-claim.mjs --live
+
       - name: Write ephemeral .env.local from GitHub Secrets(コミットしない。job終了時に必ず削除)
         env:
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
@@ -89,7 +135,9 @@ jobs:
         id: publish
         env:
           LIVE_POST: ${{ secrets.LIVE_POST }}
-        run: node scripts/post-to-threads.mjs --live | tee live-post-result.log
+          THREADS_CLAIMED: ${{ steps.claim.outputs.claimed }}
+        # --claim: live のときは、上の予約が GitHub 上にあることを API を呼ぶ直前に確かめ、結果を journal に残す。
+        run: node scripts/post-to-threads.mjs --live --claim --run=${{ steps.resolve.outputs.run }} --date=${{ steps.resolve.outputs.date }} | tee live-post-result.log
 
       - name: Remove ephemeral .env.local(Secretsをディスク上に残さない)
         if: always()
@@ -113,16 +161,15 @@ jobs:
       # これらのケースに対応するstepには明示的に failure() を付けている
       # (POSTED_STATE_SAVEDの場合は「投稿実行」step自体が成功しているため不要)。
 
-      - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ)
+      - name: data/threads-posts.jsonをcommit/push(投稿成功+state保存成功の場合のみ。予約の結果 published も一緒に)
         id: commit-state
         if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED'
         continue-on-error: true
-        run: |
-          git config user.name "lostball-live-post-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/threads-posts.json
-          git commit -m "chore(lostball): record live Threads post"
-          git push
+        env:
+          RUN_ID: ${{ steps.resolve.outputs.run }}
+          RUN_DATE: ${{ steps.resolve.outputs.date }}
+        # push できなければ予約は開いたまま(以後の本番の実行は止まる。人が scripts/threads-resolve.mjs で閉じる)。
+        run: node scripts/push-records.mjs --message "chore(lostball): record live Threads post (manual, ${RUN_DATE} ${RUN_ID})" data/threads-posts.json data/threads-journal.json
 
       - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力のみ・Discord等の実通知はしない)
         if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
@@ -146,6 +193,13 @@ jobs:
         run: |
           echo "::error::Threadsへの投稿前、または投稿処理自体が失敗しました(Threadsへの投稿は行われていません)。"
           echo "詳細は上の「投稿実行」stepのログ、またはartifact(lostball-live-post-log)を確認してください。"
+          exit 1
+
+      - name: 予約(claim)できず投稿していない(投稿済み・未解決の記録で停止中・push できない)
+        if: failure() && steps.claim.outcome == 'failure'
+        run: |
+          echo "::error::予約(claim)できなかったため、Threadsへの投稿は行っていません(上の「この枠の投稿を予約」stepのログ参照)。"
+          echo "::error::未解決の記録がある場合は、Threadsを目で確認してから scripts/threads-resolve.mjs で閉じてください。このworkflowをそのまま再実行しないでください。"
           exit 1
 
       - name: 完了サマリ

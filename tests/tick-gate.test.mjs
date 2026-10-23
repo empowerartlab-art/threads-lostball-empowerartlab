@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  SLOT_WINDOW, TICK_MODE, runKind, jstDateOf, minutesFromSlot, checkWindow, checkTick, decideRun, envLines, oneLine,
+  SLOT_WINDOW, TICK_MODE, SCHEDULE_LATE_SKIP_VAR, scheduleLateSkipOn, runKind, jstDateOf, minutesFromSlot, checkWindow, checkTick, decideRun, envLines, oneLine,
 } from '../lib/tick-gate.mjs';
 
 // 2026-10-21 12:25 JST = 03:25 UTC
@@ -85,13 +85,28 @@ test('decideRun: manual keeps the existing behaviour', async () => {
 test('decideRun: schedule inside / outside the window; no queue check needed', async () => {
   let called = 0;
   const q = async () => { called++; return { ok: false, reason: 'x' }; };
-  const s = (t) => decideRun({ kind: 'schedule', slot: 'noon', date: '2026-10-21', time: '12:25', now: at(`2026-10-21T${t}`), queueCheck: q });
+  const s = (t) => decideRun({ kind: 'schedule', slot: 'noon', date: '2026-10-21', time: '12:25', now: at(`2026-10-21T${t}`), queueCheck: q, scheduleLateSkip: true });
   assert.equal((await s('12:40:00')).go, true);
   const late = await s('17:12:00');
   assert.equal(late.go, false);
   assert.equal(late.reason, 'too-late');
   assert.equal(called, 0);
-  assert.equal((await decideRun({ kind: 'schedule', slot: 'x', date: '2026-10-21', time: undefined, now: at('2026-10-21T12:25:00') })).reason, 'unknown-slot');
+  assert.equal((await decideRun({ kind: 'schedule', slot: 'x', date: '2026-10-21', time: undefined, now: at('2026-10-21T12:25:00'), scheduleLateSkip: true })).reason, 'unknown-slot');
+});
+
+test('decideRun: SCHEDULE_LATE_SKIP off (default) leaves schedule runs as before; ticks keep the window', async () => {
+  assert.equal(SCHEDULE_LATE_SKIP_VAR, 'SCHEDULE_LATE_SKIP');
+  for (const v of [undefined, '', 'false', '0', 'yes', ' TRUE ']) assert.equal(scheduleLateSkipOn(v), v === ' TRUE ');
+  assert.equal(scheduleLateSkipOn('true'), true);
+  const late = await decideRun({ kind: 'schedule', slot: 'noon', date: '2026-10-21', time: '12:25', now: at('2026-10-21T17:12:00') });
+  assert.equal(late.go, true);
+  assert.equal(late.reason, 'schedule-window-off');
+  assert.match(late.detail, /SCHEDULE_LATE_SKIP is not "true".*287 min after the slot/);
+  // no slot time (e.g. an unknown slot) does not stop a schedule run while the variable is off
+  assert.equal((await decideRun({ kind: 'schedule', slot: 'x', date: '2026-10-21', time: undefined, now: at('2026-10-21T12:25:00') })).go, true);
+  // the variable never relaxes a tick
+  const tick = await decideRun({ kind: 'tick', runAttempt: '1', slot: 'noon', date: '2026-10-21', slotTimes: { noon: '12:25' }, now: at('2026-10-21T17:12:00'), queueCheck: async () => ({ ok: true }), scheduleLateSkip: false });
+  assert.equal(tick.reason, 'too-late');
 });
 
 test('decideRun: tick passes only when every gate and the queue check pass', async () => {

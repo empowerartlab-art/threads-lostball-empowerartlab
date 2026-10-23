@@ -3,8 +3,11 @@
 // The claim / publish / record / notify steps run only when RUN_GO=true.
 // Reads repository files only: no network, no git.
 //
-//   schedule  posts only inside SLOT_WINDOW of its slot time (lib/tick-gate.mjs);
-//             a run GitHub starts too late (or too early) skips and ends green.
+//   schedule  when the repository variable SCHEDULE_LATE_SKIP is "true": posts
+//             only inside SLOT_WINDOW of its slot time (lib/tick-gate.mjs); a run
+//             GitHub starts too late (or too early) skips and ends green.
+//             Unset / anything else (the default): not window-gated, exactly as
+//             before (RUN_GO=true).
 //   tick      workflow_dispatch with mode=tick (the external clock). Posts only
 //             when run_attempt is 1, the slot is one of this workflow's real slots,
 //             the date is today (JST), the clock is inside SLOT_WINDOW, and the
@@ -12,15 +15,17 @@
 //             medium's journal. The claim step stays the final gate (it re-reads
 //             the remote journal before anything is posted).
 //   manual    any other workflow_dispatch: unchanged (RUN_GO=true; the existing
-//             mode=dry-run/live input decides as before).
+//             mode=dry-run/live input, or X's confirm=POST LIVE, decides as before).
+//             Never window-gated; a live manual run still goes through the claim.
 //
 // Usage: node scripts/run-gate.mjs --media threads|x|ig
 // Env:   GITHUB_EVENT_NAME, GITHUB_RUN_ATTEMPT, RUN_MODE (inputs.mode),
+//        SCHEDULE_LATE_SKIP (vars.SCHEDULE_LATE_SKIP; schedule runs only),
 //        TICK_SLOT / TICK_DATE / TICK_ID (inputs.slot / date / tick_id),
 //        RUN_SLOT / RUN_DATE (steps.resolve.outputs.run / date; Threads and X only)
 import { appendFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { decideRun, runKind, envLines, jstDateOf, RUN_KINDS } from '../lib/tick-gate.mjs';
+import { decideRun, runKind, envLines, jstDateOf, RUN_KINDS, scheduleLateSkipOn } from '../lib/tick-gate.mjs';
 import { RUNS, SLOTS_START, runInfo } from '../lib/slots.mjs';
 import { X_SLOTS, X_SLOTS_START, xRunInfo, planXRun } from '../lib/x-slots.mjs';
 import { selectXForRun, X_QUEUE_PATH, X_POSTED_PATH, X_JOURNAL_PATH } from '../lib/x-flow.mjs';
@@ -90,7 +95,7 @@ export async function planGate({ media, env = {}, now = new Date(), io = fileIo 
     const slot = media === 'ig' ? IG_SLOT : env.RUN_SLOT;
     const date = media === 'ig' ? jstDateOf(now) : env.RUN_DATE;
     if (!slot || !date) throw new Error('RUN_SLOT / RUN_DATE are not set (the resolve step must run first)');
-    return { ...(await decideRun({ kind, slot, date, time: m.scheduleTime(slot), now })), slot, date };
+    return { ...(await decideRun({ kind, slot, date, time: m.scheduleTime(slot), now, scheduleLateSkip: scheduleLateSkipOn(env.SCHEDULE_LATE_SKIP) })), slot, date };
   }
 
   const slot = String(env.TICK_SLOT ?? '').trim();

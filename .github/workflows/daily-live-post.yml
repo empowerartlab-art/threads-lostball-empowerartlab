@@ -64,7 +64,9 @@ run-name: "${{ inputs.mode == 'tick' && format('Lost Ball Threads tick {0} {1} #
 #     枠の時刻の3分前〜60分後・承認済みで未投稿・未解決の記録なし)がすべて通ったときだけ投稿する。
 #     通らなければ何もせず緑で終わる(SKIP_REASON)。LIVE_POST Secret が必要なのは今までと同じ。
 #   - schedule も同じ時間の範囲(lib/tick-gate.mjs の SLOT_WINDOW)の外で始まったら投稿せず緑で終わる
-#     (GitHubの混雑で数時間遅れた cron が、昼の投稿を夕方に出すことを防ぐ)。手動実行は今までどおり。
+#     (GitHubの混雑で数時間遅れた cron が、昼の投稿を夕方に出すことを防ぐ)。ただしこれはリポジトリの変数
+#     SCHEDULE_LATE_SKIP が "true" のときだけ。既定(未設定)は OFF で、schedule は従来どおり(遅れても投稿する)。
+#     手動実行は今までどおり(範囲は当てない)。
 #   - live の実行は、Threads API を呼ぶ前に data/threads-journal.json へ予約(claim)を push する
 #     (scripts/threads-claim.mjs)。未解決の記録(claimed / unknown)があると、以後の本番の実行は全部の枠
 #     (英語の night_en も)で止まる。人が Threads を目で確認して scripts/threads-resolve.mjs で閉じるまで。
@@ -126,7 +128,8 @@ on:
 # 走っている実行は絶対に取り消されず、後から来た実行は待つ(同時に2本走って二重投稿することがない)。
 # GitHubは1つのgroupに「待ち」を1本しか置かないため、他のworkflow(土曜07:07の週次レビュー等)と
 # groupを共有すると、待っている枠の実行が取り消されるおそれがある。だからThreads投稿専用のgroupにしている。
-# 他のworkflowと同時にpushがぶつかった場合は、下の commit/push step が pull --rebase して最大5回やり直す。
+# 他のworkflowと同時にpushがぶつかった場合は、下の commit/push step が最新のリモートに記録を追記し直して最大5回やり直す
+# (scripts/push-records.mjs。rebase の衝突では止まらない)。
 concurrency:
   group: lostball-live-post
   cancel-in-progress: false
@@ -190,7 +193,7 @@ jobs:
         run: node scripts/resolve-run.mjs
 
       # RUN_GO を決める(lib/tick-gate.mjs の SLOT_WINDOW = 枠の時刻の3分前〜60分後)。
-      #   schedule: 枠の時刻の範囲の外で始まったら投稿しない。tick: scripts/run-gate.mjs の確認がすべて通ったときだけ。
+      #   schedule: vars.SCHEDULE_LATE_SKIP == 'true' のときだけ、枠の時刻の範囲の外で始まったら投稿しない(既定は OFF＝従来どおり)。tick: scripts/run-gate.mjs の確認がすべて通ったときだけ。
       #   手動: 今までどおり(RUN_GO=true)。RUN_GO=false の実行は予約も投稿も通知もせず、緑で終わる。
       - name: Run gate(この実行が投稿してよいか)
         env:
@@ -198,6 +201,9 @@ jobs:
           TICK_SLOT: ${{ github.event.inputs.slot || '' }}
           TICK_DATE: ${{ github.event.inputs.date || '' }}
           TICK_ID: ${{ github.event.inputs.tick_id || '' }}
+          # リポジトリの変数。未設定（既定）= OFF：schedule には時刻の範囲を当てない（遅れた cron も従来どおり投稿）。
+          # 外の時計（tick）が安定したら "true" にする。tick にはいつも範囲を当てる。手動実行には当てない。
+          SCHEDULE_LATE_SKIP: ${{ vars.SCHEDULE_LATE_SKIP || '' }}
           RUN_SLOT: ${{ steps.resolve.outputs.run }}
           RUN_DATE: ${{ steps.resolve.outputs.date }}
         run: node scripts/run-gate.mjs --media threads
@@ -271,25 +277,14 @@ jobs:
         run: |
           git config user.name "lostball-daily-live-post-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/threads-posts.json
           # 予約(data/threads-journal.json)の published も同じ commit で push する。push できなければ予約は開いたまま
           # (以後の本番の実行は止まる。人が scripts/threads-resolve.mjs --outcome published で閉じる)。
-          if [ -f data/threads-journal.json ]; then
-            git add data/threads-journal.json
-          fi
-          git commit -m "chore(lostball): record Threads post (${RUN_DATE} ${RUN_ID})"
-          # Instagram(07:00)・X(07:10/12:10/20:10。10/19までは05:53)・土曜07:07の週次レビュー・insights等が先にpushしていても
-          # 記録を落とさないよう、rebaseしてからpushする。pushが弾かれたら少し待って最大5回までやり直す
-          # (やり直すのは記録のpushだけ。Threadsへの投稿は絶対にやり直さない)。
-          for attempt in 1 2 3 4 5; do
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
-              exit 0
-            fi
-            echo "push rejected (attempt ${attempt}/5); retrying after rebase"
-            sleep $((attempt * 5))
-          done
-          exit 1
+          # Instagram・X・週次レビュー・insights や、同じ日の別の枠(夜の日本語と英語など)が先にpushしていても
+          # 記録を落とさないよう、scripts/push-records.mjs が「この実行で足した記録」を覚えておき、毎回
+          # 最新のリモートのファイルを読み直して追記し直してからpushする(最大5回)。2026-10-21 のような
+          # pull --rebase の衝突(同じ配列の末尾に両方が追記)では止まらない(lib/record-push.mjs)。
+          # やり直すのは記録のpushだけ。Threadsへの投稿は絶対にやり直さない。
+          node scripts/push-records.mjs --message "chore(lostball): record Threads post (${RUN_DATE} ${RUN_ID})" data/threads-posts.json data/threads-journal.json
 
       - name: "Discord通知: 投稿成功(state保存・commit/push成功)"
         if: steps.publish.outputs.outcome == 'POSTED_STATE_SAVED' && steps.commit-state.outcome == 'success' && env.RUN_GO == 'true'

@@ -84,7 +84,7 @@ jobs:
         run: node scripts/ig-validate.mjs
 
       # RUN_GO を決める(lib/tick-gate.mjs の SLOT_WINDOW = 07:00 の3分前〜60分後)。
-      #   schedule: 範囲の外で始まったら投稿しない。tick: scripts/run-gate.mjs の確認がすべて通ったときだけ。
+      #   schedule: vars.SCHEDULE_LATE_SKIP == 'true' のときだけ、範囲の外で始まったら投稿しない(既定は OFF＝従来どおり)。tick: scripts/run-gate.mjs の確認がすべて通ったときだけ。
       #   手動: 今までどおり(RUN_GO=true)。RUN_GO=false の実行は予約も投稿も通知もせず緑で終わる。
       - name: Run gate(この実行が投稿してよいか)
         env:
@@ -92,6 +92,9 @@ jobs:
           TICK_SLOT: ${{ inputs.slot || '' }}
           TICK_DATE: ${{ inputs.date || '' }}
           TICK_ID: ${{ inputs.tick_id || '' }}
+          # リポジトリの変数。未設定（既定）= OFF：schedule には時刻の範囲を当てない（遅れた cron も従来どおり投稿）。
+          # 外の時計（tick）が安定したら "true" にする。tick にはいつも範囲を当てる。手動実行には当てない。
+          SCHEDULE_LATE_SKIP: ${{ vars.SCHEDULE_LATE_SKIP || '' }}
         run: node scripts/run-gate.mjs --media ig
 
       - name: Git identity

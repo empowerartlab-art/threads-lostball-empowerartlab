@@ -78,6 +78,17 @@ node scripts/bulk-approve.mjs --week 2026-10-20 --exclude id1,id2 --by 承認者
 - 同じ日・同じ枠の日本語 Threads を X 用に書き直したものを `data/x-queue.json` に入れ、`node scripts/x-bulk-approve.mjs --week <日付>` でまとめて承認する。
 - URL 入りは1本 $0.20（URLなし $0.015 の約13倍）なので原則入れない。詳しくは [`INSTAGRAM.md`](./INSTAGRAM.md) の「X 自動投稿」。
 
+## 外からの合図（tick）と、遅れて始まった予定の実行
+
+- 投稿のワークフローは `mode=tick`（＋ `slot`・`date`・`tick_id`）の合図を受けられます（外の時計＝Cloudflare から送る予定）。合図で本番になるのは、1回目の実行・今日の日付・枠の時刻の3分前〜60分後（`lib/tick-gate.mjs` の `SLOT_WINDOW`）・承認済みで未投稿・開いた記録（claim）なし、をすべて満たすときだけ。外れたら投稿せず緑で終わり、理由（SKIP_REASON）を残します。
+- GitHub の予定（cron）の実行に時刻の範囲を当てるかは、リポジトリの変数 **`SCHEDULE_LATE_SKIP`** で決めます。
+  - 未設定（既定）／`true` 以外：**今までどおり**。遅れて始まった予定の実行も投稿します（合図がまだ動いていないため）。
+  - `true`：予定の実行も枠の時刻の60分後を過ぎていたら見送ります。合図が安定して動くのを確かめてから設定します。
+  - 合図（tick）には変数に関係なく、いつも時刻の範囲を当てます。
+- 手動の実行は今までどおり（時刻の範囲は当てません）。
+- 手動の本番（Threads は `live-post-manual.yml` または `daily-live-post.yml` の `mode=live`、X は `confirm` に `POST LIVE`）は時刻の範囲を当てません。どれも「先に記録（claim）」を通るので、投稿済み・未解決の記録があれば止まります（`live-post-manual.yml` も 2026-10-23 から claim を通ります。出す枠は `run` で選びます）。
+- Threads の記録の push（`scripts/push-records.mjs`）は、この実行で足した記録を覚えておき、最新のリモートのファイルに追記し直してから push します（最大5回）。同じ日の別の枠（夜の日本語と英語など）が先に記録しても、rebase の衝突で止まりません（2026-10-21 の対策）。
+
 ## コメントの返信アシスト（半自動。2026-10-15〜）
 
 - 毎時（6:27〜23:27）に、**直近7日の投稿**についたThreads・Instagramの新しいコメントを見回る（`comment-watch.yml`）

@@ -74,11 +74,12 @@ test("daily-live-post.ymlはThreads専用のconcurrency group(cancel-in-progress
   }
 });
 
-test("daily-live-post.ymlの記録のpushは pull --rebase して最大5回やり直し、Threadsへの投稿はやり直さない", () => {
+test("daily-live-post.ymlの記録のpushは最新のリモートに追記し直して最大5回やり直し(衝突で止まらない)、Threadsへの投稿はやり直さない", () => {
   const content = readWorkflow("daily-live-post.yml");
   const step = content.slice(content.indexOf("id: commit-state"), content.indexOf("Discord通知: 投稿成功"));
-  assert.match(step, /for attempt in 1 2 3 4 5; do/);
-  assert.ok(step.indexOf("git pull --rebase") < step.indexOf("git push"));
+  assert.match(step, /node scripts\/push-records\.mjs --message "chore\(lostball\): record Threads post \(\$\{RUN_DATE\} \$\{RUN_ID\}\)" data\/threads-posts\.json data\/threads-journal\.json/);
+  assert.match(step, /continue-on-error: true/);
+  assert.doesNotMatch(step, /git pull --rebase/);
   assert.doesNotMatch(step, /post-to-threads\.mjs/);
   assert.equal((content.match(/node scripts\/post-to-threads\.mjs/g) || []).length, 1, "投稿の呼び出しは1回だけ");
 });
@@ -309,4 +310,23 @@ test("x-post.ymlは X 専用の concurrency group(cancel-in-progress: false)で�
   for (const other of ["daily-live-post.yml", "live-post-manual.yml", "weekly-review.yml", "ig-post.yml", "insights-daily.yml", "daily-post.yml", "threads-diagnostic.yml"]) {
     assert.notEqual(concurrencyGroup(readWorkflow(other)), "lostball-x-post", `${other} が X 投稿の group を共有している`);
   }
+});
+
+test("live-post-manual.yml も先に記録(claim)を通る: 予約 → --claim 付きの投稿 → 記録の push(衝突で止まらない)", () => {
+  const content = readWorkflow("live-post-manual.yml");
+  const claimAt = content.indexOf("node scripts/threads-claim.mjs --live");
+  const publishAt = content.indexOf("node scripts/post-to-threads.mjs --live --claim --run=${{ steps.resolve.outputs.run }} --date=${{ steps.resolve.outputs.date }}");
+  assert.ok(content.indexOf("node scripts/resolve-run.mjs") < claimAt && claimAt > 0, "枠の決定 → 予約");
+  assert.ok(claimAt < publishAt && publishAt > 0, "予約 → 投稿");
+  assert.match(content, /THREADS_CLAIMED: \$\{\{ steps\.claim\.outputs\.claimed \}\}/);
+  assert.equal((content.match(/node scripts\/post-to-threads\.mjs/g) || []).length, 1, "投稿の呼び出しは1回だけ");
+  // 予約 step に continue-on-error は無い(予約できなければ投稿 step は動かない)
+  const claimStep = content.slice(content.lastIndexOf("- name:", claimAt), claimAt);
+  assert.doesNotMatch(claimStep, /continue-on-error/);
+  assert.doesNotMatch(claimStep, /if:/);
+  const step = content.slice(content.indexOf("id: commit-state"));
+  assert.match(step, /node scripts\/push-records\.mjs --message .* data\/threads-posts\.json data\/threads-journal\.json/);
+  assert.doesNotMatch(content, /^\s*git push\s*$/m);
+  // 時刻の範囲(run gate)は当てない: 人が遅れた枠を出すための経路
+  assert.doesNotMatch(content, /run-gate\.mjs/);
 });

@@ -184,9 +184,9 @@ async function main() {
   }
   console.log(`投稿言語: ${lang}`);
 
-  // --claim(daily-live-post.yml だけが付ける): live のときは、scripts/threads-claim.mjs が GitHub に
+  // --claim(daily-live-post.yml と live-post-manual.yml が付ける): live のときは、scripts/threads-claim.mjs が GitHub に
   // push した予約(data/threads-journal.json)をAPIを呼ぶ直前に確かめ、結果(published / aborted / unknown)を
-  // journal に残す(lib/threads-claim.mjs)。--claim が無い(live-post-manual.yml 等)ときは従来どおり。
+  // journal に残す(lib/threads-claim.mjs)。--claim が無いとき(手元での実行など)は従来どおり。
   const claimMode = attemptingLive && process.argv.includes("--claim");
   if (!attemptingLive) {
     // dry-run は何も書かない・push しない。未解決の記録があれば知らせるだけ。
