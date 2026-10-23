@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-22T14:25:28.739Z",
-  "count": 43,
+  "updatedAt": "2026-10-23T00:52:49.136Z",
+  "count": 44,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -530,6 +530,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-22"
+    },
+    {
+      "sourceItemId": "lb-2026-10-23-morning-ja",
+      "threadsPostId": "17894445075435233",
+      "bodyEn": "Every lost ball we sell comes with a sticker: a pink tree made of hearts, from the \"一人じゃないよプロジェクト\" (Hitori Janai yo) project.",
+      "bodyJa": "わたしたちのロストボールには、1枚のステッカーが付いています。\n\nハートでできた、ピンクの木。\nその下には、人や動物たちが描かれています。\n\n「一人じゃないよプロジェクト」のステッカーです。\nボールと一緒に、このプロジェクトのことも届けたいと思っています。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "STICKER_TREE",
+      "postedAt": "2026-10-23T00:52:49.135Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/39880688719",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-23"
     }
   ]
 }
