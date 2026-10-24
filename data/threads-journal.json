@@ -11,5 +11,18 @@
     "run": "morning",
     "lang": "ja",
     "slot": "morning"
+  },
+  {
+    "postId": "lb-2026-10-24-morning-ja",
+    "date": "2026-10-24",
+    "stage": "published",
+    "runId": "40046603015",
+    "runAttempt": "1",
+    "at": "2026-10-24T00:46:39.068Z",
+    "threadsId": "17990364756060548",
+    "note": "threads post id stored in threadsId",
+    "run": "morning",
+    "lang": "ja",
+    "slot": "morning"
   }
 ]

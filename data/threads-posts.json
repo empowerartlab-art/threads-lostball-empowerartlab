@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-23T11:05:00.607Z",
-  "count": 47,
+  "updatedAt": "2026-10-24T00:46:39.066Z",
+  "count": 48,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -586,6 +586,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-23"
+    },
+    {
+      "sourceItemId": "lb-2026-10-24-morning-ja",
+      "threadsPostId": "17990364756060548",
+      "bodyEn": "By one estimate, a golf ball takes about 1,000 years to break down in nature.",
+      "bodyJa": "ゴルフボールが自然に還るまで、どれくらいかかるか。\n\n一説では、約1,000年かかるとも言われています。\nゴルフボールは、土に還らない素材でできているからです。\n\n今日なくした1球が、1,000年先も残っているかもしれない。\nそう考えると、少し見え方が変わります。",
+      "pillar": "ENVIRONMENT",
+      "category": "DECOMPOSITION_1000Y",
+      "postedAt": "2026-10-24T00:46:39.065Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40046603015",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-24"
     }
   ]
 }
