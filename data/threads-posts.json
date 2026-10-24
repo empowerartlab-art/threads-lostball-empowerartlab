@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-24T00:46:39.066Z",
-  "count": 48,
+  "updatedAt": "2026-10-24T05:00:36.106Z",
+  "count": 49,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -599,6 +599,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40046603015",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-10-24"
+    },
+    {
+      "sourceItemId": "lb-2026-10-24-noon-ja",
+      "threadsPostId": "18592661632069240",
+      "bodyEn": "Saturday morning on the first tee. Those nerves never quite go away, do they?",
+      "bodyJa": "土曜の朝のティーグラウンド。\n\n後ろの組の視線、同伴者の素振りの音。\n練習場ではあんなに当たっていたのに、と思いながら構える。\n\n何年ゴルフをしていても、1番ホールの1打目だけは、毎回ちょっと緊張しませんか。\n今日ラウンドの方、肩の力を抜いていきましょう。",
+      "pillar": "GOLF",
+      "category": "GOLF_SATURDAY_TEE",
+      "postedAt": "2026-10-24T05:00:36.104Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40064519091",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-10-24"
     }
   ]
