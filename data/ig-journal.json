@@ -188,5 +188,15 @@
     "at": "2026-10-24T22:00:37.533Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-10-25-practice",
+    "date": "2026-10-25",
+    "stage": "published",
+    "runId": "40136679977",
+    "runAttempt": "1",
+    "at": "2026-10-24T22:00:52.175Z",
+    "threadsId": "18120886471953442",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
