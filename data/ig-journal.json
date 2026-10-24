@@ -168,5 +168,15 @@
     "at": "2026-10-24T00:07:43.498Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-10-24-1000years",
+    "date": "2026-10-24",
+    "stage": "published",
+    "runId": "40043380753",
+    "runAttempt": "1",
+    "at": "2026-10-24T00:07:55.776Z",
+    "threadsId": "17965465239230204",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
