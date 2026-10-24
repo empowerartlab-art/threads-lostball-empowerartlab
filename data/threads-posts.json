@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-24T12:00:56.310Z",
-  "count": 51,
+  "updatedAt": "2026-10-24T22:35:55.170Z",
+  "count": 52,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -642,6 +642,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-24"
+    },
+    {
+      "sourceItemId": "lb-2026-10-25-morning-ja",
+      "threadsPostId": "18017192096748122",
+      "bodyEn": "Sunday at the driving range. That first ball usually gets swung too hard.",
+      "bodyJa": "日曜の練習場。\n\n打席に入って、まずはストレッチ。\nウェッジから軽く、と頭では分かっているのに、最初の1球は、なぜかいつも力が入ります。\n\nそして、たいてい右へ。\nみなさんは、練習場でまず何番から打ちますか。",
+      "pillar": "GOLF",
+      "category": "GOLF_RANGE_FIRST_SHOT",
+      "postedAt": "2026-10-24T22:35:55.169Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40139212657",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-25"
     }
   ]
 }
