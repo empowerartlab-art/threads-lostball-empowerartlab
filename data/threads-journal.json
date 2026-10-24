@@ -1,0 +1,15 @@
+[
+  {
+    "postId": "lb-2026-10-24-morning-ja",
+    "date": "2026-10-24",
+    "stage": "claimed",
+    "runId": "40046603015",
+    "runAttempt": "1",
+    "at": "2026-10-24T00:46:28.365Z",
+    "threadsId": null,
+    "note": null,
+    "run": "morning",
+    "lang": "ja",
+    "slot": "morning"
+  }
+]
