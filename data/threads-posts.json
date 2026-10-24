@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-24T11:35:58.365Z",
-  "count": 50,
+  "updatedAt": "2026-10-24T12:00:56.310Z",
+  "count": 51,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -626,6 +626,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40090511819",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-24"
+    },
+    {
+      "sourceItemId": "lb-2026-10-24-night-en",
+      "threadsPostId": "17880844134548278",
+      "bodyEn": "Golf balls are made of materials that don't return to the soil.\n\nBy one estimate, a ball takes about 1,000 years to break down in nature. The one you lost last weekend could outlast all of us.\n\nThat's one more reason to give a lost ball another round instead of leaving it behind.",
+      "bodyJa": "ゴルフボールは土に還らない素材。一説では、自然に還るまで約1,000年とも。だから、もう一度使う意味があります。",
+      "pillar": "ENVIRONMENT",
+      "category": "NOT_BIODEGRADABLE_EN",
+      "postedAt": "2026-10-24T12:00:56.309Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40092147609",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-24"
     }
