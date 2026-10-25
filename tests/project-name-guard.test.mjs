@@ -41,3 +41,18 @@ test("事実・ブランド・返信リンクの文・10/26 以降の下書き�
   for (const p of read("x-queue.json")) if (isProjectNameRuleDate(p.date)) assert.deepEqual(checkProjectName(p), [], p.id);
   for (const p of read("ig-queue.json")) if (isProjectNameRuleDate(p.date)) assert.deepEqual(checkProjectName(p), [], p.id);
 });
+
+test("10/25 夜の未投稿分と日付の無いストックも「ひとりじゃないよ」で、承認は付いたまま", () => {
+  const bank = read("draft-bank.json").items;
+  const xq = read("x-queue.json");
+  for (const id of ["lb-2026-10-25-night-ja", "lostball-day20-parents-too", "lostball-day21-connecting-hand-in-hand", "lostball-day22-kindness-from-one-ball"]) {
+    const item = bank.find((i) => i.id === id);
+    assert.ok(item, id);
+    assert.deepEqual(checkProjectName(item), [], id);
+    assert.ok(item.approvedBy && item.approvedAt, `${id}: 承認が外れている`);
+  }
+  for (const item of bank) if (item.targetDate == null) assert.deepEqual(checkProjectName(item), [], item.id);
+  const x = xq.find((p) => p.id === "x-2026-10-25-night");
+  assert.deepEqual(checkProjectName(x), []);
+  assert.ok(x.approved === true && x.approvedBy && x.approvedAt);
+});

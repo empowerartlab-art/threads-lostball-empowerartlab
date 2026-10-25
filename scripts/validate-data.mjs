@@ -88,12 +88,10 @@ validateItems(bankFile.items, "draft-bank.json");
 validateItems(candidatesFile.items, "draft-bank-candidates.json");
 
 // プロジェクト名の書き方（2026-10-25 決定: 「ひとりじゃないよプロジェクト」。lib/project-name-guard.mjs）。
-// 投稿済みの記録と 2026-10-25 以前の項目は対象外。日付の無いストックは警告だけ。
+// 投稿済みの記録と 2026-10-25 以前の日付の項目は対象外（10/25 夜の未投稿分は直し済みだが、日付で区切る）。日付の無いストックも対象。
 for (const item of bankFile.items || []) {
-  const errs = checkProjectName(item);
-  if (!errs.length) continue;
-  if (isProjectNameRuleDate(item.targetDate)) for (const e of errs) fail(`draft-bank.json[${item.id}]: ${e}`);
-  else if (item.targetDate == null) for (const e of errs) warn(`draft-bank.json[${item.id}]（日付なし）: ${e}`);
+  if (!(isProjectNameRuleDate(item.targetDate) || item.targetDate == null)) continue;
+  for (const e of checkProjectName(item)) fail(`draft-bank.json[${item.id}]${item.targetDate == null ? "（日付なし）" : ""}: ${e}`);
 }
 for (const item of candidatesFile.items || []) for (const e of checkProjectName(item)) fail(`draft-bank-candidates.json[${item.id}]: ${e}`);
 for (const fact of factsFile.facts || []) {
