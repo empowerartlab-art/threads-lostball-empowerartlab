@@ -193,5 +193,18 @@
     "run": "night_en",
     "lang": "en",
     "slot": "night"
+  },
+  {
+    "postId": "lb-2026-10-25-night-en",
+    "date": "2026-10-25",
+    "stage": "published",
+    "runId": "40191232465",
+    "runAttempt": "1",
+    "at": "2026-10-25T12:00:56.687Z",
+    "threadsId": "18003941523008371",
+    "note": "threads post id stored in threadsId",
+    "run": "night_en",
+    "lang": "en",
+    "slot": "night"
   }
 ]

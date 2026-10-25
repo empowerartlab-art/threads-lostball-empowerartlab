@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-25T11:35:58.368Z",
-  "count": 54,
+  "updatedAt": "2026-10-25T12:00:56.685Z",
+  "count": 55,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -682,6 +682,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40189502156",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-25"
+    },
+    {
+      "sourceItemId": "lb-2026-10-25-night-en",
+      "threadsPostId": "18003941523008371",
+      "bodyEn": "Near golf courses across Japan, an estimated 500 million to 1 billion lost balls are said to remain uncollected.\n\nThat's a number that's hard to picture.\n\nWe can't bring them all back. But the ones we do get are checked and polished by hand, one at a time, so they can be played again.",
+      "bodyJa": "日本全国のゴルフ場の近くには、推定5億〜10億球のロストボールが回収されずに残っているとも。その一部を、手で磨いてもう一度。",
+      "pillar": "JAPAN",
+      "category": "JAPAN_500M_EN",
+      "postedAt": "2026-10-25T12:00:56.684Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40191232465",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-25"
     }
