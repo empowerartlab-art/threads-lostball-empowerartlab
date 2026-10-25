@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-25T12:00:56.685Z",
-  "count": 55,
+  "updatedAt": "2026-10-25T22:35:59.565Z",
+  "count": 56,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -698,6 +698,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-25"
+    },
+    {
+      "sourceItemId": "lb-2026-10-26-morning-ja",
+      "threadsPostId": "17980706415068592",
+      "bodyEn": "Lost balls from Japan, polished by hand. The shop link is in our profile (shipping within Japan only).",
+      "bodyJa": "週の始まりに、次のラウンドの準備を。\n\n日本のロストボールを、1球ずつ手で確かめて、磨きました。\n新品ではないぶん、池越えも少し気楽に打てます。\nボールには「ひとりじゃないよプロジェクト」のステッカーが付きます。\n\n林でボール探しに苦戦しているのは、うちの見習いアンバサダー、ヘタ郎です。\nショップは、プロフィールのリンクから。",
+      "pillar": "GOLF",
+      "category": "SHOP_WEEKLY",
+      "postedAt": "2026-10-25T22:35:59.564Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40240907321",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-26"
     }
   ]
 }
