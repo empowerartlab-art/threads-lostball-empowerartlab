@@ -3,30 +3,40 @@
     "id": "hand-polished",
     "text": "1球ずつ手で確かめて、磨いたロストボールは、ここから。\nhttps://empower.base.shop/",
     "source": "承認済み lb-2026-10-26-morning-ja「日本のロストボールを、1球ずつ手で確かめて、磨きました。」（事実 hand-polish-one-by-one）",
-    "approved": false
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-25T06:00:10.070Z"
   },
   {
     "id": "pond-carry",
     "text": "新品ではないぶん、池越えも少し気楽に打てます。\nロストボールは、ここから。\nhttps://empower.base.shop/",
     "source": "承認済み lb-2026-10-26-morning-ja「新品ではないぶん、池越えも少し気楽に打てます。」",
-    "approved": false
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-25T06:00:10.070Z"
   },
   {
     "id": "next-golfer",
     "text": "使えるボールだけを磨いて、次のゴルファーへ。\nお店は、ここから。\nhttps://empower.base.shop/",
     "source": "承認済み lb-2026-10-22-night-ja「使えるボールだけを磨いて、次のゴルファーへ。」",
-    "approved": false
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-25T06:00:10.070Z"
   },
   {
     "id": "sticker",
     "text": "ボールには「一人じゃないよプロジェクト」のステッカーが付きます。\nお店は、ここから。\nhttps://empower.base.shop/",
     "source": "承認済み lb-2026-10-26-morning-ja「ボールには「一人じゃないよプロジェクト」のステッカーが付きます。」（事実 product-includes-pink-tree-sticker）",
-    "approved": false
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-25T06:00:10.070Z"
   },
   {
     "id": "second-chance",
     "text": "二度目の出番を待っているボールは、ここから。\nhttps://empower.base.shop/",
     "source": "承認済み lb-2026-10-20-morning-ja「ロストボールは、二度目の出番を待っているボールです。」",
-    "approved": false
+    "approved": true,
+    "approvedBy": "KEITA",
+    "approvedAt": "2026-10-25T06:00:10.070Z"
   }
 ]
