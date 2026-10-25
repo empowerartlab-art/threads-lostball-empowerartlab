@@ -1,0 +1,58 @@
+# 質問の投稿が伸びたら、返信でお店のリンクを付ける（2026-10-25 決定）
+
+代表者の決定（2026-10-25）：**質問の投稿の本文にはリンクを入れない（今までどおりプロフィールのリンク）。伸びたら、自分の返信欄に BASE のお店（https://empower.base.shop/）を1回だけ貼る。**
+ZERO RIDERS（threads-zero-riders）で動いている仕組みと同じものを、ロストボールの日本語 Threads に入れたものです。
+
+## いつ・何を見て・どうするか
+- 対象：日本語の Threads の【質問】の投稿だけ。承認データ（`data/draft-bank.json`）で `"replyLink": true` が付いた投稿。**英語（21:00）は対象外**
+- 見るタイミング：
+
+  | 質問の枠 | 1回目（約2時間後） | 2回目（約6時間後） |
+  |---|---|---|
+  | 朝 7:35 | 9:35 | 13:35 |
+  | 昼 12:35 | 14:35 | 18:35 |
+  | 夜 20:35 | 22:35 | **なし**（深夜になるため） |
+
+- 決まり：そのときの **表示（views）が 300 以上** なら、その投稿に **自分の返信を1回だけ** 付ける。300 未満なら何もしない（朝・昼は2回目でまた見る）
+- 返信の文：下の「返信の文」から、承認済みのものを **日替わり** で使う
+- 1つの投稿に2回付けない。1日に1本まで
+- 失敗しても、**ふだんの投稿（朝・昼・夜・英語）には影響しない**（記録も止まり方も、concurrency group も別）
+
+## 返信の文（代表者が一覧を見て承認する）
+文は `data/reply-link-texts.json` に入っています（最初は5本とも未承認）。**承認するまでは1本も返信しません。**
+
+```bash
+node scripts/reply-link-texts.mjs                                  # 一覧と、これからの7日にどの文を使うかを見る（何も書き換えない）
+node scripts/reply-link-texts.mjs --approve --by KEITA --yes       # 全部まとめて承認
+node scripts/reply-link-texts.mjs --approve --only hand-polished,sticker --by KEITA --yes   # 選んだものだけ承認
+```
+- お店のリンクは1つだけ・ほかのリンクなし・「必ず」「すべて」などの断定や数字（%・円）、ハッシュタグは入れない決まり（違うとチェックで止まる）
+- 承認したら `data/reply-link-texts.json` を commit・push する
+- 公開リポジトリなので、文や記録に個人情報・鍵を入れない
+
+## 質問の投稿に印を付ける
+毎週の候補（`data/draft-bank-candidates.json`）で、日本語の【質問】の投稿に `"replyLink": true` を付けます。土曜のまとめて承認（`bulk-approve`）で `draft-bank.json` に引き継がれます。
+- 付けられるのは日本語の朝・昼・夜の枠だけ。1日1本まで
+- 印を付けた投稿の本文にリンクがあるとチェックで止まる（リンクは返信のほうに付けるため）
+- 土曜の一覧では「↩️ 質問の投稿：伸びたら…」と表示される
+
+## 記録（来週の分析用）
+- `data/reply-links.json`：投稿ごとに、チェックした時刻と表示の数、返信を付けた時刻・そのときの表示・使った文・返信のID
+- `data/reply-link-journal.json`：二重に付けないための記録（ふだんの投稿の `data/threads-journal.json` とは別）
+
+## 動かし始めるには（司令役の作業）
+1. このブランチ（`feat/reply-link`）を main に入れて push
+2. 返信の文を代表者が承認（上のコマンド）→ push
+3. 質問の投稿に `"replyLink": true` を付けて承認する
+4. Threads の接続に「返信の許可（threads_manage_replies）」があるか確かめる（今の `scripts/threads-auth-url.mjs` の既定の許可には入っていない。無いと返信の作成で失敗し、何も投稿されずに終わる）
+5. 外の時計（Cloudflare の sns-slot-ticker）に、5つのチェック時刻を足したものを deploy する
+6. GitHub のリポジトリの変数 `REPLY_LINK_ENABLED` を `true` にする（それまでは「付けるとしたらこうする」をログに出すだけ）。Secret の `LIVE_POST` が `true` であることも必要（ふだんの投稿と同じスイッチ）
+
+## 止まったとき
+返信の結果が分からなかったとき（通信が途中で切れたなど）は、**返信の仕組みだけ**が止まります（ふだんの投稿は続きます）。
+Threads でその投稿に返信が付いたかを見てから：
+```bash
+node scripts/reply-link-resolve.mjs --id lb-2026-10-28-night-ja --outcome published --reply-id <返信のID> --by KEITA --yes   # 付いていた
+node scripts/reply-link-resolve.mjs --id lb-2026-10-28-night-ja --outcome not-published --by KEITA --yes                   # 付いていなかった
+```
+そのあと data のファイルを commit・push する。**失敗したワークフローをそのまま再実行しないこと。**

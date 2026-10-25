@@ -89,6 +89,11 @@ node scripts/bulk-approve.mjs --week 2026-10-20 --exclude id1,id2 --by 承認者
 - 手動の本番（Threads は `live-post-manual.yml` または `daily-live-post.yml` の `mode=live`、X は `confirm` に `POST LIVE`）は時刻の範囲を当てません。どれも「先に記録（claim）」を通るので、投稿済み・未解決の記録があれば止まります（`live-post-manual.yml` も 2026-10-23 から claim を通ります。出す枠は `run` で選びます）。
 - Threads の記録の push（`scripts/push-records.mjs`）は、この実行で足した記録を覚えておき、最新のリモートのファイルに追記し直してから push します（最大5回）。同じ日の別の枠（夜の日本語と英語など）が先に記録しても、rebase の衝突で止まりません（2026-10-21 の対策）。
 
+## 質問の投稿が伸びたら、返信でお店のリンク（2026-10-25 決定）
+- 日本語の【質問】の投稿（`"replyLink": true`）の約2時間後・約6時間後（夜20:35は約2時間後だけ）に表示を見て、300以上なら自分の返信で BASE のお店のリンクを1回だけ付ける（`reply-link.yml`）。英語は対象外
+- 返信の文は `data/reply-link-texts.json`（代表者が承認するまで返信しない）。本番のスイッチはリポジトリの変数 `REPLY_LINK_ENABLED`
+- 詳しくは [docs/reply-link.md](docs/reply-link.md)
+
 ## コメントの返信アシスト（半自動。2026-10-15〜）
 
 - 毎時（6:27〜23:27）に、**直近7日の投稿**についたThreads・Instagramの新しいコメントを見回る（`comment-watch.yml`）

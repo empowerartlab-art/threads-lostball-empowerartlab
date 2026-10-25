@@ -1,0 +1,106 @@
+name: Lost Ball Threads - Reply Link
+run-name: "${{ inputs.mode == 'tick' && format('Lost Ball Reply Link tick {0} {1} #{2}', inputs.slot, inputs.date, inputs.tick_id) || github.event_name == 'schedule' && format('Lost Ball Reply Link schedule {0}', github.event.schedule) || format('Lost Ball Reply Link manual {0} {1}', inputs.mode, inputs.slot || 'auto') }}"
+
+# 返信でリンク(2026-10-25 代表者決定。lib/reply-link.mjs・docs/reply-link.md)。
+# 質問の投稿(data/draft-bank.json の日本語の枠の item に "replyLink": true)は本文にリンクを入れない。
+# 投稿の約2時間後・約6時間後(夜20:35は約2時間後の1回だけ)に表示を見て、300以上なら
+# 自分の返信を1回だけ付けて BASE のお店のリンクを貼る。英語(21:00)は対象外。
+# 記録(data/reply-link-journal.json / data/reply-links.json)も concurrency group も専用なので、
+# ここで何が起きても、ふだんの投稿(daily-live-post.yml)は止まらない・変わらない。
+#
+# 本番になるのは、リポジトリの変数 REPLY_LINK_ENABLED が "true" で、かつ Secret の LIVE_POST が "true" のときだけ。
+# それまでは、どの実行も dry-run(「付けるとしたらこうする」をログに出すだけ。書かない・返信しない)。
+on:
+  schedule:
+    # JST = UTC+9(夏時間なし)。lib/reply-link.mjs の CHECK_CRONS と同じ文字列(tests/reply-link.test.mjs で確認)。
+    - cron: "35 0 * * *"    # 09:35 JST morning_2h(朝7:35の約2時間後)
+    - cron: "35 4 * * *"    # 13:35 JST morning_6h(朝7:35の約6時間後)
+    - cron: "35 5 * * *"    # 14:35 JST noon_2h(昼12:35の約2時間後)
+    - cron: "35 9 * * *"    # 18:35 JST noon_6h(昼12:35の約6時間後)
+    - cron: "35 13 * * *"   # 22:35 JST night_2h(夜20:35の約2時間後。夜の6時間後は深夜なので無し)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run(表示を見るだけ・返信しない) / live(実際に返信を試みる。REPLY_LINK_ENABLED と LIVE_POST が必要) / tick(外の時計からの合図専用。人は選ばない)"
+        type: choice
+        required: false
+        default: dry-run
+        options: [dry-run, live, tick]
+      slot:
+        description: "どのチェックか。auto = 今の時刻から決める"
+        type: choice
+        required: false
+        default: auto
+        options: [auto, morning_2h, morning_6h, noon_2h, noon_6h, night_2h]
+      date:
+        description: "dry-run: 確かめたい日付 YYYY-MM-DD(JST。空なら今日)。tick: 合図の日付(今日でなければ何もしない)"
+        type: string
+        required: false
+      tick_id:
+        description: "tick only: id from the external clock (logged)"
+        type: string
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lostball-reply-link
+  cancel-in-progress: false
+
+env:
+  LIVE_REPLY: ${{ vars.REPLY_LINK_ENABLED == 'true' && (github.event_name == 'schedule' || inputs.mode == 'live' || inputs.mode == 'tick') && 'true' || 'false' }}
+  TARGET_DATE: ${{ (github.event_name == 'workflow_dispatch' && inputs.mode == 'dry-run') && inputs.date || '' }}
+  SLOT_INPUT: ${{ inputs.slot || '' }}
+  RUN_SCHEDULE: ${{ github.event.schedule || '' }}
+
+jobs:
+  reply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: どのチェックか決める
+        run: node scripts/reply-link.mjs --decide >> "$GITHUB_ENV"
+
+      # schedule・tick は、チェックの時刻の3分前〜60分後(lib/tick-gate.mjs SLOT_WINDOW)に始まったときだけ動く。
+      # 遅れた実行は何もせず緑で終わる。手動実行は今までどおり(範囲は当てない)。
+      - name: Run gate
+        env:
+          RUN_MODE: ${{ inputs.mode || '' }}
+          TICK_SLOT: ${{ inputs.slot || '' }}
+          TICK_DATE: ${{ inputs.date || '' }}
+          TICK_ID: ${{ inputs.tick_id || '' }}
+        run: node scripts/run-gate.mjs --media reply-link
+
+      - name: Git identity
+        if: env.LIVE_REPLY == 'true' && env.RUN_GO == 'true'
+        run: |
+          git config user.name "lostball-reply-link-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: 表示を見て、300以上なら返信
+        if: env.RUN_GO == 'true'
+        env:
+          LIVE_POST: ${{ secrets.LIVE_POST }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        run: node scripts/reply-link.mjs --live
+
+      - name: 止まったときの案内
+        if: failure() && env.LIVE_REPLY == 'true' && env.RUN_GO == 'true'
+        run: |
+          echo "This run may have left an open claim in data/reply-link-journal.json."
+          echo "Reply links (only) stay halted until a human checks the post on Threads and runs:"
+          echo "  node scripts/reply-link-resolve.mjs --id <postId> --outcome published|not-published [--reply-id ID] --by <name> --yes"
+          echo "The main posts are not affected. Do NOT simply re-run this workflow."

@@ -18,7 +18,7 @@
 //             mode=dry-run/live input, or X's confirm=POST LIVE, decides as before).
 //             Never window-gated; a live manual run still goes through the claim.
 //
-// Usage: node scripts/run-gate.mjs --media threads|x|ig
+// Usage: node scripts/run-gate.mjs --media threads|x|ig|reply-link
 // Env:   GITHUB_EVENT_NAME, GITHUB_RUN_ATTEMPT, RUN_MODE (inputs.mode),
 //        SCHEDULE_LATE_SKIP (vars.SCHEDULE_LATE_SKIP; schedule runs only),
 //        TICK_SLOT / TICK_DATE / TICK_ID (inputs.slot / date / tick_id),
@@ -32,6 +32,7 @@ import { selectXForRun, X_QUEUE_PATH, X_POSTED_PATH, X_JOURNAL_PATH } from '../l
 import { selectIgToday, IG_QUEUE_PATH, IG_POSTED_PATH, IG_JOURNAL_PATH } from '../lib/ig-flow.mjs';
 import { selectThreadsForRun, THREADS_JOURNAL_PATH } from '../lib/threads-claim.mjs';
 import * as J from '../lib/ig-journal.mjs';
+import { CHECK_TIMES, CHECKS, REPLY_JOURNAL_PATH, REPLY_RECORDS_PATH, BANK_PATH as REPLY_BANK_PATH, POSTED_PATH as REPLY_POSTED_PATH, postDateFor, selectTarget } from '../lib/reply-link.mjs';
 import { fileIo } from '../lib/json-io.mjs';
 
 export const IG_SLOT = 'daily'; // the one Instagram slot a tick may name
@@ -67,6 +68,24 @@ export const MEDIA = {
     scheduleTime: () => IG_TIME,
     select: async (io, date) => selectIgToday(await io.readJson(IG_QUEUE_PATH, []), await io.readJson(IG_POSTED_PATH, []), date),
   },
+  // 返信でリンク(lib/reply-link.mjs、2026-10-25〜): 日本語の朝・昼の約2時間後・約6時間後と、夜の約2時間後の1日5回。
+  // tick の slot はチェックの名前(morning_2h など)。schedule の実行にもいつも時刻の範囲を当てる
+  // (遅れたチェックは飛ばす)。記録は専用(data/reply-link-journal.json)なので、ふだんの投稿を止めない・止められない。
+  'reply-link': {
+    journal: REPLY_JOURNAL_PATH,
+    start: null,
+    alwaysWindow: true,
+    slotTimes: { ...CHECK_TIMES },
+    scheduleTime: (check) => CHECK_TIMES[check],
+    select: async (io, date, check) => {
+      if (!CHECKS[check]) return { post: null, reason: 'unknown-check' };
+      return selectTarget({
+        bank: await io.readJson(REPLY_BANK_PATH, { items: [] }), posted: await io.readJson(REPLY_POSTED_PATH, { posts: [] }),
+        records: await io.readJson(REPLY_RECORDS_PATH, []), journal: await io.readJson(REPLY_JOURNAL_PATH, []),
+        postDate: postDateFor(check, date), slot: CHECKS[check].slot,
+      });
+    },
+  },
 };
 
 // The queue part of a tick: an approved, unposted item and no open claim.
@@ -87,7 +106,7 @@ async function queueCheck({ m, io, slot, date, env }) {
 
 export async function planGate({ media, env = {}, now = new Date(), io = fileIo }) {
   const m = MEDIA[media];
-  if (!m) throw new Error(`unknown --media "${media}" (threads|x|ig)`);
+  if (!m) throw new Error(`unknown --media "${media}" (threads|x|ig|reply-link)`);
   const kind = runKind({ eventName: env.GITHUB_EVENT_NAME, mode: env.RUN_MODE });
 
   if (kind === RUN_KINDS.SCHEDULE) {
@@ -95,7 +114,7 @@ export async function planGate({ media, env = {}, now = new Date(), io = fileIo 
     const slot = media === 'ig' ? IG_SLOT : env.RUN_SLOT;
     const date = media === 'ig' ? jstDateOf(now) : env.RUN_DATE;
     if (!slot || !date) throw new Error('RUN_SLOT / RUN_DATE are not set (the resolve step must run first)');
-    return { ...(await decideRun({ kind, slot, date, time: m.scheduleTime(slot), now, scheduleLateSkip: scheduleLateSkipOn(env.SCHEDULE_LATE_SKIP) })), slot, date };
+    return { ...(await decideRun({ kind, slot, date, time: m.scheduleTime(slot), now, scheduleLateSkip: Boolean(m.alwaysWindow) || scheduleLateSkipOn(env.SCHEDULE_LATE_SKIP) })), slot, date };
   }
 
   const slot = String(env.TICK_SLOT ?? '').trim();
