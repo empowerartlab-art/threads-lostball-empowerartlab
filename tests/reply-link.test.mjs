@@ -106,17 +106,18 @@ test("返信の文: お店のリンクがちょうど1つ・ほかのリンク�
   assert.equal(bad.length, 7, bad.join("\n"));
 });
 
-test("data/reply-link-texts.json: 正しい形で5本・すべて未承認(承認は代表者が行う)・お店のURLは brand-profile と同じ", () => {
+test("data/reply-link-texts.json: 正しい形で5本・代表者が承認済み(2026-10-25)・お店のURLは brand-profile と同じ", () => {
   const texts = JSON.parse(readFileSync(REPLY_TEXTS_PATH, "utf8"));
   assert.deepEqual(validateTexts(texts), []);
   assert.equal(texts.length, 5);
   for (const t of texts) {
-    assert.equal(t.approved, false, `${t.id} は未承認のまま入れる`);
-    assert.ok(!t.approvedBy && !t.approvedAt);
+    assert.equal(t.approved, true, `${t.id} は代表者が承認済み`);
+    assert.equal(t.approvedBy, "KEITA");
+    assert.ok(t.approvedAt);
     assert.ok(t.text.includes(SHOP_URL));
     assert.ok(t.text.length <= 80, `${t.id} は短く`);
   }
-  assert.equal(pickText(texts, D), null, "未承認のうちは1本も返信しない");
+  assert.equal(pickText(texts.map((t) => ({ ...t, approved: false })), D), null, "未承認のうちは1本も返信しない");
   const brand = JSON.parse(readFileSync("data/brand-profile.json", "utf8"));
   assert.equal(SHOP_URL, brand.account.shopUrl);
   // 承認したら、5日続けて違う文になる。
@@ -183,9 +184,9 @@ test("selectTarget の理由", () => {
 
 // ---- 流れ ------------------------------------------------------------------------------
 
-function harness({ views = 450, api = {}, texts = replyTexts(), journal = [], records = [], pushes = [] } = {}) {
+function harness({ views = 450, api = {}, texts = replyTexts(), journal = [], records = [], pushes = [], bank = bankOf(), posted = postedOf() } = {}) {
   const local = {
-    [BANK_PATH]: bankOf(), [POSTED_PATH]: postedOf(), [REPLY_TEXTS_PATH]: clone(texts),
+    [BANK_PATH]: clone(bank), [POSTED_PATH]: clone(posted), [REPLY_TEXTS_PATH]: clone(texts),
     [REPLY_JOURNAL_PATH]: clone(journal), [REPLY_RECORDS_PATH]: clone(records), [THREADS_JOURNAL_PATH]: [],
   };
   const remote = { [REPLY_JOURNAL_PATH]: clone(journal), [REPLY_RECORDS_PATH]: clone(records), [THREADS_JOURNAL_PATH]: [] };
@@ -231,7 +232,8 @@ function harness({ views = 450, api = {}, texts = replyTexts(), journal = [], re
     const b = api[step] ?? "ok";
     if (b === "error") return { ok: false, status: 500, text: async () => `no, access_token=${TOKEN} user=${USER}` };
     if (b === "throw") throw new Error(`network reset (${step})`);
-    if (step === "views") return { ok: true, status: 200, text: async () => JSON.stringify({ data: [{ name: "views", values: [{ value: views }] }] }) };
+    const value = typeof views === "function" ? views(u.pathname.split("/").at(-2)) : views;
+    if (step === "views") return { ok: true, status: 200, text: async () => JSON.stringify({ data: [{ name: "views", values: [{ value }] }] }) };
     return { ok: true, status: 200, text: async () => JSON.stringify({ id: step === "publish" ? "reply-999" : "container-1" }) };
   };
   let n = 0;
@@ -419,4 +421,85 @@ test("gate: schedule の実行はいつも時刻の範囲を当てる(SCHEDULE_L
   // ふだんの Threads の schedule は今までどおり(SCHEDULE_LATE_SKIP が無ければ範囲を当てない)。
   const main = await planGate({ media: "threads", env: { GITHUB_EVENT_NAME: "schedule", RUN_SLOT: "night", RUN_DATE: D }, now: at(D, "20:35", 90) });
   assert.equal(main.go, true);
+});
+
+// ---- 2026-10-25: 候補は1日2本まで(質問の投稿＋ふつうの投稿)・返信は合計1日1回 ---------------
+
+const plainBank = () => ({ items: [item("morning", "ja", { replyLink: true, replyLinkKind: "plain" }), item("noon"), item("night", "ja", { replyLink: true }), item("night", "en")] });
+const postedBoth = () => ({ posts: [
+  { sourceItemId: `lb-${D}-morning-ja`, threadsPostId: "parent-m", mode: "live", lang: "ja", slot: "morning", targetDate: D },
+  ...postedOf().posts,
+] });
+const bothTexts = () => replyTexts().map((t) => ({ ...t, for: ["question", "plain"] }));
+
+test("印: 質問＋ふつうの2本はOK。3本以上・同じ種類2本・お店をすすめる投稿は検査で止める", () => {
+  assert.deepEqual(replyLinkErrors(plainBank().items), []);
+  assert.deepEqual(validateBankSlots(plainBank().items).errors.filter((e) => /replyLink/.test(e)), []);
+  const three = plainBank().items.map((p) => (p.slot === "noon" ? { ...p, replyLink: true, replyLinkKind: "plain", bodyJa: "朝の練習場は、まだ少し寒い。" } : p));
+  const e3 = replyLinkErrors(three).join("\n");
+  assert.match(e3, /3件あります.*1日2本までです/);
+  assert.match(validateBankSlots(three).errors.join("\n"), /1日2本までです/);
+  const twoPlain = plainBank().items.map((p) => (p.slot === "night" && p.lang === "ja" ? { ...p, replyLinkKind: "plain" } : p));
+  assert.match(replyLinkErrors(twoPlain).join(), /ふつうの投稿が2件/);
+  for (const extra of [{ hasCta: true }, { hasShopLink: true }, { bodyJa: "BASEのお店で販売中です。" }, { bodyJa: "プロフィールのリンクからどうぞ。" }]) {
+    const shop = plainBank().items.map((p) => (p.slot === "morning" ? { ...p, ...extra } : p));
+    assert.match(replyLinkErrors(shop).join(), /候補にしません/, JSON.stringify(extra));
+  }
+  assert.match(replyLinkErrors([item("noon", "ja", { replyLinkKind: "plain" })]).join(), /replyLink: true の投稿だけ/);
+  assert.match(replyLinkErrors([item("noon", "ja", { replyLink: true, replyLinkKind: "scene" })]).join(), /replyLinkKind は/);
+});
+
+test("承認(promoteCandidate)で replyLinkKind も引き継ぎ、一覧にふつうの投稿の印が出る", () => {
+  const approval = { approved: true, approvedBy: "KEITA", approvedAt: "t" };
+  assert.equal(promoteCandidate(item("morning", "ja", { replyLink: true, replyLinkKind: "plain" }), approval).replyLinkKind, "plain");
+  assert.ok(!("replyLinkKind" in promoteCandidate(item("morning", "ja", { replyLinkKind: "plain" }), approval)));
+  const out = formatBulkList({ dates: [D], rows: [], bankItems: plainBank().items });
+  assert.match(out, /↩️ ふつうの投稿/);
+  assert.match(out, /↩️ 質問の投稿/);
+  assert.equal(out.split("↩️").length - 1, 2);
+});
+
+test("文の for: 今の5本は両方の投稿に使える(代表者OK)。for が無い文は質問の投稿だけ", () => {
+  const texts = JSON.parse(readFileSync(REPLY_TEXTS_PATH, "utf8"));
+  assert.deepEqual(validateTexts(texts), []);
+  for (const t of texts) assert.deepEqual(t.for, ["question", "plain"], t.id);
+  assert.equal(pickText(replyTexts(), D, "plain"), null);
+  assert.equal(pickText(bothTexts(), D, "plain").id, pickText(bothTexts(), D, "question").id);
+  assert.match(validateTexts([{ ...bothTexts()[0], for: ["ad"] }]).join(), /for must be/);
+});
+
+test("ふつうの投稿が先に300以上: その日のただ1回の返信はそちらに。質問の投稿には付けない", async () => {
+  const h = harness({ bank: plainBank(), posted: postedBoth(), texts: bothTexts(), views: 500 });
+  const r = await h.run({ check: "morning_2h" });
+  assert.equal(r.stage, J.PUBLISHED);
+  assert.equal(h.calls.find((c) => c.step === "container").params.reply_to_id, "parent-m");
+  assert.equal(h.remote[REPLY_RECORDS_PATH][0].kind, "plain");
+  h.local[REPLY_JOURNAL_PATH] = clone(h.remote[REPLY_JOURNAL_PATH]);
+  h.local[REPLY_RECORDS_PATH] = clone(h.remote[REPLY_RECORDS_PATH]);
+  const n = h.calls.length;
+  assert.equal((await h.run({ check: "night_2h" })).reason, "already-replied-today");
+  assert.equal(h.calls.length, n, "もう1本には API も呼ばない");
+});
+
+test("2本とも300以上: 先にチェックしたほうだけ(手元が古くても GitHub 上の記録で止まる)", async () => {
+  const h = harness({ bank: plainBank(), posted: postedBoth(), texts: bothTexts(), views: 900 });
+  assert.equal((await h.run({ check: "morning_2h" })).stage, J.PUBLISHED);
+  assert.equal((await h.run({ check: "night_2h" })).reason, "already-replied-today");
+  assert.equal(h.calls.filter((c) => c.step === "publish").length, 1);
+});
+
+test("ふつうの投稿が300未満のまま: 夜の質問の投稿にはあとで付けられる", async () => {
+  const h = harness({ bank: plainBank(), posted: postedBoth(), texts: bothTexts(), views: (id) => (id === "parent-m" ? 120 : 400) });
+  assert.equal((await h.run({ check: "morning_2h" })).reason, "below-threshold");
+  assert.equal((await h.run({ check: "morning_6h" })).reason, "below-threshold");
+  const r = await h.run({ check: "night_2h" });
+  assert.equal(r.stage, J.PUBLISHED);
+  assert.equal(h.calls.find((c) => c.step === "container").params.reply_to_id, "parent-1");
+});
+
+test("gate: ふつうの投稿のチェックも動く(朝・昼・夜どの枠でも)", async () => {
+  const files = { ...gateFiles(), [BANK_PATH]: plainBank(), [POSTED_PATH]: postedBoth() };
+  const go = await planGate({ media: "reply-link", env: tickEnv("morning_2h"), now: at(D, "09:35"), io: memIo(files) });
+  assert.equal(go.go, true, go.detail);
+  assert.equal((await planGate({ media: "reply-link", env: tickEnv("noon_2h"), now: at(D, "14:35"), io: memIo(files) })).reason, "not-reply-link");
 });

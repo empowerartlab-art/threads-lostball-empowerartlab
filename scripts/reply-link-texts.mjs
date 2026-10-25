@@ -3,7 +3,7 @@
 //   node scripts/reply-link-texts.mjs --approve --by KEITA --yes             -> 全部承認
 //   node scripts/reply-link-texts.mjs --approve --only a,b --by KEITA --yes  -> 選んだ id だけ承認
 // 承認は人だけが行う(AI による自動承認は禁止)。一覧にエラーがあれば何も書き換えない。
-import { validateTexts, pickText, REPLY_TEXTS_PATH, MIN_VIEWS, CHECK_TIMES, jstDate } from '../lib/reply-link.mjs';
+import { validateTexts, pickText, textKinds, REPLY_TEXTS_PATH, MIN_VIEWS, CHECK_TIMES, jstDate } from '../lib/reply-link.mjs';
 import { addDays } from '../lib/slots.mjs';
 import { fileIo } from '../lib/json-io.mjs';
 
@@ -15,11 +15,13 @@ const texts = await fileIo.readJson(REPLY_TEXTS_PATH, []);
 const errors = validateTexts(texts);
 
 if (!process.argv.includes('--approve')) {
-  console.log(`返信の文（質問の投稿の表示が${MIN_VIEWS}以上になったら、自分の返信として1回だけ付ける）`);
+  console.log(`返信の文（候補の投稿＝質問の投稿・ふつうの投稿の表示が${MIN_VIEWS}以上になったら、自分の返信として付ける。1日1回まで）`);
   console.log(`チェックの時刻：${Object.values(CHECK_TIMES).join('・')}（夜は2時間後の1回だけ）\n`);
+  const KIND_JA = { question: '質問の投稿', plain: 'ふつうの投稿' };
   for (const t of texts) {
     const when = t.from || t.until ? `  使う期間：${t.from ?? '最初'}〜${t.until ?? 'ずっと'}` : '  使う期間：いつでも';
-    console.log(`[${t.id}] ${t.approved ? '✅ 承認済み' : '⏳ 未承認'}${when}`);
+    const kinds = `  使う投稿：${textKinds(t).map((k) => KIND_JA[k] ?? k).join('・')}`;
+    console.log(`[${t.id}] ${t.approved ? '✅ 承認済み' : '⏳ 未承認'}${when}${kinds}`);
     for (const l of String(t.text).split('\n')) console.log(`    ${l}`);
     console.log('');
   }
@@ -27,7 +29,8 @@ if (!process.argv.includes('--approve')) {
   console.log('これからの7日に使う文（承認済みの中から日替わり）：');
   for (let i = 0; i < 7; i++) {
     const d = addDays(today, i);
-    console.log(`  ${d}: ${pickText(texts, d)?.id ?? '（承認済みの文なし → 返信しない）'}`);
+    const none = '（承認済みの文なし → 返信しない）';
+    console.log(`  ${d}: 質問の投稿=${pickText(texts, d, 'question')?.id ?? none}  ふつうの投稿=${pickText(texts, d, 'plain')?.id ?? none}`);
   }
   if (errors.length) {
     console.error(`\nエラー：\n${errors.join('\n')}`);
