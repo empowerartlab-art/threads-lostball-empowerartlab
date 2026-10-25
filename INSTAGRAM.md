@@ -8,7 +8,7 @@ Threads と同じリポジトリで、承認済みの Instagram 投稿を毎朝 
 |---|---|---|---|
 | 役割 | 話す（会話・小話） | 見せる（ブランドの顔） | 広げる（ゴルファーとの接点） |
 | 頻度 | 1日4本（2026-10-20〜：日本語 7:35・12:35・20:35／英語 21:00。10/19までは JA 05:00／EN 21:00） | **毎日** 07:00（2026-10-20〜。それまでは週3〜4回） | 1日3本（2026-10-20〜：7:10・12:10・20:10。10/19までは 05:53 に1本） |
-| 形 | 日本語の1日1本だけ、その日の IG 画像付き（2026-10-17〜）。ほかは文字のみ | 画像1枚 or 2〜10枚＋説明文 | 短文。1日1本だけ、その日の IG 画像付き（2026-10-17〜） |
+| 形 | 日本語の1日1本だけ、その日の IG 画像付き（2026-10-17〜）。ほかは文字のみ | 画像1枚 or 2〜10枚＋説明文。またはリール（縦の動画。2026-10-25〜、docs/ig-reels.md） | 短文。1日1本だけ、その日の IG 画像付き（2026-10-17〜） |
 | タグ | 0〜2 | 5〜8 | 0〜2 |
 | ショップ誘導 | 週1回まで | 週1回まで（プロフィールのリンクから） | 週1回まで |
 
@@ -38,6 +38,7 @@ Instagram は、同じ日の Threads のネタを画像で深掘りする（例�
 
 ## 投稿データ（data/ig-queue.json）
 `id, date, pillar, mediaType, images[], caption, verifiedFactIds[], threadsDate, note, approved, approvedBy, approvedAt`
+- リール（2026-10-25 代表者決定）：`images` の代わりに `video`（`.mp4` のファイル名）、任意で `cover`（表紙 `.jpg`）・`shareToFeed`。映像は AI 可（`mediaType: "AI_VIDEO"`、説明文に AI 注記は入れない）。動画は `assets/instagram/` に置き、GitHub Pages の URL で渡す。詳しくは [docs/ig-reels.md](docs/ig-reels.md)
 - caption は 2200 字以内・タグ8個まで・URL 直書き禁止。`verifiedFactIds` は `data/verified-facts.json` にあるものだけ。
 - 断定表現などは `npm run ig:validate` で警告が出る（人が承認時に判断）。
 
