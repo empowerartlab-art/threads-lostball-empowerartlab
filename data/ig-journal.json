@@ -198,5 +198,15 @@
     "at": "2026-10-24T22:00:52.175Z",
     "threadsId": "18120886471953442",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-10-26-hetaro",
+    "date": "2026-10-26",
+    "stage": "claimed",
+    "runId": "40238126990",
+    "runAttempt": "1",
+    "at": "2026-10-25T22:00:41.101Z",
+    "threadsId": null,
+    "note": null
   }
 ]
