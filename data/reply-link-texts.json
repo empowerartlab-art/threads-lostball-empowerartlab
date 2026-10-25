@@ -29,11 +29,11 @@
   {
     "id": "sticker",
     "for": ["question", "plain"],
-    "text": "ボールには「一人じゃないよプロジェクト」のステッカーが付きます。\nお店は、ここから。\nhttps://empower.base.shop/",
-    "source": "承認済み lb-2026-10-26-morning-ja「ボールには「一人じゃないよプロジェクト」のステッカーが付きます。」（事実 product-includes-pink-tree-sticker）",
+    "text": "ボールには「ひとりじゃないよプロジェクト」のステッカーが付きます。\nお店は、ここから。\nhttps://empower.base.shop/",
+    "source": "承認済み lb-2026-10-26-morning-ja「ボールには「ひとりじゃないよプロジェクト」のステッカーが付きます。」（事実 product-includes-pink-tree-sticker）",
     "approved": true,
     "approvedBy": "KEITA",
-    "approvedAt": "2026-10-25T06:00:10.070Z"
+    "approvedAt": "2026-10-25T06:36:28.695Z"
   },
   {
     "id": "second-chance",

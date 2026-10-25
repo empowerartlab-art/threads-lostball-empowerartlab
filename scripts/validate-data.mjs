@@ -6,6 +6,7 @@ import { checkBilingualBody } from "../lib/bilingual-guard.mjs";
 import { canUseCandidate } from "../lib/verified-fact-guard.mjs";
 import { checkClaims } from "../lib/claim-guard.mjs";
 import { checkMedia } from "../lib/media-guard.mjs";
+import { checkProjectName, projectNameProblem, isProjectNameRuleDate } from "../lib/project-name-guard.mjs";
 import { validateBankSlots, SLOTS_START, DAILY_SLOT_KEYS, itemSlotKey, isSlotItem, hasSlotImage } from "../lib/slots.mjs";
 
 const ALLOWED_PILLARS = new Set(["JAPAN", "ENVIRONMENT", "WELFARE", "SOCIAL_CONTRIBUTION", "GOLF"]);
@@ -85,6 +86,29 @@ function validateItems(items, label) {
 
 validateItems(bankFile.items, "draft-bank.json");
 validateItems(candidatesFile.items, "draft-bank-candidates.json");
+
+// プロジェクト名の書き方（2026-10-25 決定: 「ひとりじゃないよプロジェクト」。lib/project-name-guard.mjs）。
+// 投稿済みの記録と 2026-10-25 以前の項目は対象外。日付の無いストックは警告だけ。
+for (const item of bankFile.items || []) {
+  const errs = checkProjectName(item);
+  if (!errs.length) continue;
+  if (isProjectNameRuleDate(item.targetDate)) for (const e of errs) fail(`draft-bank.json[${item.id}]: ${e}`);
+  else if (item.targetDate == null) for (const e of errs) warn(`draft-bank.json[${item.id}]（日付なし）: ${e}`);
+}
+for (const item of candidatesFile.items || []) for (const e of checkProjectName(item)) fail(`draft-bank-candidates.json[${item.id}]: ${e}`);
+for (const fact of factsFile.facts || []) {
+  for (const k of ["statementJa", "statementEn"]) {
+    const p = projectNameProblem(fact[k]);
+    if (p) fail(`verified-facts.json[${fact.id}].${k}: ${p}`);
+  }
+}
+for (const [file, data] of [
+  ["brand-profile.json", brand],
+  ["media-policy.json", await readJson("../data/media-policy.json")],
+  ["reply-link-texts.json", await readJson("../data/reply-link-texts.json")]
+]) {
+  if (projectNameProblem(JSON.stringify(data))) fail(`${file}: ${projectNameProblem(JSON.stringify(data))}`);
+}
 
 // 1日4本（2026-10-20〜）: 承認済みの枠のルール（lib/slots.mjs の validateBankSlots）。
 const slotCheck = validateBankSlots(bankFile.items);

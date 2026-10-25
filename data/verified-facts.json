@@ -35,8 +35,8 @@
     },
     {
       "id": "donate-portion-to-hitori-janai-yo-project",
-      "statementJa": "売上の一部を「一人じゃないよプロジェクト」へ寄付する",
-      "statementEn": "A portion of sales is donated to the \"一人じゃないよプロジェクト\" (\"Hitori Janai yo\") project.",
+      "statementJa": "売上の一部を「ひとりじゃないよプロジェクト」へ寄付する",
+      "statementEn": "A portion of sales is donated to the \"ひとりじゃないよプロジェクト\" (\"Hitori Janai yo\") project.",
       "pillar": "SOCIAL_CONTRIBUTION",
       "verified": true,
       "confirmedAt": "2026-09-27",
@@ -44,8 +44,8 @@
     },
     {
       "id": "product-includes-pink-tree-sticker",
-      "statementJa": "販売するロストボールには「一人じゃないよプロジェクト」のピンクの木のステッカーが付く",
-      "statementEn": "Every lost ball we sell comes with a \"一人じゃないよプロジェクト\" sticker: a pink tree made of hearts, with people and animals drawn beneath it.",
+      "statementJa": "販売するロストボールには「ひとりじゃないよプロジェクト」のピンクの木のステッカーが付く",
+      "statementEn": "Every lost ball we sell comes with a \"ひとりじゃないよプロジェクト\" sticker: a pink tree made of hearts, with people and animals drawn beneath it.",
       "pillar": "SOCIAL_CONTRIBUTION",
       "verified": true,
       "confirmedAt": "2026-09-27"
@@ -185,8 +185,8 @@
     },
     {
       "id": "project-connects-people-across-relationships",
-      "statementJa": "『一人じゃないよプロジェクト』は、子どもと大人、子ども同士、企業同士、人と自然など、さまざまな『手と手』をつないでいく活動を大切にしている",
-      "statementEn": "The 一人じゃないよプロジェクト values connecting many kinds of relationships: children and adults, children with each other, companies with each other, and people with nature.",
+      "statementJa": "『ひとりじゃないよプロジェクト』は、子どもと大人、子ども同士、企業同士、人と自然など、さまざまな『手と手』をつないでいく活動を大切にしている",
+      "statementEn": "The ひとりじゃないよプロジェクト values connecting many kinds of relationships: children and adults, children with each other, companies with each other, and people with nature.",
       "pillar": "SOCIAL_CONTRIBUTION",
       "verified": true,
       "confirmedAt": "2026-10-03",
