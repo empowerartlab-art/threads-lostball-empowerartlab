@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-24T22:35:55.170Z",
-  "count": 52,
+  "updatedAt": "2026-10-25T03:35:55.022Z",
+  "count": 53,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -655,6 +655,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40139212657",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-10-25"
+    },
+    {
+      "sourceItemId": "lb-2026-10-25-noon-ja",
+      "threadsPostId": "18142599349617017",
+      "bodyEn": "Overseas, one study reported about 50,000 golf balls recovered from the sea near coastal golf courses.",
+      "bodyJa": "海の近くのゴルフ場では、ボールが海に入ってしまうこともあります。\n\n海外では、沿岸のゴルフ場周辺の海から、約5万球のゴルフボールが回収されたという研究報告があります。\n\n回収されずに残ったボールは、環境を傷つけてしまう。\n池や林だけの話ではないのかもしれません。",
+      "pillar": "ENVIRONMENT",
+      "category": "OVERSEAS_OCEAN_STUDY",
+      "postedAt": "2026-10-25T03:35:55.021Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40158774898",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-10-25"
     }
   ]
