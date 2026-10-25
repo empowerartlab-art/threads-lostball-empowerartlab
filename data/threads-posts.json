@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-25T03:35:55.022Z",
-  "count": 53,
+  "updatedAt": "2026-10-25T11:35:58.368Z",
+  "count": 54,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -669,6 +669,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40158774898",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-25"
+    },
+    {
+      "sourceItemId": "lb-2026-10-25-night-ja",
+      "threadsPostId": "17950315326347015",
+      "bodyEn": "The \"ひとりじゃないよプロジェクト\" (Hitori Janai yo) project cares about joining all kinds of hands.",
+      "bodyJa": "子どもと大人。\n子ども同士。\n企業同士。\n人と自然。\n\n「ひとりじゃないよプロジェクト」は、こうしたいろいろな「手と手」をつないでいくことを大切にしています。\n1球のロストボールも、その小さな手のひとつになれたらうれしいです。",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "PROJECT_HAND_IN_HAND",
+      "postedAt": "2026-10-25T11:35:58.367Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40189502156",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-25"
     }
   ]
