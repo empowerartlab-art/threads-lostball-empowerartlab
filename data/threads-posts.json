@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-26T03:35:57.488Z",
-  "count": 57,
+  "updatedAt": "2026-10-26T11:36:00.951Z",
+  "count": 58,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -725,6 +725,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40264819364",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-26"
+    },
+    {
+      "sourceItemId": "lb-2026-10-26-night-ja",
+      "threadsPostId": "18358405117174401",
+      "bodyEn": "Got a target score for your next round? Tell us, we won't tell.",
+      "bodyJa": "週末のラウンド、おつかれさまでした。\n\nうまくいったホールも、悔しかったホールも、月曜の夜にはいい思い出です。\n\n次のラウンドの目標スコア、もう決めていますか。\n「100切り」「90台」「まずはOBを2発以内」でも。\nよければ、こっそり教えてください。",
+      "pillar": "GOLF",
+      "category": "GOLF_NEXT_GOAL_QUESTION",
+      "postedAt": "2026-10-26T11:36:00.950Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40316191566",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-26"
     }
   ]
