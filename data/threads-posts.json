@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-26T11:36:00.951Z",
-  "count": 58,
+  "updatedAt": "2026-10-26T12:01:00.065Z",
+  "count": 59,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -738,6 +738,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40316191566",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-26"
+    },
+    {
+      "sourceItemId": "lb-2026-10-26-night-en",
+      "threadsPostId": "18118944928966491",
+      "bodyEn": "Here's how it goes round.\n\nA lost ball from a Japanese course gets played again. The polishing is done as real work by people at a welfare employment support facility. And part of every sale goes to the \"ひとりじゃないよプロジェクト\" (Hitori Janai yo) project.\n\nOne ball, a few good things.",
+      "bodyJa": "ボールがもう一度使われ、磨く仕事が生まれ、売上の一部が「ひとりじゃないよプロジェクト」へ。",
+      "pillar": "WELFARE",
+      "category": "CYCLE_EN",
+      "postedAt": "2026-10-26T12:01:00.064Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40319247101",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-26"
     }
