@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-26T12:01:00.065Z",
-  "count": 59,
+  "updatedAt": "2026-10-26T22:35:55.335Z",
+  "count": 60,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -754,6 +754,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-26"
+    },
+    {
+      "sourceItemId": "lb-2026-10-27-morning-ja",
+      "threadsPostId": "18116801453028921",
+      "bodyEn": "Autumn skies are higher. Watching a good drive shrink into the blue is a pleasure in itself.",
+      "bodyJa": "秋のティーグラウンドで、空を見上げる。\n\n夏よりも空が高く、雲が薄い。\nしっかり当たったボールが、青い空の中を小さくなっていく。\n落ちてくるまでの数秒、つい目で追いかけてしまう。\n\n結果がどうであれ、この季節の1打目は、見送る時間まで気持ちがいい。\n今週ラウンドの方、いい天気に恵まれますように。",
+      "pillar": "GOLF",
+      "category": "SEASON_AUTUMN_SKY",
+      "postedAt": "2026-10-26T22:35:55.334Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40413595444",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-27"
     }
   ]
 }
