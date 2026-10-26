@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-25T22:35:59.565Z",
-  "count": 56,
+  "updatedAt": "2026-10-26T03:35:57.488Z",
+  "count": 57,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -711,6 +711,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40240907321",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-10-26"
+    },
+    {
+      "sourceItemId": "lb-2026-10-26-noon-ja",
+      "threadsPostId": "18114944612178026",
+      "bodyEn": "Buying a ball supports the polishing work and the people who do it.",
+      "bodyJa": "ボールを1つ買うこと。\n\nそれが、福祉施設で働く人の磨く仕事と、社会参加につながっていきます。\nそして売上の一部は、「ひとりじゃないよプロジェクト」へ。\n\nゴルフを楽しむことと、誰かを応援することが、同じ買い物の中にある。\nそういう買い物も、あっていいと思います。",
+      "pillar": "WELFARE",
+      "category": "PURCHASE_SUPPORTS_WORK",
+      "postedAt": "2026-10-26T03:35:57.486Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40264819364",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-10-26"
     }
   ]
