@@ -10,6 +10,11 @@
         "check": "morning_2h",
         "at": "2026-10-27T00:35:38.477Z",
         "views": 5
+      },
+      {
+        "check": "morning_6h",
+        "at": "2026-10-27T04:35:37.610Z",
+        "views": 6
       }
     ],
     "reply": null
