@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-27T03:35:53.312Z",
-  "count": 61,
+  "updatedAt": "2026-10-27T11:36:00.423Z",
+  "count": 62,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -781,6 +781,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40445011154",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-27"
+    },
+    {
+      "sourceItemId": "lb-2026-10-27-night-ja",
+      "threadsPostId": "17883442995628945",
+      "bodyEn": "Golfers: how many rounds does a new dozen balls last you? Just give us a number.",
+      "bodyJa": "ゴルファーに聞きたい。\n\n新品のボール1ダース、何ラウンドで使い切りますか？\n\nざっくりで大丈夫です。\n「1ラウンドで消えた」も、「去年の箱がまだ残っている」も、そのまま数字でどうぞ。\n池の多いコースに行った月は、計算が合わなくなりますよね。",
+      "pillar": "GOLF",
+      "category": "QUESTION_DOZEN_ROUNDS",
+      "postedAt": "2026-10-27T11:36:00.421Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40497285873",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-27"
     }
   ]
