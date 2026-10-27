@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-27T11:36:00.423Z",
-  "count": 62,
+  "updatedAt": "2026-10-27T12:00:57.509Z",
+  "count": 63,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -794,6 +794,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40497285873",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-27"
+    },
+    {
+      "sourceItemId": "lb-2026-10-27-night-en",
+      "threadsPostId": "18637191874063737",
+      "bodyEn": "A question for golfers, now that the days are getting shorter.\n\nWhite ball or colored ball?\n\n1) White, no question\n2) I switch with the seasons\n3) Colored, and I'm not going back\n\nEasier to spot, or just nicer to look at? Everyone seems to have a reason. Tell us yours.",
+      "bodyJa": "日が短くなってきたので聞きたい。白いボール？カラー？ 見つけやすさ？見た目？ みんな理由がありそう。あなたの理由を教えて。",
+      "pillar": "GOLF",
+      "category": "QUESTION_WHITE_OR_COLOR_EN",
+      "postedAt": "2026-10-27T12:00:57.508Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40500394454",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-27"
     }
