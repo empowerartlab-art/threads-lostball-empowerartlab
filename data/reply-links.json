@@ -48,5 +48,20 @@
       }
     ],
     "reply": null
+  },
+  {
+    "postId": "lb-2026-10-28-noon-ja",
+    "date": "2026-10-28",
+    "slot": "noon",
+    "kind": "question",
+    "threadsId": "18468418549138209",
+    "checks": [
+      {
+        "check": "noon_2h",
+        "at": "2026-10-28T05:35:39.106Z",
+        "views": 9
+      }
+    ],
+    "reply": null
   }
 ]
