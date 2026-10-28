@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-28T11:35:56.447Z",
-  "count": 66,
+  "updatedAt": "2026-10-28T12:00:58.387Z",
+  "count": 67,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -850,6 +850,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40681137808",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-28"
+    },
+    {
+      "sourceItemId": "lb-2026-10-28-night-en",
+      "threadsPostId": "17913094998518530",
+      "bodyEn": "There's a sound you only really hear on a quiet autumn morning at the course.\n\nA clean strike, and then nothing for a second or two while the ball climbs. No traffic, no music, just the ball going up into the cool air.\n\nWhatever the score ends up being, that sound is a good way to start the day.",
+      "bodyJa": "静かな秋の朝のコースでしか聞けない音がある。芯で当たった音のあと、ボールが上がっていく1〜2秒の静けさ。スコアがどうでも、1日の始まりにいい音。",
+      "pillar": "GOLF",
+      "category": "AUTUMN_MORNING_SOUND_EN",
+      "postedAt": "2026-10-28T12:00:58.385Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40684321042",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-28"
     }
