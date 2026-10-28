@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-28T03:35:57.966Z",
-  "count": 65,
+  "updatedAt": "2026-10-28T11:35:56.447Z",
+  "count": 66,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -837,6 +837,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40627555422",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-28"
+    },
+    {
+      "sourceItemId": "lb-2026-10-28-night-ja",
+      "threadsPostId": "18120613504753800",
+      "bodyEn": "Cleaning the clubs on a long autumn night, one by one. Do you wipe them after each round?",
+      "bodyJa": "秋の夜長に、クラブの手入れ。\n\nブラシでフェースの溝の土を落として、\nやわらかい布でヘッドを拭く。\nグリップの汚れも、ていねいに拭き取る。\n\n1本ずつ手をかけていると、\nそのクラブで打ったいくつかのショットを思い出します。\n次のラウンドも、よろしく頼むよ、という気持ちで。\nみなさんは、ラウンドのたびに拭く派ですか。",
+      "pillar": "GOLF",
+      "category": "GEAR_CLUB_CARE",
+      "postedAt": "2026-10-28T11:35:56.445Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40681137808",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-28"
     }
   ]
