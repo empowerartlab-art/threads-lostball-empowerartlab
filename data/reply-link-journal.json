@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "postId": "lb-2026-10-28-morning-ja",
+    "date": "2026-10-28",
+    "stage": "claimed",
+    "runId": "40633180845",
+    "runAttempt": "1",
+    "at": "2026-10-28T04:35:38.131Z",
+    "threadsId": "18107335871360954",
+    "note": "check=morning_6h views=839 text=sticker"
+  }
+]
