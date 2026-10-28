@@ -33,5 +33,20 @@
       }
     ],
     "reply": null
+  },
+  {
+    "postId": "lb-2026-10-28-morning-ja",
+    "date": "2026-10-28",
+    "slot": "morning",
+    "kind": "plain",
+    "threadsId": "18107335871360954",
+    "checks": [
+      {
+        "check": "morning_2h",
+        "at": "2026-10-28T00:35:37.909Z",
+        "views": 265
+      }
+    ],
+    "reply": null
   }
 ]
