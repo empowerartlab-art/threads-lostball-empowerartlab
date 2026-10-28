@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-28T12:00:58.387Z",
-  "count": 67,
+  "updatedAt": "2026-10-28T22:36:00.097Z",
+  "count": 68,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -866,6 +866,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-28"
+    },
+    {
+      "sourceItemId": "lb-2026-10-29-morning-ja",
+      "threadsPostId": "18155596618523413",
+      "bodyEn": "November is close and the days are getting shorter. Keep an eye on sunset when you book a tee time.",
+      "bodyJa": "11月が近づいて、日が短くなってきました。\n\n午後スタートのラウンドだと、後半のハーフはあっという間に夕方の光。\n最終ホールで、ボールの行方を目で追いにくくなってきたら、この季節が来た合図です。\n\nスタート時間を決めるときは、日の入りの時刻も少しだけ気にしてみてください。",
+      "pillar": "GOLF",
+      "category": "SEASON_SHORTER_DAYS",
+      "postedAt": "2026-10-28T22:36:00.096Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40781131537",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-29"
     }
   ]
 }
