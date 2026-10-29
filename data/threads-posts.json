@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-29T12:01:01.257Z",
-  "count": 71,
+  "updatedAt": "2026-10-29T22:35:58.048Z",
+  "count": 72,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -922,6 +922,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-29"
+    },
+    {
+      "sourceItemId": "lb-2026-10-30-morning-ja",
+      "threadsPostId": "18103097009456454",
+      "bodyEn": "Before November, the fairways slowly change color. The same course shows a new face each season.",
+      "bodyJa": "11月を前に、コースの色が少しずつ変わってきました。\n\n夏のあいだ濃い緑だったフェアウェイが、\nところどころ、落ち着いた色に変わり始める。\nボールの止まり方も、夏とは少し違って感じる季節です。\n\n同じコースでも、季節が変われば別の顔になる。\n通い慣れたホールほど、その違いに気づくのが楽しみです。",
+      "pillar": "GOLF",
+      "category": "SEASON_COURSE_COLORS",
+      "postedAt": "2026-10-29T22:35:58.047Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40967026778",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-10-30"
     }
   ]
 }
