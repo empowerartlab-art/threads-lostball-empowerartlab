@@ -28,5 +28,15 @@
     "at": "2026-10-29T00:35:39.280Z",
     "threadsId": "18155596618523413",
     "note": "check=morning_2h views=316 text=second-chance"
+  },
+  {
+    "postId": "lb-2026-10-29-morning-ja",
+    "date": "2026-10-29",
+    "stage": "aborted",
+    "runId": "40795044711",
+    "runAttempt": "1",
+    "at": "2026-10-29T00:35:41.448Z",
+    "threadsId": null,
+    "note": "reply container failed; nothing was posted (check=morning_2h views=316 text=second-chance)"
   }
 ]
