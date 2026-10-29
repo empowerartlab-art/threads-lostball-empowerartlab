@@ -68,5 +68,20 @@
       }
     ],
     "reply": null
+  },
+  {
+    "postId": "lb-2026-10-29-night-ja",
+    "date": "2026-10-29",
+    "slot": "night",
+    "kind": "question",
+    "threadsId": "18130330474750717",
+    "checks": [
+      {
+        "check": "night_2h",
+        "at": "2026-10-29T13:35:40.415Z",
+        "views": 43
+      }
+    ],
+    "reply": null
   }
 ]
