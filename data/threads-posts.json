@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-29T03:35:58.035Z",
-  "count": 69,
+  "updatedAt": "2026-10-29T11:35:55.605Z",
+  "count": 70,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -893,6 +893,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40812991779",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-29"
+    },
+    {
+      "sourceItemId": "lb-2026-10-29-night-ja",
+      "threadsPostId": "18130330474750717",
+      "bodyEn": "Golfers: do you keep the ball from your best round as a keepsake?",
+      "bodyJa": "ゴルファーに聞きたい。\n\nベストスコアの日や、思い出のラウンドで使ったボール。\n記念に取ってありますか？\n\n・取ってある\n・取っていない\n・取っておくつもりが、次のラウンドで使ってしまった\n\n1球のボールに、その日の天気や同伴者の顔まで残っていることがあります。",
+      "pillar": "GOLF",
+      "category": "QUESTION_KEEPSAKE_BALL",
+      "postedAt": "2026-10-29T11:35:55.603Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40866554156",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-29"
     }
   ]
