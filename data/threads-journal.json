@@ -544,5 +544,18 @@
     "run": "morning",
     "lang": "ja",
     "slot": "morning"
+  },
+  {
+    "postId": "lb-2026-10-29-noon-ja",
+    "date": "2026-10-29",
+    "stage": "claimed",
+    "runId": "40812991779",
+    "runAttempt": "1",
+    "at": "2026-10-29T03:35:45.272Z",
+    "threadsId": null,
+    "note": null,
+    "run": "noon",
+    "lang": "ja",
+    "slot": "noon"
   }
 ]
