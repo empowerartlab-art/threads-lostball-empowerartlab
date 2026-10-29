@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-28T22:36:00.097Z",
-  "count": 68,
+  "updatedAt": "2026-10-29T03:35:58.035Z",
+  "count": 69,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -879,6 +879,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40781131537",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-10-29"
+    },
+    {
+      "sourceItemId": "lb-2026-10-29-noon-ja",
+      "threadsPostId": "18088778327299813",
+      "bodyEn": "An estimated 500 million to 1 billion lost balls remain near golf courses in Japan (as of 2025). Short reels on Instagram daily.",
+      "bodyJa": "今日は、大きな数字の話です。\n\n回収されないまま、日本全国のゴルフ場の近くに残っているロストボール。\nその数は、推定5億〜10億球とも言われています（2025年時点）。\n\n池に入った1球、林に消えた1球。\nひとつひとつは、ラウンド中のほんの一瞬の出来事です。\nそれが積み重なって、この数になっています。\n\nインスタでは毎日、短い動画も出しています。今日の動画も、この数字の話です。",
+      "pillar": "ENVIRONMENT",
+      "category": "NUMBER_500M_TO_1B",
+      "postedAt": "2026-10-29T03:35:58.034Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/40812991779",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-10-29"
     }
   ]
