@@ -298,5 +298,15 @@
     "at": "2026-10-29T22:01:25.372Z",
     "threadsId": "18083463161520832",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-10-31-first-tee",
+    "date": "2026-10-31",
+    "stage": "claimed",
+    "runId": "41135123292",
+    "runAttempt": "1",
+    "at": "2026-10-30T22:00:42.527Z",
+    "threadsId": null,
+    "note": null
   }
 ]
