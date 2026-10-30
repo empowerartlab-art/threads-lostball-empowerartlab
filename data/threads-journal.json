@@ -661,5 +661,18 @@
     "run": "noon",
     "lang": "ja",
     "slot": "noon"
+  },
+  {
+    "postId": "lb-2026-10-30-noon-ja",
+    "date": "2026-10-30",
+    "stage": "published",
+    "runId": "40998231207",
+    "runAttempt": "1",
+    "at": "2026-10-30T03:35:58.224Z",
+    "threadsId": "18118792109008239",
+    "note": "threads post id stored in threadsId",
+    "run": "noon",
+    "lang": "ja",
+    "slot": "noon"
   }
 ]
