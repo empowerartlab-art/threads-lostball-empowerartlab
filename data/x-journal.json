@@ -853,5 +853,16 @@
     "threadsId": null,
     "note": null,
     "slot": "night"
+  },
+  {
+    "postId": "x-2026-10-30-night",
+    "date": "2026-10-30",
+    "stage": "published",
+    "runId": "41046148031",
+    "runAttempt": "1",
+    "at": "2026-10-30T11:10:42.889Z",
+    "threadsId": "2116125639157944644",
+    "note": "x post id stored in threadsId",
+    "slot": "night"
   }
 ]
