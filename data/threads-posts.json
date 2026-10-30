@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-30T11:35:58.271Z",
-  "count": 74,
+  "updatedAt": "2026-10-30T12:00:59.342Z",
+  "count": 75,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -962,6 +962,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41049162088",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-30"
+    },
+    {
+      "sourceItemId": "lb-2026-10-30-night-en",
+      "threadsPostId": "18195394384398790",
+      "bodyEn": "Before the first tee, there's a small moment we like.\n\nReaching into the bag, picking out a ball, giving it a quick wipe on the towel. Checking the number, maybe the line you drew on it the night before.\n\nThen you tee it up, and the round finally begins.",
+      "bodyJa": "1番ティーの前の、小さな好きな時間。バッグからボールを選んでタオルでひと拭き。番号や、前の晩に書いた線を確かめる。ティーに乗せて、ラウンドが始まる。",
+      "pillar": "GOLF",
+      "category": "FIRST_TEE_MOMENT_EN",
+      "postedAt": "2026-10-30T12:00:59.341Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41052131229",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-30"
     }
