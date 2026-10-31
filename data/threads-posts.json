@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-31T11:36:00.681Z",
-  "count": 78,
+  "updatedAt": "2026-10-31T12:01:02.124Z",
+  "count": 79,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1018,6 +1018,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41197486445",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-10-31"
+    },
+    {
+      "sourceItemId": "lb-2026-10-31-night-en",
+      "threadsPostId": "18001836447001013",
+      "bodyEn": "Our favorite walk in golf might be the one after the 18th green.\n\nClubs back in the bag, the cart path under your feet, and the course going quiet behind you as the light starts to drop.\n\nGood round or not, it's a nice few minutes. Playing this weekend? Enjoy that walk.",
+      "bodyJa": "ゴルフでいちばん好きな歩きは、18番グリーンのあとかもしれない。クラブをバッグに戻し、日が傾いて静かになっていくコースを背に歩く。良いラウンドでもそうでなくても、いい数分。",
+      "pillar": "GOLF",
+      "category": "WALK_AFTER_18TH_EN",
+      "postedAt": "2026-10-31T12:01:02.122Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41199181806",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-31"
     }
