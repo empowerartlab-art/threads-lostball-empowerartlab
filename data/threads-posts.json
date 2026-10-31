@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-31T03:35:56.051Z",
-  "count": 77,
+  "updatedAt": "2026-10-31T11:36:00.681Z",
+  "count": 78,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1005,6 +1005,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41165033435",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-10-31"
+    },
+    {
+      "sourceItemId": "lb-2026-10-31-night-ja",
+      "threadsPostId": "17914213692491196",
+      "bodyEn": "After a round, what stays with you is often one pure strike.",
+      "bodyJa": "ラウンドを終えた土曜の夜。\n\n18ホールで打ったたくさんのショットの中で、\n頭に残っているのは、\n芯でとらえた、たった1回の感触だったりします。\n\nあの手ごたえがあるから、また次のラウンドに行きたくなる。\nみなさんの今日の「1回」は、どのホールでしたか。",
+      "pillar": "GOLF",
+      "category": "ROUND_ONE_PURE_STRIKE",
+      "postedAt": "2026-10-31T11:36:00.680Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41197486445",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-10-31"
     }
   ]
