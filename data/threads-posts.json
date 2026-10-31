@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-31T12:01:02.124Z",
-  "count": 79,
+  "updatedAt": "2026-10-31T22:36:05.592Z",
+  "count": 80,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1034,6 +1034,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-10-31"
+    },
+    {
+      "sourceItemId": "lb-2026-11-01-morning-ja",
+      "threadsPostId": "18132544336826312",
+      "bodyEn": "November is here. Two months of golf left this year.",
+      "bodyJa": "11月になりました。\n\nカレンダーをめくって、年内に入っているラウンドの予定を数える。\n思っていたより少なくて、ちょっと焦る。\n空いている週末に、どこか1回入れられないかと考え始める。\n\n今年のゴルフも、残り2か月。\nいいラウンドで締めくくれるように、もうひと踏ん張りです。",
+      "pillar": "GOLF",
+      "category": "SEASON_NOVEMBER",
+      "postedAt": "2026-10-31T22:36:05.591Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41248875474",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-01"
     }
   ]
 }
