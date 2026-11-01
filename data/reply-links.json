@@ -175,6 +175,11 @@
         "check": "morning_2h",
         "at": "2026-11-01T00:35:39.910Z",
         "views": 2
+      },
+      {
+        "check": "morning_6h",
+        "at": "2026-11-01T04:35:40.733Z",
+        "views": 2
       }
     ],
     "reply": null
