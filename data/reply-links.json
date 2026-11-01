@@ -183,5 +183,20 @@
       }
     ],
     "reply": null
+  },
+  {
+    "postId": "lb-2026-11-01-noon-ja",
+    "date": "2026-11-01",
+    "slot": "noon",
+    "kind": "question",
+    "threadsId": "18079647224413071",
+    "checks": [
+      {
+        "check": "noon_2h",
+        "at": "2026-11-01T05:35:38.949Z",
+        "views": 51
+      }
+    ],
+    "reply": null
   }
 ]
