@@ -348,5 +348,15 @@
     "at": "2026-11-01T22:00:42.562Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-11-02-forest",
+    "date": "2026-11-02",
+    "stage": "published",
+    "runId": "41354877164",
+    "runAttempt": "1",
+    "at": "2026-11-01T22:01:25.070Z",
+    "threadsId": "18242595505316276",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
