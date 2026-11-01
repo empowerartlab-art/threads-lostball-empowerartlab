@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-31T22:36:05.592Z",
-  "count": 80,
+  "updatedAt": "2026-11-01T03:35:57.312Z",
+  "count": 81,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1047,6 +1047,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41248875474",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-01"
+    },
+    {
+      "sourceItemId": "lb-2026-11-01-noon-ja",
+      "threadsPostId": "18079647224413071",
+      "bodyEn": "Golfers: white ball or colored ball?",
+      "bodyJa": "ゴルファーに聞きたい。\n\nボールの色、白派ですか？カラー派ですか？\n\n・ずっと白\n・季節で変える\n・カラー一択\n\n見つけやすさで選ぶか、見た目で選ぶか。\n日が短くなるこれからの季節は、色を変える人もいるかもしれません。\n11月のラウンド前に、聞いてみたくなりました。",
+      "pillar": "GOLF",
+      "category": "QUESTION_WHITE_OR_COLOR",
+      "postedAt": "2026-11-01T03:35:57.311Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41269784957",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-01"
     }
   ]
