@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-01T12:01:00.567Z",
-  "count": 83,
+  "updatedAt": "2026-11-01T22:36:04.833Z",
+  "count": 84,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1090,6 +1090,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-01"
+    },
+    {
+      "sourceItemId": "lb-2026-11-02-morning-ja",
+      "threadsPostId": "18129083830848137",
+      "bodyEn": "Tomorrow, November 3, is Culture Day, a holiday in Japan. Enjoy your round if you play.",
+      "bodyJa": "明日、11月3日は文化の日。\n\n祝日にラウンドの予定を入れている方も、多いのではないでしょうか。\n今日を乗り切れば、明日はコース。\nそう思うだけで、今日の仕事も少し前向きになれる気がします。\n\n秋のゴルフ場は、どこを向いても気持ちのいい季節。\n明日回る方、よいラウンドを。",
+      "pillar": "GOLF",
+      "category": "SEASON_CULTURE_DAY",
+      "postedAt": "2026-11-01T22:36:04.832Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41357895714",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-02"
     }
   ]
 }
