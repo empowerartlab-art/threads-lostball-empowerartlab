@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-01T11:36:03.403Z",
-  "count": 82,
+  "updatedAt": "2026-11-01T12:01:00.567Z",
+  "count": 83,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1074,6 +1074,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41302557712",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-01"
+    },
+    {
+      "sourceItemId": "lb-2026-11-01-night-en",
+      "threadsPostId": "17909442318570734",
+      "bodyEn": "Clocks went back an hour in the US today.\n\nDarker evenings mean fewer after-work nine-holers for a while. Japan doesn't change its clocks, but the sun is setting earlier here too.\n\nAnyone squeezing in one last twilight round before winter? Tell us where you play.",
+      "bodyJa": "今日アメリカは時計を1時間戻した。夕方が暗くなり、仕事帰りのハーフは減る。日本は時計を変えないけれど、こちらも日が短い。冬の前に夕暮れのラウンドに行く人は？",
+      "pillar": "GOLF",
+      "category": "CLOCKS_BACK_EN",
+      "postedAt": "2026-11-01T12:01:00.566Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41304396260",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-01"
     }
