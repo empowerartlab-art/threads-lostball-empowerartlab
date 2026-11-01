@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-01T03:35:57.312Z",
-  "count": 81,
+  "updatedAt": "2026-11-01T11:36:03.403Z",
+  "count": 82,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1061,6 +1061,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41269784957",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-01"
+    },
+    {
+      "sourceItemId": "lb-2026-11-01-night-ja",
+      "threadsPostId": "18006134859034893",
+      "bodyEn": "Is there one club in your bag you just keep? Which one?",
+      "bodyJa": "バッグの中に、ずっと替えていない1本はありますか。\n\nソールには細かい傷。\nグリップは、すっかり手になじんでいる。\n新しいモデルが出るたびに気にはなるのに、\nなぜかその1本だけは、バッグから抜く気になれない。\n\n道具の替えどきは、性能だけでは決められないものですね。\nみなさんの「手放せない1本」は、何番ですか。",
+      "pillar": "GOLF",
+      "category": "GEAR_OLD_FAVORITE_CLUB",
+      "postedAt": "2026-11-01T11:36:03.402Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41302557712",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-01"
     }
   ]
