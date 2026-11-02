@@ -203,5 +203,20 @@
       }
     ],
     "reply": null
+  },
+  {
+    "postId": "lb-2026-11-02-morning-ja",
+    "date": "2026-11-02",
+    "slot": "morning",
+    "kind": "plain",
+    "threadsId": "18129083830848137",
+    "checks": [
+      {
+        "check": "morning_2h",
+        "at": "2026-11-02T00:35:39.242Z",
+        "views": 133
+      }
+    ],
+    "reply": null
   }
 ]
