@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-01T22:36:04.833Z",
-  "count": 84,
+  "updatedAt": "2026-11-02T03:36:02.828Z",
+  "count": 85,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1103,6 +1103,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41357895714",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-02"
+    },
+    {
+      "sourceItemId": "lb-2026-11-02-noon-ja",
+      "threadsPostId": "18640783324034473",
+      "bodyEn": "About 21 million golf balls are said to be newly left in nature each year.",
+      "bodyJa": "週のはじめに、数字の話をひとつ。\n\n1年のあいだに、新たに自然の中へ残されるゴルフボールは、約2,100万球とも言われています。\n\n池ポチャ1回、OB1回。\n1球ずつは小さな出来事でも、集まるとこの数になる。\n先週末に見送ったあの1球も、たぶんこの中に数えられています。",
+      "pillar": "ENVIRONMENT",
+      "category": "NUMBER_21M_PER_YEAR",
+      "postedAt": "2026-11-02T03:36:02.827Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41383922132",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-02"
     }
   ]
