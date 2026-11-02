@@ -223,5 +223,20 @@
       }
     ],
     "reply": null
+  },
+  {
+    "postId": "lb-2026-11-02-night-ja",
+    "date": "2026-11-02",
+    "slot": "night",
+    "kind": "question",
+    "threadsId": "18012647631004454",
+    "checks": [
+      {
+        "check": "night_2h",
+        "at": "2026-11-02T13:35:41.503Z",
+        "views": 91
+      }
+    ],
+    "reply": null
   }
 ]
