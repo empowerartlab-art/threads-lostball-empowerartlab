@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-02T03:36:02.828Z",
-  "count": 85,
+  "updatedAt": "2026-11-02T11:36:11.101Z",
+  "count": 86,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1117,6 +1117,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41383922132",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-02"
+    },
+    {
+      "sourceItemId": "lb-2026-11-02-night-ja",
+      "threadsPostId": "18012647631004454",
+      "bodyEn": "Golfers: how many years have you been playing?",
+      "bodyJa": "ゴルファーに聞きたい。\n\nゴルフを始めて、何年になりますか？\n\n年数だけでも、ひとことでも。\n「今年から」も「もう数えていない」も、そのままの答えでどうぞ。\n\n始めた年のことを思い出すと、\n最初に買ったボールの箱のことまで、なぜか覚えていたりします。",
+      "pillar": "GOLF",
+      "category": "QUESTION_YEARS_PLAYING",
+      "postedAt": "2026-11-02T11:36:11.099Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41438025791",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-02"
     }
   ]
