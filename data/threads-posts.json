@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-02T12:01:01.483Z",
-  "count": 87,
+  "updatedAt": "2026-11-02T22:35:58.123Z",
+  "count": 88,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1146,6 +1146,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-02"
+    },
+    {
+      "sourceItemId": "lb-2026-11-03-morning-ja",
+      "threadsPostId": "18102876143451973",
+      "bodyEn": "Japanese post lb-2026-11-03-morning-ja, not posted in English.",
+      "bodyJa": "グリーンに上がって、ポケットを探る。\n\n指先に当たる、小さくて丸いもの。\nカップまでの距離を見ながら、ボールと入れ替える。\n何千回やっても、この瞬間だけは手つきが少しだけていねいになる。\n\n1円玉、記念のコイン、帽子に挟むクリップ式。\n同じ組の人の手元を見ると、けっこう個性が出ます。\nみなさんのマーカーは、何ですか。",
+      "pillar": "GOLF",
+      "category": "W1103_1103_MORNING_JA",
+      "postedAt": "2026-11-02T22:35:58.122Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41538555177",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-03"
     }
   ]
 }
