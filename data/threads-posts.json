@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-02T11:36:11.101Z",
-  "count": 86,
+  "updatedAt": "2026-11-02T12:01:01.483Z",
+  "count": 87,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1130,6 +1130,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41438025791",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-02"
+    },
+    {
+      "sourceItemId": "lb-2026-11-02-night-en",
+      "threadsPostId": "18128559091935899",
+      "bodyEn": "When's your next round?\n\nJust give us a number: the days until you're back on the tee. \"0\" if you're reading this in the clubhouse. \"Not sure yet\" counts too.\n\nIf it's a big number, hang in there. The course will still be there.",
+      "bodyJa": "次のラウンドはいつ？ 日数を数字で。クラブハウスで読んでいるなら「0」。大きな数字の人も、コースは待っています。",
+      "pillar": "GOLF",
+      "category": "QUESTION_NEXT_ROUND_EN",
+      "postedAt": "2026-11-02T12:01:01.482Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41441203774",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-02"
     }
