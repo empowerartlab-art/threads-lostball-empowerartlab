@@ -1090,5 +1090,18 @@
     "run": "noon",
     "lang": "ja",
     "slot": "noon"
+  },
+  {
+    "postId": "lb-2026-11-03-noon-ja",
+    "date": "2026-11-03",
+    "stage": "resolved",
+    "runId": "resolved-by:Claude（11/4 7:40 Threads API で未投稿を確認）",
+    "runAttempt": "1",
+    "at": "2026-11-03T22:32:03.009Z",
+    "threadsId": null,
+    "note": "confirmed not published by a human",
+    "run": "noon",
+    "lang": "ja",
+    "slot": "noon"
   }
 ]
