@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-02T22:35:58.123Z",
-  "count": 88,
+  "updatedAt": "2026-11-03T22:36:10.008Z",
+  "count": 89,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1160,6 +1160,20 @@
       "lang": "ja",
       "slot": "morning",
       "targetDate": "2026-11-03"
+    },
+    {
+      "sourceItemId": "lb-2026-11-04-morning-ja",
+      "threadsPostId": "17880424833632675",
+      "bodyEn": "Japanese post lb-2026-11-04-morning-ja, not posted in English.",
+      "bodyJa": "明日のゴルフに向けて、リビングでバッグを開ける。\n\nボールは何球あれば足りるだろう。\n前回の終わりにポケットに残っていた数を見て、少し考える。\nコースの名前を思い出して、もうひとつ足す。\nそのあと、念のためと言い訳をして、さらにひとつ。\n\n同じように迷う夜が、誰にでもあるはずです。\nいつも何球入れていきますか。",
+      "pillar": "GOLF",
+      "category": "W1103_1104_MORNING_JA",
+      "postedAt": "2026-11-03T22:36:10.006Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41732122146",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-04"
     }
   ]
 }
