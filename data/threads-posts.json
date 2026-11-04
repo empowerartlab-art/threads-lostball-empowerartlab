@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-04T12:01:01.610Z",
-  "count": 92,
+  "updatedAt": "2026-11-04T22:36:05.191Z",
+  "count": 93,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1216,6 +1216,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-04"
+    },
+    {
+      "sourceItemId": "lb-2026-11-05-morning-ja",
+      "threadsPostId": "18096558821665871",
+      "bodyEn": "Japanese post lb-2026-11-05-morning-ja, not posted in English.",
+      "bodyJa": "グリーンの上で、マークしたボールを戻す。\n\n後ろにしゃがんで、カップまでの傾きを見る。\nそれから指先で少しずつボールを回して、線を狙う方向へ向ける。\n同伴者を待たせないように、でも納得いくまで、の数秒。\n\nもちろん、線がまっすぐでもボールがまっすぐ転がるとは限りません。\nパットの線、合わせる方ですか、合わせない方ですか。",
+      "pillar": "GOLF",
+      "category": "W1103_1105_MORNING_JA",
+      "postedAt": "2026-11-04T22:36:05.189Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41926600243",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-05"
     }
   ]
 }
