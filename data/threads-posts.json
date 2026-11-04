@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-03T22:36:10.008Z",
-  "count": 89,
+  "updatedAt": "2026-11-04T03:36:00.826Z",
+  "count": 90,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1173,6 +1173,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41732122146",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-04"
+    },
+    {
+      "sourceItemId": "lb-2026-11-04-noon-ja",
+      "threadsPostId": "18002456607008361",
+      "bodyEn": "Japanese post lb-2026-11-04-noon-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\n今年いちばん長く入ったパット、何メートルでしたか？\n\n距離はだいたいで大丈夫です。\n手が震えた1メートルでも、狙っていないのに入った長いパットでも、\nその日の同伴者の顔まで思い出せるなら、それが今年の1本です。\n数字で教えてください。",
+      "pillar": "GOLF",
+      "category": "W1103_1104_NOON_JA",
+      "postedAt": "2026-11-04T03:36:00.825Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41768062201",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-04"
     }
   ]
