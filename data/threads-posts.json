@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T11:36:02.540Z",
-  "count": 95,
+  "updatedAt": "2026-11-05T12:01:02.369Z",
+  "count": 96,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1256,6 +1256,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42020195533",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-05"
+    },
+    {
+      "sourceItemId": "lb-2026-11-05-night-en",
+      "threadsPostId": "18090105560295342",
+      "bodyEn": "It's said that a golf ball can take around 1,000 years to break down in nature.\n\nThink about that next time one goes into the trees. You'll be on the next tee in five minutes. The ball might still be out there in the year 3000.\n\nWhich shot from this year do you think has the longest future ahead of it?",
+      "bodyJa": "ゴルフボールが自然に分解されるには約1,000年かかるとも言われている。5分後には次のティーにいるのに、ボールは西暦3000年もそこにあるかもしれない。今年のどの1打がいちばん長い未来を持っていると思う？",
+      "pillar": "ENVIRONMENT",
+      "category": "W1103_1105_NIGHT_EN",
+      "postedAt": "2026-11-05T12:01:02.367Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42023507458",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-05"
     }
