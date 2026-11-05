@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T09:14:11.432Z",
-  "count": 94,
+  "updatedAt": "2026-11-05T11:36:02.540Z",
+  "count": 95,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1243,6 +1243,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42000605380",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-05"
+    },
+    {
+      "sourceItemId": "lb-2026-11-05-night-ja",
+      "threadsPostId": "18643892947062926",
+      "bodyEn": "Japanese post lb-2026-11-05-night-ja, not posted in English.",
+      "bodyJa": "静かなグリーンで、カップの底にボールが当たる音。\n\nコトン、という短い音。\n入った瞬間は見えていなくても、音で分かることがあります。\nどんなに悪い1日でも、最終ホールでこの音を聞くと、\n不思議と、また来ようという気持ちになる。\n\n今年いちばん覚えている「コトン」は、どのホールですか。",
+      "pillar": "GOLF",
+      "category": "W1103_1105_NIGHT_JA",
+      "postedAt": "2026-11-05T11:36:02.539Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42020195533",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-05"
     }
   ]
