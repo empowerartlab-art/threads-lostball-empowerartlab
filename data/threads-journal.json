@@ -1246,5 +1246,18 @@
     "run": "noon",
     "lang": "ja",
     "slot": "noon"
+  },
+  {
+    "postId": "lb-2026-11-05-noon-ja",
+    "date": "2026-11-05",
+    "stage": "unknown",
+    "runId": "41962548043",
+    "runAttempt": "1",
+    "at": "2026-11-05T03:35:55.696Z",
+    "threadsId": null,
+    "note": "publish (threads_publish) call failed; the post may or may not be on Threads",
+    "run": "noon",
+    "lang": "ja",
+    "slot": "noon"
   }
 ]
