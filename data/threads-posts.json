@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-04T22:36:05.191Z",
-  "count": 93,
+  "updatedAt": "2026-11-05T09:14:11.432Z",
+  "count": 94,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1229,6 +1229,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/41926600243",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-05"
+    },
+    {
+      "sourceItemId": "lb-2026-11-05-noon-ja",
+      "threadsPostId": "17894907405616251",
+      "bodyEn": "Japanese post lb-2026-11-05-noon-ja, not posted in English.",
+      "bodyJa": "今年の秋に池へ入ったボールは、西暦3000年になっても、まだそこにあるかもしれません。\n\nゴルフボールが自然に還るまで、約1,000年。\n一説では、そうも言われています。\n\nたった1打で見送ったボールなのに、\nそのあとに続く時間は、ちょっと想像がつかない長さです。\n\nこういう数字の話、またここに書きます。",
+      "pillar": "ENVIRONMENT",
+      "category": "W1103_1105_NOON_JA",
+      "postedAt": "2026-11-05T09:14:11.431Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42000605380",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-05"
     }
   ]
