@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T12:01:02.369Z",
-  "count": 96,
+  "updatedAt": "2026-11-05T22:35:57.921Z",
+  "count": 97,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1272,6 +1272,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-05"
+    },
+    {
+      "sourceItemId": "lb-2026-11-06-morning-ja",
+      "threadsPostId": "18160413685505733",
+      "bodyEn": "Japanese post lb-2026-11-06-morning-ja, not posted in English.",
+      "bodyJa": "週末のゴルフに備えて、バッグを持ち上げる。\n\n持ち手のところで、小さなタグがカチャッと鳴る。\nいつどこで付けたのか、もう思い出せないものまで付いている。\n旅先のコースの名前が入ったものは、見るたびにあの日の風景が浮かぶ。\n\nクラブでもボールでもないのに、外す気になれない。\nみなさんのバッグには、何が付いていますか。",
+      "pillar": "GOLF",
+      "category": "W1103_1106_MORNING_JA",
+      "postedAt": "2026-11-05T22:35:57.919Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42122771334",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-06"
     }
   ]
 }
