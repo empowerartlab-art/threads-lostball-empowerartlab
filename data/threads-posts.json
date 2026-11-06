@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T22:35:57.921Z",
-  "count": 97,
+  "updatedAt": "2026-11-06T03:36:00.392Z",
+  "count": 98,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1285,6 +1285,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42122771334",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-06"
+    },
+    {
+      "sourceItemId": "lb-2026-11-06-noon-ja",
+      "threadsPostId": "17985415787903608",
+      "bodyEn": "Japanese post lb-2026-11-06-noon-ja, not posted in English.",
+      "bodyJa": "金曜の昼休み、スマホで週末の天気を見る。\n\n朝に見たときは傘のマークだったのに、雲のマークに変わっている。\nいいほうに動いただけで、午後の仕事が少し進む気がする。\n傘が増えていた週は、別の天気予報も開いて、いい数字を探してしまう。\n\nラウンドが近づくと、天気予報は1日に何回見ますか。",
+      "pillar": "GOLF",
+      "category": "W1103_1106_NOON_JA",
+      "postedAt": "2026-11-06T03:36:00.391Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42157475125",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-06"
     }
   ]
