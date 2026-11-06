@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-06T03:36:00.392Z",
-  "count": 98,
+  "updatedAt": "2026-11-06T11:36:00.670Z",
+  "count": 99,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1299,6 +1299,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42157475125",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-06"
+    },
+    {
+      "sourceItemId": "lb-2026-11-06-night-ja",
+      "threadsPostId": "17917314675546380",
+      "bodyEn": "Japanese post lb-2026-11-06-night-ja, not posted in English.",
+      "bodyJa": "週末を前に、少し考えてみたいことがあります。\n\nもし1ラウンドだけ、誰とでも一緒に回れるとしたら。\n憧れのプロでも、歴史に残る名手でも、もう会えない人でも。\n同じカートに乗って、同じホールを回って、次のティーまでのあいだに話を聞く。\n\nみなさんなら、誰を誘いますか。",
+      "pillar": "GOLF",
+      "category": "W1103_1106_NIGHT_JA",
+      "postedAt": "2026-11-06T11:36:00.669Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42211384986",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-06"
     }
   ]
