@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T10:33:08.170Z",
-  "count": 104,
+  "updatedAt": "2026-11-07T10:35:04.499Z",
+  "count": 105,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1384,6 +1384,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-03"
+    },
+    {
+      "sourceItemId": "lb-2026-11-06-night-en",
+      "threadsPostId": "18098148044401149",
+      "bodyEn": "Friday, and the weather app has been opened more times today than any work email.\n\nRain at 9, clouds at 11, a small sun by lunchtime. None of it changes anything, but you keep checking, because Saturday's tee time is already in your head.\n\nAre you a one-look person, or do you check three different forecasts?",
+      "bodyJa": "金曜日、今日は仕事のメールより天気アプリを開いている。何も変わらないのに見てしまう。頭の中にはもう土曜のスタート時刻があるから。1回見て終わる人？ 3つの予報を見比べる人？",
+      "pillar": "GOLF",
+      "category": "W1103_1106_NIGHT_EN",
+      "postedAt": "2026-11-07T10:35:04.496Z",
+      "mode": "live",
+      "workflowRunUrl": null,
+      "lang": "en",
+      "slot": "night",
+      "targetDate": "2026-11-06"
     }
   ]
 }
