@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T10:35:04.499Z",
-  "count": 105,
+  "updatedAt": "2026-11-07T11:35:59.694Z",
+  "count": 106,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1398,6 +1398,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-06"
+    },
+    {
+      "sourceItemId": "lb-2026-11-07-night-ja",
+      "threadsPostId": "18122151538985611",
+      "bodyEn": "Japanese post lb-2026-11-07-night-ja, not posted in English.",
+      "bodyJa": "ラウンドの帰り、高速に乗る前に寄るところ。\n\n道の駅の野菜、いつものラーメン屋、コンビニのアイス。\n1日歩いた足で店に入ると、なんでもおいしい。\n一緒に回った人と寄るなら、今日のいちばんのパットの話がまた始まる。\n\nスコアは持ち帰りたくない日でも、この寄り道はやめられません。\n土曜のラウンド帰り、どこに寄りましたか。",
+      "pillar": "GOLF",
+      "category": "W1103_1107_NIGHT_JA",
+      "postedAt": "2026-11-07T11:35:59.692Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42368822794",
+      "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-07"
     }
   ]
 }
