@@ -1454,5 +1454,18 @@
     "run": "night_en",
     "lang": "en",
     "slot": "night"
+  },
+  {
+    "postId": "lb-2026-11-06-night-en",
+    "date": "2026-11-06",
+    "stage": "resolved",
+    "runId": "resolved-by:claude-for-yamamoto",
+    "runAttempt": "1",
+    "at": "2026-11-07T09:10:21.014Z",
+    "threadsId": null,
+    "note": "confirmed not published by a human",
+    "run": "night_en",
+    "lang": "en",
+    "slot": "night"
   }
 ]
