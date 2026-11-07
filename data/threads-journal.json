@@ -1597,5 +1597,18 @@
     "run": "night_en",
     "lang": "en",
     "slot": "night"
+  },
+  {
+    "postId": "lb-2026-11-06-night-en",
+    "date": "2026-11-06",
+    "stage": "claimed",
+    "runId": "local",
+    "runAttempt": "1",
+    "at": "2026-11-07T10:34:47.199Z",
+    "threadsId": null,
+    "note": null,
+    "run": "night_en",
+    "lang": "en",
+    "slot": "night"
   }
 ]
