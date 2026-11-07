@@ -468,5 +468,15 @@
     "at": "2026-11-07T22:00:40.068Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-11-08-high-tee",
+    "date": "2026-11-08",
+    "stage": "published",
+    "runId": "42418524930",
+    "runAttempt": "1",
+    "at": "2026-11-07T22:01:15.955Z",
+    "threadsId": "18193854427397032",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
