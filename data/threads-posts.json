@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T09:15:13.616Z",
-  "count": 101,
+  "updatedAt": "2026-11-07T10:25:58.539Z",
+  "count": 102,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1342,6 +1342,20 @@
       "lang": "ja",
       "slot": "noon",
       "targetDate": "2026-11-07"
+    },
+    {
+      "sourceItemId": "lb-2026-11-03-noon-ja",
+      "threadsPostId": "17965546182198669",
+      "bodyEn": "Japanese post lb-2026-11-03-noon-ja, not posted in English.",
+      "bodyJa": "前半が終わって、後半のスタートまで少し時間がある。\n\n練習グリーンの横のベンチに座ると、ようやく周りの景色に目がいく。\nさっきまでスコアのことしか考えていなかったのに、\n秋の日差しがこんなにやわらかかったのかと、今ごろ気づく。\n\n祝日のこの時間を、コースで過ごしている方もいるはずです。\n後半が始まるまで、いつも何をしていますか。",
+      "pillar": "GOLF",
+      "category": "W1103_1103_NOON_JA",
+      "postedAt": "2026-11-07T10:25:58.536Z",
+      "mode": "live",
+      "workflowRunUrl": null,
+      "lang": "ja",
+      "slot": "noon",
+      "targetDate": "2026-11-03"
     }
   ]
 }
