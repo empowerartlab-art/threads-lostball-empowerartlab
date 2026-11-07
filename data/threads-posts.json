@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T09:13:20.951Z",
-  "count": 100,
+  "updatedAt": "2026-11-07T09:15:13.616Z",
+  "count": 101,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1327,6 +1327,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42358767677",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-07"
+    },
+    {
+      "sourceItemId": "lb-2026-11-07-noon-ja",
+      "threadsPostId": "18118494055824064",
+      "bodyEn": "Japanese post lb-2026-11-07-noon-ja, not posted in English.",
+      "bodyJa": "18番のカップからボールを拾い上げる。\n\n帽子を取って、同じ組の人と「ありがとうございました」と言い合う。\nスコアがよくても悪くても、ここだけは同じ。\n今日初めて会った人とも、この一言で1日がきれいに終わる。\n\nゴルフの好きなところを1つだけ挙げるとしたら、\nこの数秒を選ぶ人もいると思います。\nどの瞬間を選びますか。",
+      "pillar": "GOLF",
+      "category": "W1103_1107_NOON_JA",
+      "postedAt": "2026-11-07T09:15:13.614Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42358903891",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-07"
     }
   ]
