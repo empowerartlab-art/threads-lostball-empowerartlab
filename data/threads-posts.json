@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-06T11:36:00.670Z",
-  "count": 99,
+  "updatedAt": "2026-11-07T09:13:20.951Z",
+  "count": 100,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1314,6 +1314,20 @@
       "lang": "ja",
       "slot": "night",
       "targetDate": "2026-11-06"
+    },
+    {
+      "sourceItemId": "lb-2026-11-07-morning-ja",
+      "threadsPostId": "18017520878958782",
+      "bodyEn": "Japanese post lb-2026-11-07-morning-ja, not posted in English.",
+      "bodyJa": "クラブハウスを出ると、まだ誰も歩いていないコースが広がっている。\n\nフェアウェイには、刈られたばかりの明るい縞と暗い縞。\nバンカーの砂には、細い筋がまっすぐ残っている。\n朝の低い光だと、その線が昼間よりずっとはっきり見える。\n\n今日いちばんきれいなのは、たぶんこの時間です。\nコースに着いて、最初に目がいくのはどこですか。",
+      "pillar": "GOLF",
+      "category": "W1103_1107_MORNING_JA",
+      "postedAt": "2026-11-07T09:13:20.950Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42358767677",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-07"
     }
   ]
 }
