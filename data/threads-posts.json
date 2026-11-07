@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T10:31:10.484Z",
-  "count": 103,
+  "updatedAt": "2026-11-07T10:33:08.170Z",
+  "count": 104,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1368,6 +1368,20 @@
       "mode": "live",
       "workflowRunUrl": null,
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-03"
+    },
+    {
+      "sourceItemId": "lb-2026-11-03-night-en",
+      "threadsPostId": "18133858876827296",
+      "bodyEn": "Today is Culture Day in Japan, a national holiday in the middle of the week.\n\nSome people spend it at a museum. Some spend it on the first tee, glad to have a Tuesday that feels like a Saturday.\n\nIf you got one free weekday this month, where would you spend it? On the course, or somewhere else entirely?",
+      "bodyJa": "今日は日本の文化の日。週の真ん中の祝日。美術館で過ごす人も、1番ティーで過ごす人もいる。今月、平日に1日休めたらどこで過ごす？",
+      "pillar": "GOLF",
+      "category": "W1103_1103_NIGHT_EN",
+      "postedAt": "2026-11-07T10:33:08.168Z",
+      "mode": "live",
+      "workflowRunUrl": null,
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-03"
     }
