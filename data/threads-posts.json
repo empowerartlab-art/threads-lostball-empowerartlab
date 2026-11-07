@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T11:35:59.694Z",
-  "count": 106,
+  "updatedAt": "2026-11-07T12:01:00.434Z",
+  "count": 107,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1410,6 +1410,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42368822794",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-07"
+    },
+    {
+      "sourceItemId": "lb-2026-11-07-night-en",
+      "threadsPostId": "18130064812878658",
+      "bodyEn": "Here's a Japanese golf habit you might not know: at a lot of courses here, you stop after nine holes and sit down for lunch.\n\nA proper meal, a rest for the legs, then back out for the second nine. Some people love the break. Others say their rhythm is gone by the tenth tee.\n\nWould you enjoy a long lunch in the middle of a round, or would you rather play straight through?",
+      "bodyJa": "日本のゴルフの習慣：多くのコースでは9ホールのあとに座って昼食をとる。休みが好きな人も、10番でリズムが消える人もいる。途中の長い昼食はいい？ それとも通しで回りたい？",
+      "pillar": "GOLF",
+      "category": "W1103_1107_NIGHT_EN",
+      "postedAt": "2026-11-07T12:01:00.433Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42370553816",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-07"
     }
