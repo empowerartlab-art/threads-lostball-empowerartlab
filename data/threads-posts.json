@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T12:01:00.434Z",
-  "count": 107,
+  "updatedAt": "2026-11-07T22:36:01.320Z",
+  "count": 108,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1426,6 +1426,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-07"
+    },
+    {
+      "sourceItemId": "lb-2026-11-08-morning-ja",
+      "threadsPostId": "18114561980156796",
+      "bodyEn": "Japanese post lb-2026-11-08-morning-ja, not posted in English.",
+      "bodyJa": "ティーに立った瞬間、声が出そうになるホールがあります。\n\n目の前でフェアウェイが谷のように落ちていって、\nその先に、遠くの山と空だけが広がっている。\n同じ組の全員が、打つ前に少し黙る。\n\n「ここ、いいですね」と誰かが言って、\nそれだけで今日来てよかったと思える1打目。\nみなさんにとってのそのホールは、どこのコースの何番ですか。",
+      "pillar": "GOLF",
+      "category": "W1103_1108_MORNING_JA",
+      "postedAt": "2026-11-07T22:36:01.318Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42421325976",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-08"
     }
   ]
 }
