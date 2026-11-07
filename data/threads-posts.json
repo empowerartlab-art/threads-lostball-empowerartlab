@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-07T10:25:58.539Z",
-  "count": 102,
+  "updatedAt": "2026-11-07T10:31:10.484Z",
+  "count": 103,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1355,6 +1355,20 @@
       "workflowRunUrl": null,
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-03"
+    },
+    {
+      "sourceItemId": "lb-2026-11-03-night-ja",
+      "threadsPostId": "17993461758066861",
+      "bodyEn": "Japanese post lb-2026-11-03-night-ja, not posted in English.",
+      "bodyJa": "ラウンドから帰って、玄関でシューズの泥を落とす。\n\nソールのすき間に、芝が挟まっている。\nブラシでこすると、今日のコースの土の色が玄関に落ちる。\n疲れているので、明日でもいいのに、と毎回思う。\n\nそれでも、泥のついたままでは次の朝が気持ちよくない。\nシューズの手入れ、帰ったその日にやる方ですか。",
+      "pillar": "GOLF",
+      "category": "W1103_1103_NIGHT_JA",
+      "postedAt": "2026-11-07T10:31:10.482Z",
+      "mode": "live",
+      "workflowRunUrl": null,
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-03"
     }
   ]
