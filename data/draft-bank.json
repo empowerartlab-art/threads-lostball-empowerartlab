@@ -3832,14 +3832,19 @@
     {
       "id": "lb-2026-11-13-night-ja",
       "day": null,
-      "pillar": "GOLF",
-      "category": "W1110_1113_NIGHT_JA",
+      "pillar": "ENVIRONMENT",
+      "category": "W1110_1113_NIGHT_JA_COMPE_CASE",
       "bodyEn": "Japanese post lb-2026-11-13-night-ja, not posted in English.",
-      "bodyJa": "「この人と回ると楽しい」と思うのは、どんな人ですか。\n\nスコアが良くても悪くても、ずっと機嫌が変わらない人。\n人のいいショットを、自分のことのように喜んでくれる人。\nボールを探すとき、真っ先に一緒に来てくれる人。\n次のティーまで、どうでもいい話を続けてくれる人。\n\n上手い下手より、そういうところで人を覚えているものです。\nあなたの「また回りたい人」は、どんな人ですか。",
+      "bodyJa": "ゴルフコンペのブービー賞に、ロストボールを選んでいただきました。\n10球入りを6セット、あわせて60球です。\n\nこの60球も、もとはどこかのコースで池や林に消えたボールです。\nゴルフボールは土に還らない素材でできていて、\n回収されずに残ると、自然の負担になってしまいます。\n\n拾われて、磨かれて、今度はコンペの賞品に。\n次のラウンドで、もう一度ちゃんと出番が来ますように。",
       "hasCta": false,
       "hasShopLink": false,
-      "requiresVerifiedFact": false,
-      "verifiedFactIds": [],
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "reuse-lost-balls-from-japan",
+        "lost-balls-end-up-in-ponds-and-forests",
+        "golf-balls-dont-return-to-soil",
+        "abandoned-golf-balls-harm-environment"
+      ],
       "media": {
         "type": "TEXT_ONLY",
         "required": false,
@@ -3853,7 +3858,7 @@
       },
       "targetDate": "2026-11-13",
       "approvedBy": "KEITA",
-      "approvedAt": "2026-11-08T07:23:58.530Z",
+      "approvedAt": "2026-11-08T07:31:37.797Z",
       "sourceCandidateId": "lb-2026-11-13-night-ja",
       "slot": "night",
       "lang": "ja"
@@ -4039,14 +4044,19 @@
     {
       "id": "lb-2026-11-15-noon-ja",
       "day": null,
-      "pillar": "GOLF",
-      "category": "W1110_1115_NOON_JA",
+      "pillar": "WELFARE",
+      "category": "W1110_1115_NOON_JA_COMPE_CASE",
       "bodyEn": "Japanese post lb-2026-11-15-noon-ja, not posted in English.",
-      "bodyJa": "午後の最終ホール。ティーに立つと、\n夕日がちょうど背中の側にある。\n\n足もとから、自分の影が長くフェアウェイへ伸びていく。\n打ったボールは、少し赤みがかった空の中で小さくなっていく。\n日が短くなったこの時期、\n18番は1日の終わりと、週末の終わりを一度に連れてきます。\n\n最後の1打、どんな光の中で打ちましたか。",
+      "bodyJa": "コンペのブービー賞に選んでいただいた、60球のロストボールの話の続きです。\n\nこの60球は、1球ずつ手で状態を確かめて、磨いたものです。\n磨いているのは、就労継続支援の施設で働く人たち。\n障がいのある方々が、この仕事を担っています。\n\n賞品を受け取った人が打つ1球の向こうに、\nその1球を磨いた手があります。\nボールを買うことが、その仕事を支えることにもつながっています。",
       "hasCta": false,
       "hasShopLink": false,
-      "requiresVerifiedFact": false,
-      "verifiedFactIds": [],
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "hand-polish-one-by-one",
+        "welfare-facility-users-do-the-work",
+        "welfare-facility-users-have-disabilities",
+        "purchase-supports-work-and-participation"
+      ],
       "media": {
         "type": "TEXT_ONLY",
         "required": false,
@@ -4060,7 +4070,7 @@
       },
       "targetDate": "2026-11-15",
       "approvedBy": "KEITA",
-      "approvedAt": "2026-11-08T07:23:58.530Z",
+      "approvedAt": "2026-11-08T07:31:37.797Z",
       "sourceCandidateId": "lb-2026-11-15-noon-ja",
       "slot": "noon",
       "lang": "ja"
@@ -4184,14 +4194,18 @@
     {
       "id": "lb-2026-11-16-night-ja",
       "day": null,
-      "pillar": "GOLF",
-      "category": "W1110_1116_NIGHT_JA",
+      "pillar": "SOCIAL_CONTRIBUTION",
+      "category": "W1110_1116_NIGHT_JA_COMPE_CASE",
       "bodyEn": "Japanese post lb-2026-11-16-night-ja, not posted in English.",
-      "bodyJa": "ゴルフを始めたきっかけ、覚えていますか。\n\n会社の先輩に誘われた。\nテレビで見たプロのスイングに憧れた。\n家族が、ずっとやっていた。\n仕事の付き合いで、断れなかった。\n\n最初の理由は人それぞれでも、\n続けている理由は、やってみてから見つかったものだったりします。\nあなたのきっかけは、どれでしたか。",
+      "bodyJa": "ブービー賞のロストボールには、ピンクの木のステッカーが付いています。\n「ひとりじゃないよプロジェクト」の印です。\n\n売上の一部は、このプロジェクトへの寄付にあてています。\nひとりで寂しい思いをする子を減らしたい、という想いから生まれた活動です。\n\n環境のこと、福祉の仕事のこと、ひとりじゃないよの想い。\n小さなボールに、いくつもの「つながり」が入っています。\nコンペの賞品を探している幹事さんの、選択肢のひとつになればうれしいです。",
       "hasCta": false,
       "hasShopLink": false,
-      "requiresVerifiedFact": false,
-      "verifiedFactIds": [],
+      "requiresVerifiedFact": true,
+      "verifiedFactIds": [
+        "product-includes-pink-tree-sticker",
+        "donate-portion-to-hitori-janai-yo-project",
+        "project-mission-reduce-lonely-children"
+      ],
       "media": {
         "type": "TEXT_ONLY",
         "required": false,
@@ -4205,7 +4219,7 @@
       },
       "targetDate": "2026-11-16",
       "approvedBy": "KEITA",
-      "approvedAt": "2026-11-08T07:23:58.530Z",
+      "approvedAt": "2026-11-08T07:31:37.797Z",
       "sourceCandidateId": "lb-2026-11-16-night-ja",
       "slot": "night",
       "lang": "ja"

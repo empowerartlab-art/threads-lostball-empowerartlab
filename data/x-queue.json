@@ -1108,14 +1108,19 @@
     "id": "x-2026-11-13-night",
     "date": "2026-11-13",
     "slot": "night",
-    "pillar": "GOLF",
-    "text": "また一緒に回りたいと思う相手には、どこか共通点がある。ミスのあとも空気が重くならない。人のいい1打に本気で声をかける。上手さより、そういう人の顔を覚えている。あなたはどうですか。 #ゴルフ",
+    "pillar": "ENVIRONMENT",
+    "text": "コンペのブービー賞に、ロストボール10球入りを6セット選んでいただきました。池や林に消えたボールが、磨かれて賞品に。土に還らないボールに、もう一度の出番を。 #ゴルフ",
     "threadsItemId": "lb-2026-11-13-night-ja",
-    "requiresVerifiedFact": false,
-    "verifiedFactIds": [],
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "reuse-lost-balls-from-japan",
+      "lost-balls-end-up-in-ponds-and-forests",
+      "golf-balls-dont-return-to-soil",
+      "abandoned-golf-balls-harm-environment"
+    ],
     "approved": true,
     "approvedBy": "KEITA",
-    "approvedAt": "2026-11-08T07:24:10.038Z"
+    "approvedAt": "2026-11-08T07:31:37.797Z"
   },
   {
     "id": "x-2026-11-14-morning",
@@ -1176,14 +1181,19 @@
     "id": "x-2026-11-15-noon",
     "date": "2026-11-15",
     "slot": "noon",
-    "pillar": "GOLF",
-    "text": "最終ホールで振り返ると、傾いた日の光がフェアウェイを金色に染めている。長く伸びた自分の影の先へ、今日最後のティーショット。週末が終わる合図は、この時間の光なのかもしれません。 #ゴルフ",
+    "pillar": "WELFARE",
+    "text": "ブービー賞の60球は、福祉施設で働く人たちが1球ずつ手で確かめて磨いたもの。賞品のボールを打つとき、その向こうには磨いた人の手があります。 #ゴルフ",
     "threadsItemId": "lb-2026-11-15-noon-ja",
-    "requiresVerifiedFact": false,
-    "verifiedFactIds": [],
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one",
+      "welfare-facility-users-do-the-work",
+      "welfare-facility-users-have-disabilities",
+      "purchase-supports-work-and-participation"
+    ],
     "approved": true,
     "approvedBy": "KEITA",
-    "approvedAt": "2026-11-08T07:24:10.038Z"
+    "approvedAt": "2026-11-08T07:31:37.797Z"
   },
   {
     "id": "x-2026-11-15-night",
@@ -1228,13 +1238,17 @@
     "id": "x-2026-11-16-night",
     "date": "2026-11-16",
     "slot": "night",
-    "pillar": "GOLF",
-    "text": "ゴルフとの出会いは、誘われて・テレビで見て・家族の影響・仕事の付き合い、だいたいこのどれか。始めた理由と続けている理由が違う人も多そう。あなたはどれでしたか。 #ゴルフ",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "text": "ブービー賞のボールには「ひとりじゃないよプロジェクト」のピンクの木のステッカー。売上の一部はこの活動への寄付に。環境・福祉・つながりが詰まった、ちょっと特別な賞品です。 #ゴルフ",
     "threadsItemId": "lb-2026-11-16-night-ja",
-    "requiresVerifiedFact": false,
-    "verifiedFactIds": [],
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-includes-pink-tree-sticker",
+      "donate-portion-to-hitori-janai-yo-project",
+      "project-mission-reduce-lonely-children"
+    ],
     "approved": true,
     "approvedBy": "KEITA",
-    "approvedAt": "2026-11-08T07:24:10.038Z"
+    "approvedAt": "2026-11-08T07:31:37.797Z"
   }
 ]
