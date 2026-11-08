@@ -488,5 +488,15 @@
     "at": "2026-11-08T22:00:39.210Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-11-09-course",
+    "date": "2026-11-09",
+    "stage": "published",
+    "runId": "42528001697",
+    "runAttempt": "1",
+    "at": "2026-11-08T22:01:20.372Z",
+    "threadsId": "17911899621565721",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
