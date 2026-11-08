@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-08T03:35:58.311Z",
-  "count": 109,
+  "updatedAt": "2026-11-08T11:36:01.434Z",
+  "count": 110,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1453,6 +1453,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42443356631",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-08"
+    },
+    {
+      "sourceItemId": "lb-2026-11-08-night-ja",
+      "threadsPostId": "18076441013771736",
+      "bodyEn": "Japanese post lb-2026-11-08-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\n今年ここまで、何ラウンドしましたか？\n\n数字ひとつで大丈夫です。\n指で数えられる方も、手帳を見ないと分からない方も。\n年末までに何回足せそうか、日曜の夜に数えてみると、\n来年のカレンダーまで気になり始めるかもしれません。",
+      "pillar": "GOLF",
+      "category": "W1103_1108_NIGHT_JA",
+      "postedAt": "2026-11-08T11:36:01.433Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42476423291",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-08"
     }
   ]
