@@ -1766,5 +1766,18 @@
     "run": "night_en",
     "lang": "en",
     "slot": "night"
+  },
+  {
+    "postId": "lb-2026-11-08-night-en",
+    "date": "2026-11-08",
+    "stage": "unknown",
+    "runId": "42478210627",
+    "runAttempt": "1",
+    "at": "2026-11-08T12:00:59.290Z",
+    "threadsId": null,
+    "note": "publish (threads_publish) call failed; the post may or may not be on Threads",
+    "run": "night_en",
+    "lang": "en",
+    "slot": "night"
   }
 ]
