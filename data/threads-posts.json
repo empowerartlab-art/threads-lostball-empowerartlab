@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-09T11:36:02.336Z",
-  "count": 112,
+  "updatedAt": "2026-11-09T12:01:20.273Z",
+  "count": 113,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1494,6 +1494,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42610248217",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-09"
+    },
+    {
+      "sourceItemId": "lb-2026-11-09-night-en",
+      "threadsPostId": "18119190986275146",
+      "bodyEn": "Some songs follow you around a golf course.\n\nYou hear one in the car on the way there, and by the fourth hole it's playing in your head on every backswing. It isn't even a song you like. By Monday morning it's still there, on the train, with nothing to do with golf at all.\n\nHas a song ever stayed with you for a full 18 holes? Which one?",
+      "bodyJa": "ゴルフ場までついてくる曲がある。行きの車で聞いた曲が、4番ホールにはバックスイングのたびに頭の中で流れている。好きな曲ですらない。月曜の朝の電車でも、まだ流れている。18ホールずっと頭に残った曲はある？ どの曲？",
+      "pillar": "GOLF",
+      "category": "W1103_1109_NIGHT_EN",
+      "postedAt": "2026-11-09T12:01:20.271Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42613436113",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-09"
     }
