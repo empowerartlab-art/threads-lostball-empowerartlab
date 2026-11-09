@@ -80,28 +80,41 @@ test('48時間より古いコメントは返さず印だけ', async () => {
   assert.equal(r.inbox.length, 0);
 });
 
-test('スイッチが off なら全部 LINE に回すだけ', async () => {
+test('スイッチが off なら何もしない（LINE にも送らず、印も付けない）', async () => {
   const fetchImpl = fakeFetch();
   const r = await runAutoReply({ ...base({ enabled: false }), comments: [c(1), c(2)], fetchImpl });
-  assert.equal(r.stats.toHuman, 2);
+  assert.equal(r.stats.deferred, 2);
+  assert.equal(r.inbox.length, 0);
+  assert.equal(r.state.ids.length, 0);
   assert.equal(fetchImpl.calls.length, 0);
+});
+
+test('1回の上限を超えた分は次の回へ（LINE に送らない）', async () => {
+  const comments = Array.from({ length: 10 }, (_, i) => c(i + 1, 1));
+  const r = await runAutoReply({ ...base(), comments, fetchImpl: fakeFetch() });
+  assert.equal(r.stats.replied, 8);
+  assert.equal(r.stats.deferred, 2);
+  assert.equal(r.inbox.length, 0);
+  assert.equal(r.state.ids.length, 8);
 });
 
 test('公開に失敗したら、その回の残りは返さない', async () => {
   const fetchImpl = fakeFetch({ publishFail: true });
   const r = await runAutoReply({ ...base(), comments: [c(1, 2), c(2, 1)], fetchImpl });
   assert.equal(r.stats.replied, 0);
-  assert.equal(r.stats.toHuman, 2);
+  assert.equal(r.stats.toHuman, 1);
+  assert.equal(r.stats.deferred, 1);
   assert.match(r.inbox[0].enc.p.autoReplyNote, /確かめて/);
   assert.equal(fetchImpl.calls.filter((x) => x.url.endsWith('/threads_publish')).length, 1);
 });
 
-test('1日の上限を超えたら LINE に回す', async () => {
+test('1日の上限を超えたら次の回へ', async () => {
   const replies = Array.from({ length: MAX_PER_DAY }, (_, i) => ({ at: new Date(NOW - 3600e3).toISOString(), commentId: `threads:x${i}` }));
   const fetchImpl = fakeFetch();
   const r = await runAutoReply({ ...base({ state: { ids: [], replies } }), comments: [c(1)], fetchImpl });
   assert.equal(r.stats.replied, 0);
-  assert.equal(r.stats.toHuman, 1);
+  assert.equal(r.stats.deferred, 1);
+  assert.equal(r.inbox.length, 0);
 });
 
 test('コメント中の指示には従わないよう書いてある', () => {
