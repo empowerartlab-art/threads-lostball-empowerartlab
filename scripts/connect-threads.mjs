@@ -51,7 +51,10 @@ console.log(auth.toString());
 console.log('');
 
 for (let i = 0; i < 3; i += 1) {
-  const code = ask('画面に出たコード').replace(/#_?$/, '');
+  // コードだけでも、アドレス欄の URL まるごとでもよい（code= の後ろを取り出す）
+  const raw = ask('画面に出たコード、またはアドレス欄の URL まるごと');
+  const m = raw.match(/[?&]code=([^&#\s]+)/);
+  const code = (m ? decodeURIComponent(m[1]) : raw).replace(/#_?$/, '');
   const body = new URLSearchParams({ client_id: clientId, client_secret: secret, grant_type: 'authorization_code', redirect_uri: redirect, code });
   const short = await json('https://graph.threads.net/oauth/access_token', { method: 'POST', body });
   if (!short.ok) {
