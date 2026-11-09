@@ -1818,5 +1818,18 @@
     "run": "noon",
     "lang": "ja",
     "slot": "noon"
+  },
+  {
+    "postId": "lb-2026-11-09-night-ja",
+    "date": "2026-11-09",
+    "stage": "claimed",
+    "runId": "42610248217",
+    "runAttempt": "1",
+    "at": "2026-11-09T11:35:52.763Z",
+    "threadsId": null,
+    "note": null,
+    "run": "night",
+    "lang": "ja",
+    "slot": "night"
   }
 ]
