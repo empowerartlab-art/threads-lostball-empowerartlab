@@ -1779,5 +1779,18 @@
     "run": "night_en",
     "lang": "en",
     "slot": "night"
+  },
+  {
+    "postId": "lb-2026-11-08-night-en",
+    "date": "2026-11-08",
+    "stage": "resolved",
+    "runId": "resolved-by:claude-checked-threads-profile",
+    "runAttempt": "1",
+    "at": "2026-11-09T01:58:29.134Z",
+    "threadsId": null,
+    "note": "confirmed not published by a human",
+    "run": "night_en",
+    "lang": "en",
+    "slot": "night"
   }
 ]
