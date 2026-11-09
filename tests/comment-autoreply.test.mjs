@@ -138,6 +138,7 @@ test('さかのぼり：古いコメントにも返し、遅れた旨を AI に�
   assert.equal(r.stats.replied, 1);
   assert.deepEqual(r.state.backfill, ['threads:1']);
   assert.ok(bodies[0].includes('3日前のもの'));
+  assert.ok(bodies[0].includes('お詫びや挨拶は書かない'));
   const r2 = await runAutoReply({ ...base({ state: r.state, backfillSinceMs: SINCE }), comments: [c(1, 72)], fetchImpl: fakeFetch() });
   assert.equal(r2.stats.replied, 0);
 });
@@ -162,4 +163,12 @@ test('さかのぼり無しのときは今まで通り', async () => {
   const r = await runAutoReply({ ...base(), comments: [c(1, 72)], fetchImpl: fakeFetch() });
   assert.equal(r.stats.skippedOld, 1);
   assert.equal(r.state.backfill, undefined);
+});
+
+test('1日の上限は AUTO_REPLY_MAX_PER_DAY で上げられるが60まで', async () => {
+  const at = new Date(NOW).toISOString();
+  const replies = Array.from({ length: 59 }, (_, i) => ({ at, commentId: `threads:p${i}` }));
+  const r = await runAutoReply({ ...base({ state: { ids: [], replies }, maxPerDay: 100 }), comments: [c('a'), c('b')], fetchImpl: fakeFetch() });
+  assert.equal(r.stats.replied, 1);
+  assert.equal(r.stats.deferred, 1);
 });
