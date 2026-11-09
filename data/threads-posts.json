@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-08T11:36:01.434Z",
-  "count": 110,
+  "updatedAt": "2026-11-09T03:36:03.353Z",
+  "count": 111,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1468,6 +1468,20 @@
       "lang": "ja",
       "slot": "night",
       "targetDate": "2026-11-08"
+    },
+    {
+      "sourceItemId": "lb-2026-11-09-noon-ja",
+      "threadsPostId": "18137091244657762",
+      "bodyEn": "Japanese post lb-2026-11-09-noon-ja, not posted in English.",
+      "bodyJa": "推定5億〜10億球。\n\n日本全国のゴルフ場の近くに残っているロストボールは、それくらいあるとも言われています（2025年時点）。\n\n驚くのは、多さだけではありません。\n少ないほうと多いほうで、5億球も違う。\nその差だけで、もう想像が追いつかない。\nこれまでに見送ってきた1球も、この幅のどこかにいるはずです。\n\nこういう数字を見つけたら、またここに置いておきます。",
+      "pillar": "ENVIRONMENT",
+      "category": "W1103_1109_NOON_JA",
+      "postedAt": "2026-11-09T03:36:03.352Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42557231061",
+      "lang": "ja",
+      "slot": "noon",
+      "targetDate": "2026-11-09"
     }
   ]
 }
