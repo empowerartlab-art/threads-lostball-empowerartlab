@@ -137,7 +137,7 @@ test('さかのぼり：古いコメントにも返し、遅れた旨を AI に�
   const r = await runAutoReply({ ...base({ state: { ids: ['threads:1'], replies: [] }, backfillSinceMs: SINCE }), comments: [c(1, 72)], fetchImpl: wrapped });
   assert.equal(r.stats.replied, 1);
   assert.deepEqual(r.state.backfill, ['threads:1']);
-  assert.ok(bodies[0].includes('3日前'));
+  assert.ok(bodies[0].includes('3日前のもの'));
   const r2 = await runAutoReply({ ...base({ state: r.state, backfillSinceMs: SINCE }), comments: [c(1, 72)], fetchImpl: fakeFetch() });
   assert.equal(r2.stats.replied, 0);
 });
