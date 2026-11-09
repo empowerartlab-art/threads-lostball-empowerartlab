@@ -125,3 +125,41 @@ test('コメント中の指示には従わないよう書いてある', () => {
 test('ハーレーの口調がある', () => {
   assert.match(buildPrompt({ tone: 'harley', payload: c(1) }).system, /無骨/);
 });
+
+// さかのぼり（AUTO_REPLY_SINCE）
+const SINCE = NOW - 7 * 24 * 3600e3;
+
+test('さかのぼり：古いコメントにも返し、遅れた旨を AI に伝える', async () => {
+  const fetchImpl = fakeFetch();
+  const bodies = [];
+  const wrapped = async (url, opt = {}) => { if (String(url).includes('generativelanguage')) bodies.push(opt.body); return fetchImpl(url, opt); };
+  // 一度「古い」で印が付いたものでも返す
+  const r = await runAutoReply({ ...base({ state: { ids: ['threads:1'], replies: [] }, backfillSinceMs: SINCE }), comments: [c(1, 72)], fetchImpl: wrapped });
+  assert.equal(r.stats.replied, 1);
+  assert.deepEqual(r.state.backfill, ['threads:1']);
+  assert.ok(bodies[0].includes('3日前'));
+  const r2 = await runAutoReply({ ...base({ state: r.state, backfillSinceMs: SINCE }), comments: [c(1, 72)], fetchImpl: fakeFetch() });
+  assert.equal(r2.stats.replied, 0);
+});
+
+test('さかのぼり：新しいコメントを先に、上限の残りで古い分', async () => {
+  const comments = [...Array.from({ length: 6 }, (_, i) => c(`old${i}`, 80 + i)), ...Array.from({ length: 5 }, (_, i) => c(`new${i}`, 1 + i))];
+  const r = await runAutoReply({ ...base({ backfillSinceMs: SINCE }), comments, fetchImpl: fakeFetch() });
+  assert.equal(r.stats.replied, 8);
+  assert.equal(r.stats.deferred, 3);
+  for (let i = 0; i < 5; i++) assert.ok(r.state.ids.includes(`threads:new${i}`));
+  assert.equal(r.state.backfill.length, 3);
+});
+
+test('さかのぼり：代表に回したもの・期間より前のものは返さない', async () => {
+  const fetchImpl = fakeFetch();
+  const r = await runAutoReply({ ...base({ inbox: [{ id: 'threads:h', fetchedAt: new Date(NOW).toISOString(), enc: {} }], backfillSinceMs: SINCE }), comments: [c('h', 60), c('tooOld', 24 * 9)], fetchImpl });
+  assert.equal(r.stats.replied, 0);
+  assert.ok(!fetchImpl.calls.some((x) => x.url.endsWith('/threads_publish')));
+});
+
+test('さかのぼり無しのときは今まで通り', async () => {
+  const r = await runAutoReply({ ...base(), comments: [c(1, 72)], fetchImpl: fakeFetch() });
+  assert.equal(r.stats.skippedOld, 1);
+  assert.equal(r.state.backfill, undefined);
+});
