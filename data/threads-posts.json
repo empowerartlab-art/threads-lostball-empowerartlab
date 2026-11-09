@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-09T03:36:03.353Z",
-  "count": 111,
+  "updatedAt": "2026-11-09T11:36:02.336Z",
+  "count": 112,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1481,6 +1481,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42557231061",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-09"
+    },
+    {
+      "sourceItemId": "lb-2026-11-09-night-ja",
+      "threadsPostId": "18182904379437130",
+      "bodyEn": "Japanese post lb-2026-11-09-night-ja, not posted in English.",
+      "bodyJa": "月曜の夜に、少し先のことを考えてみる。\n\nコースですれ違う、年齢を重ねたゴルファーの歩き方。\n飛距離の話はしなくても、同じ組の人と笑いながら次のホールへ向かっていく。\nああいうふうに回り続けられたら、スコアのことはあまり気にならない気がします。\n\nみなさんは、何歳までゴルフを続けたいですか。",
+      "pillar": "GOLF",
+      "category": "W1103_1109_NIGHT_JA",
+      "postedAt": "2026-11-09T11:36:02.335Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42610248217",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-09"
     }
   ]
