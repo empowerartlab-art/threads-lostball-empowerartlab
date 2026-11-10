@@ -1,0 +1,24 @@
+name: Manual Reply
+# 代表が OK した返信を出す（手動実行だけ）。
+on:
+  workflow_dispatch:
+    inputs:
+      replies:
+        description: '[{"id":"コメントID","text":"返信文"}]'
+        required: true
+permissions:
+  contents: read
+jobs:
+  reply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          REPLIES_JSON: ${{ inputs.replies }}
+        run: node scripts/manual-reply.mjs

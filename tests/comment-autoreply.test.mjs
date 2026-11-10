@@ -172,3 +172,21 @@ test('1日の上限は AUTO_REPLY_MAX_PER_DAY で上げられるが60まで', as
   assert.equal(r.stats.replied, 1);
   assert.equal(r.stats.deferred, 1);
 });
+
+test('AI がエラーのときは LINE に送らず、次の回にやり直す', async () => {
+  const f = async (url) => {
+    if (String(url).includes('generativelanguage')) return { ok: false, status: 503, json: async () => ({}) };
+    throw new Error('unexpected ' + url);
+  };
+  const r = await runAutoReply({ ...base(), comments: [c(1), c(2)], fetchImpl: f });
+  assert.equal(r.inbox.length, 0);
+  assert.equal(r.stats.errors, 1);
+  assert.equal(r.stats.deferred, 1);
+  assert.deepEqual(r.state.ids, []);
+});
+
+test('写真・軽いツッコミ・思い出話・キャラへの質問は返す。危ないものだけ代表へ', () => {
+  const { system } = buildPrompt({ tone: 'hetaro', facts: [], payload: {} });
+  for (const w of ['写真', '軽い指摘やツッコミ', '長い思い出話', '数字は作らず', '本当に危ないものだけ', '福祉の利用', '際どい']) assert.ok(system.includes(w), w);
+  assert.ok(!system.includes('少しでも迷うもの'));
+});
