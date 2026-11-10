@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-10T12:01:03.416Z",
-  "count": 117,
+  "updatedAt": "2026-11-10T22:36:11.710Z",
+  "count": 118,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1566,6 +1566,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-10"
+    },
+    {
+      "sourceItemId": "lb-2026-11-11-morning-ja",
+      "threadsPostId": "18105708743342115",
+      "bodyEn": "Japanese post lb-2026-11-11-morning-ja, not posted in English.",
+      "bodyJa": "グローブを外して、ふと手のひらの側を見る。\n\n親指のつけ根のあたりが、少しすり切れている。\n革の表面には、自分の握り方のくせがそのまま残っている。\n乾かすたびに、色も少しずつ変わってきた。\n新しいものに替えたほうがいいのは、分かっているんです。\nそれでも、手になじんだ1枚はなかなか引き出しにしまえない。\n\nいま使っているグローブ、今年に入って何枚目ですか。",
+      "pillar": "GOLF",
+      "category": "W1110_1111_MORNING_JA",
+      "postedAt": "2026-11-10T22:36:11.708Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42915966281",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-11"
     }
   ]
 }
