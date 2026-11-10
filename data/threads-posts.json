@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-10T03:36:07.020Z",
-  "count": 115,
+  "updatedAt": "2026-11-10T11:36:08.624Z",
+  "count": 116,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1537,6 +1537,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42750432591",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-10"
+    },
+    {
+      "sourceItemId": "lb-2026-11-10-night-ja",
+      "threadsPostId": "18213368296367624",
+      "bodyEn": "Japanese post lb-2026-11-10-night-ja, not posted in English.",
+      "bodyJa": "もし、日本中どこのコースでも1つだけ回れるとしたら。\n\nずっと気になっている名門のコース。\n海が見えるホールが続くコース。\n子どものころ、家の近くにあったゴルフ場。\n予約も料金も、移動の時間も気にしなくていい。\n\n条件はひとつだけ、回れるのは一度きり。\nそう言われると、かえって迷いませんか。\nあなたなら、どこを選びますか。",
+      "pillar": "GOLF",
+      "category": "W1110_1110_NIGHT_JA",
+      "postedAt": "2026-11-10T11:36:08.623Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42808714086",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-10"
     }
   ]
