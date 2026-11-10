@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-09T22:36:03.698Z",
-  "count": 114,
+  "updatedAt": "2026-11-10T03:36:07.020Z",
+  "count": 115,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1523,6 +1523,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42713236037",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-10"
+    },
+    {
+      "sourceItemId": "lb-2026-11-10-noon-ja",
+      "threadsPostId": "18074734703775701",
+      "bodyEn": "Japanese post lb-2026-11-10-noon-ja, not posted in English.",
+      "bodyJa": "朝いちばんの組で、ティーグラウンドに上がる。\n\n端のほうに、誰かが残していった折れたティーが落ちている。\n前の日の最後の組のものか、もっと前のものか。\n木の色が少しくすんでいて、ちょっとだけ時間がたっているのが分かる。\n\n拾ってポケットに入れるか、そのままにしておくか。\n誰も見ていないのに、少し考えてしまう朝です。\nあの折れたティー、どうしていますか。",
+      "pillar": "GOLF",
+      "category": "W1110_1110_NOON_JA",
+      "postedAt": "2026-11-10T03:36:07.019Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42750432591",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-10"
     }
   ]
