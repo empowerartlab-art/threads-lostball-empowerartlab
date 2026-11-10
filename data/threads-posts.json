@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-10T11:36:08.624Z",
-  "count": 116,
+  "updatedAt": "2026-11-10T12:01:03.416Z",
+  "count": 117,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1550,6 +1550,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42808714086",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-10"
+    },
+    {
+      "sourceItemId": "lb-2026-11-10-night-en",
+      "threadsPostId": "17960170593018130",
+      "bodyEn": "Late autumn is a quiet, pretty time on Japanese golf courses.\n\nLeaves drift onto the fairways, the light turns gold by early afternoon, and the back nine can feel like evening before you know it. You start looking at earlier tee times just to finish in the light.\n\nWhere you play, is this a favorite season, or one you put up with until spring?",
+      "bodyJa": "晩秋の日本のゴルフ場は静かできれい。落ち葉がフェアウェイに舞い、昼過ぎには光が金色に、後半はいつの間にか夕方のよう。明るいうちに終えたくて早いスタートを探し始める。あなたの所では好きな季節？春まで我慢する季節？",
+      "pillar": "GOLF",
+      "category": "W1110_1110_NIGHT_EN",
+      "postedAt": "2026-11-10T12:01:03.415Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42812082688",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-10"
     }
