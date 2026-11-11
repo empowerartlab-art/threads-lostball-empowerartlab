@@ -1667,5 +1667,16 @@
     "threadsId": null,
     "note": null,
     "slot": "morning"
+  },
+  {
+    "postId": "x-2026-11-12-morning",
+    "date": "2026-11-12",
+    "stage": "published",
+    "runId": "43109486429",
+    "runAttempt": "1",
+    "at": "2026-11-11T22:10:44.526Z",
+    "threadsId": "2120640394807390211",
+    "note": "x post id stored in threadsId",
+    "slot": "morning"
   }
 ]
