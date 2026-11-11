@@ -2013,5 +2013,18 @@
     "run": "noon",
     "lang": "ja",
     "slot": "noon"
+  },
+  {
+    "postId": "lb-2026-11-11-noon-ja",
+    "date": "2026-11-11",
+    "stage": "published",
+    "runId": "42953758746",
+    "runAttempt": "1",
+    "at": "2026-11-11T03:36:04.671Z",
+    "threadsId": "18083301638747201",
+    "note": "threads post id stored in threadsId",
+    "run": "noon",
+    "lang": "ja",
+    "slot": "noon"
   }
 ]

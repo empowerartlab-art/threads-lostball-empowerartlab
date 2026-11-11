@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-10T22:36:11.710Z",
-  "count": 118,
+  "updatedAt": "2026-11-11T03:36:04.668Z",
+  "count": 119,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1579,6 +1579,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42915966281",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-11"
+    },
+    {
+      "sourceItemId": "lb-2026-11-11-noon-ja",
+      "threadsPostId": "18083301638747201",
+      "bodyEn": "Japanese post lb-2026-11-11-noon-ja, not posted in English.",
+      "bodyJa": "1年で、約2,100万球。\n\n毎年それだけのゴルフボールが、新たに自然の中へ残されているとも言われています。\n\nラフの奥、林の向こう、池の底。\n1球ずつは、ため息ひとつで次のホールへ向かう出来事です。\nそれが毎年、どこかのコースで積み重なっていく。\n\n今年の自分の分も、この中に何球か入っているはずです。\n数えたくはないけれど、ゼロではないことだけは分かります。",
+      "pillar": "ENVIRONMENT",
+      "category": "W1110_1111_NOON_JA",
+      "postedAt": "2026-11-11T03:36:04.667Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42953758746",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-11"
     }
   ]
