@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-11T03:36:04.668Z",
-  "count": 119,
+  "updatedAt": "2026-11-11T11:36:09.485Z",
+  "count": 120,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1593,6 +1593,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/42953758746",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-11"
+    },
+    {
+      "sourceItemId": "lb-2026-11-11-night-ja",
+      "threadsPostId": "18114741686138323",
+      "bodyEn": "Japanese post lb-2026-11-11-night-ja, not posted in English.",
+      "bodyJa": "ゴルフを始めたころの道具、まだ何か残っていますか。\n\n最初に買ったパター。\n初めてそろえたアイアンの、7番だけ。\nもう使っていないのに、捨てられないままのボールの空き箱。\n\n上手くなるたびに道具は替わっていくけれど、\n最初の1つには、何も分からずに夢中だったころの気持ちが残っている気がします。\n押し入れの奥にある、いちばん古い1つは何ですか。",
+      "pillar": "GOLF",
+      "category": "W1110_1111_NIGHT_JA",
+      "postedAt": "2026-11-11T11:36:09.484Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43013200348",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-11"
     }
   ]
