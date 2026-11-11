@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-11T12:01:05.950Z",
-  "count": 121,
+  "updatedAt": "2026-11-11T22:36:07.733Z",
+  "count": 122,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1622,6 +1622,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-11"
+    },
+    {
+      "sourceItemId": "lb-2026-11-12-morning-ja",
+      "threadsPostId": "18013431567004370",
+      "bodyEn": "Japanese post lb-2026-11-12-morning-ja, not posted in English.",
+      "bodyJa": "1番ティーで、ドライバーのヘッドカバーを外す。\n\n外したカバーをどこに置くかで、少しだけ迷う。\nバッグに戻すか、ポケットに押しこむか。\n思い返せば、そのカバーはもう何年も同じものです。\n\n糸のほつれも、色あせも、いつの間にか見慣れた顔。\n道具は新しくなっても、これだけは替わらない人もいるはずです。\nいま付けているのは、どんな柄ですか。",
+      "pillar": "GOLF",
+      "category": "W1110_1112_MORNING_JA",
+      "postedAt": "2026-11-11T22:36:07.731Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43113039196",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-12"
     }
   ]
 }
