@@ -125,8 +125,8 @@ test("category-profile.json の initialSevenDayPlan がdraft-bank.jsonのカテ�
   }
 });
 
-test("verified-facts.json の22件の事実がすべてverified:trueで登録されている", () => {
-  assert.equal(factsFile.facts.length, 22);
+test("verified-facts.json の23件の事実がすべてverified:trueで登録されている", () => {
+  assert.equal(factsFile.facts.length, 23);
   for (const fact of factsFile.facts) {
     assert.equal(fact.verified, true, `${fact.id} が未検証`);
   }

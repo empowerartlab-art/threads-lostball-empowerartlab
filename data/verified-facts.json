@@ -191,6 +191,15 @@
       "verified": true,
       "confirmedAt": "2026-10-03",
       "note": "ユーザー提供情報に基づき、アカウント運営者が投稿への使用を明示的に承認した情報(2026-10-03)。外部の第三者資料による出典確認は行っていない。虐待防止・株式会社saeへの寄付については、今回承認されたDAY16〜22本文に含まれていないため、この事実にも含めていない(data/content-ideas.jsonのhitori-janai-yo-project-deep-diveテーマ参照)。"
+    },
+    {
+      "id": "product-sold-in-sets-of-10-balls",
+      "statementJa": "販売するロストボールは、10球ずつのセットになっている",
+      "statementEn": "The lost balls we sell come in sets of 10.",
+      "pillar": "GOLF",
+      "verified": true,
+      "confirmedAt": "2026-11-11",
+      "note": "オンラインショップの商品ページの記載(カラーごとに統一して10球セット)にもとづく。アカウント運営者が2026-11-11、11/14夜の投稿の承認時に確認。値段・割引・セットの種類の数は、この事実に含めない。"
     }
   ]
 }
