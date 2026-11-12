@@ -558,5 +558,15 @@
     "at": "2026-11-11T22:01:26.965Z",
     "threadsId": "18127614106904912",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-13-frost",
+    "date": "2026-11-13",
+    "stage": "claimed",
+    "runId": "43315772324",
+    "runAttempt": "1",
+    "at": "2026-11-12T22:00:43.803Z",
+    "threadsId": null,
+    "note": null
   }
 ]
