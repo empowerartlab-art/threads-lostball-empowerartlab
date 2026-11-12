@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-12T11:36:11.961Z",
-  "count": 124,
+  "updatedAt": "2026-11-12T12:01:02.246Z",
+  "count": 125,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1662,6 +1662,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43210457897",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-12"
+    },
+    {
+      "sourceItemId": "lb-2026-11-12-night-en",
+      "threadsPostId": "18079551248446465",
+      "bodyEn": "Quick question for the night before a round.\n\nHow do you mark your ball?\n\n1) A single dot\n2) A line, for lining up putts\n3) Your initials\n4) Nothing at all, you just remember the number\n\nSome people use the same pen for years. Some change the color every season. Golfers are oddly loyal to their marks. Tell us yours, and why.",
+      "bodyJa": "ラウンド前の夜の質問。ボールの印はどうしてる？ 点1つ／パット用の線／イニシャル／何もしない（番号を覚える）。何年も同じペンの人も、季節で色を変える人も。ゴルファーは印に妙にこだわる。あなたの印と理由を教えて。",
+      "pillar": "GOLF",
+      "category": "W1110_1112_NIGHT_EN",
+      "postedAt": "2026-11-12T12:01:02.245Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43214003820",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-12"
     }
