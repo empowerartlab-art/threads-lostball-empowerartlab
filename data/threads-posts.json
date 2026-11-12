@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-11T22:36:07.733Z",
-  "count": 122,
+  "updatedAt": "2026-11-12T03:36:03.154Z",
+  "count": 123,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1635,6 +1635,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43113039196",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-12"
+    },
+    {
+      "sourceItemId": "lb-2026-11-12-noon-ja",
+      "threadsPostId": "18354411820266818",
+      "bodyEn": "Japanese post lb-2026-11-12-noon-ja, not posted in English.",
+      "bodyJa": "ラフの端で、自分のボールを探す。\n\n白い点が見えて近づいたら、どんぐりだった。\nその少し先に、もうひとつ白い点。\n今度こそと思ったら、また、どんぐり。\n3つ目でようやく、本物のボールが見つかった。\n\n秋のコースは、落とし物がにぎやかです。\n見つけたときにほっとする気持ちは、何度探しても同じ。\nボールを探していて、何と見まちがえたことがありますか。",
+      "pillar": "GOLF",
+      "category": "W1110_1112_NOON_JA",
+      "postedAt": "2026-11-12T03:36:03.153Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43149229283",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-12"
     }
   ]
