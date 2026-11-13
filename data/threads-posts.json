@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-13T11:36:05.733Z",
-  "count": 128,
+  "updatedAt": "2026-11-13T12:01:04.120Z",
+  "count": 129,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1718,6 +1718,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43418283638",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-13"
+    },
+    {
+      "sourceItemId": "lb-2026-11-13-night-en",
+      "threadsPostId": "17991695682092946",
+      "bodyEn": "Friday night, and the bag is already in the car.\n\nShoes in the trunk, a sleeve of balls in the side pocket, a fresh glove tucked in with them. The car keys are sitting by the door. All that's left is to sleep, which somehow is the hardest part.\n\nDo you pack the night before, or throw everything in the car in a rush in the morning?",
+      "bodyJa": "金曜の夜、バッグはもう車の中。シューズはトランク、ボールのスリーブと新しいグローブはポケット。車の鍵は玄関に。あとは寝るだけ、なのにそれがいちばん難しい。前の晩に積む派？朝に急いで積む派？",
+      "pillar": "GOLF",
+      "category": "W1110_1113_NIGHT_EN",
+      "postedAt": "2026-11-13T12:01:04.119Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43421551630",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-13"
     }
