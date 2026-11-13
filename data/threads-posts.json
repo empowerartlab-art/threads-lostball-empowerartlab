@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-12T22:36:12.523Z",
-  "count": 126,
+  "updatedAt": "2026-11-13T03:36:01.167Z",
+  "count": 127,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1691,6 +1691,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43321304531",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-13"
+    },
+    {
+      "sourceItemId": "lb-2026-11-13-noon-ja",
+      "threadsPostId": "18098226956134737",
+      "bodyEn": "Japanese post lb-2026-11-13-noon-ja, not posted in English.",
+      "bodyJa": "池のそばの道を歩いていると、つい水の中を見てしまう。\n\n浅いところに、白い点がひとつ、ふたつ。\n光の加減で、もっと奥にもいくつか見える気がする。\nどれも、誰かがこのホールで見送ったボールです。\nゴルフ場の池や林には、こうして拾われないまま残るボールがあります。\n\n自分の1球も、どこかの池でこうして沈んでいるのかもしれません。\n池のそばを通るとき、水の中を見るほうですか。",
+      "pillar": "ENVIRONMENT",
+      "category": "W1110_1113_NOON_JA",
+      "postedAt": "2026-11-13T03:36:01.166Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43359979074",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-13"
     }
   ]
