@@ -588,5 +588,15 @@
     "at": "2026-11-13T22:00:47.406Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-11-14-sea",
+    "date": "2026-11-14",
+    "stage": "published",
+    "runId": "43515615725",
+    "runAttempt": "1",
+    "at": "2026-11-13T22:01:19.067Z",
+    "threadsId": "17877531363637665",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
