@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-13T03:36:01.167Z",
-  "count": 127,
+  "updatedAt": "2026-11-13T11:36:05.733Z",
+  "count": 128,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1705,6 +1705,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43359979074",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-13"
+    },
+    {
+      "sourceItemId": "lb-2026-11-13-night-ja",
+      "threadsPostId": "18130511359849841",
+      "bodyEn": "Japanese post lb-2026-11-13-night-ja, not posted in English.",
+      "bodyJa": "ゴルフコンペのブービー賞に、ロストボールを選んでいただきました。\n10球入りを6セット、あわせて60球です。\n\nこの60球も、もとはどこかのコースで池や林に消えたボールです。\nゴルフボールは土に還らない素材でできていて、\n回収されずに残ると、自然の負担になってしまいます。\n\n拾われて、磨かれて、今度はコンペの賞品に。\n次のラウンドで、もう一度ちゃんと出番が来ますように。",
+      "pillar": "ENVIRONMENT",
+      "category": "W1110_1113_NIGHT_JA_COMPE_CASE",
+      "postedAt": "2026-11-13T11:36:05.732Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43418283638",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-13"
     }
   ]
