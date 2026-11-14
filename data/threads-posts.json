@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-14T11:36:05.471Z",
-  "count": 132,
+  "updatedAt": "2026-11-14T12:01:07.402Z",
+  "count": 133,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1774,6 +1774,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43590754084",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-14"
+    },
+    {
+      "sourceItemId": "lb-2026-11-14-night-en",
+      "threadsPostId": "18096944312483634",
+      "bodyEn": "Overseas, a study reported that around 50,000 golf balls were collected from the waters off a coastal golf course.\n\nSeaside holes are the ones people travel to play: the cliffs, the wind, the view. Every ball that went over the edge was one quick \"oh no\" and a walk to the next tee.\n\nHave you ever played a hole by the sea? Did your ball stay dry?",
+      "bodyJa": "海外では、沿岸のゴルフ場の沖から約5万球が回収されたという研究報告がある。海沿いのホールは、崖・風・景色を求めて人が遠くから来るホール。崖の向こうへ消えた1球は、どれも一瞬の「しまった」と次のティーへの歩きだった。海沿いのホール、回ったことある？ボールは無事だった？",
+      "pillar": "ENVIRONMENT",
+      "category": "W1110_1114_NIGHT_EN",
+      "postedAt": "2026-11-14T12:01:07.401Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43592668545",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-14"
     }
