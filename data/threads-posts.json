@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-14T12:01:07.402Z",
-  "count": 133,
+  "updatedAt": "2026-11-14T22:36:03.689Z",
+  "count": 134,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1790,6 +1790,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-14"
+    },
+    {
+      "sourceItemId": "lb-2026-11-15-morning-ja",
+      "threadsPostId": "18108485603343861",
+      "bodyEn": "Japanese post lb-2026-11-15-morning-ja, not posted in English.",
+      "bodyJa": "1番ホールへ向かうカートが、ゆっくり動き出す。\n\nさっきまで駐車場で笑っていた人たちが、\n急に口数が少なくなる。\n誰かが小さく咳払いをする音だけが、やけに大きく聞こえる。\n\n緊張なのか、集中なのか、ただ眠いだけなのか。\nこの短い静けさで、その日の気持ちが決まる気がします。\n1番に向かうあいだ、何を考えていますか。",
+      "pillar": "GOLF",
+      "category": "W1110_1115_MORNING_JA",
+      "postedAt": "2026-11-14T22:36:03.687Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43648892684",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-15"
     }
   ]
 }
