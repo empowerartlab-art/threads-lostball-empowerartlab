@@ -598,5 +598,15 @@
     "at": "2026-11-13T22:01:19.067Z",
     "threadsId": "17877531363637665",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-15-cart",
+    "date": "2026-11-15",
+    "stage": "claimed",
+    "runId": "43645763890",
+    "runAttempt": "1",
+    "at": "2026-11-14T22:00:42.490Z",
+    "threadsId": null,
+    "note": null
   }
 ]
