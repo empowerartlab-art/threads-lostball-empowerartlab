@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-14T03:36:09.192Z",
-  "count": 131,
+  "updatedAt": "2026-11-14T11:36:05.471Z",
+  "count": 132,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1761,6 +1761,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43552419252",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-14"
+    },
+    {
+      "sourceItemId": "lb-2026-11-14-night-ja",
+      "threadsPostId": "18149894944493362",
+      "bodyEn": "Japanese post lb-2026-11-14-night-ja, not posted in English.",
+      "bodyJa": "コンペの景品に、ロストボールという選び方があります。\n\n池や林に消えたボールを回収して、\n福祉施設で働く人たちが、1球ずつ手で磨いたものです。\n10球ずつのセットになっているので、順位ごとに分けやすい。\n「ひとりじゃないよプロジェクト」のステッカーも付いています。\n\n表彰式で渡すときに、ひとこと添えられます。\n「このボールは、もう一度出番をもらった1球です」と。\n\nくわしくは、プロフィールのリンクから。",
+      "pillar": "GOLF",
+      "category": "W1110_1114_NIGHT_JA",
+      "postedAt": "2026-11-14T11:36:05.469Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43590754084",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-14"
     }
   ]
