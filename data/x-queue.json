@@ -1250,5 +1250,307 @@
     "approved": true,
     "approvedBy": "KEITA",
     "approvedAt": "2026-11-08T07:31:37.797Z"
+  },
+  {
+    "id": "x-2026-11-17-morning",
+    "date": "2026-11-17",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "池の底や林の奥に消えたボールにも、先があると思っています。拾われて、1球ずつ確かめられて、磨かれて、またコースへ戻る。ボールは一度なくしたら終わり、ではありません。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-17-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one",
+      "lost-balls-end-up-in-ponds-and-forests"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-17-noon",
+    "date": "2026-11-17",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "昼の、どっち派？コンペの景品は、全員に同じものを派？順位や賞ごとに変える派？私たちは賞ごとに変える派です。名前を呼ばれて、何がもらえるのか。選ぶ時間も楽しみのうちです。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-17-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-17-night",
+    "date": "2026-11-17",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルフ仲間に質問です。ラウンド中に失くすボールは、だいたい何個？ゼロ、1〜2個、3〜5個、数えたくない。私たちの仕事は、その「なくなった1球」から始まります。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-17-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "reuse-lost-balls-from-japan",
+      "lost-balls-end-up-in-ponds-and-forests"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-18-morning",
+    "date": "2026-11-18",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "ボールの印には、持ち主らしさが出ると思っています。点が1つ、短い線、小さなイニシャル。同じ銘柄が並んでも、その印が「自分の1球」の目印になります。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-18-morning-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-18-noon",
+    "date": "2026-11-18",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "昼の、どっち派？ラウンド中のボールの汚れは、その都度ふく派？気にしない派？私たちはふく派です。1球ずつ磨いているので、きれいなボールには、つい目がいきます。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-18-noon-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-18-night",
+    "date": "2026-11-18",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。ラウンドに入れていくボールは、いくつ？1スリーブ、6個前後、1ダース、数えていない。池が多いコースの前の晩は、つい2〜3個多めに入れてしまいます。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-18-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-19-morning",
+    "date": "2026-11-19",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "コンペの景品は、もらって困らないものがいいと思っています。場所を取らない、好みが分かれない、使えばなくなる。ロストボールは、1球ずつ手で磨いた10球セットです。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-19-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one",
+      "product-sold-in-sets-of-10-balls"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-19-noon",
+    "date": "2026-11-19",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "昼の、どっち派？ボールをなくすなら、池派？林派？池は入った瞬間にあきらめがつく。林は「あるかもしれない」と探してしまう。後ろの組が近づく、あの時間が長いのは林です。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-19-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-19-night",
+    "date": "2026-11-19",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに質問です。ロストボールを使ったことは？いつも、練習のときだけ、ない。使い方に正解はないと思っています。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-19-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "reuse-lost-balls-from-japan"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-20-morning",
+    "date": "2026-11-20",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "連休の前の夜は、つい靴を磨いてしまいます。芝を落として、ひもを結び直して、バッグの横へ。もう半分、ゴルフ場にいるような気分です。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-20-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-20-noon",
+    "date": "2026-11-20",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "昼の、どっち派？コンペの景品は、早めに用意する派？直前に選ぶ派？私たちは早めに用意する派です。人数が決まらないと数も決められない。でも、直前は選ぶ時間がなくなります。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-20-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-20-night",
+    "date": "2026-11-20",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。この連休、ラウンドに行くのは何回？0回、1回、2回、3回以上。連休のラウンドで、池に落ちるボールが少ないことを願っています。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-20-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-21-morning",
+    "date": "2026-11-21",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "ティーの色や長さがばらばらなのは、ゴルフらしいと思います。ポケットの中で、いつのまにか混ざる。気づけば、誰のものか分からない1本まで入っています。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-21-morning-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-21-noon",
+    "date": "2026-11-21",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "昼の、どっち派？バッグの中のボールは、同じ銘柄でそろえる派？いろいろ混ざっている派？私たちは、混ざっているボールに親しみがあります。1球ごとに、違うコースを知っているので。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-21-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-21-night",
+    "date": "2026-11-21",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。コンペでいちばん楽しみなのは何？景品、表彰式、初めての組み合わせ、終わったあとの一杯。私たちは表彰式。名前を呼ばれて前に出る数秒が、好きです。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-21-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-22-morning",
+    "date": "2026-11-22",
+    "slot": "morning",
+    "pillar": "ENVIRONMENT",
+    "text": "池に入ったボールにも、続きがあると思っています。潜水士が水中で回収する方法があり、林やOBゾーンでは人の手で拾われることも。確かめられ、磨かれて、またコースに向かうボールもあります。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-22-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one",
+      "lost-balls-end-up-in-ponds-and-forests",
+      "lost-balls-retrieved-by-divers-from-ponds"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-22-noon",
+    "date": "2026-11-22",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "昼の、どっち派？スタート前に、ストレッチをする派？そのまま打つ派？私たちはする派です。ボールも磨いてから出番を待つので、体もひと伸びしてから。寒い日は、とくに。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-22-noon-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-22-night",
+    "date": "2026-11-22",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。始めたとき、最初に買った道具は？クラブ、シューズ、ボール、ウェア。ボールは、最初に買って最後まで使い続けるものだと思っています。なくしても、また1球。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-22-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-23-morning",
+    "date": "2026-11-23",
+    "slot": "morning",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "text": "コンペの景品は、ひとこと添えられるものがいいと思っています。「次のラウンドで使ってください」の一言で、ただの物ではなくなります。ロストボールは10球ずつ。売上の一部は寄付しています。くわしくはプロフィールから。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-23-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-sold-in-sets-of-10-balls",
+      "product-includes-pink-tree-sticker",
+      "donate-portion-to-hitori-janai-yo-project"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-23-noon",
+    "date": "2026-11-23",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "昼の、どっち派？ボールを探す時間は、1分で切り上げる派？見つかるまで探す派？私たちは、見つかるまで探したい派です。なくなったボールを、もう一度使える形にする仕事なので。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-23-noon-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "reuse-lost-balls-from-japan"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
+  },
+  {
+    "id": "x-2026-11-23-night",
+    "date": "2026-11-23",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。今年いちばんだった1打は、どのクラブで？ドライバー、アイアン、ウェッジ、パター。私たちはパターです。カップに静かに入る、あの音が好きなので。 #ゴルフ",
+    "threadsItemId": "lb-2026-11-23-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-15T05:15:33.389Z"
   }
 ]
