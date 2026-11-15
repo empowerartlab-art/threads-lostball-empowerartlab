@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-15T03:36:04.865Z",
-  "count": 135,
+  "updatedAt": "2026-11-15T11:36:07.985Z",
+  "count": 136,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1817,6 +1817,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43673050166",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-15"
+    },
+    {
+      "sourceItemId": "lb-2026-11-15-night-ja",
+      "threadsPostId": "18149045086568713",
+      "bodyEn": "Japanese post lb-2026-11-15-night-ja, not posted in English.",
+      "bodyJa": "ラウンドから帰って、玄関でバッグのポケットを開ける。\n\n朝、出かける前に入れたボールを、ひとつずつ取り出して数える。\n減っていないと、それだけで今日はいい1日だった気がする。\nひとつ減っていると、あのホールのあの1打を思い出す。\nふたつ以上減っていたら、数えるのは途中でやめます。\n\nボールの数で振り返る、小さな答え合わせ。\n今日は、何球持って帰ってきましたか。",
+      "pillar": "GOLF",
+      "category": "W1110_1115_NIGHT_JA",
+      "postedAt": "2026-11-15T11:36:07.984Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43709664765",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-15"
     }
   ]
