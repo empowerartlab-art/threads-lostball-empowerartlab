@@ -618,5 +618,15 @@
     "at": "2026-11-14T22:01:16.673Z",
     "threadsId": "18649853521012993",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-16-photos",
+    "date": "2026-11-16",
+    "stage": "claimed",
+    "runId": "43766800231",
+    "runAttempt": "1",
+    "at": "2026-11-15T22:00:41.607Z",
+    "threadsId": null,
+    "note": null
   }
 ]
