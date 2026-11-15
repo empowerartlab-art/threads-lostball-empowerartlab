@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-14T22:36:03.689Z",
-  "count": 134,
+  "updatedAt": "2026-11-15T03:36:04.865Z",
+  "count": 135,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1803,6 +1803,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43648892684",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-15"
+    },
+    {
+      "sourceItemId": "lb-2026-11-15-noon-ja",
+      "threadsPostId": "18121595363097662",
+      "bodyEn": "Japanese post lb-2026-11-15-noon-ja, not posted in English.",
+      "bodyJa": "コンペのブービー賞に選んでいただいた、60球のロストボールの話の続きです。\n\nこの60球は、1球ずつ手で状態を確かめて、磨いたものです。\n磨いているのは、就労継続支援の施設で働く人たち。\n障がいのある方々が、この仕事を担っています。\n\n賞品を受け取った人が打つ1球の向こうに、\nその1球を磨いた手があります。\nボールを買うことが、その仕事を支えることにもつながっています。",
+      "pillar": "WELFARE",
+      "category": "W1110_1115_NOON_JA_COMPE_CASE",
+      "postedAt": "2026-11-15T03:36:04.864Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43673050166",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-15"
     }
   ]
