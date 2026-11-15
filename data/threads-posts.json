@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-15T11:36:07.985Z",
-  "count": 136,
+  "updatedAt": "2026-11-15T12:01:08.680Z",
+  "count": 137,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1830,6 +1830,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43709664765",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-15"
+    },
+    {
+      "sourceItemId": "lb-2026-11-15-night-en",
+      "threadsPostId": "17884995549629471",
+      "bodyEn": "The round is over. What comes first?\n\n1) Adding up the score, hole by hole\n2) Food. The score can wait\n3) A hot bath, then everything else\n\nSome people can't sit down to eat until they know the number. Others would rather not know until they've eaten. Which one are you, and does it change on a bad day?",
+      "bodyJa": "ラウンドが終わった。最初にするのは？ スコアの集計／ごはん（スコアは後で）／お風呂、それから。数字が分かるまで食べられない人も、食べるまで知りたくない人も。あなたはどっち？悪い日は変わる？",
+      "pillar": "GOLF",
+      "category": "W1110_1115_NIGHT_EN",
+      "postedAt": "2026-11-15T12:01:08.678Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43711634937",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-15"
     }
