@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-15T12:01:08.680Z",
-  "count": 137,
+  "updatedAt": "2026-11-15T22:36:03.190Z",
+  "count": 138,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1846,6 +1846,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-15"
+    },
+    {
+      "sourceItemId": "lb-2026-11-16-morning-ja",
+      "threadsPostId": "18123191119978435",
+      "bodyEn": "Japanese post lb-2026-11-16-morning-ja, not posted in English.",
+      "bodyJa": "月曜の朝、スマホの写真をさかのぼる。\n\n今年撮った写真の中に、ゴルフ場の景色が何枚も混ざっている。\n雨上がりの池、色づき始めた並木、帰りぎわの夕焼け。\n同じ組の人の後ろ姿が、少しだけ写りこんでいるものもある。\n\nスコアは忘れても、景色は写真が覚えていてくれます。\n今年撮ったコースの写真、何枚ありますか。",
+      "pillar": "GOLF",
+      "category": "W1110_1116_MORNING_JA",
+      "postedAt": "2026-11-15T22:36:03.189Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43770139609",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-16"
     }
   ]
 }
