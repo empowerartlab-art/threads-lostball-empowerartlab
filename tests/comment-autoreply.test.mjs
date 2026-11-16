@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { runAutoReply, checkReply, buildPrompt, MAX_PER_DAY } from '../lib/comment-autoreply.mjs';
+import { runAutoReply, checkReply, buildPrompt, MAX_PER_DAY, normalizeState } from '../lib/comment-autoreply.mjs';
 
 const NOW = Date.parse('2026-11-09T03:00:00Z');
 const c = (id, hoursAgo = 1, text = 'かっこいい') => ({ id: `threads:${id}`, media: 'Threads', postUrl: 'u', postText: 'p', commentText: text, username: 'a', commentedAt: new Date(NOW - hoursAgo * 3600e3).toISOString() });
@@ -84,6 +84,7 @@ test('スイッチが off なら何もしない（LINE にも送らず、印も�
   const fetchImpl = fakeFetch();
   const r = await runAutoReply({ ...base({ enabled: false }), comments: [c(1), c(2)], fetchImpl });
   assert.equal(r.stats.deferred, 2);
+  assert.equal(r.state.backlog.waiting, 2);
   assert.equal(r.inbox.length, 0);
   assert.equal(r.state.ids.length, 0);
   assert.equal(fetchImpl.calls.length, 0);
@@ -190,3 +191,10 @@ test('写真・軽いツッコミ・思い出話・キャラへの質問は返�
   for (const w of ['写真', '軽い指摘やツッコミ', '長い思い出話', '数字は作らず', '本当に危ないものだけ', '福祉の利用', '際どい']) assert.ok(system.includes(w), w);
   assert.ok(!system.includes('少しでも迷うもの'));
 });
+
+test('返事待ち（deferred）があれば state.backlog に件数と時刻を残し、無ければ消す', () => {
+  const st = normalizeState({ ids: [], replies: [], backlog: { at: '2026-11-16T00:00:00.000Z', waiting: 12 } });
+  assert.deepEqual(st.backlog, { at: '2026-11-16T00:00:00.000Z', waiting: 12 });
+  assert.equal(normalizeState({ ids: [] }).backlog, undefined);
+});
+
