@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-15T22:36:03.190Z",
-  "count": 138,
+  "updatedAt": "2026-11-16T23:00:28.869Z",
+  "count": 139,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1860,6 +1860,20 @@
       "lang": "ja",
       "slot": "morning",
       "targetDate": "2026-11-16"
+    },
+    {
+      "sourceItemId": "lb-2026-11-17-morning-ja",
+      "threadsPostId": "18148702429571870",
+      "bodyEn": "Japanese post lb-2026-11-17-morning-ja, not posted in English.",
+      "bodyJa": "なくしたボールにも、もう一度、出番があっていいと思っています。\n\n池に沈んだ1球。林の奥に消えた1球。\n拾われて、確かめられて、磨かれて、またコースへ。\n\nボールは、1回なくしたら終わり、という道具ではありません。",
+      "pillar": "GOLF",
+      "category": "W1117_1117_MORNING_JA",
+      "postedAt": "2026-11-16T23:00:28.867Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/43975249513",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-17"
     }
   ]
 }
