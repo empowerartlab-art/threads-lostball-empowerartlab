@@ -2546,5 +2546,18 @@
     "run": "noon",
     "lang": "ja",
     "slot": "noon"
+  },
+  {
+    "postId": "lb-2026-11-16-noon-ja",
+    "date": "2026-11-16",
+    "stage": "resolved",
+    "runId": "resolved-by:代表",
+    "runAttempt": "1",
+    "at": "2026-11-16T22:54:07.985Z",
+    "threadsId": null,
+    "note": "confirmed not published by a human",
+    "run": "noon",
+    "lang": "ja",
+    "slot": "noon"
   }
 ]
