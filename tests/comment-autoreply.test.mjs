@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { runAutoReply, checkReply, buildPrompt, MAX_PER_DAY, normalizeState } from '../lib/comment-autoreply.mjs';
+import { runAutoReply, checkReply, buildPrompt, MAX_PER_DAY, MAX_PER_RUN, MAX_AGE_HOURS, normalizeState } from '../lib/comment-autoreply.mjs';
 
 const NOW = Date.parse('2026-11-09T03:00:00Z');
 const c = (id, hoursAgo = 1, text = 'かっこいい') => ({ id: `threads:${id}`, media: 'Threads', postUrl: 'u', postText: 'p', commentText: text, username: 'a', commentedAt: new Date(NOW - hoursAgo * 3600e3).toISOString() });
@@ -72,9 +72,10 @@ test('URL や長すぎる返信は出さずに LINE へ', async () => {
   assert.equal(checkReply('いつでもどうぞ。'), '');
 });
 
-test('48時間より古いコメントは返さず印だけ', async () => {
+test('72時間より古いコメントは返さず印だけ', async () => {
+  assert.equal(MAX_AGE_HOURS, 72);
   const fetchImpl = fakeFetch();
-  const r = await runAutoReply({ ...base(), comments: [c(1, 72)], fetchImpl });
+  const r = await runAutoReply({ ...base(), comments: [c(1, 73)], fetchImpl });
   assert.equal(r.stats.skippedOld, 1);
   assert.equal(fetchImpl.calls.length, 0);
   assert.equal(r.inbox.length, 0);
@@ -91,12 +92,13 @@ test('スイッチが off なら何もしない（LINE にも送らず、印も�
 });
 
 test('1回の上限を超えた分は次の回へ（LINE に送らない）', async () => {
-  const comments = Array.from({ length: 10 }, (_, i) => c(i + 1, 1));
+  assert.equal(MAX_PER_RUN, 15);
+  const comments = Array.from({ length: MAX_PER_RUN + 2 }, (_, i) => c(i + 1, 1));
   const r = await runAutoReply({ ...base(), comments, fetchImpl: fakeFetch() });
-  assert.equal(r.stats.replied, 8);
+  assert.equal(r.stats.replied, MAX_PER_RUN);
   assert.equal(r.stats.deferred, 2);
   assert.equal(r.inbox.length, 0);
-  assert.equal(r.state.ids.length, 8);
+  assert.equal(r.state.ids.length, MAX_PER_RUN);
 });
 
 test('公開に失敗したら、その回の残りは返さない', async () => {
@@ -135,41 +137,41 @@ test('さかのぼり：古いコメントにも返し、遅れた旨を AI に�
   const bodies = [];
   const wrapped = async (url, opt = {}) => { if (String(url).includes('generativelanguage')) bodies.push(opt.body); return fetchImpl(url, opt); };
   // 一度「古い」で印が付いたものでも返す
-  const r = await runAutoReply({ ...base({ state: { ids: ['threads:1'], replies: [] }, backfillSinceMs: SINCE }), comments: [c(1, 72)], fetchImpl: wrapped });
+  const r = await runAutoReply({ ...base({ state: { ids: ['threads:1'], replies: [] }, backfillSinceMs: SINCE }), comments: [c(1, 96)], fetchImpl: wrapped });
   assert.equal(r.stats.replied, 1);
   assert.deepEqual(r.state.backfill, ['threads:1']);
-  assert.ok(bodies[0].includes('3日前のもの'));
+  assert.ok(bodies[0].includes('4日前のもの'));
   assert.ok(bodies[0].includes('お詫びや挨拶は書かない'));
-  const r2 = await runAutoReply({ ...base({ state: r.state, backfillSinceMs: SINCE }), comments: [c(1, 72)], fetchImpl: fakeFetch() });
+  const r2 = await runAutoReply({ ...base({ state: r.state, backfillSinceMs: SINCE }), comments: [c(1, 96)], fetchImpl: fakeFetch() });
   assert.equal(r2.stats.replied, 0);
 });
 
 test('さかのぼり：新しいコメントを先に、上限の残りで古い分', async () => {
-  const comments = [...Array.from({ length: 6 }, (_, i) => c(`old${i}`, 80 + i)), ...Array.from({ length: 5 }, (_, i) => c(`new${i}`, 1 + i))];
+  const comments = [...Array.from({ length: 13 }, (_, i) => c(`old${i}`, 80 + i)), ...Array.from({ length: 5 }, (_, i) => c(`new${i}`, 1 + i))];
   const r = await runAutoReply({ ...base({ backfillSinceMs: SINCE }), comments, fetchImpl: fakeFetch() });
-  assert.equal(r.stats.replied, 8);
+  assert.equal(r.stats.replied, MAX_PER_RUN);
   assert.equal(r.stats.deferred, 3);
   for (let i = 0; i < 5; i++) assert.ok(r.state.ids.includes(`threads:new${i}`));
-  assert.equal(r.state.backfill.length, 3);
+  assert.equal(r.state.backfill.length, MAX_PER_RUN - 5);
 });
 
 test('さかのぼり：代表に回したもの・期間より前のものは返さない', async () => {
   const fetchImpl = fakeFetch();
-  const r = await runAutoReply({ ...base({ inbox: [{ id: 'threads:h', fetchedAt: new Date(NOW).toISOString(), enc: {} }], backfillSinceMs: SINCE }), comments: [c('h', 60), c('tooOld', 24 * 9)], fetchImpl });
+  const r = await runAutoReply({ ...base({ inbox: [{ id: 'threads:h', fetchedAt: new Date(NOW).toISOString(), enc: {} }], backfillSinceMs: SINCE }), comments: [c('h', 80), c('tooOld', 24 * 9)], fetchImpl });
   assert.equal(r.stats.replied, 0);
   assert.ok(!fetchImpl.calls.some((x) => x.url.endsWith('/threads_publish')));
 });
 
 test('さかのぼり無しのときは今まで通り', async () => {
-  const r = await runAutoReply({ ...base(), comments: [c(1, 72)], fetchImpl: fakeFetch() });
+  const r = await runAutoReply({ ...base(), comments: [c(1, 73)], fetchImpl: fakeFetch() });
   assert.equal(r.stats.skippedOld, 1);
   assert.equal(r.state.backfill, undefined);
 });
 
-test('1日の上限は AUTO_REPLY_MAX_PER_DAY で上げられるが60まで', async () => {
+test('1日の上限は AUTO_REPLY_MAX_PER_DAY で上げられるが120まで', async () => {
   const at = new Date(NOW).toISOString();
-  const replies = Array.from({ length: 59 }, (_, i) => ({ at, commentId: `threads:p${i}` }));
-  const r = await runAutoReply({ ...base({ state: { ids: [], replies }, maxPerDay: 100 }), comments: [c('a'), c('b')], fetchImpl: fakeFetch() });
+  const replies = Array.from({ length: 119 }, (_, i) => ({ at, commentId: `threads:p${i}` }));
+  const r = await runAutoReply({ ...base({ state: { ids: [], replies }, maxPerDay: 200 }), comments: [c('a'), c('b')], fetchImpl: fakeFetch() });
   assert.equal(r.stats.replied, 1);
   assert.equal(r.stats.deferred, 1);
 });
