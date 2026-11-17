@@ -169,7 +169,8 @@ jobs:
           RUN_ID: ${{ steps.resolve.outputs.run }}
           RUN_DATE: ${{ steps.resolve.outputs.date }}
         # push できなければ予約は開いたまま(以後の本番の実行は止まる。人が scripts/threads-resolve.mjs で閉じる)。
-        run: node scripts/push-records.mjs --message "chore(lostball): record live Threads post (manual, ${RUN_DATE} ${RUN_ID})" data/threads-posts.json data/threads-journal.json
+        run: |
+          node scripts/push-records.mjs --message "chore(lostball): record live Threads post (manual, ${RUN_DATE} ${RUN_ID})" data/threads-posts.json data/threads-journal.json
 
       - name: 警告(投稿は成功したがstate保存に失敗。再実行禁止。ログ出力のみ・Discord等の実通知はしない)
         if: failure() && steps.publish.outputs.outcome == 'POSTED_STATE_SAVE_FAILED'
