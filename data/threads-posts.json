@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-17T11:36:09.195Z",
-  "count": 141,
+  "updatedAt": "2026-11-17T12:01:09.548Z",
+  "count": 142,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1900,6 +1900,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44075391898",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-17"
+    },
+    {
+      "sourceItemId": "lb-2026-11-17-night-en",
+      "threadsPostId": "18103598291652237",
+      "bodyEn": "Golfers, a question.\n\nHow many balls do you lose in a round?\nZero. One or two. Three to five. I stopped counting.\n\nWe give lost golf balls from Japan a second life, checked and polished by hand, one at a time.\n\nWhat's your number on a normal day?",
+      "bodyJa": "ゴルファーに質問です。1ラウンドで、ボールを何個なくしますか。0個、1〜2個、3〜5個、数えるのをやめた。私たちは、日本のロストボールを1球ずつ手で確かめて磨き、もう一度使えるようにしています。ふだんは何個ですか。",
+      "pillar": "GOLF",
+      "category": "W1117_1117_NIGHT_EN",
+      "postedAt": "2026-11-17T12:01:09.547Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44079094044",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-17"
     }
