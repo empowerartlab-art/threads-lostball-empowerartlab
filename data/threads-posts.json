@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-18T11:36:06.214Z",
-  "count": 145,
+  "updatedAt": "2026-11-18T12:01:08.920Z",
+  "count": 146,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1956,6 +1956,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44296072569",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-18"
+    },
+    {
+      "sourceItemId": "lb-2026-11-18-night-en",
+      "threadsPostId": "18118367663020821",
+      "bodyEn": "How many balls do you take on a round?\n\nOne sleeve. About six. A dozen. I never count.\n\nThe night before a course with a lot of water, most of us toss in two or three extra. Pack light or pack heavy, everyone has a number.\n\nWhat's yours?",
+      "bodyJa": "ラウンドに何個のボールを持っていきますか。1スリーブ、6個くらい、1ダース、数えない。池の多いコースの前の晩は、たいてい2〜3個足してしまう。軽く持つ人も多く持つ人も、みんな自分の数がある。あなたは何個ですか。",
+      "pillar": "GOLF",
+      "category": "W1117_1118_NIGHT_EN",
+      "postedAt": "2026-11-18T12:01:08.919Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44299808768",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-18"
     }
