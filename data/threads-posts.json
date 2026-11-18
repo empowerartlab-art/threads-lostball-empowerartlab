@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-17T22:36:14.679Z",
-  "count": 143,
+  "updatedAt": "2026-11-18T03:36:15.145Z",
+  "count": 144,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1929,6 +1929,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44191522193",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-18"
+    },
+    {
+      "sourceItemId": "lb-2026-11-18-noon-ja",
+      "threadsPostId": "17917257672508231",
+      "bodyEn": "Japanese post lb-2026-11-18-noon-ja, not posted in English.",
+      "bodyJa": "昼の、どっち派？\n\nラウンド中のボールの汚れは、\n・その都度ふく\n・気にしない\n\n私たちは、ふく派です。\n1球ずつ磨いているので、きれいなボールには、つい目がいきます。\n泥の付いたボールを見ると、拭きたくなってしまいます。\n\nどっちが多いのか、知りたいです。",
+      "pillar": "GOLF",
+      "category": "W1117_1118_NOON_JA",
+      "postedAt": "2026-11-18T03:36:15.144Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44231489697",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-18"
     }
   ]
