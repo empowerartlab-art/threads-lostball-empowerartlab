@@ -678,5 +678,15 @@
     "at": "2026-11-17T22:02:19.795Z",
     "threadsId": "18357215458266222",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-19-polish",
+    "date": "2026-11-19",
+    "stage": "claimed",
+    "runId": "44407263919",
+    "runAttempt": "1",
+    "at": "2026-11-18T22:00:40.144Z",
+    "threadsId": null,
+    "note": null
   }
 ]
