@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-18T03:36:15.145Z",
-  "count": 144,
+  "updatedAt": "2026-11-18T11:36:06.214Z",
+  "count": 145,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1943,6 +1943,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44231489697",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-18"
+    },
+    {
+      "sourceItemId": "lb-2026-11-18-night-ja",
+      "threadsPostId": "18131828389699570",
+      "bodyEn": "Japanese post lb-2026-11-18-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\nラウンドに持っていくボールは、何個？\n\n・1スリーブ（3個）\n・6個くらい\n・1ダース（12個）\n・数えていない\n\n池の多いコースの前の晩は、つい、2〜3個足してしまいます。\n「これだけあれば大丈夫」の数は、人によってずいぶん違います。",
+      "pillar": "GOLF",
+      "category": "W1117_1118_NIGHT_JA",
+      "postedAt": "2026-11-18T11:36:06.213Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44296072569",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-18"
     }
   ]
