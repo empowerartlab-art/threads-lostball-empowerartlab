@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-19T11:36:02.861Z",
-  "count": 149,
+  "updatedAt": "2026-11-19T12:01:02.827Z",
+  "count": 150,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2012,6 +2012,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44516186164",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-19"
+    },
+    {
+      "sourceItemId": "lb-2026-11-19-night-en",
+      "threadsPostId": "18199775560396305",
+      "bodyEn": "Have you ever played a recycled golf ball?\n\nAlways. Only for practice. Never.\n\nIn Japan, some lost balls get a second life: collected, checked one by one, and polished by hand before they go back into someone's bag.\n\nWhere do you stand?",
+      "bodyJa": "再利用のボールを使ったことはありますか。いつも。練習だけ。使わない。日本では、ロストボールが集められ、1球ずつ確かめられ、手で磨かれて、また誰かのバッグへ戻ることがあります。あなたはどれですか。",
+      "pillar": "GOLF",
+      "category": "W1117_1119_NIGHT_EN",
+      "postedAt": "2026-11-19T12:01:02.826Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44519856137",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-19"
     }
