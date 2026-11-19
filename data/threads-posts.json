@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-19T03:36:07.374Z",
-  "count": 148,
+  "updatedAt": "2026-11-19T11:36:02.861Z",
+  "count": 149,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1999,6 +1999,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44452496063",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-19"
+    },
+    {
+      "sourceItemId": "lb-2026-11-19-night-ja",
+      "threadsPostId": "18181923604435601",
+      "bodyEn": "Japanese post lb-2026-11-19-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\nロストボール、使ったことはありますか。\n\n・いつも使っている\n・練習のときだけ\n・使ったことがない\n\n私たちは、もう一度使えるボールを、1球ずつ確かめてお届けしています。\n使い方に、正解はないと思っています。\n\n明日の夜も、ひとつ聞きます。",
+      "pillar": "GOLF",
+      "category": "W1117_1119_NIGHT_JA",
+      "postedAt": "2026-11-19T11:36:02.860Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44516186164",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-19"
     }
   ]
