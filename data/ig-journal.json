@@ -698,5 +698,15 @@
     "at": "2026-11-18T22:01:23.770Z",
     "threadsId": "17917855542537355",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-20-genkan",
+    "date": "2026-11-20",
+    "stage": "claimed",
+    "runId": "44624380144",
+    "runAttempt": "1",
+    "at": "2026-11-19T22:00:40.409Z",
+    "threadsId": null,
+    "note": null
   }
 ]
