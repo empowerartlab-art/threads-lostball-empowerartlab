@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-18T22:36:18.309Z",
-  "count": 147,
+  "updatedAt": "2026-11-19T03:36:07.374Z",
+  "count": 148,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -1985,6 +1985,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44413019610",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-19"
+    },
+    {
+      "sourceItemId": "lb-2026-11-19-noon-ja",
+      "threadsPostId": "18136297700497766",
+      "bodyEn": "Japanese post lb-2026-11-19-noon-ja, not posted in English.",
+      "bodyJa": "昼の、どっち派？\n\nボールをなくすなら、\n・池\n・林\n\n池は、入った瞬間に、あきらめがつきます。\n林は、「あるかもしれない」と探してしまう。\n後ろの組が近づいてくる、あの時間が長いのは、林のほうです。\n\nどっちが多いのか、知りたいです。",
+      "pillar": "GOLF",
+      "category": "W1117_1119_NOON_JA",
+      "postedAt": "2026-11-19T03:36:07.373Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44452496063",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-19"
     }
   ]
