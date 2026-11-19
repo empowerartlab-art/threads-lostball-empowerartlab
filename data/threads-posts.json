@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-19T12:01:02.827Z",
-  "count": 150,
+  "updatedAt": "2026-11-19T22:36:05.688Z",
+  "count": 151,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2028,6 +2028,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-19"
+    },
+    {
+      "sourceItemId": "lb-2026-11-20-morning-ja",
+      "threadsPostId": "18101615462555114",
+      "bodyEn": "Japanese post lb-2026-11-20-morning-ja, not posted in English.",
+      "bodyJa": "連休の前の夜は、シューズを磨きたくなると思っています。\n\nブラシで芝を落として、布でふく。\nひもを結び直して、バッグの横に置く。\n\nそれだけで、もう半分、ゴルフ場にいる気分です。\n準備の時間も、ラウンドの一部だと思っています。",
+      "pillar": "GOLF",
+      "category": "W1117_1120_MORNING_JA",
+      "postedAt": "2026-11-19T22:36:05.686Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44630053516",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-20"
     }
   ]
 }
