@@ -38,8 +38,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898519+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- data/token-meta.json; then echo "記録の変更なし"; exit 0; fi
-          git add data/token-meta.json
+          [ -f data/token-meta.json ] || { echo "記録なし"; exit 0; }
+          git add -f data/token-meta.json  # 期限の日付だけ（通行証の中身は入らない）。.gitignore の *token*.json より優先
+          if git diff --cached --quiet; then echo "記録の変更なし"; exit 0; fi
           git commit -m "chore: 通行証の期限を記録（token-refresh）"
           for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
           echo "::error::期限の記録を push できませんでした（通行証自体は延びています）"; exit 1
