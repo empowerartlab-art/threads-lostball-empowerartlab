@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-20T12:01:04.358Z",
-  "count": 154,
+  "updatedAt": "2026-11-20T22:36:02.944Z",
+  "count": 155,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2084,6 +2084,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-20"
+    },
+    {
+      "sourceItemId": "lb-2026-11-21-morning-ja",
+      "threadsPostId": "18646687897043071",
+      "bodyEn": "Japanese post lb-2026-11-21-morning-ja, not posted in English.",
+      "bodyJa": "ティーは、色も長さもばらばらのほうが、ゴルフらしいと思っています。\n\nポケットの中で、いつのまにか混ざっていく。\n折れたティーも、短いティーも、まだ現役。\n\n気がつくと、誰のものか分からない1本が入っています。",
+      "pillar": "GOLF",
+      "category": "W1117_1121_MORNING_JA",
+      "postedAt": "2026-11-20T22:36:02.942Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44830200854",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-21"
     }
   ]
 }

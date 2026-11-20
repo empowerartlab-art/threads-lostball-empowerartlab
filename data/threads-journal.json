@@ -2988,5 +2988,18 @@
     "run": "morning",
     "lang": "ja",
     "slot": "morning"
+  },
+  {
+    "postId": "lb-2026-11-21-morning-ja",
+    "date": "2026-11-21",
+    "stage": "published",
+    "runId": "44830200854",
+    "runAttempt": "1",
+    "at": "2026-11-20T22:36:02.946Z",
+    "threadsId": "18646687897043071",
+    "note": "threads post id stored in threadsId",
+    "run": "morning",
+    "lang": "ja",
+    "slot": "morning"
   }
 ]
