@@ -6,12 +6,12 @@ const NOW = Date.parse('2026-11-09T03:00:00Z');
 const c = (id, hoursAgo = 1, text = 'かっこいい') => ({ id: `threads:${id}`, media: 'Threads', postUrl: 'u', postText: 'p', commentText: text, username: 'a', commentedAt: new Date(NOW - hoursAgo * 3600e3).toISOString() });
 const enc = (_k, p) => ({ p });
 
-function fakeFetch({ action = 'reply', reply = 'ありがとう。いつでもどうぞ。', owned = false, publishFail = false } = {}) {
+function fakeFetch({ action = 'reply', reply = 'ありがとう。いつでもどうぞ。', owned = false, publishFail = false, negative } = {}) {
   const calls = [];
   const f = async (url, opt = {}) => {
     calls.push({ url: String(url), method: opt.method ?? 'GET' });
     const ok = (j) => ({ ok: true, status: 200, json: async () => j });
-    if (String(url).includes('generativelanguage')) return ok({ candidates: [{ content: { parts: [{ text: JSON.stringify({ action, reason: 'r', reply }) }] } }] });
+    if (String(url).includes('generativelanguage')) return ok({ candidates: [{ content: { parts: [{ text: JSON.stringify({ action, reason: 'r', reply, ...(negative === undefined ? {} : { negative }) }) }] } }] });
     if (String(url).includes('/replies')) return ok({ data: owned ? [{ id: 'x', is_reply_owned_by_me: true }] : [] });
     if (String(url).endsWith('/threads_publish')) return publishFail ? { ok: false, status: 500, json: async () => ({ error: { code: 1 } }) } : ok({ id: 'pub1' });
     if (String(url).endsWith('/threads')) return ok({ id: 'cont1' });
@@ -192,6 +192,29 @@ test('写真・軽いツッコミ・思い出話・キャラへの質問は返�
   const { system } = buildPrompt({ tone: 'hetaro', facts: [], payload: {} });
   for (const w of ['写真', '軽い指摘やツッコミ', '長い思い出話', '数字は作らず', '本当に危ないものだけ', '福祉の利用', '際どい']) assert.ok(system.includes(w), w);
   assert.ok(!system.includes('少しでも迷うもの'));
+});
+
+test('アンチ（否定・批判・けなし）には返さず、LINE にも送らない（2026-11-21 代表指示）', async () => {
+  const { system } = buildPrompt({ tone: 'harley', facts: [], payload: {} });
+  for (const w of ['アンチには返信しない', '代表にも送らない', '迷ったら返さない', '【negative の決め方】', '差別的な言葉']) assert.ok(system.includes(w), w);
+  // AI が「返す」と言っても、negative なら返さない
+  const fetchImpl = fakeFetch({ action: 'reply', negative: true, reply: '気をつけます。' });
+  const r = await runAutoReply({ ...base(), comments: [c(1, 1, '迷惑でしかない')], fetchImpl });
+  assert.equal(r.stats.replied, 0);
+  assert.equal(r.stats.ignored, 1);
+  assert.equal(r.inbox.length, 0);
+  assert.ok(!fetchImpl.calls.some((x) => x.method === 'POST' && x.url.includes('threads.net')));
+  assert.deepEqual(r.state.ids, ['threads:1']);
+});
+
+test('negative が false のコメントには今までどおり返す。危ないもの（human）は negative でも代表へ', async () => {
+  const f1 = fakeFetch({ action: 'reply', negative: false });
+  const r1 = await runAutoReply({ ...base(), comments: [c(1)], fetchImpl: f1 });
+  assert.equal(r1.stats.replied, 1);
+  const f2 = fakeFetch({ action: 'human', negative: true });
+  const r2 = await runAutoReply({ ...base(), comments: [c(2)], fetchImpl: f2 });
+  assert.equal(r2.stats.toHuman, 1);
+  assert.equal(r2.stats.replied, 0);
 });
 
 test('返事待ち（deferred）があれば state.backlog に件数と時刻を残し、無ければ消す', () => {
