@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-20T11:36:09.756Z",
-  "count": 153,
+  "updatedAt": "2026-11-20T12:01:04.358Z",
+  "count": 154,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2068,6 +2068,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44728840784",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-20"
+    },
+    {
+      "sourceItemId": "lb-2026-11-20-night-en",
+      "threadsPostId": "18114893033203761",
+      "bodyEn": "How many rounds are you playing this long weekend?\n\nZero. One. Two. Three or more.\n\nIt's a three-day weekend in Japan, and a lot of golfers are packing their bags tonight.\n\nMay your balls stay out of the water.",
+      "bodyJa": "この連休、何回ラウンドしますか。0回、1回、2回、3回以上。日本は3連休で、今夜バッグを準備しているゴルファーも多い。ボールが池に入りませんように。",
+      "pillar": "GOLF",
+      "category": "W1117_1120_NIGHT_EN",
+      "postedAt": "2026-11-20T12:01:04.357Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44732173631",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-20"
     }
