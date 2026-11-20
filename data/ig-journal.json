@@ -728,5 +728,15 @@
     "at": "2026-11-20T22:00:43.900Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-11-21-tees",
+    "date": "2026-11-21",
+    "stage": "published",
+    "runId": "44825245988",
+    "runAttempt": "1",
+    "at": "2026-11-20T22:01:29.782Z",
+    "threadsId": "18060238247652368",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
