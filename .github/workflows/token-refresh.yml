@@ -1,0 +1,45 @@
+name: Token Refresh
+# 通行証（Threads・Instagram）を期限が切れる前に延ばす（2026-11-20 代表の指示）。
+# 週2回（月・木の JST 3:17）。GitHub の予定は遅れても数時間なので、週の頻度には影響しない。
+# 1回失敗しても、期限まで約60日あるので次の回で延びる。失敗は朝のまとめの「失敗」に出る。
+on:
+  schedule:
+    - cron: "17 18 * * 0,3"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '試し（延ばさず、接続と鍵だけ確かめる）'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: token-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 通行証を延ばす
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.SECRETS_WRITE_TOKEN }}
+          REPO: ${{ github.repository }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: node scripts/token-refresh.mjs
+      - name: 新しい期限を記録
+        if: always() && inputs.dry_run != true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898519+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/token-meta.json; then echo "記録の変更なし"; exit 0; fi
+          git add data/token-meta.json
+          git commit -m "chore: 通行証の期限を記録（token-refresh）"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
+          echo "::error::期限の記録を push できませんでした（通行証自体は延びています）"; exit 1
