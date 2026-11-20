@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-20T03:35:56.963Z",
-  "count": 152,
+  "updatedAt": "2026-11-20T11:36:09.756Z",
+  "count": 153,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2055,6 +2055,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44668758647",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-20"
+    },
+    {
+      "sourceItemId": "lb-2026-11-20-night-ja",
+      "threadsPostId": "18156412096542986",
+      "bodyEn": "Japanese post lb-2026-11-20-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\nこの連休、ラウンドは何回行く？\n\n・0回\n・1回\n・2回\n・3回以上\n\n私たちは、1球ずつ磨いたボールが、\nどこかのコースで使われているところを想像しています。\n連休のラウンドで、池に入るボールが少ないことを願っています。",
+      "pillar": "GOLF",
+      "category": "W1117_1120_NIGHT_JA",
+      "postedAt": "2026-11-20T11:36:09.754Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44728840784",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-20"
     }
   ]
