@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-21T18:10:14.910Z",
-  "count": 156,
+  "updatedAt": "2026-11-21T18:21:42.849Z",
+  "count": 157,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2110,6 +2110,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44933974432",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-21"
+    },
+    {
+      "sourceItemId": "lb-2026-11-21-night-en",
+      "threadsPostId": "18055956320814889",
+      "bodyEn": "What's the best part of a golf competition?\n\nThe prizes. The awards ceremony. Playing with new people. The drink afterward.\n\nFor us, it's the awards ceremony: those few seconds when your name is called and you walk up to the front.\n\nWhat's yours?",
+      "bodyJa": "コンペでいちばん楽しいのは？景品、表彰式、いつもと違う人と回ること、終わったあとの一杯。私たちは表彰式。名前を呼ばれて前に出る、あの数秒。あなたは？",
+      "pillar": "GOLF",
+      "category": "W1117_1121_NIGHT_EN",
+      "postedAt": "2026-11-21T18:21:42.847Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44935022070",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-21"
     }
