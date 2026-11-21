@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-20T22:36:02.944Z",
-  "count": 155,
+  "updatedAt": "2026-11-21T18:10:14.910Z",
+  "count": 156,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2097,6 +2097,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44830200854",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-21"
+    },
+    {
+      "sourceItemId": "lb-2026-11-21-night-ja",
+      "threadsPostId": "18252698635310744",
+      "bodyEn": "Japanese post lb-2026-11-21-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\nコンペで、いちばん楽しみなのは？\n\n・景品\n・表彰式\n・いつもと違う人と回ること\n・終わったあとの一杯\n\n私たちは、表彰式です。\n名前を呼ばれて前に出る、あの数秒が好きです。\n\n明日の夜も、ひとつ聞きます。",
+      "pillar": "GOLF",
+      "category": "W1117_1121_NIGHT_JA",
+      "postedAt": "2026-11-21T18:10:14.909Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44933974432",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-21"
     }
   ]
