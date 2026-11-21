@@ -748,5 +748,15 @@
     "at": "2026-11-21T22:00:43.054Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-11-22-pond",
+    "date": "2026-11-22",
+    "stage": "published",
+    "runId": "44954441505",
+    "runAttempt": "1",
+    "at": "2026-11-21T22:01:37.696Z",
+    "threadsId": "17995458099060159",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
