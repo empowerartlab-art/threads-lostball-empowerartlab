@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-21T22:36:04.755Z",
-  "count": 158,
+  "updatedAt": "2026-11-22T03:36:00.160Z",
+  "count": 159,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2139,6 +2139,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44957537141",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-22"
+    },
+    {
+      "sourceItemId": "lb-2026-11-22-noon-ja",
+      "threadsPostId": "18112029746203492",
+      "bodyEn": "Japanese post lb-2026-11-22-noon-ja, not posted in English.",
+      "bodyJa": "昼の、どっち派？\n\nスタート前に、\n・ストレッチをする\n・そのまま打つ\n\n私たちは、する派です。\nボールも、磨いてから出番を待ちます。\n体も、ひと伸びしてから出番だと思っています。\n寒い日は、とくにそうです。\n\nどっちが多いのか、知りたいです。",
+      "pillar": "GOLF",
+      "category": "W1117_1122_NOON_JA",
+      "postedAt": "2026-11-22T03:36:00.159Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/44981331071",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-22"
     }
   ]
