@@ -758,5 +758,15 @@
     "at": "2026-11-21T22:01:37.696Z",
     "threadsId": "17995458099060159",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-23-wipe",
+    "date": "2026-11-23",
+    "stage": "claimed",
+    "runId": "45075221333",
+    "runAttempt": "1",
+    "at": "2026-11-22T22:00:41.156Z",
+    "threadsId": null,
+    "note": null
   }
 ]
