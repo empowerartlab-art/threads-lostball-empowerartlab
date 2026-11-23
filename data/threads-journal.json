@@ -3170,5 +3170,18 @@
     "run": "night",
     "lang": "ja",
     "slot": "night"
+  },
+  {
+    "postId": "lb-2026-11-22-night-ja",
+    "date": "2026-11-22",
+    "stage": "resolved",
+    "runId": "resolved-by:代表",
+    "runAttempt": "1",
+    "at": "2026-11-23T03:33:02.973Z",
+    "threadsId": null,
+    "note": "confirmed not published by a human",
+    "run": "night",
+    "lang": "ja",
+    "slot": "night"
   }
 ]
