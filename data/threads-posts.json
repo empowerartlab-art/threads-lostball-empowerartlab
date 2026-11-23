@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-23T03:35:57.272Z",
-  "count": 160,
+  "updatedAt": "2026-11-23T11:36:04.590Z",
+  "count": 161,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2167,6 +2167,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45106872057",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-23"
+    },
+    {
+      "sourceItemId": "lb-2026-11-23-night-ja",
+      "threadsPostId": "18388135954236704",
+      "bodyEn": "Japanese post lb-2026-11-23-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\n今年、いちばんよかった1打は、どのクラブ？\n\n・ドライバー\n・アイアン\n・ウェッジ\n・パター\n\n私たちは、パターです。\n静かに入ったときの音が、いちばん好きです。\nスコアは忘れても、その1打だけは覚えているものです。",
+      "pillar": "GOLF",
+      "category": "W1117_1123_NIGHT_JA",
+      "postedAt": "2026-11-23T11:36:04.588Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45166563210",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-23"
     }
   ]
