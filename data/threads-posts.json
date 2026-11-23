@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-23T11:36:04.590Z",
-  "count": 161,
+  "updatedAt": "2026-11-23T12:01:05.377Z",
+  "count": 162,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2180,6 +2180,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45166563210",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-23"
+    },
+    {
+      "sourceItemId": "lb-2026-11-23-night-en",
+      "threadsPostId": "17966277582257620",
+      "bodyEn": "What was your best shot of the year?\n\nDriver. Iron. Wedge. Putter.\n\nNot your best score. Just one swing: the sound, the height, the way it landed where you were looking.\n\nThere's still time for one more before the year ends.",
+      "bodyJa": "今年のベストショットは？ドライバー、アイアン、ウェッジ、パター。ベストスコアではなく、たった1回のスイング。音、高さ、狙った所へ落ちたこと。年内に、もう1回あるかもしれない。",
+      "pillar": "GOLF",
+      "category": "W1117_1123_NIGHT_EN",
+      "postedAt": "2026-11-23T12:01:05.375Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45170231797",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-23"
     }
