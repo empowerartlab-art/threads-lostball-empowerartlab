@@ -778,5 +778,15 @@
     "at": "2026-11-22T22:01:11.876Z",
     "threadsId": "18113942321598676",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-24-logo",
+    "date": "2026-11-24",
+    "stage": "claimed",
+    "runId": "45275361586",
+    "runAttempt": "1",
+    "at": "2026-11-23T22:00:40.236Z",
+    "threadsId": null,
+    "note": null
   }
 ]
