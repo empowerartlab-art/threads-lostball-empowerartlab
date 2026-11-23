@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-23T12:01:05.377Z",
-  "count": 162,
+  "updatedAt": "2026-11-23T22:36:08.256Z",
+  "count": 163,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2196,6 +2196,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-23"
+    },
+    {
+      "sourceItemId": "lb-2026-11-24-morning-ja",
+      "threadsPostId": "18162104650519707",
+      "bodyEn": "Japanese post lb-2026-11-24-morning-ja, not posted in English.",
+      "bodyJa": "ティーにボールをのせるとき。\n\nロゴの向きを、少しだけ直す人がいます。\n打つ方向へ、まっすぐ。\nあるいは、真上に。\n\n向きで飛び方が変わるわけではないのに、\nそろえると、なぜか落ち着きます。\n\nみなさんは、ロゴをどこに向けますか。",
+      "pillar": "GOLF",
+      "category": "W1124_1124_MORNING_JA",
+      "postedAt": "2026-11-23T22:36:08.254Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45281121757",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-24"
     }
   ]
 }
