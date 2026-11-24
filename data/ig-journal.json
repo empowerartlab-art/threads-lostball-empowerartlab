@@ -798,5 +798,15 @@
     "at": "2026-11-23T22:01:21.536Z",
     "threadsId": "18120429377585764",
     "note": "instagram mediaId stored in threadsId"
+  },
+  {
+    "postId": "ig-2026-11-25-winter",
+    "date": "2026-11-25",
+    "stage": "claimed",
+    "runId": "45496695989",
+    "runAttempt": "1",
+    "at": "2026-11-24T22:00:43.082Z",
+    "threadsId": null,
+    "note": null
   }
 ]
