@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-23T22:36:08.256Z",
-  "count": 163,
+  "updatedAt": "2026-11-24T03:36:08.339Z",
+  "count": 164,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2209,6 +2209,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45281121757",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-24"
+    },
+    {
+      "sourceItemId": "lb-2026-11-24-noon-ja",
+      "threadsPostId": "17882827098556011",
+      "bodyEn": "Japanese post lb-2026-11-24-noon-ja, not posted in English.",
+      "bodyJa": "コンペの幹事をしたことがある人に聞きたい。\n\n景品えらびで、いちばん困るのは？\n\n・何を選ぶか\n・予算に収めること\n・当日の持ち運び\n・余ったときの扱い\n\n参加する人の顔を思い浮かべながら選ぶのは、\n楽しくて、少し大変な時間だと思います。",
+      "pillar": "GOLF",
+      "category": "W1124_1124_NOON_JA",
+      "postedAt": "2026-11-24T03:36:08.337Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45320568172",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-24"
     }
   ]
