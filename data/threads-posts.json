@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-24T12:01:05.640Z",
-  "count": 166,
+  "updatedAt": "2026-11-24T22:36:04.239Z",
+  "count": 167,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2252,6 +2252,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-24"
+    },
+    {
+      "sourceItemId": "lb-2026-11-25-morning-ja",
+      "threadsPostId": "18121306354973290",
+      "bodyEn": "Japanese post lb-2026-11-25-morning-ja, not posted in English.",
+      "bodyJa": "寒い朝のスタート前。\n\nボールをひとつ、ポケットに入れておく人がいます。\n手のひらで、あたためるように。\n\n冷えたボールは飛ばない、と聞いたから。\n気休めかもしれないけれど、\nやっておくと安心です。\n\nみなさんは、冬のボール、あたためますか。",
+      "pillar": "GOLF",
+      "category": "W1124_1125_MORNING_JA",
+      "postedAt": "2026-11-24T22:36:04.238Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45502349284",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-25"
     }
   ]
 }
