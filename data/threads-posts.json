@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-24T11:36:15.504Z",
-  "count": 165,
+  "updatedAt": "2026-11-24T12:01:05.640Z",
+  "count": 166,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2236,6 +2236,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45385570494",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-24"
+    },
+    {
+      "sourceItemId": "lb-2026-11-24-night-en",
+      "threadsPostId": "18139299781633918",
+      "bodyEn": "Have you ever played all 18 holes with a single ball?\n\nYes. So close. Not yet.\n\nThe ball you tee up on the first hole is still with you on the last green. Nothing else about the round has to go well. That one ball finishing the day feels like a small win.\n\nWhich one are you?",
+      "bodyJa": "1球のボールで18ホールを回りきったことはありますか。ある、惜しかった、まだない。1番で置いたボールが、最後のグリーンまで一緒にいる。ほかがうまくいかなくても、その1球が最後まで残っただけで、小さな勝ちのように感じます。あなたはどれですか。",
+      "pillar": "GOLF",
+      "category": "W1124_1124_NIGHT_EN",
+      "postedAt": "2026-11-24T12:01:05.639Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45389373991",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-24"
     }
