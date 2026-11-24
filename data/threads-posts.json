@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-24T03:36:08.339Z",
-  "count": 164,
+  "updatedAt": "2026-11-24T11:36:15.504Z",
+  "count": 165,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2223,6 +2223,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45320568172",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-24"
+    },
+    {
+      "sourceItemId": "lb-2026-11-24-night-ja",
+      "threadsPostId": "18129706765870071",
+      "bodyEn": "Japanese post lb-2026-11-24-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\n1球のボールで、18ホールを回りきったことはありますか。\n\n・ある\n・あと少しだった\n・まだない\n\n最初の1球が、最後のグリーンまで一緒にいる。\nそれだけで、少しいい日だったと思えます。",
+      "pillar": "GOLF",
+      "category": "W1124_1124_NIGHT_JA",
+      "postedAt": "2026-11-24T11:36:15.503Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45385570494",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-24"
     }
   ]
