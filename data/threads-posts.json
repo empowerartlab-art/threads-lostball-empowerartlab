@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-25T11:36:11.775Z",
-  "count": 169,
+  "updatedAt": "2026-11-25T12:01:10.343Z",
+  "count": 170,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2292,6 +2292,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45605846804",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-25"
+    },
+    {
+      "sourceItemId": "lb-2026-11-25-night-en",
+      "threadsPostId": "18047064842833684",
+      "bodyEn": "Have you ever seen a hole-in-one?\n\nI made one. I watched one in my group. I only heard the cheers from the next hole. Never.\n\nIt's the one time in golf when a ball disappears and everybody is happy about it. Most of us are still waiting for ours.\n\nWhich one are you?",
+      "bodyJa": "ホールインワンを見たことはありますか。自分が出した、同じ組で見た、となりのホールの歓声だけ聞いた、まだない。ゴルフで、ボールが消えてみんなが喜ぶのは、このときだけです。たいていの人は、まだ自分の番を待っています。あなたはどれですか。",
+      "pillar": "GOLF",
+      "category": "W1124_1125_NIGHT_EN",
+      "postedAt": "2026-11-25T12:01:10.341Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45609641138",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-25"
     }
