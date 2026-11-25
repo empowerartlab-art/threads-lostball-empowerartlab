@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-24T22:36:04.239Z",
-  "count": 167,
+  "updatedAt": "2026-11-25T03:36:03.752Z",
+  "count": 168,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2265,6 +2265,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45502349284",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-25"
+    },
+    {
+      "sourceItemId": "lb-2026-11-25-noon-ja",
+      "threadsPostId": "18144398341627542",
+      "bodyEn": "Japanese post lb-2026-11-25-noon-ja, not posted in English.",
+      "bodyJa": "1番ティーで、使うボールを見せ合う。\n\n「3番です」\n「あ、私も3番です」\n\n同じ銘柄の、同じ番号。\nあわててペンを出して、点をひとつ足す。\n\nこれで、見分けがつきます。\n同じ組でボールがかぶったこと、ありますか。",
+      "pillar": "GOLF",
+      "category": "W1124_1125_NOON_JA",
+      "postedAt": "2026-11-25T03:36:03.751Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45541025142",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-25"
     }
   ]
