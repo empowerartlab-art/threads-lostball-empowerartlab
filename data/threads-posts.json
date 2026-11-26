@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-26T11:36:10.338Z",
-  "count": 173,
+  "updatedAt": "2026-11-26T12:01:07.239Z",
+  "count": 174,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2348,6 +2348,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45811962448",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-26"
+    },
+    {
+      "sourceItemId": "lb-2026-11-26-night-en",
+      "threadsPostId": "17915434131592711",
+      "bodyEn": "How many spare balls are in your pocket when you tee off?\n\nNone. One. Two. Three or more.\n\nThe bulge in a golfer's pocket says a lot about how they feel about the hole. On a tee shot over water, it tends to get a little heavier.\n\nWhat's your number?",
+      "bodyJa": "ティーショットのとき、ポケットに予備のボールは何個入っていますか。0個、1個、2個、3個以上。ポケットのふくらみは、そのホールへの気持ちをよく表しています。池越えのティーショットでは、少し重くなりがちです。あなたは何個ですか。",
+      "pillar": "GOLF",
+      "category": "W1124_1126_NIGHT_EN",
+      "postedAt": "2026-11-26T12:01:07.237Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45815627438",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-26"
     }
