@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-26T03:36:09.159Z",
-  "count": 171,
+  "updatedAt": "2026-11-26T04:19:36.061Z",
+  "count": 172,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2321,6 +2321,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45749890272",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-26"
+    },
+    {
+      "sourceItemId": "lb-2026-11-26-morning-ja",
+      "threadsPostId": "18136028749686124",
+      "bodyEn": "Japanese post lb-2026-11-26-morning-ja, not posted in English.",
+      "bodyJa": "私たちのボールは、障がいのある方々が、1球ずつ手で磨いています。\n\n就労継続支援の施設での仕事です。\n状態を確かめて、汚れを落として、磨き上げる。\n\n池や林でなくなった1球が、\nだれかの手を通って、もう一度コースへ戻っていきます。\n\n磨く人がいることを、知ってもらえたらうれしいです。",
+      "pillar": "WELFARE",
+      "category": "W1124_1126_MORNING_JA",
+      "postedAt": "2026-11-26T04:19:36.059Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45754413462",
+      "lang": "ja",
+      "slot": "morning",
       "targetDate": "2026-11-26"
     }
   ]
