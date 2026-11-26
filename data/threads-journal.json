@@ -3495,5 +3495,18 @@
     "run": "morning",
     "lang": "ja",
     "slot": "morning"
+  },
+  {
+    "postId": "lb-2026-11-26-morning-ja",
+    "date": "2026-11-26",
+    "stage": "resolved",
+    "runId": "resolved-by:代表",
+    "runAttempt": "1",
+    "at": "2026-11-26T03:12:14.385Z",
+    "threadsId": null,
+    "note": "confirmed not published by a human",
+    "run": "morning",
+    "lang": "ja",
+    "slot": "morning"
   }
 ]
