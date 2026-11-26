@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-26T12:01:07.239Z",
-  "count": 174,
+  "updatedAt": "2026-11-26T22:36:06.849Z",
+  "count": 175,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2364,6 +2364,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-26"
+    },
+    {
+      "sourceItemId": "lb-2026-11-27-morning-ja",
+      "threadsPostId": "18415062520090848",
+      "bodyEn": "Japanese post lb-2026-11-27-morning-ja, not posted in English.",
+      "bodyJa": "使いこんだボールは、ロゴが少し薄くなります。\n\nカート道ではねた跡。\nバンカーの砂でついた、細かいこすれ。\n\nまだ使えるか、そろそろ替えるか。\nティーの上で、少し考える。\n\nみなさんは、1球を何ホールくらい使いますか。",
+      "pillar": "GOLF",
+      "category": "W1124_1127_MORNING_JA",
+      "postedAt": "2026-11-26T22:36:06.847Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45905760272",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-27"
     }
   ]
 }
