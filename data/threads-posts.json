@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-26T04:19:36.061Z",
-  "count": 172,
+  "updatedAt": "2026-11-26T11:36:10.338Z",
+  "count": 173,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2335,6 +2335,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45754413462",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-26"
+    },
+    {
+      "sourceItemId": "lb-2026-11-26-night-ja",
+      "threadsPostId": "18134163344506878",
+      "bodyEn": "Japanese post lb-2026-11-26-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\nティーショットのとき、ポケットに予備のボールは何個入れていますか。\n\n・入れない\n・1個\n・2個\n・3個以上\n\nポケットのふくらみは、そのホールへの自信と、反比例する気がします。\n池のあるホールほど、少し重くなります。",
+      "pillar": "GOLF",
+      "category": "W1124_1126_NIGHT_JA",
+      "postedAt": "2026-11-26T11:36:10.336Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45811962448",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-26"
     }
   ]

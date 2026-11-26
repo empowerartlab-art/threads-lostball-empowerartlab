@@ -3573,5 +3573,18 @@
     "run": "night",
     "lang": "ja",
     "slot": "night"
+  },
+  {
+    "postId": "lb-2026-11-26-night-ja",
+    "date": "2026-11-26",
+    "stage": "published",
+    "runId": "45811962448",
+    "runAttempt": "1",
+    "at": "2026-11-26T11:36:10.341Z",
+    "threadsId": "18134163344506878",
+    "note": "threads post id stored in threadsId",
+    "run": "night",
+    "lang": "ja",
+    "slot": "night"
   }
 ]
