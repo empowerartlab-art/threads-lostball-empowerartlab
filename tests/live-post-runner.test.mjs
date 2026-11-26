@@ -437,12 +437,13 @@ test("publish失敗(publishContainer由来) → PRE_POST_FAILURE。reasonはcont
       live: true,
       env: { LIVE_POST: "true" },
       userId: "999",
-      accessToken: "secret-token"
+      accessToken: "secret-token",
+      delay: async () => {}
     });
     assert.equal(result.outcome, OUTCOME.PRE_POST_FAILURE);
     assert.ok(result.error);
     assert.equal(result.reason, "publish-error");
-    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
+    assert.equal(getCallCount(), 4); // +1 = 公開前のコンテナ準備確認(GET)、+1 = 失敗後の自分の投稿の確認(失敗→やり直さない)
   } finally {
     restore();
   }

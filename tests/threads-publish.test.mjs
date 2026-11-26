@@ -267,7 +267,8 @@ test("publishPost: 画像投稿でpublishContainer(threads_publish)が失敗し�
     );
     // コンテナ作成成功1回(IMAGE) + threads_publish失敗1回 = 合計2回。
     // 失敗後にTEXTでの再試行(=合計3回目の/threads呼び出し)が発生していないことを確認する。
-    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
+    // +1 = 公開前のコンテナ準備確認(GET)、+1 = 失敗後の自分の投稿の確認(失敗→やり直さない)。
+    assert.equal(getCallCount(), 4);
   } finally {
     restore();
   }
@@ -374,8 +375,9 @@ test("publishPost: publishContainer(threads_publish)が失敗したらエラー�
         return true;
       }
     );
-    // コンテナ作成成功1回 + threads_publish失敗1回 = 合計2回。リトライで3回目が呼ばれないこと。
-    assert.equal(getCallCount(), 3); // +1 = 公開前のコンテナ準備確認(GET)
+    // コンテナ作成成功1回 + threads_publish失敗1回 + 準備確認1回 + 失敗後の自分の投稿の確認1回(失敗)。
+    // 確認ができないときは公開をやり直さない(従来どおり unknown)。
+    assert.equal(getCallCount(), 4);
   } finally {
     restore();
   }
@@ -500,4 +502,86 @@ test("publishPost: コンテナがERRORなら公開(threads_publish)を呼ばず
   } finally {
     restore();
   }
+});
+
+
+// ---- 公開(threads_publish)失敗後の確認とやり直し(2026-11-26) ----
+function recoveryHandler({ publishResults, listings, containerStatusAfter = "FINISHED" }) {
+  const calls = { publish: 0, list: 0, status: 0 };
+  let readyChecked = false;
+  const handler = async (url) => {
+    const u = new URL(String(url));
+    if (u.searchParams.get("fields") === "status,error_message") {
+      calls.status += 1;
+      if (!readyChecked) { readyChecked = true; return jsonResponse(200, { status: "FINISHED" }); }
+      return jsonResponse(200, { status: containerStatusAfter });
+    }
+    if (u.pathname.endsWith("/me/threads")) {
+      const body = listings[Math.min(calls.list, listings.length - 1)];
+      calls.list += 1;
+      return jsonResponse(200, { data: body });
+    }
+    if (u.pathname.endsWith("/threads_publish")) {
+      const r = publishResults[Math.min(calls.publish, publishResults.length - 1)];
+      calls.publish += 1;
+      return r;
+    }
+    if (u.pathname.endsWith("/threads")) return jsonResponse(200, { id: "container-1" });
+    throw new Error(`unexpected URL requested in test: ${u}`);
+  };
+  return { handler, calls };
+}
+const code24 = jsonResponse(400, { error: { message: "The requested resource does not exist", type: "OAuthException", code: 24, error_subcode: 4279009 } });
+const livePost = (extra = {}) => publishPost({ bodyEn: "", bodyJa: "こんにちは。", lang: "ja", userId: "999", accessToken: "secret-token", live: true, env: { LIVE_POST: "true" }, delay: noopDelay, ...extra });
+
+test("公開失敗後: 自分の投稿に無く、コンテナが未公開なら、同じコンテナで1回だけやり直して成功", async () => {
+  const { handler, calls } = recoveryHandler({ publishResults: [code24, jsonResponse(200, { id: "post-retry" })], listings: [[]] });
+  const { restore } = stubFetch(handler);
+  try {
+    const r = await livePost();
+    assert.equal(r.threadsPostId, "post-retry");
+    assert.equal(r.publishRecovery.result, "retried-same-container");
+    assert.equal(calls.publish, 2);
+  } finally { restore(); }
+});
+
+test("公開失敗後: 自分の投稿に同じ本文があれば、やり直さず成功扱い(二重投稿しない)", async () => {
+  const { handler, calls } = recoveryHandler({ publishResults: [code24], listings: [[{ id: "post-real", text: "こんにちは。", timestamp: new Date().toISOString() }]] });
+  const { restore } = stubFetch(handler);
+  try {
+    const r = await livePost();
+    assert.equal(r.threadsPostId, "post-real");
+    assert.equal(r.publishRecovery.result, "found-after-error");
+    assert.equal(calls.publish, 1);
+  } finally { restore(); }
+});
+
+test("公開失敗後: やり直しも失敗し、自分の投稿にも無ければ verifiedNotPublished で投げる", async () => {
+  const { handler, calls } = recoveryHandler({ publishResults: [code24, code24], listings: [[], []] });
+  const { restore } = stubFetch(handler);
+  try {
+    await assert.rejects(() => livePost(), (err) => err.verifiedNotPublished === true);
+    assert.equal(calls.publish, 2);
+    assert.equal(calls.list, 2);
+  } finally { restore(); }
+});
+
+test("公開失敗後: コンテナが PUBLISHED なら公開はやり直さない(投稿が見つからなければ従来どおり不明で投げる)", async () => {
+  const { handler, calls } = recoveryHandler({ publishResults: [code24], listings: [[], []], containerStatusAfter: "PUBLISHED" });
+  const { restore } = stubFetch(handler);
+  try {
+    await assert.rejects(() => livePost(), (err) => err.verifiedNotPublished !== true && err.code === 24);
+    assert.equal(calls.publish, 1);
+  } finally { restore(); }
+});
+
+test("公開失敗後: 同じ本文でも10分より前の投稿は見つかった扱いにしない", async () => {
+  const old = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const { handler, calls } = recoveryHandler({ publishResults: [code24, jsonResponse(200, { id: "post-retry" })], listings: [[{ id: "post-old", text: "こんにちは。", timestamp: old }]] });
+  const { restore } = stubFetch(handler);
+  try {
+    const r = await livePost();
+    assert.equal(r.threadsPostId, "post-retry");
+    assert.equal(calls.publish, 2);
+  } finally { restore(); }
 });

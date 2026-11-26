@@ -282,3 +282,9 @@ test('threads-resolve: published closes the entry and adds the posted record; no
   assert.deepEqual(w2.files[THREADS_JOURNAL_PATH].map((e) => e.stage), ['claimed', 'resolved']);
   assert.equal(w2.files[THREADS_POSTED_PATH].posts.length, 0);
 });
+
+test('journalStageFor: 公開に失敗したが自分の投稿に無いと確認済み(verifiedNotPublished) → aborted(止めない)', () => {
+  const err = Object.assign(new Error('x'), { verifiedNotPublished: true });
+  assert.equal(journalStageFor({ outcome: OUTCOME.PRE_POST_FAILURE, reason: 'publish-error', error: err }, { apiCalled: true }), 'aborted');
+  assert.equal(journalStageFor({ outcome: OUTCOME.PRE_POST_FAILURE, reason: 'publish-error', error: new Error('y') }, { apiCalled: true }), 'unknown');
+});
