@@ -868,5 +868,15 @@
     "at": "2026-11-27T22:00:41.041Z",
     "threadsId": null,
     "note": null
+  },
+  {
+    "postId": "ig-2026-11-28-putting",
+    "date": "2026-11-28",
+    "stage": "published",
+    "runId": "46073897391",
+    "runAttempt": "1",
+    "at": "2026-11-27T22:02:02.228Z",
+    "threadsId": "17918261544559254",
+    "note": "instagram mediaId stored in threadsId"
   }
 ]
