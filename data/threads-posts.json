@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-26T22:36:06.849Z",
-  "count": 175,
+  "updatedAt": "2026-11-27T03:36:07.340Z",
+  "count": 176,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2377,6 +2377,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45905760272",
       "lang": "ja",
       "slot": "morning",
+      "targetDate": "2026-11-27"
+    },
+    {
+      "sourceItemId": "lb-2026-11-27-noon-ja",
+      "threadsPostId": "17916146676578631",
+      "bodyEn": "Japanese post lb-2026-11-27-noon-ja, not posted in English.",
+      "bodyJa": "コンペの幹事をしたことがある人に聞きたい。\n\n景品は、どこで用意していますか？\n\n・ネットで注文\n・ゴルフショップ\n・デパートやスーパー\n・会社やお店からの提供\n\n届く日や、持っていく荷物のことまで考えると、\n用意する場所えらびも、幹事さんの仕事のひとつだと思います。",
+      "pillar": "GOLF",
+      "category": "W1124_1127_NOON_JA",
+      "postedAt": "2026-11-27T03:36:07.338Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45935051853",
+      "lang": "ja",
+      "slot": "noon",
       "targetDate": "2026-11-27"
     }
   ]
