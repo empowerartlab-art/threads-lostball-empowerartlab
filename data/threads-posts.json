@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-27T11:36:05.543Z",
-  "count": 177,
+  "updatedAt": "2026-11-27T12:01:06.876Z",
+  "count": 178,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2404,6 +2404,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45991723929",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-27"
+    },
+    {
+      "sourceItemId": "lb-2026-11-27-night-en",
+      "threadsPostId": "17974325463183282",
+      "bodyEn": "How many golf competitions do you join in a year?\n\nNone. One or two. Three to five. Six or more.\n\nIn Japan, a \"compe\" is a friendly tournament with coworkers, clients, or friends, and it always ends with a prize ceremony. A different kind of nerves from a normal weekend round.\n\nWhat's your number?",
+      "bodyJa": "1年に何回、ゴルフのコンペに出ますか。0回、1〜2回、3〜5回、6回以上。日本の「コンペ」は、同僚や取引先、友人との親しい大会で、最後は必ず表彰式があります。ふだんの週末のラウンドとは、ちがう緊張があります。あなたは何回ですか。",
+      "pillar": "GOLF",
+      "category": "W1124_1127_NIGHT_EN",
+      "postedAt": "2026-11-27T12:01:06.875Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45995041896",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-27"
     }
