@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { runAutoReply, checkReply, buildPrompt, MAX_PER_DAY, MAX_PER_RUN, MAX_AGE_HOURS, normalizeState } from '../lib/comment-autoreply.mjs';
+import { runAutoReply, checkReply, buildPrompt, MAX_PER_DAY, MAX_PER_RUN, MAX_AGE_HOURS, normalizeState, REPLY_STANCE } from '../lib/comment-autoreply.mjs';
 
 const NOW = Date.parse('2026-11-09T03:00:00Z');
 const c = (id, hoursAgo = 1, text = 'かっこいい') => ({ id: `threads:${id}`, media: 'Threads', postUrl: 'u', postText: 'p', commentText: text, username: 'a', commentedAt: new Date(NOW - hoursAgo * 3600e3).toISOString() });
@@ -223,3 +223,25 @@ test('返事待ち（deferred）があれば state.backlog に件数と時刻を
   assert.equal(normalizeState({ ids: [] }).backlog, undefined);
 });
 
+test('返信の土台になる考え方が、どのアカウントの指示にも入っている（2026-11-27 代表指示）', () => {
+  for (const tone of ['harley', 'zero-riders', 'hetaro', 'lostball', 'empower', 'social-life']) {
+    const { system } = buildPrompt({ tone, facts: [], payload: {} });
+    assert.match(system, /【返信の土台になる考え方/);
+    for (const line of REPLY_STANCE) assert.ok(system.includes(line), `${tone}: ${line.slice(0, 12)}`);
+    // 標語や団体の名前は、指示の中にも入れない（返信に出させないため）。
+    assert.doesNotMatch(system, /年中夢求|1時間の光|ロング・?ライダーズ|LONG RIDERS/i);
+  }
+});
+
+test('考え方を足しても、返すかどうかの決め方（human・ignore）は残り、請け合わない決まりがある', () => {
+  const { system } = buildPrompt({ tone: 'zero-riders', facts: [], payload: {} });
+  assert.match(system, /アンチには返信しない/);
+  assert.match(system, /福祉の利用の話、体調・障害・病気の話、悩み相談/);
+  assert.match(system, /請け合わない/);
+  assert.ok(system.indexOf('【返信の土台になる考え方') > system.indexOf('【action の決め方】'));
+  assert.ok(system.indexOf('出力は JSON だけ') > system.indexOf('【返信の土台になる考え方'));
+});
+
+test('ソーシャルライフは、こちらからリンクやサービスを勧めない', () => {
+  assert.match(buildPrompt({ tone: 'social-life', facts: [], payload: {} }).system, /こちらからプロフィールのリンクやサービスを勧めない/);
+});
