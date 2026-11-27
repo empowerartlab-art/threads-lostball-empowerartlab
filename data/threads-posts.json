@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-27T03:36:07.340Z",
-  "count": 176,
+  "updatedAt": "2026-11-27T11:36:05.543Z",
+  "count": 177,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2391,6 +2391,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45935051853",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-27"
+    },
+    {
+      "sourceItemId": "lb-2026-11-27-night-ja",
+      "threadsPostId": "17998753347052919",
+      "bodyEn": "Japanese post lb-2026-11-27-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\nコンペに出るのは、年に何回くらいですか。\n\n・0回\n・1〜2回\n・3〜5回\n・6回以上\n\nいつもの仲間とのラウンドとはちがう、\n少しだけ背すじが伸びる1日。\n表彰式まで含めて、コンペだと思っています。",
+      "pillar": "GOLF",
+      "category": "W1124_1127_NIGHT_JA",
+      "postedAt": "2026-11-27T11:36:05.542Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/45991723929",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-27"
     }
   ]
