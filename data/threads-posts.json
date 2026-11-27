@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-27T12:01:06.876Z",
-  "count": 178,
+  "updatedAt": "2026-11-27T22:36:02.178Z",
+  "count": 179,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2420,6 +2420,20 @@
       "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-27"
+    },
+    {
+      "sourceItemId": "lb-2026-11-28-morning-ja",
+      "threadsPostId": "17945784384380506",
+      "bodyEn": "Japanese post lb-2026-11-28-morning-ja, not posted in English.",
+      "bodyJa": "スタート前の練習グリーン。\n\n持っていくボールは、2球か、3球か。\n同じ銘柄でそろえる人。\nばらばらのまま転がす人。\n\n1球目は強すぎて、2球目は弱すぎる。\n3球目で、やっと距離が合ってきます。\n\n練習グリーンには、何球持っていきますか。",
+      "pillar": "GOLF",
+      "category": "W1124_1128_MORNING_JA",
+      "postedAt": "2026-11-27T22:36:02.177Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/46077569479",
+      "lang": "ja",
+      "slot": "morning",
+      "targetDate": "2026-11-28"
     }
   ]
 }
