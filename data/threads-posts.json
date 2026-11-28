@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-28T11:36:09.046Z",
-  "count": 181,
+  "updatedAt": "2026-11-28T12:01:04.405Z",
+  "count": 182,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2460,6 +2460,20 @@
       "mode": "live",
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/46140601720",
       "lang": "ja",
+      "slot": "night",
+      "targetDate": "2026-11-28"
+    },
+    {
+      "sourceItemId": "lb-2026-11-28-night-en",
+      "threadsPostId": "18048038576841699",
+      "bodyEn": "What color is the ball you're playing right now?\n\nWhite. Yellow. Orange or pink. Whatever I feel like that day.\n\nOn brown winter grass or a fairway covered in fallen leaves, a colored ball is a lot easier to find. Some golfers switch with the season.\n\nWhat's in your bag?",
+      "bodyJa": "いま使っているボールは何色ですか。白、黄色、オレンジやピンク、その日の気分。冬の茶色い芝や、落ち葉のフェアウェイでは、色のついたボールのほうがずっと見つけやすい。季節で替える人もいます。あなたのバッグには何色が入っていますか。",
+      "pillar": "GOLF",
+      "category": "W1124_1128_NIGHT_EN",
+      "postedAt": "2026-11-28T12:01:04.403Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/46142513454",
+      "lang": "en",
       "slot": "night",
       "targetDate": "2026-11-28"
     }
