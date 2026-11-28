@@ -1834,5 +1834,305 @@
     "approved": true,
     "approvedBy": "代表",
     "approvedAt": "2026-11-23T13:15:54.572Z"
+  },
+  {
+    "id": "x-2026-12-01-morning",
+    "date": "2026-12-01",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "池ポチャした球を、潜水士が水中に入って拾い上げる方法があるそうです。打ち込んで見送ったあの1球にも、そのあとの道がある。次に池へ入れたときは、少しだけ思い出してみてください。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-01-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "lost-balls-retrieved-by-divers-from-ponds"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-01-noon",
+    "date": "2026-12-01",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "どっち派かお聞きします。グリーンで拾い上げた球を、専用のタオルで拭く方と、着ているウェアやグローブで済ませる方。数秒のしぐさに、クセがよく出ます。同じ組の仲間は、どちらでしょう。あなたはどちらですか。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-01-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-01-night",
+    "date": "2026-12-01",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。紛失した球を探すのは、何分までですか。1分、3分、5分、見つかるまで。林の奥で白く光るものを見つけると、足が止まりません。つい、もう一歩だけ奥へ入ってしまいます。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-01-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-02-morning",
+    "date": "2026-12-02",
+    "slot": "morning",
+    "pillar": "WELFARE",
+    "text": "ロストボールは10球で1セット。その1球ずつを、就労継続支援の施設に通う障がいのある方々が、手で確かめて磨いています。数にすると、1セットで10回の手仕事。見え方が少し変わります。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-02-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-sold-in-sets-of-10-balls",
+      "hand-polish-one-by-one",
+      "welfare-facility-users-do-the-work",
+      "welfare-facility-users-have-disabilities"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-02-noon",
+    "date": "2026-12-02",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "コンペの幹事経験がある方へ。賞はいくつ用意しますか。3つまで、4〜6つ、7〜10、全員ぶん。優勝にブービー、ドラコン、ニアピンと挙げていくと、数は意外にふくらみますよね。幹事さんの頭の中は、いつも賞の数でいっぱいです。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-02-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-02-night",
+    "date": "2026-12-02",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。自宅に未使用のボールが何球眠っていますか。ゼロ、1〜10球、11〜30球、30球超え。クローゼットや車のトランクもふくめてどうぞ。10球セットはプロフィールのリンクから。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-02-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-sold-in-sets-of-10-balls",
+      "hand-polish-one-by-one"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-03-morning",
+    "date": "2026-12-03",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "林やOBゾーンに入った球は、人が手で1球ずつ拾い集めることもあるそうです。打った本人が探すのをやめた場所から、拾い上げていく人がいる。なくした球の行き先は、ひとつではありません。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-03-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "lost-balls-hand-collected-from-forests-and-ob-zones"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-03-noon",
+    "date": "2026-12-03",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "どっち派でしょう。グリーンで球の位置を示すとき、100円玉などのコインを使う派か、専用のボールマーカーを使う派か。ポケットから出てくるものに、その人のこだわりが見えます。毎ホールくり返す動作だからこそ、こだわりが出ます。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-03-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-03-night",
+    "date": "2026-12-03",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。練習場では、1回に何球打ちますか。50球まで、100球、200球、カゴが空になるまで。ひと打ちごとに白い球が飛んでいく時間は格別です。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-03-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-04-morning",
+    "date": "2026-12-04",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "回収されたロストボールの中には、傷や状態によって、もう一度売るのが難しいものもあります。拾われた球がすべて戻れるわけではない。だから、まず1球ずつ手で確かめるところから始めます。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-04-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "some-collected-balls-cannot-be-resold"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-04-noon",
+    "date": "2026-12-04",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "コンペの幹事を務めた方に質問です。景品の準備に取りかかるのは、開催の何日前ですか。前日、3日前、1週間前、2週間以上前。届くまでの日数を考えると、早めの人ほど当日に余裕が出ますね。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-04-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-04-night",
+    "date": "2026-12-04",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。12球入りの1ダースは、何ラウンドで空になりますか。1〜2回、3〜4回、5回以上、数えたことがない。洗って使いまわす人もいて、答えは分かれそうです。使い切る早さに、その人のゴルフが出ます。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-04-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-sold-in-sets-of-10-balls"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-05-morning",
+    "date": "2026-12-05",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "ゴルフボールは自然に分解されない素材でできていて、土には還りません。池や林に消えた球は、そのまま残りつづけます。なくしたあとのことを知ると、1球の見え方がちょっと変わります。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-05-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "golf-balls-dont-return-to-soil",
+      "lost-balls-end-up-in-ponds-and-forests"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-05-noon",
+    "date": "2026-12-05",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "どっち派かな。ティーは、折れたら新しいのを挿す木製派か、何ラウンドも使えるプラスチックなどの派か。毎回挿し直す人と、ずっと同じ1本の人。どちらにも言い分があります。ラウンドの終わりにポケットの中を見ると、人柄が出ますね。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-05-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-05-night",
+    "date": "2026-12-05",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。バッグの中でいちばん古いボールは、何年前のものですか。今年、1〜2年前、3年以上前、もう分からない。ポケットの底から出てきた1球に、どこかのホールの記憶が残っていることがあります。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-05-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-06-morning",
+    "date": "2026-12-06",
+    "slot": "morning",
+    "pillar": "SOCIAL_CONTRIBUTION",
+    "text": "ボールといっしょに、ピンクの木のステッカーが届きます。ハートでできた木の下に、人や動物たちの絵。「ひとりじゃないよプロジェクト」のもので、売上の一部は寄付されます。ボールを選ぶことが、そのまま小さな応援になる。そんなつくりです。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-06-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-includes-pink-tree-sticker",
+      "donate-portion-to-hitori-janai-yo-project",
+      "project-mission-reduce-lonely-children"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-06-noon",
+    "date": "2026-12-06",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "どっち派でしょう。スコアは、鉛筆で紙のスコアカードに書く派か、スマホのアプリに入れる派か。カートの上で足し算する時間も、ラウンドの楽しみのひとつ。あなたはどちらですか。今日の合計は合っていましたか。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-06-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-06-night",
+    "date": "2026-12-06",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。バッグの14本のうち、ほとんど出番のないクラブは何本ですか。ゼロ、1〜2本、3〜4本、5本以上。お守りがわりに入れているクラブも、ありそうです。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-06-night-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-07-morning",
+    "date": "2026-12-07",
+    "slot": "morning",
+    "pillar": "GOLF",
+    "text": "毎年、約2,100万球のゴルフボールが、新たに自然の中へ残されているとも言われています。1球ずつはささやかな出来事でも、積もるとこの数字。コースで消えた球の行き先を、つい考えます。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-07-morning-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "estimated-21m-new-lost-balls-per-year"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-07-noon",
+    "date": "2026-12-07",
+    "slot": "noon",
+    "pillar": "GOLF",
+    "text": "コンペの幹事をされたことがある方へ。景品を手渡すとき、ひとこと添えますか。名前だけ、選んだ理由、由来の紹介、何も言わない。ひとことで、同じ品物が少し違って見えるものです。受け取った人が、あとで話したくなるようなひとこと。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-07-noon-ja",
+    "requiresVerifiedFact": false,
+    "verifiedFactIds": [],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
+  },
+  {
+    "id": "x-2026-12-07-night",
+    "date": "2026-12-07",
+    "slot": "night",
+    "pillar": "GOLF",
+    "text": "ゴルファーに聞きたい。1年で使うボールは何ダースですか。1ダースまで、2〜3ダース、4〜6ダース、7ダース以上。年の終わりに数えてみると面白いです。景品にも使える10球セットはプロフィールのリンクから。 #ゴルフ",
+    "threadsItemId": "lb-2026-12-07-night-ja",
+    "requiresVerifiedFact": true,
+    "verifiedFactIds": [
+      "product-sold-in-sets-of-10-balls"
+    ],
+    "approved": true,
+    "approvedBy": "代表",
+    "approvedAt": "2026-11-28T07:28:02.498Z"
   }
 ]
