@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-28T03:36:08.905Z",
-  "count": 180,
+  "updatedAt": "2026-11-28T11:36:09.046Z",
+  "count": 181,
   "_note": "投稿記録。Threadsへの投稿が実際に成功し、state保存(lib/threads-posts-store.mjs)まで成功した場合にのみ1件追記される。重複投稿防止(lib/duplicate-guard.mjs)の判定にも使用する。",
   "posts": [
     {
@@ -2447,6 +2447,20 @@
       "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/46103590080",
       "lang": "ja",
       "slot": "noon",
+      "targetDate": "2026-11-28"
+    },
+    {
+      "sourceItemId": "lb-2026-11-28-night-ja",
+      "threadsPostId": "17897345976529844",
+      "bodyEn": "Japanese post lb-2026-11-28-night-ja, not posted in English.",
+      "bodyJa": "ゴルファーに聞きたい。\n\nいま使っているボールは、何色ですか。\n\n・白\n・黄色\n・オレンジやピンク\n・その日の気分で\n\n冬の芝や落ち葉の上では、色のついたボールが見つけやすくなります。\n季節で替える方も、いると思います。",
+      "pillar": "GOLF",
+      "category": "W1124_1128_NIGHT_JA",
+      "postedAt": "2026-11-28T11:36:09.045Z",
+      "mode": "live",
+      "workflowRunUrl": "https://github.com/empowerartlab-art/threads-lostball-empowerartlab/actions/runs/46140601720",
+      "lang": "ja",
+      "slot": "night",
       "targetDate": "2026-11-28"
     }
   ]
